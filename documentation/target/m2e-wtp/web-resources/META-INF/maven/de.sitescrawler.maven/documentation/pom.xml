@@ -5,8 +5,8 @@
   <artifactId>documentation</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>documentation Maven Webapp</name>
-  <url>http://maven.apache.org</url>  
+  <name>SiteScrawler documentation website</name>
+  <url>www.sitescrawler.de</url>  
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -22,6 +22,7 @@
 		  <groupId>org.apache.maven.plugins</groupId>
 		  <artifactId>maven-war-plugin</artifactId>
 		  <configuration>
+		  	<warSourceDirectory>WebContent</warSourceDirectory>
 		    <webXml>WebContent\WEB-INF\web.xml</webXml>        
 		  </configuration>
 		</plugin> 
