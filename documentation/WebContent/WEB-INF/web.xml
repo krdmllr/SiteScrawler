@@ -31,4 +31,7 @@
   <auth-method>BASIC</auth-method>
   <realm-name>Test Realm</realm-name>
 </login-config>
+ <welcome-file-list>
+      <welcome-file>index.xhtml</welcome-file> 
+ </welcome-file-list>
 </web-app>
