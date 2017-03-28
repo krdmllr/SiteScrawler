@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.sitescrawler</groupId>
+  <artifactId>SiteScrawlerParent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>SiteScrawlerParent</name>
+  <description>Maven Parent Projekt für SiteScrawler</description>
+  <properties>
+  	<version.jboss.bom>10.0.0.Final</version.jboss.bom>
+  </properties>
+  <dependencyManagement>
+	  <dependencies>
+	  	<dependency>
+		  <groupId>org.wildfly.bom</groupId>
+		  <artifactId>wildfly-javaee7-with-tools</artifactId>
+		  <version>${version.jboss.bom}</version>
+	      <type>pom</type>
+	      <scope>import</scope>
+	    </dependency>
+	  </dependencies>
+  </dependencyManagement>
+  <dependencies>
+  	<dependency>
+  		<groupId>javax.enterprise</groupId>
+  		<artifactId>cdi-api</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>javax.inject</groupId>
+  		<artifactId>javax.inject</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  </dependencies>
+  <modules>
+    <module>Dokumentation</module>
+    <module>Portal</module>
+    <module>Prototyp</module>
+    <module>Applikation</module>
+    <module>SiteScrawlerEAR</module>
+  </modules>
+</project>

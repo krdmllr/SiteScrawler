@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="SiteScrawlerEAR-0.0.1-SNAPSHOT">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
+        <dependent-module archiveName="Applikation-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Applikation/Applikation">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Prototyp-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Prototyp/Prototyp">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Dokumentation-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Dokumentation/Dokumentation">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Portal-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Portal/Portal">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>
