@@ -9,11 +9,26 @@
 </h:head>
 <h:body>
  	<ui:composition template="/template.xhtml">
-	    <ui:define name="header">
-	         
-		</ui:define>
 		<ui:define name="content">
-	         
+			<div id="content">
+		         <!-- Liste aller Archiveinträge -->
+		         <div class="col-lg-3" style="background-color: yellow; "> 
+		         		<ul class="list-group">
+						  <li class="list-group-item">Cras justo odio</li>
+						  <li class="list-group-item">Dapibus ac facilisis in</li>
+						  <li class="list-group-item">Morbi leo risus</li>
+						  <li class="list-group-item">Porta ac consectetur ac</li>
+						  <li class="list-group-item">Vestibulum at eros</li>
+						</ul> 
+		         </div>
+		         
+		         <!-- Ausgewaehltes Archiv -->
+		         <div class="col-9" style="background-color: red; bottom: 0px; height: 100%;">
+		         	<div>
+		         		<a href="#">PDF exportieren</a>
+		         	</div>
+		         </div>
+	         </div>
 	    </ui:define>
 	    <ui:define name="footer">
 	    	

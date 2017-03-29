@@ -38,20 +38,19 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav"> 
                     <li class="dropdown">
-                        <a href="#"
+                        <a href="/"
                            class="dropdown-toggle"
                            data-toggle="dropdown"
                            role="button"
                            aria-haspopup="true"
                            aria-expanded="false">Mein Archiv<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/filtergruppen/">Code Conventions</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="/devdocu/testing.xhtml">Testing</a></li>
+                            <li><a href="/">Firmen Filtergruppe A</a></li>
+                            <li><a href="/">Firmen Filtergruppe B</a></li>
                         </ul>
                     </li>
-                    <li><a href="/">Filter bearbeiten</a></li>
-                    <li><a href="/">Meine Firmen</a></li>
+                    <li><a href="/filterbearbeiten.xhtml">Filter bearbeiten</a></li>
+                    <li><a href="/meinefirmen.xhtml">Meine Firmen</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown ">
@@ -72,7 +71,7 @@
         </div>
     </nav> 
             <ui:insert name="header" /> 
-        <div id="content">
+        	<div id="content">
             <ui:insert name="content" />
 
             <hr class="featurette-divider"/>
