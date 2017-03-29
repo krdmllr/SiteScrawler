@@ -50,6 +50,30 @@
 	  		<version>2.10.1</version>
 	  		<configuration>
 	  			<version>7</version>
+	  			<configuration>
+		           <modules>
+		             <webModule>
+		               <groupId>de.sitescrawler.applikation</groupId>
+		               <artifactId>Applikation</artifactId>
+		               <contextRoot>/</contextRoot>
+		             </webModule>
+		             <webModule>
+		               <groupId>de.sitescrawler.dokumentation</groupId>
+		               <artifactId>Dokumentation</artifactId>
+		               <contextRoot>/</contextRoot>
+		             </webModule>
+		             <webModule>
+		               <groupId>de.sitescrawler.portal</groupId>
+		               <artifactId>Portal</artifactId>
+		               <contextRoot>/</contextRoot>
+		             </webModule>
+		             <webModule>
+		               <groupId>de.sitescrawler.prototyp</groupId>
+		               <artifactId>Prototyp</artifactId>
+		               <contextRoot>/</contextRoot>
+		             </webModule>
+		          </modules>
+		        </configuration>
 	  		</configuration>
 	  	</plugin>
 	  </plugins>
