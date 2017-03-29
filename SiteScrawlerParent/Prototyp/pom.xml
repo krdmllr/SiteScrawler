@@ -9,7 +9,6 @@
   </parent>
   <groupId>de.sitescrawler.prototyp</groupId>
   <artifactId>Prototyp</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>Prototyp</name>
   <build>

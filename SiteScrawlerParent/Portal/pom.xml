@@ -9,7 +9,6 @@
   </parent>
   <groupId>de.sitescrawler.portal</groupId>
   <artifactId>Portal</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>Portal</name>
   <build>
