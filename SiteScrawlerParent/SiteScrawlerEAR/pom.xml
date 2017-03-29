@@ -30,14 +30,14 @@
   		<type>war</type>
   	</dependency>
   	<dependency>
-  		<groupId>de.sitescrawler.dokumentation</groupId>
-  		<artifactId>Dokumentation</artifactId>
+  		<groupId>de.sitescrawler.portal</groupId>
+  		<artifactId>Portal</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   		<type>war</type>
   	</dependency>
   	<dependency>
-  		<groupId>de.sitescrawler.portal</groupId>
-  		<artifactId>Portal</artifactId>
+  		<groupId>de.sitescrawler.dokumentation</groupId>
+  		<artifactId>Dokumentation</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   		<type>war</type>
   	</dependency>
