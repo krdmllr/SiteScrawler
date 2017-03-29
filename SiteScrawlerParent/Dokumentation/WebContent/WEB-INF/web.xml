@@ -28,7 +28,7 @@
   </security-constraint>
   <login-config>
     <auth-method>BASIC</auth-method>
-    <realm-name>Test Realm</realm-name>
+    <realm-name>database</realm-name>
   </login-config>
   <welcome-file-list>
     <welcome-file>index.xhtml</welcome-file>
