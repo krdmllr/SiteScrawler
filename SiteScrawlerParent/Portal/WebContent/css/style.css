@@ -1,0 +1,38 @@
+.intro-header {
+    padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+    padding-bottom: 50px;
+    text-align: center;
+    color: #f8f8f8;
+    background-color: #004d4d;
+}
+
+.register-form{
+	margin-right: 20px;
+	margin-left: 50px;
+}
+
+.footer{
+	height: 80px;
+	background-color:  #404057;
+}
+
+.infoPicture {
+	width: 200px;
+	height: 200px;
+	vertical-align: center;
+	horizontal-align: center;
+}
+
+.content-section{
+	padding: 50px;
+}
+
+.content-section-a {  
+	background-color: #f2f2f2;
+}
+.content-section-b {  
+	background-color: #d9d9d9;
+}
+.content-section-c {  
+	background-color: #f2f2f2;
+}
