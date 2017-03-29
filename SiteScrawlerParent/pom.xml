@@ -39,5 +39,15 @@
     <module>Prototyp</module>
     <module>Applikation</module>
     <module>SiteScrawlerEAR</module>
+    <module>Test</module>
+    <module>Solr</module>
+    <module>Crawler</module>
+    <module>Nutzerverwaltung</module>
+    <module>Firmenverwaltung</module>
+    <module>Utility</module>
+    <module>Producer</module>
+    <module>JPA</module>
+    <module>Email</module>
+    <module>PDF</module>
   </modules>
 </project>
