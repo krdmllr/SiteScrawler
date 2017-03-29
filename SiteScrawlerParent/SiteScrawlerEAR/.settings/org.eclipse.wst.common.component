@@ -5,13 +5,13 @@
         <dependent-module archiveName="Applikation-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Applikation/Applikation">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="Prototyp-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Prototyp/Prototyp">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="Dokumentation-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Dokumentation/Dokumentation">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="Portal-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Portal/Portal">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Prototyp-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Prototyp/Prototyp">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>
