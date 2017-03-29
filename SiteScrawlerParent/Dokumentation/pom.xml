@@ -9,6 +9,7 @@
   </parent>
   <groupId>de.sitescrawler.dokumentation</groupId>
   <artifactId>Dokumentation</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>Dokumentation</name>
   <build>
