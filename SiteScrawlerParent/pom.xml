@@ -23,6 +23,11 @@
   </dependencyManagement>
   <dependencies>
   	<dependency>
+  		<groupId>org.primefaces</groupId>
+  		<artifactId>primefaces</artifactId>
+  		<version>6.0</version>
+  	</dependency>
+  	<dependency>
   		<groupId>javax.enterprise</groupId>
   		<artifactId>cdi-api</artifactId>
   		<scope>provided</scope>
