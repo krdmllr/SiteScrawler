@@ -8,6 +8,7 @@
   <groupId>de.sitescrawler.jpa</groupId>
   <artifactId>JPA</artifactId>
   <name>JPA</name>
+  <version>0.0.1-SNAPSHOT</version>
   <dependencies>
   <!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
 	<dependency>
@@ -33,9 +34,9 @@
 	    <artifactId>mysql-connector-java</artifactId>
 	    <version>5.1.39</version>
 	</dependency>
-	
   </dependencies>
   <build>
+  	<sourceDirectory>src</sourceDirectory>
   	<plugins>
   		<plugin>
         <artifactId>maven-compiler-plugin</artifactId>

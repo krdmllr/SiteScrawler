@@ -9,6 +9,7 @@
   <artifactId>PDF</artifactId>
   <name>PDF</name>
   <build>
+  	<sourceDirectory>src</sourceDirectory>
   	<plugins>
   		<plugin>
         <artifactId>maven-compiler-plugin</artifactId>

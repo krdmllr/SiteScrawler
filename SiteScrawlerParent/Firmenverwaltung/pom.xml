@@ -9,6 +9,7 @@
   <artifactId>Firmenverwaltung</artifactId>
   <name>Firmenverwaltung</name>
   <build>
+  	<sourceDirectory>src</sourceDirectory>
   	<plugins>
   		<plugin>
         <artifactId>maven-compiler-plugin</artifactId>

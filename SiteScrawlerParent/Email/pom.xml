@@ -9,6 +9,7 @@
   <artifactId>Email</artifactId>
   <name>Email</name>
   <build>
+  	<sourceDirectory>src</sourceDirectory>
   	<plugins>
   		<plugin>
         <artifactId>maven-compiler-plugin</artifactId>

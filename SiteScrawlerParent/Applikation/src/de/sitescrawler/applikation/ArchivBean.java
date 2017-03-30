@@ -15,17 +15,16 @@ import java.util.List;
 public class ArchivBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	public List<Archiveintrag> getArchiveintraege(){
-		List<Archiveintrag> list = new ArrayList();
-		
-		for (int i = 0; i < 20; i++) {
-			Archiveintrag eintrag = new Archiveintrag();
-			eintrag.setErstellungsDatum(LocalDateTime.now()); 
-			list.add(eintrag);
-		}
-		
-		return list;
-	} 
-}
 
+	 public List<Archiveintrag> getArchiveintraege(){
+	 List<Archiveintrag> list = new ArrayList();
+	
+	 for (int i = 0; i < 20; i++) {
+	 Archiveintrag eintrag = new Archiveintrag();
+	 eintrag.setErstellungsDatum(LocalDateTime.now());
+	 list.add(eintrag);
+	 }
+	
+	 return list;
+	 }
+}

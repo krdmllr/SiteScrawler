@@ -9,6 +9,8 @@
   <artifactId>Nutzerverwaltung</artifactId>
   <name>Nutzerverwaltung</name>
   <build>
+    <finalName>Nutzerverwaltung</finalName>
+  	<sourceDirectory>src</sourceDirectory>
   	<plugins>
   		<plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -24,7 +26,6 @@
   	<dependency>
   		<groupId>de.sitescrawler.jpa</groupId>
   		<artifactId>JPA</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
   		<scope>provided</scope>
   	</dependency>
   </dependencies>

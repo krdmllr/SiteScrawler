@@ -3,6 +3,7 @@ package de.sitescrawler.nutzerverwaltung;
 import java.io.Serializable;
 
 import javax.inject.Inject;
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -30,7 +31,10 @@ public class NutzerServiceImpl implements NutzerService, Serializable {
 	public Nutzer getNutzer(String uid) {
 		TypedQuery<Nutzer> query = this.entityManager.createQuery("SELECT n FROM Nutzer n WHERE n.uid= :uid", Nutzer.class);
 		query.setParameter("uid", uid);
-		return null;
+		EntityGraph<?> entityGraph = this.entityManager.getEntityGraph("NutzerFull");
+		query.setHint("javax.persistence.loadgraph", entityGraph);
+		Nutzer nutzer = query.getSingleResult();
+		return nutzer;
 	}
 
 	@Override

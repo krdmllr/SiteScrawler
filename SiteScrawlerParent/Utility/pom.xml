@@ -9,6 +9,7 @@
   <artifactId>Utility</artifactId>
   <name>Utility</name>
   <build>
+  	<sourceDirectory>src</sourceDirectory>
   	<plugins>
   		<plugin>
         <artifactId>maven-compiler-plugin</artifactId>
