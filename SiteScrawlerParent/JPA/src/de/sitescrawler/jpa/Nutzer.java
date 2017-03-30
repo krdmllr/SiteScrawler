@@ -11,6 +11,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Nutzer.findAll", query="SELECT n FROM Nutzer n")
+@NamedEntityGraph(name="NutzerFull", includeAllAttributes = true)
 public class Nutzer implements Serializable {
 	private static final long serialVersionUID = 1L;
 

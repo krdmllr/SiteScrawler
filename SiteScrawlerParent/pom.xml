@@ -49,9 +49,6 @@
     <module>JPA</module>
     <module>Email</module>
     <module>PDF</module>
-
-
-
     <module>Model</module>
   </modules>
 </project>

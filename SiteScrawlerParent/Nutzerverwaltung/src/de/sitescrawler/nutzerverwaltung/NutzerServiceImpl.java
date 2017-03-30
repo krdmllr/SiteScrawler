@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
@@ -17,7 +18,7 @@ public class NutzerServiceImpl implements NutzerService, Serializable {
 
 	@Override
 	public void registrieren(Nutzer nutzer) {
-		this.entityManager.merge(nutzer);
+		this.nutzerSpeichern(nutzer);
 	}
 
 	@Override
@@ -27,8 +28,14 @@ public class NutzerServiceImpl implements NutzerService, Serializable {
 
 	@Override
 	public Nutzer getNutzer(String uid) {
-		
+		TypedQuery<Nutzer> query = this.entityManager.createQuery("SELECT n FROM Nutzer n WHERE n.uid= :uid", Nutzer.class);
+		query.setParameter("uid", uid);
 		return null;
+	}
+
+	@Override
+	public void nutzerSpeichern(Nutzer nutzer) {
+		this.entityManager.merge(nutzer);
 	}
 
 }
