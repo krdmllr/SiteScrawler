@@ -11,14 +11,42 @@
  	<ui:composition template="/template.xhtml">
 		<ui:define name="content">
 	         <!-- Liste aller Archiveinträge -->
-	         <div class="col-lg-3" style="background-color: yellow; position: absolute; bottom: 0px; top: 0px;">
+	         <div class="col-lg-9 column" style="background-color: red;">
 	         	<div class="container">
-	         	
+	         		
 	         	</div>
 	         </div>
 	         
 	         <!-- Ausgewaehltes Archiv -->
-	         <div class="col-lg-9" style="background-color: red; position: relative; bottom: 0px; top: 0px;">
+	         <div class="col-lg-3 column" style="background-color: yellow;">
+	         	<div class="container">
+	         		<div class="panel panel-default artikelPanel">
+					<div class="panel-heading">
+						<h3>Archiv</h3>
+					</div>
+					<div class="panel-body filter">
+						<h4>Filter</h4>
+						<p>Frühstes Datum</p>
+						<div class="input-group">
+							<span class="input-group-addon"> <input type="checkbox" />
+							</span> <input type="text" class="form-control" />
+						</div>
+						<p>Spätestes Datum</p>
+						<div class="input-group">
+							<span class="input-group-addon"> <input type="checkbox" />
+							</span> <input type="text" class="form-control" />
+						</div>
+					</div>
+					<p:dataList class="list-group archiveintraege"
+						value="#{archiv.archiveintraege}" var="eintrag" type="definition">
+						<h:form>
+							<p:commandLink class="list-group-item"
+								value="#{eintrag.erstellungsDatum}" id="ajax"
+								update="artikelBereich" action="#{archiv.buttonAction(eintrag)}" />
+						</h:form>
+					</p:dataList>
+				</div>
+	         	</div>
 	         </div>
 	    </ui:define>
 	    <ui:define name="footer">
