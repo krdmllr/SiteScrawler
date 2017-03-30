@@ -14,5 +14,35 @@
         <dependent-module archiveName="Prototyp-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Prototyp/Prototyp">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="JPA-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/JPA/JPA">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="hibernate-jpa-2.1-api-1.0.0.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/hibernate/javax/persistence/hibernate-jpa-2.1-api/1.0.0.Final/hibernate-jpa-2.1-api-1.0.0.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="mysql-connector-java-5.1.39.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Crawler-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Crawler/Crawler">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rome-1.7.1.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/com/rometools/rome/1.7.1/rome-1.7.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="rome-utils-1.7.1.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/com/rometools/rome-utils/1.7.1/rome-utils-1.7.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jdom2-2.0.6.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jdom/jdom2/2.0.6/jdom2-2.0.6.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="slf4j-api-1.7.16.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.16/slf4j-api-1.7.16.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Producer-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Producer/Producer">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Nutzerverwaltung-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Nutzerverwaltung/Nutzerverwaltung">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>
