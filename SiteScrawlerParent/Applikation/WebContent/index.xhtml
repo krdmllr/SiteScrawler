@@ -37,29 +37,11 @@
 						      <input type="text" class="form-control"/>
 						    </div> 
 		         		</div>
-		         		<ul class="list-group archiveintraege">
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item active">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-  							  	  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								  <button type="button" class="list-group-item">25.04.2017 8:30</button>
-								</ul> 
-		         		</div>
+		         		 <p:dataList class="list-group archiveintraege" value="#{archiv.archiveintraege}" var="eintrag" type="ordered">
+		         		 	<h:outputText value="#{eintrag.erstellungsDatum}" />
+					        <button type="button" class="list-group-item">#{eintrag.erstellungsDatum}</button>
+					    </p:dataList>  
+					    </div>
 		         </div> 
 		         <!-- Ausgewaehltes Archiv -->
 		         <div class="col-lg-9 column" id="column">
