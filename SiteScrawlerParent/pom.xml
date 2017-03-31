@@ -43,10 +43,15 @@
 	    <version>2.1</version>
 	</dependency>
 	<dependency>
-    <groupId>org.eclipse.persistence</groupId>
-    <artifactId>javax.persistence</artifactId>
-    <version>2.1.1</version>
-</dependency>
+	    <groupId>org.eclipse.persistence</groupId>
+	    <artifactId>javax.persistence</artifactId>
+	    <version>2.1.1</version>
+	</dependency>
+	<dependency>
+	    <groupId>javax.ejb</groupId>
+	    <artifactId>javax.ejb-api</artifactId>
+	    <version>3.2</version>
+	</dependency>
   </dependencies>
   <modules>
     <module>Dokumentation</module>

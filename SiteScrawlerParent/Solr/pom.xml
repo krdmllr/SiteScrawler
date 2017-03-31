@@ -14,6 +14,23 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <dependencies>
+  	<dependency>
+	    <groupId>org.apache.solr</groupId>
+	    <artifactId>solr-solrj</artifactId>
+	    <version>6.5.0</version>
+	</dependency>
+<!-- 	<dependency> -->
+<!-- 	    <groupId>org.apache.solr</groupId> -->
+<!-- 	    <artifactId>solr-core</artifactId> -->
+<!-- 	    <version>6.5.0</version> -->
+<!-- 	</dependency> -->
+  	<dependency>
+  		<groupId>de.sitescrawler.model</groupId>
+  		<artifactId>Model</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
   <build>
   	<sourceDirectory>src</sourceDirectory>
   	<plugins>
