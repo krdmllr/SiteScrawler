@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
@@ -23,11 +24,10 @@ public class FilterBearbeitenBean implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	private FilterGruppe filtergruppe;
-	
-	private List<FilterProfil> filterprofile; 
-	
-	private List<FilterGruppe> filtergruppen = new ArrayList<>();
+	@Inject
+	private DataBean dataBean;
+	 
+	private List<FilterProfil> filterprofile;  
 
 	public FilterBearbeitenBean(){
 		
@@ -38,41 +38,22 @@ public class FilterBearbeitenBean implements Serializable
 			fps.add(fp);
 		}
 	    
-	    setFilterprofile(fps);
-	    
-	    List<FilterProfil> fps1 = new ArrayList<>();
-	    for (int i = 20; i < 30; i++) {
-			FilterProfil fp1 = new FilterProfil();
-			fp1.setTitel("Filterprofil"+i);
-			fps1.add(fp1);
-		}
-	    FilterGruppe fg = new FilterGruppe();
-	    fg.setFilterprofile(fps1);
-	    fg.setTitel("Meine Filtergruppe");
-	    setFiltergruppe(fg);
-	     
-	    for (int i = 0; i < 3; i++) {
-			FilterGruppe fig = new FilterGruppe();
-			fig.setTitel("Filtergruppe von Firma" + i);
-			filtergruppen.add(fig);
-		}
+	    setFilterprofile(fps); 
 	} 
 	
+	public Boolean isInFiltergruppe(FilterProfil profil){ 
+		Boolean ergebnis =  dataBean.getFiltergruppe().getFilterprofile().contains(profil);
+		System.out.println("Überprüfe ob profil bereits in Filter vorhanden ist " + profil.getTitel() + " | " + ergebnis);
+		return ergebnis;
+	}
+	
 	public void addProfil(FilterProfil profil){
-		getFiltergruppe().getFilterprofile().add(profil);
+		dataBean.getFiltergruppe().getFilterprofile().add(profil);
 	}
 	
 	public void deleteProfil(FilterProfil profil){
 		getFilterprofile().remove(profil);
-	}
-	
-	public FilterGruppe getFiltergruppe() {
-		return filtergruppe;
-	}
-
-	public void setFiltergruppe(FilterGruppe filtergruppe) {
-		this.filtergruppe = filtergruppe;
-	}
+	} 
 
 	public List<FilterProfil> getFilterprofile() {
 		return filterprofile;
@@ -80,19 +61,5 @@ public class FilterBearbeitenBean implements Serializable
 
 	private void setFilterprofile(List<FilterProfil> filterprofile) {
 		this.filterprofile = filterprofile;
-	}
-	
-	public List<FilterGruppe> getSelectableFiltergruppen(){
-		List<FilterGruppe> alle = filtergruppen;
-		alle.remove(filtergruppe);
-		return alle;
-	}
-
-	public List<FilterGruppe> getFiltergruppen() {
-		return filtergruppen;
-	}
-	
-	public void setFiltergruppen(List<FilterGruppe> filtergruppen) {
-		this.filtergruppen = filtergruppen;
 	} 
 }

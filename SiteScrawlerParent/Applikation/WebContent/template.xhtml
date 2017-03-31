@@ -39,17 +39,17 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">                 	 
                     <li>   
-                      <h:form class="btn-group navbar-btn" id="filterGruppe">
-					  <button type="button" class="btn btn-danger">#{filterbearbeiten.filtergruppe.titel}</button>
-					  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <h:form class="btn-group navbar-btn nav-item" id="filterGruppe">
+					  <a href="/" class="btn btn-default nav-item">#{data.filtergruppe.titel}</a>
+					  <button type="button" class="btn btn-default dropdown-toggle nav-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					    <span class="caret"></span>
 					    <span class="sr-only">Toggle Dropdown</span>
 					  </button>
 					  	<ul class="dropdown-menu">
-					  		<p:repeat value="#{filterbearbeiten.selectableFiltergruppen}" var="gruppe">
-					    		<li><h:commandLink action="#{filterbearbeiten.setFiltergruppe(gruppe)}" update="filterGruppe" value="#{gruppe.titel}" /></li>
+					  		<p:repeat value="#{navigation.selectableFiltergruppen}" var="gruppe">
+					    		<li><h:commandLink action="#{data.setFiltergruppe(gruppe)}" update="filterGruppe" value="#{gruppe.titel}" /></li>
 					    	</p:repeat>
-					  </ul>
+					  	</ul>
 					  </h:form> 
                      </li>
                     <li><a href="/filterbearbeiten.xhtml">Filter bearbeiten</a></li>

@@ -64,7 +64,7 @@
 							<h3>Filterprofile in meiner Filtergruppe</h3>
 						</div>
 						<p:dataList class="list-group filtergruppe-profile" 
-						value="#{filterbearbeiten.filtergruppe.filterprofile}" var="profil" type="definition"> 
+						value="#{data.filtergruppe.filterprofile}" var="profil" type="definition"> 
 					  		<div id="dragIcon" draggable="true" >
 					  			<h:outputText styleClass="ui-icon ui-icon-arrow-4"/>
 					  			<h:outputText value="#{profil.titel}" /> 
@@ -94,7 +94,7 @@
 						 	<h:form>
 						 	<li class="list-group-item">
 								<div class="artikel-titel-container">
-								<h:commandLink action="#{filterbearbeiten.addProfil(profil)}" ajax="true"> 
+								<h:commandLink rendered="#{!filterbearbeiten.isInFiltergruppe(profil)}" action="#{filterbearbeiten.addProfil(profil)}" ajax="true"> 
 									<p:graphicImage value="/resources/image/plus.svg" 
 										class="filter-profil-icon pull-left"/>
 									</h:commandLink>

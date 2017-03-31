@@ -1,8 +1,10 @@
 package de.sitescrawler.applikation;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.sitescrawler.model.Archiveintrag;
@@ -19,9 +21,17 @@ public class ArchivBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@Inject
+	private DataBean dataBean;
+	
 	private Archiveintrag geweahlterArchiveintrag;
 		
 	public ArchivBean(){
+		
+	}
+	
+	@PostConstruct
+	void init() {
 		setGeweahlterArchiveintrag(getArchiveintraege().get(0));
 	}
 	
@@ -44,35 +54,8 @@ public class ArchivBean implements Serializable {
     }
 	
 	public List<Archiveintrag> getArchiveintraege(){
-		List<Archiveintrag> list = new ArrayList();
-		
-		try{
-			
-			
-			for (int i = 0; i < 20; i++) {
-				Archiveintrag eintrag = new Archiveintrag();
-				List<Artikel> artikelListe = new ArrayList<Artikel>();
-
-				eintrag.setErstellungsDatum(LocalDateTime.now().minusDays(i)); 
-				for (int j = 0; j < 30; j++) {
-					Artikel artikel = new Artikel();
-					artikel.setAutor("Autor" + i + "|" + j);
-					artikel.setBeschreibung("Beschreibung" + i + "|" + j);
-					artikel.setTitel("Titel" + i + "|" + j);
-					artikel.setErstellungsdatum(eintrag.getErstellungsDatum().plusMinutes(j));
-					artikelListe.add(artikel);
-				}
-				eintrag.setArtikel(artikelListe);
-				list.add(eintrag);
-			}
-			
-			
-		}catch(Exception ex){
-			 System.out.println(ex); 
-		}
-		finally{
-			return list;
-		}
+		 List<Archiveintrag> result = dataBean.getFiltergruppe().getArchiveintraege();
+		return result;
 	}
 }
 

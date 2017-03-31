@@ -1,6 +1,7 @@
 package de.sitescrawler.portal;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -13,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @ViewScoped
 @Named("login")
-public class loginBean {
+public class loginBean implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private String                   uid;
     private String                   password;
     private String                   originalURL;
