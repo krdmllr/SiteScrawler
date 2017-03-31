@@ -48,7 +48,7 @@ public class Main {
 		}
 		
 		FilterProfil filterProfil = new FilterProfil();
-		filterProfil.addTag("Jemeniten");
+		filterProfil.addTag("*:*");
 		List<Artikel> result = solr.sucheArtikel(filterProfil);
 		result.forEach(e->System.out.println(e.getAutor()+e.getBeschreibung()+e.getLink()+e.getTitel()+e.getErstellungsdatum()));
 	}
