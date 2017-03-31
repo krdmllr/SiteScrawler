@@ -59,6 +59,13 @@ body .ui-widget-content{
 	border: 0px;
 }
 
+.tag{ 
+	margin: 3px;
+	padding: 2px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+
 .nav-item{
 	background-color: #222;
 	border: 0px;

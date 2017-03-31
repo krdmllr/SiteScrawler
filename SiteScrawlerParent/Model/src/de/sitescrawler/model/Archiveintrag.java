@@ -1,19 +1,20 @@
 package de.sitescrawler.model;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class Archiveintrag {
-	private LocalDateTime erstellungsDatum;
+	private Date erstellungsDatum;
 	private List<Artikel> artikel;
 	
 	public Archiveintrag() {
 	}
 	
-	public LocalDateTime getErstellungsDatum() {
+	public Date getErstellungsDatum() {
 		return erstellungsDatum;
 	}
-	public void setErstellungsDatum(LocalDateTime erstellungsDatum) {
+	public void setErstellungsDatum(Date erstellungsDatum) {
 		this.erstellungsDatum = erstellungsDatum;
 	}
 	public List<Artikel> getArtikel() {

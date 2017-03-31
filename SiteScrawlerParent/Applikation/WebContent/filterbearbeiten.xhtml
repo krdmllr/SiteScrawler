@@ -12,7 +12,7 @@
  	<ui:composition template="/template.xhtml">
 		<ui:define name="content"> 
 		<!-- Email Informationen -->
-		<div class="col-lg-2 hidden-xs column" >
+		<div class="col-md-2 hidden-xs column" >
 	         	 
          	 		<div class="panel panel-default">
 						<div class="panel-heading">
@@ -24,10 +24,10 @@
 							 
 								<p>Erstellungsrythmus</p>
 					  
-							<div class="form-group">
+							<div>
 								<input type="checkbox"/> E-Mail benachrichtung
 							</div>
-							<div class="form-group">
+							<div>
 								<div class="btn-group">
 								  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								    Wöchentlich <span class="caret"></span>
@@ -57,25 +57,31 @@
 	         </div>
 		
 	         <!-- Liste der Filterprofile in meiner Filtergruppe -->
-	         <div class="col-lg-7 col-sm-12 column" >
+	         <div class="col-md-7 column" >
 	         	 
          	 		<div class="panel panel-default artikelPanel">
 						<div class="panel-heading">
 							<h3>Filterprofile in meiner Filtergruppe</h3>
 						</div>
 						<p:dataList class="list-group filtergruppe-profile" 
-						value="#{data.filtergruppe.filterprofile}" var="profil" type="definition"> 
-					  		<div id="dragIcon" draggable="true" >
-					  			<h:outputText styleClass="ui-icon ui-icon-arrow-4"/>
-					  			<h:outputText value="#{profil.titel}" /> 
-					  		</div>
+						value="#{data.filtergruppe.filterprofile}" var="profil" type="definition"> 					 
+					  				<div class="list-group-item clearfix" style="overflow: hidden;border-bottom: 1px solid #ddd;">
+					  			 
+					  					<h4>#{profil.titel}</h4>
+					  					<div>
+							  				<p:repeat value="#{profil.tags}" var="tag"> 
+						  						<p class="pull-left tag">#{tag}</p>
+							  				</p:repeat>
+						  			 
+						  				</div>
+					  				</div> 
 						</p:dataList> 
 					</div> 
    	         	 
 	         </div>
 	         
 	         <!-- Alle Filterprofile -->
-	         <div class="col-lg-3 hidden-xs column" >
+	         <div class="col-md-3 hidden-xs column" >
 	         		<div class="panel panel-default artikelPanel">
 					<div class="panel-heading"> 
 						<div> 
@@ -94,13 +100,13 @@
 						 	<h:form>
 						 	<li class="list-group-item">
 								<div class="artikel-titel-container">
-								<h:commandLink rendered="#{!filterbearbeiten.isInFiltergruppe(profil)}" action="#{filterbearbeiten.addProfil(profil)}" ajax="true"> 
+								<h:commandLink rendered="#{!filterbearbeiten.isInFiltergruppe(profil)}" action="#{filterbearbeiten.addProfil(profil)}"> 
 									<p:graphicImage value="/resources/image/plus.svg" 
 										class="filter-profil-icon pull-left"/>
 									</h:commandLink>
 									
 									<h:graphicImage value="/resources/image/edit.svg" class="filter-profil-icon pull-right"/>
-									<h:commandLink action="#{filterbearbeiten.deleteProfil(profil)}"  ajax="true">
+									<h:commandLink action="#{filterbearbeiten.deleteProfil(profil)}">
 										<h:graphicImage value="/resources/image/delete.svg" class="filter-profil-icon pull-right"/>
 									</h:commandLink>
 									<h:outputText id="filter-profil-text" value="#{profil.titel}" /> 

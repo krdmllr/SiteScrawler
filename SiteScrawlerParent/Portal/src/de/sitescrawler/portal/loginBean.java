@@ -18,9 +18,9 @@ import java.io.Serializable;
 public class loginBean implements Serializable {
  
 	private static final long serialVersionUID = 1L;
-	private String                   uid;
-    private String                   password;
-    private String                   originalURL;
+	private String                   uid; 
+	private String                   password;  
+	private String                   originalURL;
     private FacesContext context = FacesContext.getCurrentInstance();
     
     @PostConstruct
@@ -45,6 +45,7 @@ public class loginBean implements Serializable {
     
     public void login()
     {
+    	System.out.println("Login:  " + uid + " | " + password);
         HttpServletRequest request = (HttpServletRequest) this.context.getExternalContext().getRequest();
         try
         {
@@ -72,4 +73,20 @@ public class loginBean implements Serializable {
             e.printStackTrace();
         }
     }
+    
+    public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+	
+    public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

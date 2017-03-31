@@ -12,6 +12,7 @@ import de.sitescrawler.model.Archiveintrag;
 import de.sitescrawler.model.Artikel;
 import de.sitescrawler.model.FilterGruppe;
 import de.sitescrawler.model.FilterProfil;
+import de.sitescrawler.utility.DateUtils;
 
 @SessionScoped
 @Named("data")
@@ -28,6 +29,9 @@ public class DataBean implements Serializable {
 	    
 		for (int i = 20; i < 30; i++) {
 			FilterProfil fp1 = new FilterProfil();
+			for (int j = 0; j < 30; j++) {
+				fp1.getTags().add("Tag"+j);
+			}
 			fp1.setTitel("Filterprofil"+i);
 			fps1.add(fp1);
 		}
@@ -58,15 +62,15 @@ public class DataBean implements Serializable {
 			
 			for (int i = 0; i < 20; i++) {
 				Archiveintrag eintrag = new Archiveintrag();
-				List<Artikel> artikelListe = new ArrayList<Artikel>();
-
-				eintrag.setErstellungsDatum(LocalDateTime.now().minusDays(i)); 
+				List<Artikel> artikelListe = new ArrayList<Artikel>(); 
+				
+				eintrag.setErstellungsDatum(DateUtils.asDate(LocalDateTime.now().minusDays(i))); 
 				for (int j = 0; j < 30; j++) {
 					Artikel artikel = new Artikel();
 					artikel.setAutor(name +"Autor" + i + "|" + j);
 					artikel.setBeschreibung(name +"Beschreibung" + i + "|" + j);
 					artikel.setTitel(name +"Titel" + i + "|" + j);
-					artikel.setErstellungsdatum(eintrag.getErstellungsDatum().plusMinutes(j));
+					artikel.setErstellungsdatum(DateUtils.asDate(DateUtils.asLocalDateTime(eintrag.getErstellungsDatum()).plusMinutes(i)));
 					artikelListe.add(artikel);
 				}
 				eintrag.setArtikel(artikelListe);

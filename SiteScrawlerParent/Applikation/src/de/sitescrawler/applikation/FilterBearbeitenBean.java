@@ -42,9 +42,7 @@ public class FilterBearbeitenBean implements Serializable
 	} 
 	
 	public Boolean isInFiltergruppe(FilterProfil profil){ 
-		Boolean ergebnis =  dataBean.getFiltergruppe().getFilterprofile().contains(profil);
-		System.out.println("Überprüfe ob profil bereits in Filter vorhanden ist " + profil.getTitel() + " | " + ergebnis);
-		return ergebnis;
+		return  dataBean.getFiltergruppe().getFilterprofile().contains(profil);
 	}
 	
 	public void addProfil(FilterProfil profil){

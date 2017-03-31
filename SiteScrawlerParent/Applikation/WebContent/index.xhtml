@@ -34,8 +34,12 @@
 						value="#{archiv.archiveintraege}" var="eintrag" type="definition">
 						<h:form>
 							<p:commandLink class="list-group-item"
-								value="#{eintrag.erstellungsDatum}" id="ajax"
-								update="artikelBereich" action="#{archiv.buttonAction(eintrag)}" />
+							 id="ajax"
+								update="artikelBereich" action="#{archiv.buttonAction(eintrag)}">
+								<h:outputText value="#{eintrag.erstellungsDatum}">
+								<f:convertDateTime type="date" pattern="dd.MM.yyyy"/>
+								</h:outputText>
+								</p:commandLink>
 						</h:form>
 					</p:dataList>
 				</div>
@@ -47,7 +51,10 @@
 					<div class="panel-heading">
 						<h3 class="panel-title pull-left linkeUeberschrift">
 							Pressespiegel vom
-							#{archiv.geweahlterArchiveintrag.erstellungsDatum}</h3>
+							<h:outputText value="#{archiv.geweahlterArchiveintrag.erstellungsDatum}">
+								<f:convertDateTime type="date" pattern="dd.MM.yyyy"/>
+								</h:outputText>
+							</h3>
 						<div class="btn-group pull-right" role="group">
 							<button type="button" class="btn btn-default">PDF
 								exportieren</button>
@@ -75,7 +82,10 @@
 							<div class="artikel-titel-container">
 								<h4 class="pull-left">#{artikel.titel}</h4>
 								<p class="pull-right">Erschienen am
-									#{artikel.erstellungsdatum}</p>
+								<h:outputText value="#{artikel.erstellungsdatum}">
+								<f:convertDateTime type="date" pattern="dd.MM.yyyy hh:mm"/>
+								</h:outputText>
+									</p>
 							</div>
 							<p id="artikel-zusammenfassung">#{artikel.titel}</p>
 							<div class="artikel-titel-container">
