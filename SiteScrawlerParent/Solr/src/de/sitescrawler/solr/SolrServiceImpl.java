@@ -3,6 +3,7 @@ package de.sitescrawler.solr;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrClient;
@@ -48,10 +49,21 @@ public class SolrServiceImpl {
 		try {
 			QueryResponse response = this.solrClient.query(solrQuery);
 			SolrDocumentList results = response.getResults();
-			results.forEach(e->artikel.add(new Artikel( (LocalDateTime) e.get("erstellungsdatum"),(String) e.get("autor"), (String)e.get("titel"), (String)e.get("beschreibung"),(String) e.get("link"))));
+			
+			Object object = results.get(0).get("autor");
+			Object object2 = results.get(0).get("erstellungsdatum");
+			results.forEach(e->artikel.add(new Artikel( (Date)e.get("erstellungsdatum"),(String) e.get("autor"), (String)e.get("titel"), (String)e.get("beschreibung"),(String) e.get("link"))));
 		} catch (SolrServerException | IOException e) {
 			e.printStackTrace();
 		}
 		return artikel;
+	}
+	
+	public void clearSolr(){
+		try {
+			this.solrClient.deleteByQuery("*:*");
+		} catch (SolrServerException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

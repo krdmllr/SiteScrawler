@@ -1,9 +1,9 @@
 package de.sitescrawler.crawler;
 
 import javax.ejb.Schedule;
-import javax.ejb.Singleton;
+import javax.enterprise.context.ApplicationScoped;
 
-@Singleton
+@ApplicationScoped
 public class RSSReader {
 
 	public RSSReader() {
