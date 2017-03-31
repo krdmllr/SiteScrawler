@@ -3,49 +3,90 @@
  	  xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html" >
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <!-- Custom styles for this template -->
 </h:head>
 <h:body>
  	<ui:composition template="/template.xhtml">
-		<ui:define name="content">
-	         <!-- Liste aller Archiveinträge -->
-	         <div class="col-lg-9 column" style="background-color: red;">
-	         	<div class="container">
-	         		
-	         	</div>
+		<ui:define name="content"> 
+		<!-- Email Informationen -->
+		<div class="col-lg-2 column" >
+	         	 
+         	 		<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3>Rythmus</h3>
+						</div>
+						<div class="panel-body">
+						
+							<!-- Erstellungsrythmus -->
+							 
+								<p>Erstellungsrythmus</p>
+								
+								<p:selectOneMenu id="country" value="#{filterbearbeiten.sendeRythmus}" style="width:100px"> 
+					                <f:selectItem itemLabel="Rythmus wählen" itemValue="" noSelectionOption="true" />
+					                <f:selectItems value="#{filterbearbeiten.sendeRythmusOptionen}" />
+					            </p:selectOneMenu> 
+							
+							<input type="checkbox"/> E-Mail benachrichtung
+						</div>
+					</div> 
+   	         	 
+	         </div>
+		
+	         <!-- Liste der Filterprofile in meiner Filtergruppe -->
+	         <div class="col-lg-7 column" >
+	         	 
+         	 		<div class="panel panel-default artikelPanel">
+						<div class="panel-heading">
+							<h3>Filterprofile in meiner Filtergruppe</h3>
+						</div>
+						<p:dataList class="list-group filtergruppe-profile" 
+						value="#{filterbearbeiten.filtergruppe.filterprofile}" var="profil" type="definition"> 
+					  		<div id="dragIcon" draggable="true" >
+					  			<h:outputText styleClass="ui-icon ui-icon-arrow-4"/>
+					  			<h:outputText value="#{profil.titel}" /> 
+					  		</div>
+						</p:dataList> 
+					</div> 
+   	         	 
 	         </div>
 	         
-	         <!-- Ausgewaehltes Archiv -->
-	         <div class="col-lg-3 column" style="background-color: yellow;">
-	         	<div class="container">
+	         <!-- Alle Filterprofile -->
+	         <div class="col-lg-3 column" >
 	         		<div class="panel panel-default artikelPanel">
-					<div class="panel-heading">
-						<h3>Archiv</h3>
-					</div>
-					<div class="panel-body filter">
-						<h4>Filter</h4>
-						<p>Frühstes Datum</p>
-						<div class="input-group">
-							<span class="input-group-addon"> <input type="checkbox" />
-							</span> <input type="text" class="form-control" />
-						</div>
-						<p>Spätestes Datum</p>
-						<div class="input-group">
-							<span class="input-group-addon"> <input type="checkbox" />
-							</span> <input type="text" class="form-control" />
-						</div>
-					</div>
-					<p:dataList class="list-group archiveintraege"
-						value="#{archiv.archiveintraege}" var="eintrag" type="definition">
+					<div class="panel-heading"> 
+						<div> 
+						<h3 class=" pull-left">
+						 Filterprofil </h3>
 						<h:form>
-							<p:commandLink class="list-group-item"
-								value="#{eintrag.erstellungsDatum}" id="ajax"
-								update="artikelBereich" action="#{archiv.buttonAction(eintrag)}" />
+								<h:commandLink>
+									<h:graphicImage class="pull-right" style="width: 50px;" value="/resources/image/file.svg" />
+								</h:commandLink>
+							</h:form>
+							<div class="clearfix"/>
+							
+						 </div>
+					</div> 
+					<p:dataList class="list-group filterprofile" value="#{filterbearbeiten.filterprofile}" var="profil" type="definition">   
+						 	<h:form>
+						 	<li class="list-group-item">
+								<div class="artikel-titel-container">
+								<h:commandLink action="#{filterbearbeiten.addProfil(profil)}" ajax="true"> 
+									<p:graphicImage value="/resources/image/plus.svg" 
+										class="filter-profil-icon pull-left"/>
+									</h:commandLink>
+									
+									<h:graphicImage value="/resources/image/edit.svg" class="filter-profil-icon pull-right"/>
+									<h:commandLink action="#{filterbearbeiten.deleteProfil(profil)}"  ajax="true">
+										<h:graphicImage value="/resources/image/delete.svg" class="filter-profil-icon pull-right"/>
+									</h:commandLink>
+									<h:outputText id="filter-profil-text" value="#{profil.titel}" /> 
+								</div>
+							</li>
 						</h:form>
-					</p:dataList>
-				</div>
+					</p:dataList> 
 	         	</div>
 	         </div>
 	    </ui:define>

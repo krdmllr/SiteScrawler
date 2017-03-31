@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List; 
 
 @SessionScoped
-@Named("index")
+@Named("archiv")
 public class ArchivBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;

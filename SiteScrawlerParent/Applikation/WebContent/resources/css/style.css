@@ -17,6 +17,13 @@
     background-color: gray; 
 }
 
+#div1 {
+    width: 350px;
+    height: 70px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+} 
+
 #content{ 
 	position: absolute;
 	width: 100%;
@@ -24,7 +31,7 @@
 	height: 100%;
 } 
   
-.panel{
+body .panel{
 	margin: 10px; 
     height: Calc(100% - 20px);
     position: relative;
@@ -48,6 +55,22 @@ body .list-group{
     top: 0px;
 }
 
+body .ui-widget-content{
+	border: 0px;
+}
+
+#filterprofil{
+	border-bottom: 1px solid #a8a8a8;
+	position: relative;
+	overflow: hidden;
+}
+
+.layout{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
 .artikel{  
     height: Calc(100% - 60px);
 }
@@ -57,7 +80,18 @@ body .list-group{
   line-height: 1.2em; 
   max-height: 4.8em;
 }
- 
+
+.filter-profil-icon{
+	height: 25px;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
+#filter-profil-text{
+	vertical-align: middle; 
+	font-size: 20px;
+	padding-left: 30px;
+}
 
 .filter{
 	height: 200px;
@@ -66,6 +100,14 @@ body .list-group{
 .archiveintraege{
 	height: Calc(100% - 200px - 80px);
 }
+
+.filterprofile{
+	height: Calc(100% - 80px);
+}
+
+.filtergruppe-profile{
+	height: Calc(100% - 80px);
+} 
 
  .linkeUeberschrift {
     white-space: nowrap;
