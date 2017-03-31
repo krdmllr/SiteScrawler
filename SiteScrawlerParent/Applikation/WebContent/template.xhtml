@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -36,19 +37,21 @@
                 <a class="navbar-brand" href="/">SiteScrawler</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav"> 
-                    <li class="dropdown">
-                        <a href="/"
-                           class="dropdown-toggle"
-                           data-toggle="dropdown"
-                           role="button"
-                           aria-haspopup="true"
-                           aria-expanded="false">Mein Archiv<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/">Firmen Filtergruppe A</a></li>
-                            <li><a href="/">Firmen Filtergruppe B</a></li>
-                        </ul>
-                    </li>
+                <ul class="nav navbar-nav">                 	 
+                    <li>   
+                      <h:form class="btn-group navbar-btn" id="filterGruppe">
+					  <button type="button" class="btn btn-danger">#{filterbearbeiten.filtergruppe.titel}</button>
+					  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    <span class="caret"></span>
+					    <span class="sr-only">Toggle Dropdown</span>
+					  </button>
+					  	<ul class="dropdown-menu">
+					  		<p:repeat value="#{filterbearbeiten.selectableFiltergruppen}" var="gruppe">
+					    		<li><h:commandLink action="#{filterbearbeiten.setFiltergruppe(gruppe)}" update="filterGruppe" value="#{gruppe.titel}" /></li>
+					    	</p:repeat>
+					  </ul>
+					  </h:form> 
+                     </li>
                     <li><a href="/filterbearbeiten.xhtml">Filter bearbeiten</a></li>
                     <li><a href="/meinefirmen.xhtml">Meine Firmen</a></li>
                 </ul>

@@ -25,11 +25,9 @@ public class FilterBearbeitenBean implements Serializable
 	
 	private FilterGruppe filtergruppe;
 	
-	private List<FilterProfil> filterprofile;
+	private List<FilterProfil> filterprofile; 
 	
-	private String sendeRythmus;
-	
-	private Map<String, String> sendeRythmusOptionen = new HashMap<String, String>();
+	private List<FilterGruppe> filtergruppen = new ArrayList<>();
 
 	public FilterBearbeitenBean(){
 		
@@ -52,11 +50,12 @@ public class FilterBearbeitenBean implements Serializable
 	    fg.setFilterprofile(fps1);
 	    fg.setTitel("Meine Filtergruppe");
 	    setFiltergruppe(fg);
-	    
-	    sendeRythmusOptionen.put("Täglich","Täglich");
-	    sendeRythmusOptionen.put("Wöchentlich","Wöchentlich");
-	    sendeRythmusOptionen.put("Zwei-Wöchentlich", "Zwei-Wöchentlich");
-	    sendeRythmusOptionen.put("Monatlich", "Monatlich");
+	     
+	    for (int i = 0; i < 3; i++) {
+			FilterGruppe fig = new FilterGruppe();
+			fig.setTitel("Filtergruppe von Firma" + i);
+			filtergruppen.add(fig);
+		}
 	} 
 	
 	public void addProfil(FilterProfil profil){
@@ -71,7 +70,7 @@ public class FilterBearbeitenBean implements Serializable
 		return filtergruppe;
 	}
 
-	private void setFiltergruppe(FilterGruppe filtergruppe) {
+	public void setFiltergruppe(FilterGruppe filtergruppe) {
 		this.filtergruppe = filtergruppe;
 	}
 
@@ -82,20 +81,18 @@ public class FilterBearbeitenBean implements Serializable
 	private void setFilterprofile(List<FilterProfil> filterprofile) {
 		this.filterprofile = filterprofile;
 	}
-
-	public String getSendeRythmus() {
-		return sendeRythmus;
+	
+	public List<FilterGruppe> getSelectableFiltergruppen(){
+		List<FilterGruppe> alle = filtergruppen;
+		alle.remove(filtergruppe);
+		return alle;
 	}
 
-	public void setSendeRythmus(String sendeRythmus) {
-		this.sendeRythmus = sendeRythmus;
+	public List<FilterGruppe> getFiltergruppen() {
+		return filtergruppen;
 	}
-
-	public Map<String, String> getSendeRythmusOptionen() {
-		return sendeRythmusOptionen;
-	}
-
-	public void setSendeRythmusOptionen(Map<String, String> sendeRythmusOptionen) {
-		this.sendeRythmusOptionen = sendeRythmusOptionen;
+	
+	public void setFiltergruppen(List<FilterGruppe> filtergruppen) {
+		this.filtergruppen = filtergruppen;
 	} 
 }

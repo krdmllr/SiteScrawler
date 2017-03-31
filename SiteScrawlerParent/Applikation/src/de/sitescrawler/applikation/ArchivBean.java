@@ -73,6 +73,6 @@ public class ArchivBean implements Serializable {
 		finally{
 			return list;
 		}
-	} 
+	}
 }
 

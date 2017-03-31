@@ -12,7 +12,7 @@
  	<ui:composition template="/template.xhtml">
 		<ui:define name="content"> 
 		<!-- Email Informationen -->
-		<div class="col-lg-2 column" >
+		<div class="col-lg-2 hidden-xs column" >
 	         	 
          	 		<div class="panel panel-default">
 						<div class="panel-heading">
@@ -23,20 +23,41 @@
 							<!-- Erstellungsrythmus -->
 							 
 								<p>Erstellungsrythmus</p>
-								
-								<p:selectOneMenu id="country" value="#{filterbearbeiten.sendeRythmus}" style="width:100px"> 
-					                <f:selectItem itemLabel="Rythmus wählen" itemValue="" noSelectionOption="true" />
-					                <f:selectItems value="#{filterbearbeiten.sendeRythmusOptionen}" />
-					            </p:selectOneMenu> 
-							
-							<input type="checkbox"/> E-Mail benachrichtung
+					  
+							<div class="form-group">
+								<input type="checkbox"/> E-Mail benachrichtung
+							</div>
+							<div class="form-group">
+								<div class="btn-group">
+								  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								    Wöchentlich <span class="caret"></span>
+								  </button>
+								  <ul class="dropdown-menu">
+								    <li><a href="#">Action</a></li>
+								    <li><a href="#">Another action</a></li>
+								    <li><a href="#">Something else here</a></li>
+								  </ul>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="btn-group">
+								  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								    Wöchentlich <span class="caret"></span>
+								  </button>
+								  <ul class="dropdown-menu">
+								    <li><a href="#">Action</a></li>
+								    <li><a href="#">Another action</a></li>
+								    <li><a href="#">Something else here</a></li>
+								  </ul>
+								</div>
+							</div>
 						</div>
 					</div> 
    	         	 
 	         </div>
 		
 	         <!-- Liste der Filterprofile in meiner Filtergruppe -->
-	         <div class="col-lg-7 column" >
+	         <div class="col-lg-7 col-sm-12 column" >
 	         	 
          	 		<div class="panel panel-default artikelPanel">
 						<div class="panel-heading">
@@ -54,7 +75,7 @@
 	         </div>
 	         
 	         <!-- Alle Filterprofile -->
-	         <div class="col-lg-3 column" >
+	         <div class="col-lg-3 hidden-xs column" >
 	         		<div class="panel panel-default artikelPanel">
 					<div class="panel-heading"> 
 						<div> 
