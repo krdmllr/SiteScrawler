@@ -11,6 +11,16 @@ public class Artikel {
 	
 	public Artikel() {
 	}
+	
+	public Artikel(LocalDateTime erstellungsdatum, String autor, String titel, String beschreibung, String link) {
+		this.erstellungsdatum = erstellungsdatum;
+		this.autor = autor;
+		this.titel = titel;
+		this.beschreibung = beschreibung;
+		this.link = link;
+	}
+
+
 
 	public LocalDateTime getErstellungsdatum() {
 		return erstellungsdatum;
