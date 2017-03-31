@@ -24,23 +24,28 @@ public class DataBean implements Serializable {
 	
 	private List<FilterGruppe> filtergruppen = new ArrayList<>();
 	
+	private List<FilterProfil> filterprofile = new ArrayList<>();
+	
 	public DataBean(){
-		List<FilterProfil> fps1 = new ArrayList<>();
+	 
 	    
-		for (int i = 20; i < 30; i++) {
+		for (int i = 0; i < 15; i++) {
 			FilterProfil fp1 = new FilterProfil();
 			for (int j = 0; j < 30; j++) {
 				fp1.getTags().add("Tag"+j);
 			}
 			fp1.setTitel("Filterprofil"+i);
-			fps1.add(fp1);
+			filterprofile.add(fp1);
 		}
 		
 	    FilterGruppe fg = new FilterGruppe();
-	    
-	    fg.setFilterprofile(fps1);
+	     
 	    fg.setTitel("Meine Filtergruppe");
 	    fg.setArchiveintraege(getDummyArchiveintraege("Meine Filtergruppe"));
+	    for (int i = 0; i < 10; i++) {
+	    	if(i % 2 == 0)
+	    		fg.getFilterprofile().add(filterprofile.get(i));
+		}
 	    setFiltergruppe(fg);
 	    
 	    filtergruppen.add(fg);
@@ -49,8 +54,11 @@ public class DataBean implements Serializable {
 			FilterGruppe fig = new FilterGruppe();
 			fig.setTitel("Filtergruppe von Firma" + i);
 			fig.setArchiveintraege(getDummyArchiveintraege("Firma" + i));
-			filtergruppen.add(fig);
-			
+			for (int j = 0; j < 10; j++) {
+		    	if(j % 2 == 0)
+		    		fig.getFilterprofile().add(filterprofile.get(j));
+			}
+			filtergruppen.add(fig); 
 		}
 	}
 	
@@ -85,6 +93,14 @@ public class DataBean implements Serializable {
 			return list;
 		}
 	}
+	
+	public List<FilterProfil> getFilterprofile() {
+		return filterprofile;
+	}
+
+	private void setFilterprofile(List<FilterProfil> filterprofile) {
+		this.filterprofile = filterprofile;
+	} 
 
 	public FilterGruppe getFiltergruppe() {
 		return filtergruppe;

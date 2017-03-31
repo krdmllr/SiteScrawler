@@ -28,32 +28,58 @@
 								<input type="checkbox"/> E-Mail benachrichtung
 							</div>
 							<div>
+								<h:form id="tages-option">
 								<div class="btn-group">
-								  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								    Wöchentlich <span class="caret"></span>
+								  <button type="button" 
+										  class="btn btn-default dropdown-toggle" 
+										  data-toggle="dropdown" 
+										  aria-haspopup="true" 
+										  aria-expanded="false">
+								    #{filterbearbeiten.ausgewaehlteTagesoption} <span class="caret"></span>
 								  </button>
 								  <ul class="dropdown-menu">
-								    <li><a href="#">Action</a></li>
-								    <li><a href="#">Another action</a></li>
-								    <li><a href="#">Something else here</a></li>
+								  	<p:repeat var="option" value="#{filterbearbeiten.tagesOptionen}">
+								    	<li>
+								    		<p:commandLink action="#{filterbearbeiten.setAusgewaehlteTagesoption(option)}" value="#{option}" update="tages-option">
+								    		 
+								    		</p:commandLink>
+										</li>
+								    </p:repeat> 
 								  </ul>
 								</div>
+								</h:form>
 							</div>
-							<div class="form-group">
-								<div class="btn-group">
-								  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								    Wöchentlich <span class="caret"></span>
-								  </button>
-								  <ul class="dropdown-menu">
-								    <li><a href="#">Action</a></li>
-								    <li><a href="#">Another action</a></li>
-								    <li><a href="#">Something else here</a></li>
-								  </ul>
-								</div>
-							</div>
+							
+							<!-- Anzahl Tage -->
+							
+								
+								<h:form id="tageszeiten">
+									<div class="linkeUeberschrift" style="height: 50px;">
+										<h:outputText id="filter-profil-text" value="Wiederholung: #{data.filtergruppe.tageszeiten.size()}" /> 
+										<p:commandLink action="#{filterbearbeiten.addTageszeiten()}" update="tageszeiten">
+											<h:graphicImage value="/resources/image/add.svg" class="filter-profil-icon pull-right"/>
+										</p:commandLink> 
+									</div>
+									<p:dataList class="list-group filterprofile" value="#{data.filtergruppe.tageszeiten}" var="zeit" type="definition" > 
+									 	<li class="list-group-item">
+											<div class="artikel-titel-container">
+											<h:form>
+												<div class="zeit-input pull-left">
+										    	 
+										    	 <p:outputLabel for="time" value="" />
+        										<p:calendar id="time" value="#{zeit}" pattern="HH:mm" timeOnly="true" />
+										    	 
+      											  </div>
+												<p:commandLink action="#{filterbearbeiten.removeTageszeiten(zeit)}" update="tageszeiten"> 
+														<h:graphicImage value="/resources/image/remove-minus.svg" class="filter-profil-icon pull-right"/> 
+												</p:commandLink> 
+										    	</h:form> 
+											</div> 
+										</li> 
+								</p:dataList> 
+								</h:form>  
 						</div>
 					</div> 
-   	         	 
 	         </div>
 		
 	         <!-- Liste der Filterprofile in meiner Filtergruppe -->
@@ -64,20 +90,31 @@
 							<h3>Filterprofile in meiner Filtergruppe</h3>
 						</div>
 						<p:dataList class="list-group filtergruppe-profile" 
-						value="#{data.filtergruppe.filterprofile}" var="profil" type="definition"> 					 
-					  				<div class="list-group-item clearfix" style="overflow: hidden;border-bottom: 1px solid #ddd;">
-					  			 
-					  					<h4>#{profil.titel}</h4>
-					  					<div>
-							  				<p:repeat value="#{profil.tags}" var="tag"> 
-						  						<p class="pull-left tag">#{tag}</p>
-							  				</p:repeat>
-						  			 
-						  				</div>
-					  				</div> 
+						value="#{data.filtergruppe.filterprofile}" var="profil" type="definition" id="filter-gruppen-profile"> 					 
+					  			
+					  				<div class="list-group-item artikel-titel-container" style="overflow: hidden;border-bottom: 1px solid #ddd;"> 
+					  			 				<h:form>
+					  			 			<div class="pull-left linkeUeberschrift" style="width: Calc(100% - 80px);">
+							  					<h4>#{profil.titel}</h4>
+							  					<div>
+									  				<p:repeat value="#{profil.tags}" var="tag"> 
+								  						<p class="pull-left tag">#{tag}</p>
+									  				</p:repeat>
+								  				</div>
+							  				</div> 
+							  				
+							  				<div class="pull-right"> 
+									  				<p:commandLink  
+									  				action="#{filterbearbeiten.profilVonGruppeEntfernen(profil)}" 
+									  				class="pull-right"
+									  				update="profil-liste filter-gruppen-profile"> 
+									  					<p:graphicImage value="/resources/image/remove-minus.svg" class="filter-gruppe-profil-entfernen" />
+													</p:commandLink> 
+											</div> 
+											</h:form>
+					  				</div>  
 						</p:dataList> 
-					</div> 
-   	         	 
+					</div>  
 	         </div>
 	         
 	         <!-- Alle Filterprofile -->
@@ -96,26 +133,38 @@
 							
 						 </div>
 					</div> 
-					<p:dataList class="list-group filterprofile" value="#{filterbearbeiten.filterprofile}" var="profil" type="definition">   
-						 	<h:form>
-						 	<li class="list-group-item">
-								<div class="artikel-titel-container">
-								<h:commandLink rendered="#{!filterbearbeiten.isInFiltergruppe(profil)}" action="#{filterbearbeiten.addProfil(profil)}"> 
-									<p:graphicImage value="/resources/image/plus.svg" 
-										class="filter-profil-icon pull-left"/>
-									</h:commandLink>
-									
-									<h:graphicImage value="/resources/image/edit.svg" class="filter-profil-icon pull-right"/>
-									<h:commandLink action="#{filterbearbeiten.deleteProfil(profil)}">
-										<h:graphicImage value="/resources/image/delete.svg" class="filter-profil-icon pull-right"/>
-									</h:commandLink>
-									<h:outputText id="filter-profil-text" value="#{profil.titel}" /> 
-								</div>
-							</li>
-						</h:form>
+					 
+					<p:dataList class="list-group filterprofile" value="#{data.filterprofile}" var="profil" type="definition" id="profil-liste">   
+						 	<h:form id="profil-item">
+							 	<li class="list-group-item">
+									<div class="artikel-titel-container">
+											<p:commandLink rendered="#{!filterbearbeiten.isInFiltergruppe(profil)}" action="#{filterbearbeiten.addProfil(profil)}" update="filter-gruppen-profile profil-item" ajax="true"> 
+										
+											<p:graphicImage value="/resources/image/add.svg" 
+												class="filter-profil-icon pull-left"/>
+											</p:commandLink>
+											
+											
+											<p:commandLink rendered="#{filterbearbeiten.isInFiltergruppe(profil)}" action="#{filterbearbeiten.profilVonGruppeEntfernen(profil)}" update="filter-gruppen-profile profil-item"> 
+										
+											<p:graphicImage value="/resources/image/remove-minus.svg" 
+												class="filter-profil-icon pull-left"/>
+											</p:commandLink>
+											<p:outputLabel id="filter-profil-text" value="#{profil.titel}" />
+											<h:graphicImage value="/resources/image/edit.svg" class="filter-profil-icon pull-right" />
+											<p:commandLink action="#{filterbearbeiten.deleteProfil(profil)}" update="profil-liste" >
+												<p:graphicImage value="/resources/image/remove-x.svg" class="filter-profil-icon pull-right"/>
+											</p:commandLink>
+											
+											  
+									</div>
+								</li>
+							</h:form>
 					</p:dataList> 
+					 
 	         	</div>
 	         </div>
+	         
 	    </ui:define>
 	    <ui:define name="footer">
 	    	

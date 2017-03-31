@@ -47,15 +47,22 @@ body .column{
 }
 
 body .list-group{
-	overflow-y:scroll;   
+	overflow-y: auto;   
     position: relative;
     right: 0px;
     bottom: 0px;
     left: 0px;
     top: 0px;
+    width: 100%;
 }
 
-body .ui-widget-content{
+div span input{
+	width: 80px;
+}
+
+
+
+body div .ui-widget-content{
 	border: 0px;
 }
 
@@ -127,12 +134,21 @@ body .ui-widget-content{
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: normal;
-    width: 60%;
-    padding-top: 8px;
+    padding-top: 8px; 
 }
 
 .artikel-titel-container{
 	overflow: hidden;
+}
+
+.panel-body{
+	
+}
+ 
+.filter-gruppe-profil-entfernen{
+	width: 50px; 
+	margin-top: 50%; 
+	vertical-align: middle;
 }
 
 

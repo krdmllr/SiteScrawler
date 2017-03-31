@@ -1,12 +1,18 @@
 package de.sitescrawler.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FilterGruppe {
 	private String Titel;
 	private List<FilterProfil> Filterprofile = new ArrayList<>();
 	private List<Archiveintrag> archiveintraege = new ArrayList<>();
+	private List<Date> tageszeiten = new ArrayList<>();
+
+	public List<Date> getTageszeiten() {
+		return tageszeiten;
+	}
 	
 	public String getTitel() {
 		return Titel;
