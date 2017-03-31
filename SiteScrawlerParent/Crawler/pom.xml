@@ -21,6 +21,21 @@
 	    <artifactId>rome</artifactId>
 	    <version>1.7.1</version>
 	</dependency>
+	<dependency>
+		<groupId>de.sitescrawler.solr</groupId>
+		<artifactId>Solr</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>de.sitescrawler.model</groupId>
+		<artifactId>Model</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>de.sitescrawler.utility</groupId>
+		<artifactId>Utility</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
   </dependencies>
   <build>
   	<sourceDirectory>src</sourceDirectory>

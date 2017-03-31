@@ -1,9 +1,9 @@
 package de.sitescrawler.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Artikel {
-	private LocalDateTime erstellungsdatum;
+	private Date erstellungsdatum;
 	private String autor;
 	private String titel;
 	private String beschreibung;
@@ -12,7 +12,7 @@ public class Artikel {
 	public Artikel() {
 	}
 	
-	public Artikel(LocalDateTime erstellungsdatum, String autor, String titel, String beschreibung, String link) {
+	public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link) {
 		this.erstellungsdatum = erstellungsdatum;
 		this.autor = autor;
 		this.titel = titel;
@@ -22,11 +22,11 @@ public class Artikel {
 
 
 
-	public LocalDateTime getErstellungsdatum() {
+	public Date getErstellungsdatum() {
 		return erstellungsdatum;
 	}
 
-	public void setErstellungsdatum(LocalDateTime erstellungsdatum) {
+	public void setErstellungsdatum(Date erstellungsdatum) {
 		this.erstellungsdatum = erstellungsdatum;
 	}
 

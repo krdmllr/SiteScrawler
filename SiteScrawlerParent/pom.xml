@@ -40,7 +40,7 @@
   	<dependency>
 	    <groupId>javax.faces</groupId>
 	    <artifactId>javax.faces-api</artifactId>
-	    <version>2.1</version>
+	    <version>2.2</version>
 	</dependency>
 	<dependency>
 	    <groupId>org.eclipse.persistence</groupId>
@@ -51,6 +51,11 @@
 	    <groupId>javax.ejb</groupId>
 	    <artifactId>javax.ejb-api</artifactId>
 	    <version>3.2</version>
+	</dependency>
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>javax.servlet-api</artifactId>
+	    <version>3.1.0</version>
 	</dependency>
   </dependencies>
   <modules>

@@ -4,18 +4,19 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 
-@ViewScoped
-@Named("login")
-public class loginBean implements Serializable{
-	
+@SessionScoped
+@Named("login") 
+public class loginBean implements Serializable {
+ 
 	private static final long serialVersionUID = 1L;
 	private String                   uid;
     private String                   password;
