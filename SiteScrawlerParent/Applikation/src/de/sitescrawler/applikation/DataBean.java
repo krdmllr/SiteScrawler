@@ -10,8 +10,12 @@ import javax.inject.Named;
 
 import de.sitescrawler.model.Archiveintrag;
 import de.sitescrawler.model.Artikel;
+import de.sitescrawler.model.Benutzer;
 import de.sitescrawler.model.FilterGruppe;
 import de.sitescrawler.model.FilterProfil;
+import de.sitescrawler.model.Firma;
+import de.sitescrawler.model.FirmenFilterGruppe;
+import de.sitescrawler.model.Mitarbeiter;
 import de.sitescrawler.utility.DateUtils;
 
 @SessionScoped
@@ -20,45 +24,107 @@ public class DataBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	private Benutzer nutzer;
+	
 	private FilterGruppe filtergruppe; 
 	
-	private List<FilterGruppe> filtergruppen = new ArrayList<>();
+	private FilterGruppe nutzerFiltergruppe;
 	
 	private List<FilterProfil> filterprofile = new ArrayList<>();
 	
+	private List<Firma> firmen = new ArrayList<>(); 
+
 	public DataBean(){
 	 
+		nutzer = new Benutzer();
+		nutzer.setNachname("Dieter");
+		nutzer.setVorname("Hans");
 	    
 		for (int i = 0; i < 15; i++) {
 			FilterProfil fp1 = new FilterProfil();
-			for (int j = 0; j < 30; j++) {
+			for (int j = 0; j < 10; j++) {
 				fp1.getTags().add("Tag"+j);
 			}
 			fp1.setTitel("Filterprofil"+i);
 			filterprofile.add(fp1);
 		}
 		
-	    FilterGruppe fg = new FilterGruppe();
+		nutzerFiltergruppe = new FilterGruppe();
 	     
-	    fg.setTitel("Meine Filtergruppe");
-	    fg.setArchiveintraege(getDummyArchiveintraege("Meine Filtergruppe"));
+		nutzerFiltergruppe.setTitel("Meine Filtergruppe");
+		nutzerFiltergruppe.setArchiveintraege(getDummyArchiveintraege("Meine Filtergruppe"));
 	    for (int i = 0; i < 10; i++) {
 	    	if(i % 2 == 0)
-	    		fg.getFilterprofile().add(filterprofile.get(i));
+	    		nutzerFiltergruppe.getFilterprofile().add(filterprofile.get(i));
 		}
-	    setFiltergruppe(fg);
+	    setFiltergruppe(nutzerFiltergruppe); 
 	    
-	    filtergruppen.add(fg);
-	     
-	    for (int i = 0; i < 3; i++) {
-			FilterGruppe fig = new FilterGruppe();
-			fig.setTitel("Filtergruppe von Firma" + i);
-			fig.setArchiveintraege(getDummyArchiveintraege("Firma" + i));
-			for (int j = 0; j < 10; j++) {
-		    	if(j % 2 == 0)
-		    		fig.getFilterprofile().add(filterprofile.get(j));
+    	Firma firmaVonNutzer = new Firma();
+    	firmaVonNutzer.setName("Eine Firma");
+    	Mitarbeiter nutzerArbeiter1 = new Mitarbeiter();
+    	nutzerArbeiter1.setIsAdmin(true);
+    	nutzerArbeiter1.setNutzeraccount(nutzer);
+    	firmaVonNutzer.getMitarbeiter().add(nutzerArbeiter1);
+    	
+    	Firma fremdFirma = new Firma();
+    	fremdFirma.setName("Andere Firma");
+    	Mitarbeiter nutzerArbeiter2 = new Mitarbeiter(); 
+    	nutzerArbeiter2.setNutzeraccount(nutzer);
+    	fremdFirma.getMitarbeiter().add(nutzerArbeiter2);
+    	
+    	//Testmitarbeiter 	
+    	for (int i = 0; i < 20; i++) {
+			Benutzer testNutzer = new Benutzer();
+			testNutzer.setVorname("Vorname" +i);
+			testNutzer.setNachname("nachname" +i);
+			Mitarbeiter mitarbeiter = new Mitarbeiter();
+			mitarbeiter.setNutzeraccount(testNutzer);
+			
+			firmaVonNutzer.getMitarbeiter().add(mitarbeiter);
+			
+			Benutzer testNutzer2 = new Benutzer();
+			testNutzer2.setVorname("Vorname" +i);
+			testNutzer2.setNachname("nachname" +i);
+			Mitarbeiter mitarbeiter2 = new Mitarbeiter();
+			mitarbeiter2.setNutzeraccount(testNutzer2);
+			fremdFirma.getMitarbeiter().add(mitarbeiter2);
+		}
+    	fremdFirma.getMitarbeiter().get(3).setIsAdmin(true);
+    	
+    	//Testprofile
+    	firmenDummyDaten(fremdFirma);
+    	firmenDummyDaten(firmaVonNutzer);
+    	
+    	firmen.add(firmaVonNutzer);
+    	firmen.add(fremdFirma); 
+    	
+	}
+	
+	private void firmenDummyDaten(Firma firma){
+		for (int i = 0; i < 10; i++) {
+			FilterProfil testProfil = new FilterProfil();
+			testProfil.setTitel("FirmenFilterprofil" + i);
+			for (int j = 0; j < 5; j++) {
+				testProfil.getTags().add("Tag"+j);
 			}
-			filtergruppen.add(fig); 
+			firma.getFilterprofile().add(testProfil);
+		}
+		
+		for (int j = 0; j < 2; j++) {
+			FirmenFilterGruppe testGruppe = new FirmenFilterGruppe();
+			testGruppe.setTitel("FirmenFilterGruppe"+j);
+			testGruppe.setFirma(firma);
+			for (int k = 0; k < 10; k++) {
+				testGruppe.getEmpfaenger().add(firma.getMitarbeiter().get(k));
+			}
+			
+			for (int k = 0; k < 2; k++) {
+				testGruppe.getFilterprofile().add(firma.getFilterprofile().get(k));
+			} 	
+			
+			testGruppe.setArchiveintraege(getDummyArchiveintraege(testGruppe.getTitel() + "Eintrag"));
+			
+			firma.getFiltergruppen().add(testGruppe);
 		}
 	}
 	
@@ -94,6 +160,22 @@ public class DataBean implements Serializable {
 		}
 	}
 	
+	public Benutzer getNutzer() {
+		return nutzer;
+	}
+
+	public void setNutzer(Benutzer nutzer) {
+		this.nutzer = nutzer;
+	}
+
+	public List<Firma> getFirmen() {
+		return firmen;
+	}
+
+	public void setFirmen(List<Firma> firmen) {
+		this.firmen = firmen;
+	}
+	
 	public List<FilterProfil> getFilterprofile() {
 		return filterprofile;
 	}
@@ -108,13 +190,30 @@ public class DataBean implements Serializable {
 
 	public void setFiltergruppe(FilterGruppe filtergruppe) {
 		this.filtergruppe = filtergruppe;
-	}
-	
+	} 
+
 	public List<FilterGruppe> getFiltergruppen() {
-		return filtergruppen;
-	}
-	
-	public void setFiltergruppen(List<FilterGruppe> filtergruppen) {
-		this.filtergruppen = filtergruppen;
+		if(nutzer == null) return null;
+		
+		List<FilterGruppe> alleFiltergruppen = new ArrayList<>();
+		alleFiltergruppen.add(nutzerFiltergruppe);
+		
+		for(Firma f : firmen)
+		{
+			for(FirmenFilterGruppe ffg : f.getFiltergruppen()){
+				for(Mitarbeiter ma : ffg.getEmpfaenger()){
+					if(ma.getNutzeraccount() == null)
+					{
+						System.out.println(ma);
+					}
+					if(ma.getNutzeraccount().equals(nutzer))
+					{
+						alleFiltergruppen.add(ffg);
+					}
+				} 
+			}
+		}
+		
+		return alleFiltergruppen;
 	} 
 }

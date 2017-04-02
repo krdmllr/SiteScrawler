@@ -1,29 +1,219 @@
 <!DOCTYPE html>
-<html
- 	  xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html" >
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
 <h:head>
-    <!-- Custom styles for this template -->
+	<!-- Custom styles for this template -->
 </h:head>
 <h:body>
- 	<ui:composition template="/template.xhtml">
+	<ui:composition template="/template.xhtml">
 		<ui:define name="content">
-	         <!-- Liste aller Archiveinträge -->
-	         <div class="col-lg-3" style="background-color: yellow; position: absolute; bottom: 0px; top: 0px;">
-	         	<div class="container">
-	         	
-	         	</div>
-	         </div>
-	         
-	         <!-- Ausgewaehltes Archiv -->
-	         <div class="col-lg-9" style="background-color: red; position: relative; bottom: 0px; top: 0px;">
-	         </div>
-	    </ui:define>
-	    <ui:define name="footer">
-	    	
-	    </ui:define>
-	    </ui:composition>
+			<!-- Liste aller Archiveinträge -->
+			<div class="col-md-8 col-sm-6 column">
+
+				<div class="panel panel-default artikelPanel">
+					<div class="panel-heading">
+						<div>
+							<h3 class="pull-left schrift">'#{firmen.ausgewaehlteFirma.name}'
+								Firmen Filtergruppen</h3>
+							<b:form>
+								<a
+									onclick="$('.filtergruppeModalPseudoClass').modal();return false;">
+									<p:graphicImage class="pull-right bild"  
+										value="/resources/image/add.svg" />
+								</a>
+							</b:form>
+
+							<!-- Modal: Mitarbeiter hinzufügen -->
+							<b:modal id="neue-filtergruppe-modal"
+								title="Firmen Filtergruppe erstellen"
+								styleClass="filtergruppeModalPseudoClass">
+								<h:form id="filtergruppe-eingabe">
+									<p>Neue Firmen Filtergruppe erstellen.</p>
+									<div class="form-group">
+										<h:inputText immediate="true" placeholder="Filtergruppen name"
+											class="form-control" />
+									</div>
+
+
+								</h:form>
+								<f:facet name="footer">
+									<h:form>
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Verwerfen</button>
+										<b:commandButton value="Anlegen" class="btn btn-primary"
+											ajax="true" update="filtergruppe-eingabe" />
+									</h:form>
+								</f:facet>
+							</b:modal>
+							<div class="clearfix" />
+						</div>
+					</div>
+
+					<!-- Filtergruppen -->
+					<p:dataList class="list-group mitarbeiter-liste filterprofile"
+						value="#{firmen.ausgewaehlteFirma.filtergruppen}" var="gruppe"
+						type="definition" id="filtergruppen-liste">
+						<h:form id="firma-filtergruppe">
+							<li class="list-group-item">
+
+								<div class="artikel-titel-container">
+
+									<p:outputLabel id="filter-profil-text" value="#{gruppe.titel}" />
+
+									<p:commandLink id="filter-bearbeiten" action="/filterbearbeiten.xhtml?faces-redirect=true"> 
+										<!-- <f:param name="filterprofile" value="#{firmen.ausgewaehlteFirma.filterprofile}" />	
+										<f:param name="filtergruppe" value="#{gruppe}" /> -->
+										<f:actionListener for="filter-bearbeiten" binding="#{filterbearbeiten.setParameter(gruppe, firmen.ausgewaehlteFirma.filterprofile)}" />
+										<p:graphicImage value="/resources/image/edit-square.svg"
+											class="filter-profil-icon pull-right" />
+									</p:commandLink>
+
+									<p:commandLink
+										action="#{firmen.setAktuelleFiltergruppe(gruppe)}"
+										oncomplete="$('.filtergruppeNutzerModalPseudoClass').modal();return false;"
+										update="filtergruppe-nutzer-modal"> 
+										<p:graphicImage value="/resources/image/reciever.svg"
+											class="filter-profil-icon pull-right" />
+									</p:commandLink>
+								</div>
+								<div class="clearfix"></div> <!-- Nutzer zu filtergruppe hinzufügen Modal -->
+
+							</li>
+						</h:form>
+					</p:dataList>
+
+				</div>
+			</div>
+			
+			<!-- Nutzer zu filtergruppe hinzufügen Modal -->
+			<b:modal id="filtergruppe-nutzer-modal"
+				title="Nutzer zu #{firmen.aktuelleFiltergruppe.titel} hinzufügen"
+				styleClass="filtergruppeNutzerModalPseudoClass">
+
+				<p:dataList class="list-group mitarbeiter-liste"
+					value="#{firmen.ausgewaehlteFirma.mitarbeiter}" var="mitarbeiter"
+					type="definition" id="firmen-mitarbeiter-hinzufuegen">
+					<h:form id="filtergruppe-mitarbeiter">
+						<li class="list-group-item">
+							<div class="artikel-titel-container">
+
+								<p:outputLabel id="filter-profil-text"
+									value="#{mitarbeiter.nutzeraccount.ganzerName}" />
+
+								<p:commandLink
+									rendered="#{firmen.isEmpfaengerAktuellerFilterGruppe(mitarbeiter)}"
+									action="#{firmen.remove(mitarbeiter)}"
+									update="filtergruppe-mitarbeiter"
+									 >
+
+									<p:graphicImage value="/resources/image/email.svg"
+										class="filter-profil-icon pull-right" />
+								</p:commandLink>
+
+								<p:commandLink
+									rendered="#{!firmen.isEmpfaengerAktuellerFilterGruppe(mitarbeiter)}"
+									action="#{firmen.add(mitarbeiter)}"
+									update="filtergruppe-mitarbeiter">
+									<p:graphicImage value="/resources/image/email-gray.svg"
+										class="filter-profil-icon pull-right" />
+								</p:commandLink>
+							</div>
+							<div class="clearfix"></div> 
+						</li>
+					</h:form>
+				</p:dataList>
+			</b:modal>
+			
+			<!-- Mitarbeiter -->
+			<div class="col-md-4 col-sm-6 column">
+				<div class="panel panel-default artikelPanel">
+					<div class="panel-heading">
+						<div>
+							<h3 class="pull-left schrift">#{firmen.ausgewaehlteFirma.mitarbeiter.size()}
+								Mitarbeiter</h3>
+							<b:form>
+								<a
+									onclick="$('.mitarbeiterModalPseudoClass').modal();return false;">
+									<p:graphicImage class="pull-right bild" 
+										value="/resources/image/add-user.svg" />
+								</a>
+							</b:form>
+
+							<!-- Modal: Mitarbeiter hinzufügen -->
+							<b:modal id="mitarbeiter-einladen-modal"
+								title="Mitarbeiter einladen"
+								styleClass="mitarbeiterModalPseudoClass">
+								<h:form id="email-eingabe">
+									<p>Bitte geben Sie die E-Mail Adresse des Mitarbeiters an.</p>
+									<div class="form-group">
+										<h:inputText immediate="true"
+											value="#{firmen.neuerMitarbeiterEmail}"
+											placeholder="E-Mail Adresse" class="form-control" />
+									</div>
+
+
+								</h:form>
+								<f:facet name="footer">
+									<h:form>
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Verwerfen</button>
+										<b:commandButton value="Anlegen" class="btn btn-primary"
+											action="#{firmen.mitarbeiterEinladen()}" ajax="true"
+											update="email-eingabe" />
+									</h:form>
+								</f:facet>
+							</b:modal>
+							<div class="clearfix" />
+						</div>
+					</div>
+
+					<p:dataList class="list-group mitarbeiter-liste filterprofile"
+						value="#{firmen.ausgewaehlteFirma.mitarbeiter}" var="mitarbeiter"
+						type="definition" id="profil-liste">
+						<h:form id="profil-item">
+							<li class="list-group-item">
+								<div class="artikel-titel-container">
+
+									<p:outputLabel id="filter-profil-text"
+										value="#{mitarbeiter.nutzeraccount.ganzerName}" />
+
+									<p:commandLink rendered="#{!mitarbeiter.isAdmin}"
+										action="#{mitarbeiter.setIsAdmin(true)}" update="profil-item"
+										ajax="true">
+
+										<p:graphicImage value="/resources/image/shield-gray.svg"
+											class="filter-profil-icon pull-right" />
+									</p:commandLink>
+
+									<p:commandLink rendered="#{mitarbeiter.isAdmin}"
+										action="#{mitarbeiter.setIsAdmin(false)}"
+										update=" profil-item">
+
+										<p:graphicImage value="/resources/image/shield.svg"
+											class="filter-profil-icon pull-right" />
+									</p:commandLink>
+
+									<p:commandLink
+										action="#{firmen.mitarbeiterEntfernen(mitarbeiter)}"
+										update="profil-liste">
+										<p:graphicImage value="/resources/image/remove-user.svg"
+											class="filter-profil-icon pull-right" />
+									</p:commandLink>
+
+
+								</div>
+							</li>
+						</h:form>
+					</p:dataList>
+				</div>
+			</div>
+		</ui:define>
+		<ui:define name="footer">
+
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

@@ -3,7 +3,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<!-- Custom styles for this template -->
 </h:head>
@@ -11,50 +11,68 @@
 	<ui:composition template="/template.xhtml">
 		<ui:define name="content">
 			<!-- Archivliste -->
- 		<div class="col-md-3 hidden-xs hidden-sm column">
+			<div class="col-md-3 hidden-xs hidden-sm column">
 				<!-- Filter -->
 				<div class="panel panel-default artikelPanel">
-					<div class="panel-heading">
-						<h3>#{data.filtergruppe.titel}</h3>
+					<div class="panel-heading">  
+						<div class="pull-left schrift">
+							<p:outputLabel rendered="#{data.filtergruppe.isFirma()}" value="#{data.filtergruppe.firma.name}" style="color: blue;"></p:outputLabel>
+							<p:outputLabel rendered="#{!data.filtergruppe.isFirma()}" value="Private Filtergruppe" style="color: green;"></p:outputLabel>
+							<h4 >#{data.filtergruppe.titel}</h4>
+						</div>
+						
+						<b:form>
+							<p:commandLink id="filter-bearbeiten" action="/filterbearbeiten.xhtml?faces-redirect=true"> 
+								<!-- <f:param name="filterprofile" value="#{firmen.ausgewaehlteFirma.filterprofile}" />	
+								<f:param name="filtergruppe" value="#{gruppe}" /> -->
+								<f:actionListener for="filter-bearbeiten" binding="#{filterbearbeiten.setParameter(data.filtergruppe, data.filtergruppe.isFirma() ? data.filtergruppe.firma.filterprofile : data.filterprofile)}" />
+								<p:graphicImage value="/resources/image/edit-square.svg"
+									class="pull-right bild" />
+							</p:commandLink>
+						</b:form>
+						<div class="clearfix"></div>
+					 
 					</div>
+
 					<div class="panel-body filter">
-						<h4>Filter</h4>
-						<p>Frühstes Datum</p>
-						<div class="input-group">
-							<span class="input-group-addon"> <input type="checkbox" />
-							</span> <input type="text" class="form-control" />
-						</div>
-						<p>Spätestes Datum</p>
-						<div class="input-group">
-							<span class="input-group-addon"> <input type="checkbox" />
-							</span> <input type="text" class="form-control" />
-						</div>
+						<h:form>
+							<h4>Filter</h4>
+							<div class="form-group">
+								<b:dateTimePicker value="#{archiv.abZeitpunkt}" label="Frühste"
+									mode="popup" show-time="false" render-label="true" />
+							</div>
+							<div class="form-group">
+								<b:dateTimePicker value="#{archiv.bisZeitpunkt}"
+									label="Späteste" mode="popup" show-time="false"
+									render-label="true" />
+							</div>
+						</h:form>
 					</div>
 					<p:dataList class="list-group archiveintraege"
 						value="#{archiv.archiveintraege}" var="eintrag" type="definition">
 						<h:form>
-							<p:commandLink class="list-group-item"
-							 id="ajax"
+							<p:commandLink class="list-group-item" id="ajax"
 								update="artikelBereich" action="#{archiv.buttonAction(eintrag)}">
 								<h:outputText value="#{eintrag.erstellungsDatum}">
-								<f:convertDateTime type="date" pattern="dd.MM.yyyy"/>
+									<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 								</h:outputText>
-								</p:commandLink>
+							</p:commandLink>
 						</h:form>
 					</p:dataList>
 				</div>
 			</div>
 			<!-- Ausgewaehltes Archiv -->
 			<div class="col-md-9 column">
-				<!-- Header -->
+				<!-- Archiv -->
 				<h:form class="panel panel-default artikelPanel" id="artikelBereich">
 					<div class="panel-heading">
 						<h3 class="panel-title pull-left linkeUeberschrift">
 							Pressespiegel vom
-							<h:outputText value="#{archiv.geweahlterArchiveintrag.erstellungsDatum}">
-								<f:convertDateTime type="date" pattern="dd.MM.yyyy"/>
-								</h:outputText>
-							</h3>
+							<h:outputText
+								value="#{archiv.geweahlterArchiveintrag.erstellungsDatum}">
+								<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
+							</h:outputText>
+						</h3>
 						<div class="btn-group pull-right" role="group">
 							<button type="button" class="btn btn-default">PDF
 								exportieren</button>
@@ -81,11 +99,12 @@
 						<a href="#" class="list-group-item">
 							<div class="artikel-titel-container">
 								<h4 class="pull-left">#{artikel.titel}</h4>
-								<p class="pull-right">Erschienen am
-								<h:outputText value="#{artikel.erstellungsdatum}">
-								<f:convertDateTime type="date" pattern="dd.MM.yyyy hh:mm"/>
-								</h:outputText>
-									</p>
+								<p class="pull-right">
+									Erschienen am
+									<h:outputText value="#{artikel.erstellungsdatum}">
+										<f:convertDateTime type="date" pattern="dd.MM.yyyy hh:mm" />
+									</h:outputText>
+								</p>
 							</div>
 							<p id="artikel-zusammenfassung">#{artikel.titel}</p>
 							<div class="artikel-titel-container">
