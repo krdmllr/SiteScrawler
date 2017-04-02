@@ -109,17 +109,15 @@
 									update="filtergruppe-mitarbeiter"
 									 >
 
-									<p:graphicImage value="/resources/image/remove-minus.svg"
+									<p:graphicImage value="/resources/image/email.svg"
 										class="filter-profil-icon pull-right" />
 								</p:commandLink>
 
 								<p:commandLink
 									rendered="#{!firmen.isEmpfaengerAktuellerFilterGruppe(mitarbeiter)}"
 									action="#{firmen.add(mitarbeiter)}"
-									update="filtergruppe-mitarbeiter"
-								 >
-
-									<p:graphicImage value="/resources/image/add.svg"
+									update="filtergruppe-mitarbeiter">
+									<p:graphicImage value="/resources/image/email-gray.svg"
 										class="filter-profil-icon pull-right" />
 								</p:commandLink>
 							</div>
