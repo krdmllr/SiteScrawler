@@ -9,6 +9,17 @@ public class FilterGruppe {
 	private List<FilterProfil> Filterprofile = new ArrayList<>();
 	private List<Archiveintrag> archiveintraege = new ArrayList<>();
 	private List<Date> tageszeiten = new ArrayList<>();
+	private Firma firma;
+	
+	private List<Mitarbeiter> empfaenger = new ArrayList<>();
+
+	public List<Mitarbeiter> getEmpfaenger() {
+		return empfaenger;
+	}
+
+	public void setEmpfaenger(List<Mitarbeiter> empfaenger) {
+		this.empfaenger = empfaenger;
+	}
 
 	public List<Date> getTageszeiten() {
 		return tageszeiten;
@@ -31,5 +42,17 @@ public class FilterGruppe {
 	}
 	public void setArchiveintraege(List<Archiveintrag> archiveintraege) {
 		this.archiveintraege = archiveintraege;
+	}
+
+	public Firma getFirma() {
+		return firma;
+	}
+
+	public void setFirma(Firma firma) {
+		this.firma = firma;
+	}
+	
+	public Boolean isFirma(){
+		return firma != null;
 	}
 }

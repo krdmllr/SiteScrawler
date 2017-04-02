@@ -26,6 +26,9 @@ public class loginBean implements Serializable {
     @PostConstruct
     public void init()
     {
+    	return;
+    	
+    	/**
         ExternalContext externalContext = this.context.getExternalContext();
         this.originalURL = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
         if (this.originalURL == null)
@@ -41,10 +44,13 @@ public class loginBean implements Serializable {
                 this.originalURL += "?" + originalQuery;
             }
         }
+        **/
     }
     
     public void login()
     {
+    	return;
+    	/**
     	System.out.println("Login:  " + uid + " | " + password);
         HttpServletRequest request = (HttpServletRequest) this.context.getExternalContext().getRequest();
         try
@@ -56,6 +62,7 @@ public class loginBean implements Serializable {
         {
         	e.printStackTrace();
         }
+        **/
     }
 
     public void logout()

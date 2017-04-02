@@ -15,7 +15,7 @@
     width: 100%;
     height: 60px;
     background-color: gray; 
-}
+}   
 
 #div1 {
     width: 350px;
@@ -60,10 +60,27 @@ div span input{
 	width: 80px;
 }
 
+div.panel-heading .schrift{
+	width: Calc(100% - 60px);
+	overflow: hidden;
+}
 
+div.panel-heading .bild{
+	width: 50px; 
+	margin-top: 15px;
+} 
 
-body div .ui-widget-content{
-	border: 0px;
+body.modal-open .modal-backdrop{
+	opacity: 0;
+    z-index: 0;
+}
+
+body .ui-widget-content{
+	border: 0 !important;
+}
+
+.panel-heading a:after{
+	content: "" !important;
 }
 
 .tag{ 
@@ -74,9 +91,17 @@ body div .ui-widget-content{
 }
 
 .nav-item{
-	background-color: #222;
-	border: 0px;
-	color: #9d9d9d;
+	background-color: #222 !important;
+	border: 0px !important;
+	color: #9d9d9d !important;
+}
+
+.nav .btn:hover { 
+	color: white !important;
+}
+
+.btn-group > .btn + .dropdown-toggle{
+	color: #9d9d9d !important;
 }
 
 #filterprofil{
@@ -151,5 +176,19 @@ body div .ui-widget-content{
 	vertical-align: middle;
 }
 
+<!-- Firmen styles -->
+
+.mitarbeiter-liste{
+	height: Calc(100% - 80px);
+}
+
+#firmen-mitarbeiter-hinzufuegen{
+	height: 500px;
+	margin-bottom: 0px !important; s
+}
+
+#filtergruppe-nutzer-modal_body{
+	padding: 0px !important;
+}
 
  

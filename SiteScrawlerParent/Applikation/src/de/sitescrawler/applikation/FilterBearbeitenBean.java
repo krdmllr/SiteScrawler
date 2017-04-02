@@ -9,15 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.TreeDragDropEvent;
-import org.primefaces.model.TreeNode;
-
-import de.sitescrawler.model.Archiveintrag;
+ 
 import de.sitescrawler.model.FilterGruppe;
 import de.sitescrawler.model.FilterProfil;
 import de.sitescrawler.utility.DateUtils;
@@ -31,11 +29,22 @@ public class FilterBearbeitenBean implements Serializable
 	private final String TAEGLICH = "Täglich";
 	private final String WOECHENTLICH = "Wöchentlich";
 	private final String ZWEI_WOECHENTLICH = "Zwei-Wöchentlich";
-	private final String MONATLICH = "Monatlich";
+	private final String MONATLICH = "Monatlich"; 
+	
+	private List<FilterProfil> filterprofile; 
+
+	private FilterGruppe filtergruppe; 
 	
 	private String ausgewaehlteTagesoption = TAEGLICH; 
 	
+	private FilterProfil neuesFilterprofil = new FilterProfil();
+	private String neuerTag;
 	
+	
+	public void setParameter(FilterGruppe filtergruppe, List<FilterProfil> filterprofile){
+		this.filtergruppe = filtergruppe;
+		this.filterprofile = filterprofile;
+	}
 	
 	public String getAusgewaehlteTagesoption() {
 		return ausgewaehlteTagesoption;
@@ -43,6 +52,22 @@ public class FilterBearbeitenBean implements Serializable
 
 	public void setAusgewaehlteTagesoption(String ausgewaehlteTagesoption) {
 		this.ausgewaehlteTagesoption = ausgewaehlteTagesoption;
+	}
+	
+	public List<FilterProfil> getFilterprofile() {
+		return filterprofile;
+	}
+
+	public void setFilterprofile(List<FilterProfil> filterprofile) {
+		this.filterprofile = filterprofile;
+	}
+
+	public FilterGruppe getFiltergruppe() {
+		return filtergruppe;
+	}
+
+	public void setFiltergruppe(FilterGruppe filtergruppe) {
+		this.filtergruppe = filtergruppe;
 	}
 
 	@Inject
@@ -60,26 +85,61 @@ public class FilterBearbeitenBean implements Serializable
 	}
 	
 	public Boolean isInFiltergruppe(FilterProfil profil){ 
-		return  dataBean.getFiltergruppe().getFilterprofile().contains(profil);
+		return  getFiltergruppe().getFilterprofile().contains(profil);
 	}
 	
 	public void addProfil(FilterProfil profil){
-		dataBean.getFiltergruppe().getFilterprofile().add(profil);
+		getFiltergruppe().getFilterprofile().add(0, profil);
 	}
 	
 	public void profilVonGruppeEntfernen(FilterProfil profil){
-		dataBean.getFiltergruppe().getFilterprofile().remove(profil);
+		getFiltergruppe().getFilterprofile().remove(profil);
 	}
 	
 	public void deleteProfil(FilterProfil profil){
-		dataBean.getFilterprofile().remove(profil);
+		getFilterprofile().remove(profil);
 	}  
 
 	public void addTageszeiten() {
-		dataBean.getFiltergruppe().getTageszeiten().add(DateUtils.asDate(LocalDateTime.now()));
+		getFiltergruppe().getTageszeiten().add(DateUtils.asDate(LocalDateTime.now()));
 	}
 	
 	public void removeTageszeiten(Date date){
-		dataBean.getFiltergruppe().getTageszeiten().remove(date);
+		getFiltergruppe().getTageszeiten().remove(date);
+	}
+	
+	public void neuesFilterprofilSpeichern(){
+		if(neuesFilterprofil == null || dataBean == null) return;
+		
+		if(neuesFilterprofil.getTitel() == null || neuesFilterprofil.getTitel().isEmpty())
+		{
+			neuesFilterprofil.setTitel("Filterprofil " + dataBean.getFilterprofile().size());
+		}
+		
+		getFilterprofile().add(0, neuesFilterprofil);
+		neuesFilterprofil = new FilterProfil();
+	}
+
+	public FilterProfil getNeuesFilterprofil() {
+		return neuesFilterprofil;
+	}
+
+	public void setNeuesFilterprofil(FilterProfil neuesFilterprofil) {
+		this.neuesFilterprofil = neuesFilterprofil;
+	}
+	
+	public void saveTag(){
+		if(neuerTag == null || neuerTag.isEmpty() || neuesFilterprofil.getTags().contains(neuerTag)) return;
+		
+		neuesFilterprofil.addTag(neuerTag);
+		neuerTag ="";
+	}
+
+	public String getNeuerTag() {
+		return neuerTag;
+	}
+
+	public void setNeuerTag(String neuerTag) {
+		this.neuerTag = neuerTag;
 	}
 }
