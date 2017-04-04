@@ -23,7 +23,16 @@
         <dependent-module archiveName="mysql-connector-java-5.1.39.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="Crawler-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Crawler/Crawler">
+        <dependent-module archiveName="Producer-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Producer/Producer">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Nutzerverwaltung-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Nutzerverwaltung/Nutzerverwaltung">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Model-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Model/Model">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="RSSReader-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/RSSReader/RSSReader">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="rome-1.7.1.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/com/rometools/rome/1.7.1/rome-1.7.1.jar">
@@ -33,54 +42,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="jdom2-2.0.6.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/jdom/jdom2/2.0.6/jdom2-2.0.6.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="slf4j-api-1.7.16.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.16/slf4j-api-1.7.16.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="Solr-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Solr/Solr">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="solr-solrj-6.5.0.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/apache/solr/solr-solrj/6.5.0/solr-solrj-6.5.0.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="commons-io-2.5.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/commons-io/commons-io/2.5/commons-io-2.5.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="httpclient-4.4.1.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/apache/httpcomponents/httpclient/4.4.1/httpclient-4.4.1.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="httpcore-4.4.1.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/apache/httpcomponents/httpcore/4.4.1/httpcore-4.4.1.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="httpmime-4.4.1.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/apache/httpcomponents/httpmime/4.4.1/httpmime-4.4.1.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="zookeeper-3.4.6.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/apache/zookeeper/zookeeper/3.4.6/zookeeper-3.4.6.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="stax2-api-3.1.4.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/codehaus/woodstox/stax2-api/3.1.4/stax2-api-3.1.4.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="woodstox-core-asl-4.4.1.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/codehaus/woodstox/woodstox-core-asl/4.4.1/woodstox-core-asl-4.4.1.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="noggit-0.6.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/noggit/noggit/0.6/noggit-0.6.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="jcl-over-slf4j-1.7.7.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/slf4j/jcl-over-slf4j/1.7.7/jcl-over-slf4j-1.7.7.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="Utility-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Utility/Utility">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="Producer-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Producer/Producer">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="Nutzerverwaltung-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Nutzerverwaltung/Nutzerverwaltung">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="Model-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Model/Model">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="bootsfaces-1.0.2.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/bootsfaces/bootsfaces/1.0.2/bootsfaces-1.0.2.jar">
