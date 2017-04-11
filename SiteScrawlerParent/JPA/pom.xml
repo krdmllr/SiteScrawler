@@ -5,8 +5,8 @@
     <artifactId>SiteScrawlerParent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>de.sitescrawler.jpa</groupId>
-  <artifactId>JPA</artifactId>
+  <groupId>de.sitescrawler.model</groupId>
+  <artifactId>Model</artifactId>
   <name>JPA</name>
   <version>0.0.1-SNAPSHOT</version>
   <dependencies>

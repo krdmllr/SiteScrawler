@@ -19,8 +19,9 @@ import org.apache.solr.common.SolrInputDocument;
 
 import de.sitescrawler.model.Artikel;
 import de.sitescrawler.model.FilterProfil;
+import de.sitescrawler.solr.interfaces.ISolrService;
 
-public class SolrServiceImpl {
+public class SolrServiceImpl implements ISolrService {
 
 	private SolrClient solrClient;
 	private static final String SolrUrl = "http://sitescrawler.de:8983/solr/gettingstarted";
@@ -30,6 +31,10 @@ public class SolrServiceImpl {
 		this.solrClient = new HttpSolrClient.Builder(SolrUrl).build();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.sitescrawler.solr.ISolrService#addArtikel(de.sitescrawler.model.Artikel)
+	 */
+	@Override
 	public void addArtikel(Artikel artikel) {
 		SolrInputDocument solrInputDocument = new SolrInputDocument();
 		solrInputDocument.addField("autor", artikel.getAutor());
@@ -45,6 +50,10 @@ public class SolrServiceImpl {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.sitescrawler.solr.ISolrService#sucheArtikel(de.sitescrawler.model.FilterProfil)
+	 */
+	@Override
 	public List<Artikel> sucheArtikel(FilterProfil filterProfil){
 		List<Artikel> artikel = new ArrayList<>();
 		SolrQuery solrQuery = new SolrQuery();
@@ -68,6 +77,10 @@ public class SolrServiceImpl {
 		return artikel;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.sitescrawler.solr.ISolrService#clearSolr()
+	 */
+	@Override
 	public void clearSolr(){
 		try {
 			this.solrClient.deleteByQuery("*:*");

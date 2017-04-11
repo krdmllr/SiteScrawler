@@ -9,18 +9,14 @@ import javax.persistence.TypedQuery;
 
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
+import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 
-public class NutzerServiceImpl implements NutzerService, Serializable {
+public class NutzerServiceImpl implements INutzerService, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private EntityManager entityManager;
-
-	@Override
-	public void registrieren(Nutzer nutzer) {
-		this.nutzerSpeichern(nutzer);
-	}
+	private EntityManager entityManager; 
 
 	@Override
 	public void rolleAnlegen(Rolle rolle) {

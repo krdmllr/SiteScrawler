@@ -13,15 +13,16 @@ import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
 import de.sitescrawler.model.Artikel;
-import de.sitescrawler.model.FilterProfil;
+import de.sitescrawler.model.FilterProfil; 
 import de.sitescrawler.solr.SolrServiceImpl;
+import de.sitescrawler.solr.interfaces.ISolrService;
 import de.sitescrawler.utility.DateUtils;
 
 public class Main {
 
 	public static void main(String[] args) {
 		String url = "http://newsfeed.zeit.de/";
-		SolrServiceImpl solr = new SolrServiceImpl();
+		ISolrService solr = new SolrServiceImpl();
 		solr.clearSolr();
 		try {
 			SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(url)));
