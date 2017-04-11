@@ -18,6 +18,7 @@ import org.apache.solr.common.SolrInputDocument;
 
 import de.sitescrawler.model.Artikel;
 import de.sitescrawler.model.FilterProfil;
+import de.sitescrawler.model.VolltextArtikel;
 
 public class SolrServiceImpl
 {
@@ -39,6 +40,15 @@ public class SolrServiceImpl
         solrInputDocument.addField("beschreibung", artikel.getBeschreibung());
         solrInputDocument.addField("link", artikel.getLink());
         solrInputDocument.addField("erstellungsdatum", SolrServiceImpl.formatter.format(artikel.getErstellungsdatum()));
+        for (String absatz : artikel.getVolltextArtikel().getArtikelAbsaetze())
+        {
+            solrInputDocument.addField("absaetze", absatz);
+        }
+
+        for (String tag : artikel.getVolltextArtikel().getTags())
+        {
+            solrInputDocument.addField("tags", tag);
+        }
         try
         {
             this.solrClient.add(solrInputDocument);
@@ -69,7 +79,12 @@ public class SolrServiceImpl
                 String titel = ((ArrayList<String>) solrDocument.get("titel")).get(0);
                 String beschreibung = ((ArrayList<String>) solrDocument.get("beschreibung")).get(0);
                 String link = ((ArrayList<String>) solrDocument.get("link")).get(0);
-                artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link));
+                List<String> absaetze = (ArrayList<String>) solrDocument.get("absaetze");
+                List<String> tags = (ArrayList<String>) solrDocument.get("tags");
+                VolltextArtikel vta = new VolltextArtikel();
+                vta.getArtikelAbsaetze().addAll(absaetze);
+                vta.getTags().addAll(tags);
+                artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link, vta));
             }
         }
         catch (IOException | ParseException e)
@@ -107,7 +122,8 @@ public class SolrServiceImpl
                 String titel = ((ArrayList<String>) solrDocument.get("titel")).get(0);
                 String beschreibung = ((ArrayList<String>) solrDocument.get("beschreibung")).get(0);
                 String link = ((ArrayList<String>) solrDocument.get("link")).get(0);
-                artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link));
+                VolltextArtikel volltextArtikel = null;
+                artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link, volltextArtikel));
             }
         }
         catch (SolrServerException | IOException | ParseException e)

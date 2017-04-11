@@ -4,23 +4,35 @@ import java.util.Date;
 
 public class Artikel
 {
-    private Date   erstellungsdatum;
-    private String autor;
-    private String titel;
-    private String beschreibung;
-    private String link;
+    private Date            erstellungsdatum;
+    private String          autor;
+    private String          titel;
+    private String          beschreibung;
+    private String          link;
+    private VolltextArtikel volltextArtikel;
+
+    public VolltextArtikel getVolltextArtikel()
+    {
+        return this.volltextArtikel;
+    }
+
+    public void setVolltextArtikel(VolltextArtikel volltextArtikel)
+    {
+        this.volltextArtikel = volltextArtikel;
+    }
 
     public Artikel()
     {
     }
 
-    public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link)
+    public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link, VolltextArtikel volltextArtikel)
     {
         this.erstellungsdatum = erstellungsdatum;
         this.autor = autor;
         this.titel = titel;
         this.beschreibung = beschreibung;
         this.link = link;
+        this.volltextArtikel = volltextArtikel;
     }
 
     public Date getErstellungsdatum()
