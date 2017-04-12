@@ -42,11 +42,6 @@
   		<type>war</type>
   	</dependency>
   	<dependency>
-  		<groupId>de.sitescrawler.model</groupId>
-  		<artifactId>Model</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
   		<groupId>de.sitescrawler.crawler</groupId>
   		<artifactId>Crawler</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
@@ -62,8 +57,8 @@
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   	<dependency>
-  		<groupId>de.sitescrawler.model</groupId>
-  		<artifactId>Model</artifactId>
+  		<groupId>de.sitescrawler.jpa</groupId>
+  		<artifactId>JPA</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   </dependencies>

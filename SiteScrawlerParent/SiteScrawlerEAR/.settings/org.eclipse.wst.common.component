@@ -14,15 +14,6 @@
         <dependent-module archiveName="Prototyp-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Prototyp/Prototyp">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="Model-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Model/Model">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="hibernate-jpa-2.1-api-1.0.0.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/hibernate/javax/persistence/hibernate-jpa-2.1-api/1.0.0.Final/hibernate-jpa-2.1-api-1.0.0.Final.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="mysql-connector-java-5.1.39.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="Crawler-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Crawler/Crawler">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -71,6 +62,9 @@
         <dependent-module archiveName="jcl-over-slf4j-1.7.7.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/slf4j/jcl-over-slf4j/1.7.7/jcl-over-slf4j-1.7.7.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="Model-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/de/sitescrawler/model/Model/0.0.1-SNAPSHOT/Model-0.0.1-SNAPSHOT.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="Utility-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Utility/Utility">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -78,6 +72,9 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="Nutzerverwaltung-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Nutzerverwaltung/Nutzerverwaltung">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="JPA-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/de/sitescrawler/jpa/JPA/0.0.1-SNAPSHOT/JPA-0.0.1-SNAPSHOT.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="bootsfaces-1.0.2.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/bootsfaces/bootsfaces/1.0.2/bootsfaces-1.0.2.jar">

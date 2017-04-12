@@ -34,11 +34,4 @@
     </plugins>
   </build>
   <description>Portal für Sitescrawler Projekt</description>
-  <dependencies>
-  	<dependency>
-  		<groupId>de.sitescrawler.model</groupId>
-  		<artifactId>Model</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
 </project>
