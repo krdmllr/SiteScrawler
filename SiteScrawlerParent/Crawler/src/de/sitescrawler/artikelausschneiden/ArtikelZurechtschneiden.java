@@ -50,7 +50,7 @@ public class ArtikelZurechtschneiden
                 return this.spiegelOnlineArtikelZurechtschneiden.getSpiegelOnlineArtikel(url);
 
             default:
-                return null;
+                throw new UnparsbarException();
 
         }
 

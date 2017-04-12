@@ -11,7 +11,7 @@
         <dependent-module archiveName="Portal-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Portal/Portal">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="JPA-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/JPA/JPA">
+        <dependent-module archiveName="JPA-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/ModelJPA/ModelJPA">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="hibernate-jpa-2.1-api-1.0.0.Final.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/hibernate/javax/persistence/hibernate-jpa-2.1-api/1.0.0.Final/hibernate-jpa-2.1-api-1.0.0.Final.jar">
@@ -26,7 +26,7 @@
         <dependent-module archiveName="Nutzerverwaltung-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Nutzerverwaltung/Nutzerverwaltung">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="Model-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Model/Model">
+        <dependent-module archiveName="Model-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/de/sitescrawler/model/Model/0.0.1-SNAPSHOT/Model-0.0.1-SNAPSHOT.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="bootsfaces-1.0.2.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/bootsfaces/bootsfaces/1.0.2/bootsfaces-1.0.2.jar">
