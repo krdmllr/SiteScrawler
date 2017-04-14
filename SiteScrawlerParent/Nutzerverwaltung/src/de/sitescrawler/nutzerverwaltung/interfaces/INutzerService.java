@@ -49,4 +49,18 @@ public interface INutzerService
      * @return Nutzer mit der angegebenen Id.
      */
     Nutzer getNutzer(String uid);
+    
+    /**
+     * Schickt dem Nutzer eine Email mit einem Token zu, über den der Nutzer sein Passwort zurücksetzen kann.
+     * @param email Adresse die mit dem Konto des Nutzers verknüpft ist.
+     * @param nutzername Nutzername des Kontos.
+     */
+    void passwortZuruecksetzen(String email, String nutzername);
+    
+    /**
+     * Setzt ein neues Passwort für einen Nutzer der zuvor über die passwortZuruecksetzen funktion einen Token generiert hat.
+     * @param token Zuvor generierter Token.
+     * @param neuesPasswort Neues Passwort.
+     */
+    void neuesPasswortSetzen(String token, String neuesPasswort);
 }
