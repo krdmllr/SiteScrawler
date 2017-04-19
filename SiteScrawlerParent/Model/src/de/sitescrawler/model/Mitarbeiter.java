@@ -1,20 +1,30 @@
 package de.sitescrawler.model;
 
-public class Mitarbeiter {
-	
-	private Boolean isAdmin;
-	private Benutzer nutzeraccount;
-	
-	public Boolean getIsAdmin() {
-		return isAdmin;
-	}
-	public void setIsAdmin(Boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
-	public Benutzer getNutzeraccount() {
-		return nutzeraccount;
-	}
-	public void setNutzeraccount(Benutzer nutzeraccount) {
-		this.nutzeraccount = nutzeraccount;
-	}
+import de.sitescrawler.jpa.Nutzer;
+
+public class Mitarbeiter
+{
+
+    private Boolean isAdmin;
+    private Nutzer  nutzeraccount;
+
+    public Boolean getIsAdmin()
+    {
+        return this.isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin)
+    {
+        this.isAdmin = isAdmin;
+    }
+
+    public Nutzer getNutzeraccount()
+    {
+        return this.nutzeraccount;
+    }
+
+    public void setNutzeraccount(Nutzer nutzeraccount)
+    {
+        this.nutzeraccount = nutzeraccount;
+    }
 }

@@ -8,7 +8,7 @@
   <name>SiteScrawlerParent</name>
   <description>Maven Parent Projekt für SiteScrawler</description>
   <properties>
-  	<version.jboss.bom>10.0.0.Final</version.jboss.bom>
+  	<version.jboss.bom>10.1.0.Final</version.jboss.bom>
   </properties>
   <dependencyManagement>
 	  <dependencies>
@@ -81,5 +81,6 @@
     <module>Email</module>
     <module>PDF</module>
     <module>Model</module>
+    <module>RSSReader</module>
   </modules>
 </project>

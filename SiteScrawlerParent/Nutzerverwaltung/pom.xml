@@ -27,6 +27,13 @@
   		<groupId>de.sitescrawler.jpa</groupId>
   		<artifactId>JPA</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.producer</groupId>
+  		<artifactId>Producer</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  		<scope>provided</scope>
   	</dependency>
   </dependencies>
 </project>
