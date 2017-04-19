@@ -27,16 +27,6 @@ class ZeitArtikelZurechtschneiden
     {
         VolltextArtikel artikel = new VolltextArtikel();
         Document doc = Jsoup.connect(url).get();
-        // // Extrahiere überschrift
-        // Elements ueberschrift = doc.getElementsByClass("article-heading__title");
-        // artikel.setUeberschrift(ueberschrift.get(0).text());
-        //
-        // // Extrahiere Zusammenfassung
-        // Elements zusammenfassung = doc.getElementsByClass("summary");
-        // artikel.setZusammenfassung(zusammenfassung.get(0).text());
-
-        // Dieser Block dient dazu alle bekannten Artikelarten mit anderer Struktur abzufangen (können erweitert werden)
-        // Bezahlartikel können nicht geparst werden
         Element bezahlArtikelHinweis = doc.getElementById("paywall-register");
         if (bezahlArtikelHinweis != null)
         {
