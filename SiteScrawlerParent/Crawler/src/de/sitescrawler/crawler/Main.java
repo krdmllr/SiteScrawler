@@ -13,7 +13,7 @@ import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
 import de.sitescrawler.model.Artikel;
-import de.sitescrawler.model.FilterProfil; 
+import de.sitescrawler.model.Filteprofil; 
 import de.sitescrawler.solr.SolrServiceImpl;
 import de.sitescrawler.solr.interfaces.ISolrService;
 import de.sitescrawler.utility.DateUtils;
@@ -48,7 +48,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		FilterProfil filterProfil = new FilterProfil();
+		Filteprofil filterProfil = new Filteprofil();
 		filterProfil.addTag("*:*");
 		List<Artikel> result = solr.sucheArtikel(filterProfil);
 		result.forEach(e->System.out.println(e.getAutor()+e.getBeschreibung()+e.getLink()+e.getTitel()+e.getErstellungsdatum()));

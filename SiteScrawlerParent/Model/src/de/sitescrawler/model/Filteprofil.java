@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class FilterProfil {
+public class Filteprofil {
 	private UUID id;
 	private String Titel;
 	private List<String> tags; 
 	
-	public FilterProfil() {
+	public Filteprofil() {
 		id = UUID.randomUUID();
 		this.tags = new ArrayList<>();
 	}
@@ -26,7 +26,7 @@ public class FilterProfil {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FilterProfil other = (FilterProfil) obj;
+		Filteprofil other = (Filteprofil) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

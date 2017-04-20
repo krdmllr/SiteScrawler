@@ -6,7 +6,7 @@ import java.util.List;
 
 public class FilterGruppe {
 	private String Titel;
-	private List<FilterProfil> Filterprofile = new ArrayList<>();
+	private List<Filteprofil> Filterprofile = new ArrayList<>();
 	private List<Archiveintrag> archiveintraege = new ArrayList<>();
 	private List<Date> tageszeiten = new ArrayList<>();
 	private Firma firma;
@@ -31,10 +31,10 @@ public class FilterGruppe {
 	public void setTitel(String titel) {
 		Titel = titel;
 	}
-	public List<FilterProfil> getFilterprofile() {
+	public List<Filteprofil> getFilterprofile() {
 		return Filterprofile;
 	}
-	public void setFilterprofile(List<FilterProfil> filterprofile) {
+	public void setFilterprofile(List<Filteprofil> filterprofile) {
 		Filterprofile = filterprofile;
 	}
 	public List<Archiveintrag> getArchiveintraege() {

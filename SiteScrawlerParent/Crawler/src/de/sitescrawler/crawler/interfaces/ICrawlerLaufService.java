@@ -1,5 +1,7 @@
 package de.sitescrawler.crawler.interfaces;
 
+import de.sitescrawler.model.Quellen;
+
 public interface ICrawlerLaufService
 {
 

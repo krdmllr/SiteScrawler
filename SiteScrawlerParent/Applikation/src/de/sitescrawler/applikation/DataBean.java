@@ -1,10 +1,13 @@
 package de.sitescrawler.applikation;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
@@ -12,7 +15,7 @@ import de.sitescrawler.model.Archiveintrag;
 import de.sitescrawler.model.Artikel;
 import de.sitescrawler.model.Benutzer;
 import de.sitescrawler.model.FilterGruppe;
-import de.sitescrawler.model.FilterProfil;
+import de.sitescrawler.model.Filteprofil;
 import de.sitescrawler.model.Firma;
 import de.sitescrawler.model.FirmenFilterGruppe;
 import de.sitescrawler.model.Mitarbeiter;
@@ -26,11 +29,13 @@ public class DataBean implements Serializable {
 	
 	private Benutzer nutzer;
 	
+	private ProjectConfig config = new ProjectConfig();
+	
 	private FilterGruppe filtergruppe; 
 	
 	private FilterGruppe nutzerFiltergruppe;
 	
-	private List<FilterProfil> filterprofile = new ArrayList<>();
+	private List<Filteprofil> filterprofile = new ArrayList<>();
 	
 	private List<Firma> firmen = new ArrayList<>(); 
 
@@ -41,7 +46,7 @@ public class DataBean implements Serializable {
 		nutzer.setVorname("Hans");
 	    
 		for (int i = 0; i < 15; i++) {
-			FilterProfil fp1 = new FilterProfil();
+			Filteprofil fp1 = new Filteprofil();
 			for (int j = 0; j < 10; j++) {
 				fp1.getTags().add("Tag"+j);
 			}
@@ -99,10 +104,25 @@ public class DataBean implements Serializable {
     	firmen.add(fremdFirma); 
     	
 	}
+
+	@PostConstruct
+	void init() {
+		loadProperties();
+		
+	 
+		config.loadConfig();
+		 
+		System.out.println(config.getDomain());
+	}
+	
+	private void loadProperties(){
+		//String prop = System.getProperty("TestProp");
+		//System.out.println(prop);
+	}
 	
 	private void firmenDummyDaten(Firma firma){
 		for (int i = 0; i < 10; i++) {
-			FilterProfil testProfil = new FilterProfil();
+			Filteprofil testProfil = new Filteprofil();
 			testProfil.setTitel("FirmenFilterprofil" + i);
 			for (int j = 0; j < 5; j++) {
 				testProfil.getTags().add("Tag"+j);
@@ -176,11 +196,11 @@ public class DataBean implements Serializable {
 		this.firmen = firmen;
 	}
 	
-	public List<FilterProfil> getFilterprofile() {
+	public List<Filteprofil> getFilterprofile() {
 		return filterprofile;
 	}
 
-	private void setFilterprofile(List<FilterProfil> filterprofile) {
+	private void setFilterprofile(List<Filteprofil> filterprofile) {
 		this.filterprofile = filterprofile;
 	} 
 
@@ -215,5 +235,9 @@ public class DataBean implements Serializable {
 		}
 		
 		return alleFiltergruppen;
+	}
+
+	public ProjectConfig getConfig() {
+		return config;
 	} 
 }

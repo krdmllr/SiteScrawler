@@ -3,7 +3,6 @@ package de.sitescrawler.solr;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +17,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 
 import de.sitescrawler.model.Artikel;
-import de.sitescrawler.model.FilterProfil;
+import de.sitescrawler.model.Filteprofil;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
 public class SolrServiceImpl implements ISolrService {
@@ -31,8 +30,11 @@ public class SolrServiceImpl implements ISolrService {
 		this.solrClient = new HttpSolrClient.Builder(SolrUrl).build();
 	}
 
-	/* (non-Javadoc)
-	 * @see de.sitescrawler.solr.ISolrService#addArtikel(de.sitescrawler.model.Artikel)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.sitescrawler.solr.ISolrService#addArtikel(de.sitescrawler.model.
+	 * Artikel)
 	 */
 	@Override
 	public void addArtikel(Artikel artikel) {
@@ -49,15 +51,41 @@ public class SolrServiceImpl implements ISolrService {
 			e.printStackTrace();
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see de.sitescrawler.solr.ISolrService#sucheArtikel(de.sitescrawler.model.FilterProfil)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.sitescrawler.solr.ISolrService#sucheArtikel(de.sitescrawler.model.
+	 * FilterProfil)
 	 */
 	@Override
-	public List<Artikel> sucheArtikel(FilterProfil filterProfil){
+	public List<Artikel> sucheArtikel(List<Filteprofil> filterprofile) {
+
 		List<Artikel> artikel = new ArrayList<>();
+
+		for (Filteprofil filterprofil : filterprofile) {
+			artikel.addAll(sucheArtikel(filterprofil));
+		}
+
+		return artikel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.sitescrawler.solr.ISolrService#sucheArtikel(de.sitescrawler.model.
+	 * FilterProfil)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Artikel> sucheArtikel(Filteprofil filterprofil) {
+
+		List<Artikel> artikel = new ArrayList<>();
+
 		SolrQuery solrQuery = new SolrQuery();
-		String query = filterProfil.getTags().stream().reduce((s1,s2) -> s1.concat(" " + s2)).get();
+		String query = filterprofil.getTags().stream().reduce((s1, s2) -> s1.concat(" " + s2)).get();
 		solrQuery.setQuery(query);
 		try {
 			QueryResponse response = this.solrClient.query(solrQuery);
@@ -74,14 +102,17 @@ public class SolrServiceImpl implements ISolrService {
 		} catch (SolrServerException | IOException | ParseException e) {
 			e.printStackTrace();
 		}
+
 		return artikel;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.sitescrawler.solr.ISolrService#clearSolr()
 	 */
 	@Override
-	public void clearSolr(){
+	public void clearSolr() {
 		try {
 			this.solrClient.deleteByQuery("*:*");
 		} catch (SolrServerException | IOException e) {

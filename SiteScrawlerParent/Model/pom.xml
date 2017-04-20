@@ -7,8 +7,7 @@
   </parent>
   <groupId>de.sitescrawler.model</groupId>
   <artifactId>Model</artifactId>
-  <name>JPA</name>
-  <version>0.0.1-SNAPSHOT</version>
+  <name>Model</name>
   <dependencies>
   <!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
 	<dependency>

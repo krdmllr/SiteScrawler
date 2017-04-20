@@ -9,7 +9,6 @@
   </parent>
   <groupId>de.sitescrawler.solr</groupId>
   <artifactId>Solr</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>Solr</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

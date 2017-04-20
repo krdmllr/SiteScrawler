@@ -1,5 +1,7 @@
 package de.sitescrawler.nutzerverwaltung.interfaces;
 
+import de.sitescrawler.jpa.Nutzer;
+
 /**
  * Service, der den Nutzer und seine Daten der aktuellen Session zurückgibt
  *

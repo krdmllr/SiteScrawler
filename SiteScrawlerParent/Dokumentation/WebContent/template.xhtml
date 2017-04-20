@@ -35,7 +35,7 @@
                 </button>
                 <a class="navbar-brand" href="/">SiteScrawler</a>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
+            <div id="navbar" class="navbar-collapse navbar-left collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/">Startseite</a></li>
                     <li><a href="/savespace/documents.xhtml">Dokumente</a></li>
@@ -53,8 +53,16 @@
                             <li><a href="/devdocu/testing.xhtml">Testing</a></li>
                         </ul>
                     </li>
-                </ul> 
+                </ul>  
             </div>
+            <div id="navbar" class="navbar-collapse collapse">
+			<h:form class="navbar-form navbar-right">
+				 
+				<div class="form-group">
+					<a href="http://#{index.config.domain}" class="btn btn-info">Zur Anwendung</a>
+				</div>
+			</h:form>
+		</div>
         </div>
     </nav> 
             <ui:insert name="header" /> 

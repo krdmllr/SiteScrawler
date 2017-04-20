@@ -9,7 +9,6 @@
   </parent>
   <groupId>de.sitescrawler.crawler</groupId>
   <artifactId>Crawler</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>Crawler</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -38,4 +38,28 @@ public class NutzerServiceImpl implements INutzerService, Serializable {
 		this.entityManager.merge(nutzer);
 	}
 
+	@Override
+	public boolean isEmailVerfuegbar(String email) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void registrieren(Nutzer nutzer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void passwortZuruecksetzen(String email, String nutzername) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void neuesPasswortSetzen(String token, String neuesPasswort) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
