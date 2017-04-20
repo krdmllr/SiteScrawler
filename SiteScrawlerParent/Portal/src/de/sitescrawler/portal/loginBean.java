@@ -22,10 +22,12 @@ public class loginBean implements Serializable {
 	private String                   password;  
 	private String                   originalURL;
     private FacesContext context = FacesContext.getCurrentInstance();
+    private ProjectConfig config = new ProjectConfig();
     
     @PostConstruct
     public void init()
     {
+    	config.loadConfig();
     	return;
     	
     	/**
@@ -96,4 +98,8 @@ public class loginBean implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public ProjectConfig getConfig() {
+		return config;
+	} 
 }

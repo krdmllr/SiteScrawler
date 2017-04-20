@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
  
 import de.sitescrawler.model.FilterGruppe;
-import de.sitescrawler.model.FilterProfil;
+import de.sitescrawler.model.Filteprofil;
 import de.sitescrawler.utility.DateUtils;
 
 @SessionScoped
@@ -31,17 +31,17 @@ public class FilterBearbeitenBean implements Serializable
 	private final String ZWEI_WOECHENTLICH = "Zwei-Wöchentlich";
 	private final String MONATLICH = "Monatlich"; 
 	
-	private List<FilterProfil> filterprofile; 
+	private List<Filteprofil> filterprofile; 
 
 	private FilterGruppe filtergruppe; 
 	
 	private String ausgewaehlteTagesoption = TAEGLICH; 
 	
-	private FilterProfil neuesFilterprofil = new FilterProfil();
+	private Filteprofil neuesFilterprofil = new Filteprofil();
 	private String neuerTag;
 	
 	
-	public void setParameter(FilterGruppe filtergruppe, List<FilterProfil> filterprofile){
+	public void setParameter(FilterGruppe filtergruppe, List<Filteprofil> filterprofile){
 		this.filtergruppe = filtergruppe;
 		this.filterprofile = filterprofile;
 	}
@@ -54,11 +54,11 @@ public class FilterBearbeitenBean implements Serializable
 		this.ausgewaehlteTagesoption = ausgewaehlteTagesoption;
 	}
 	
-	public List<FilterProfil> getFilterprofile() {
+	public List<Filteprofil> getFilterprofile() {
 		return filterprofile;
 	}
 
-	public void setFilterprofile(List<FilterProfil> filterprofile) {
+	public void setFilterprofile(List<Filteprofil> filterprofile) {
 		this.filterprofile = filterprofile;
 	}
 
@@ -84,19 +84,19 @@ public class FilterBearbeitenBean implements Serializable
 			    .filter(p -> p != ausgewaehlteTagesoption).collect(Collectors.toList());
 	}
 	
-	public Boolean isInFiltergruppe(FilterProfil profil){ 
+	public Boolean isInFiltergruppe(Filteprofil profil){ 
 		return  getFiltergruppe().getFilterprofile().contains(profil);
 	}
 	
-	public void addProfil(FilterProfil profil){
+	public void addProfil(Filteprofil profil){
 		getFiltergruppe().getFilterprofile().add(0, profil);
 	}
 	
-	public void profilVonGruppeEntfernen(FilterProfil profil){
+	public void profilVonGruppeEntfernen(Filteprofil profil){
 		getFiltergruppe().getFilterprofile().remove(profil);
 	}
 	
-	public void deleteProfil(FilterProfil profil){
+	public void deleteProfil(Filteprofil profil){
 		getFilterprofile().remove(profil);
 	}  
 
@@ -117,14 +117,14 @@ public class FilterBearbeitenBean implements Serializable
 		}
 		
 		getFilterprofile().add(0, neuesFilterprofil);
-		neuesFilterprofil = new FilterProfil();
+		neuesFilterprofil = new Filteprofil();
 	}
 
-	public FilterProfil getNeuesFilterprofil() {
+	public Filteprofil getNeuesFilterprofil() {
 		return neuesFilterprofil;
 	}
 
-	public void setNeuesFilterprofil(FilterProfil neuesFilterprofil) {
+	public void setNeuesFilterprofil(Filteprofil neuesFilterprofil) {
 		this.neuesFilterprofil = neuesFilterprofil;
 	}
 	

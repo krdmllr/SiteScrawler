@@ -9,18 +9,14 @@ import javax.persistence.TypedQuery;
 
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
+import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 
-public class NutzerServiceImpl implements NutzerService, Serializable {
+public class NutzerServiceImpl implements INutzerService, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private EntityManager entityManager;
-
-	@Override
-	public void registrieren(Nutzer nutzer) {
-		this.nutzerSpeichern(nutzer);
-	}
+	private EntityManager entityManager; 
 
 	@Override
 	public void rolleAnlegen(Rolle rolle) {
@@ -40,6 +36,30 @@ public class NutzerServiceImpl implements NutzerService, Serializable {
 	@Override
 	public void nutzerSpeichern(Nutzer nutzer) {
 		this.entityManager.merge(nutzer);
+	}
+
+	@Override
+	public boolean isEmailVerfuegbar(String email) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void registrieren(Nutzer nutzer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void passwortZuruecksetzen(String email, String nutzername) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void neuesPasswortSetzen(String token, String neuesPasswort) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

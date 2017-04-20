@@ -9,7 +9,6 @@
   <name>Test</name>
   <description>Projekt für Unittests</description>
   <groupId>de.sitescrawler.test</groupId>
-  <version>0.0.1-SNAPSHOT</version>
   <build>
   	<sourceDirectory>src</sourceDirectory>
   	<plugins>

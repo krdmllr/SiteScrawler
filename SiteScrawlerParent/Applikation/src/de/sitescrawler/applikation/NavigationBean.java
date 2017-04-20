@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.sitescrawler.model.FilterGruppe;
-import de.sitescrawler.model.FilterProfil;
+import de.sitescrawler.model.Filteprofil;
 
 @SessionScoped
 @Named("navigation")

@@ -12,8 +12,14 @@ public class IndexBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private ProjectConfig config = new ProjectConfig();
 
-	public String getLol(){
-		return "lolol";
+	public IndexBean(){
+		config.loadConfig();
 	}
+
+	public ProjectConfig getConfig() {
+		return config;
+	} 
 }

@@ -1,66 +1,81 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <link rel="icon" href="image/search.png"/>
-    <title>SiteScrawler - Developer Dokumentation</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<link rel="icon" href="image/search.png" />
+	<title>SiteScrawler - Developer Dokumentation</title>
 
-	<link rel="stylesheet" href="css/style.css"/>
-    <h:outputStylesheet name="/css/bootstrap.min.css" /> 
+	<link rel="stylesheet" href="css/style.css" />
+	<h:outputStylesheet name="/css/bootstrap.min.css" />
 </h:head>
 <h:body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">SiteScrawler</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse"> 
-                <h:form class="navbar-form navbar-right">
-                  <div class="form-group">
-                <p:inputText value="#{login.uid}" type="text" placeholder="Email" class="form-control"></p:inputText>
-                  </div>
-              <div class="form-group">
-                <p:inputText value="#{login.password}" type="password" placeholder="Passwort" class="form-control"></p:inputText> 
-              </div>
-              <div class="form-group">
-              	<a href="http://app.sitescrawler.de" class="btn btn-success">Anmelden</a>
-              	<!--<h:commandButton action="#{login.login()}" value="Anmelden" class="btn btn-success"/>  -->
-                </div>
-            </h:form>
-            </div>
-        </div>
-    </nav> 
-           
-        <div id="content">
-            <ui:insert name="content" /> 
-        </div> 
-        <footer class="footer">
-		      <div class="container">
-		     
-		        <p class="pull-right"><a href="#">Nach oben</a></p>
-                <p>2017
-                    <a href="/impressum.xhtml">Impressum</a>
-                    <div>Icons made by <a href="http://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver  </a> , <a href="http://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market  </a> , <a href="http://www.freepik.com" title="Freepik">Freepik </a>  from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-                </p>
-                <ui:insert name="footer"/>
-		      </div>
-	    </footer> 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <h:outputScript library="js" name="bootstrap.min.js"></h:outputScript>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">SiteScrawler</a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+			<h:form class="navbar-form navbar-right">
+				<div class="form-group">
+					<p:inputText value="#{login.uid}" type="text" placeholder="Email"
+						class="form-control"></p:inputText>
+				</div>
+				<div class="form-group">
+					<p:inputText value="#{login.password}" type="password"
+						placeholder="Passwort" class="form-control"></p:inputText>
+				</div>
+				<div class="form-group">
+					<a href="http://app.#{login.config.domain}" class="btn btn-success">Anmelden</a>
+					<!--<h:commandButton action="#{login.login()}" value="Anmelden" class="btn btn-success"/>  -->
+				</div>
+			</h:form>
+		</div>
+	</div>
+	</nav>
+
+	<div id="content">
+		<ui:insert name="content" />
+	</div>
+	<footer class="footer">
+	<div class="container">
+
+		<p class="pull-right">
+			<a href="#">Nach oben</a>
+		</p>
+		<p>
+			2017 <a href="/impressum.xhtml">Impressum</a>
+			<div>
+				Icons made by <a href="http://www.flaticon.com/authors/madebyoliver"
+					title="Madebyoliver">Madebyoliver </a> , <a
+					href="http://www.flaticon.com/authors/vectors-market"
+					title="Vectors Market">Vectors Market </a> , <a
+					href="http://www.freepik.com" title="Freepik">Freepik </a> from <a
+					href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>
+				is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"
+					title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+			</div>
+		</p>
+		<ui:insert name="footer" />
+	</div>
+	</footer>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<h:outputScript library="js" name="bootstrap.min.js"></h:outputScript>
 </h:body>
 </html>
