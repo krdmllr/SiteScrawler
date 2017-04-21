@@ -1,6 +1,7 @@
 package de.sitescrawler.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +14,12 @@ public class Filteprofil {
 		id = UUID.randomUUID();
 		this.tags = new ArrayList<>();
 	}
+	
+    public Filteprofil(String... tags)
+    {
+        this();
+        Collections.addAll(this.tags, tags);
+    }
 	
 	public UUID getId(){
 		return id;

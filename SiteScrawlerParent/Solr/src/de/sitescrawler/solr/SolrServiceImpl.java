@@ -18,6 +18,7 @@ import org.apache.solr.common.SolrInputDocument;
 
 import de.sitescrawler.model.Artikel;
 import de.sitescrawler.model.Filteprofil;
+import de.sitescrawler.model.VolltextArtikel;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
 public class SolrServiceImpl implements ISolrService {
@@ -97,7 +98,7 @@ public class SolrServiceImpl implements ISolrService {
 				String titel = ((ArrayList<String>) solrDocument.get("titel")).get(0);
 				String beschreibung = ((ArrayList<String>) solrDocument.get("beschreibung")).get(0);
 				String link = ((ArrayList<String>) solrDocument.get("link")).get(0);
-				artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link));
+				artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link, null));
 			}
 		} catch (SolrServerException | IOException | ParseException e) {
 			e.printStackTrace();
@@ -119,4 +120,31 @@ public class SolrServiceImpl implements ISolrService {
 			e.printStackTrace();
 		}
 	}
+	
+	public List<Artikel> getAlleArtikel()
+    {
+        List<Artikel> artikel = new ArrayList<>();
+        SolrQuery solrQuery = new SolrQuery("*:*");
+        try
+        {
+            QueryResponse response = this.solrClient.query(solrQuery);
+            SolrDocumentList results = response.getResults();
+            for (SolrDocument solrDocument : results)
+            {
+                String date = ((ArrayList<String>) solrDocument.get("erstellungsdatum")).get(0);
+                Date erstellungsdatum = SolrServiceImpl.formatter.parse(date);
+                String autor = ((ArrayList<String>) solrDocument.get("autor")).get(0);
+                String titel = ((ArrayList<String>) solrDocument.get("titel")).get(0);
+                String beschreibung = ((ArrayList<String>) solrDocument.get("beschreibung")).get(0);
+                String link = ((ArrayList<String>) solrDocument.get("link")).get(0);
+                VolltextArtikel volltextArtikel = null;
+                artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link, volltextArtikel));
+            }
+        }
+        catch (SolrServerException | IOException | ParseException e)
+        {
+            e.printStackTrace();
+        }
+        return artikel;
+    }
 }

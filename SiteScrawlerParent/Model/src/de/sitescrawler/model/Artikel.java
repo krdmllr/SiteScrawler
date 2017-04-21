@@ -2,65 +2,131 @@ package de.sitescrawler.model;
 
 import java.util.Date;
 
-public class Artikel {
-	private Date erstellungsdatum;
-	private String autor;
-	private String titel;
-	private String beschreibung;
-	private String link;
-	
-	public Artikel() {
-	}
-	
-	public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link) {
-		this.erstellungsdatum = erstellungsdatum;
-		this.autor = autor;
-		this.titel = titel;
-		this.beschreibung = beschreibung;
-		this.link = link;
-	}
+public class Artikel
+{
+    private Date            erstellungsdatum;
+    private String          autor;
+    private String          titel;
+    private String          beschreibung;
+    private String          link;
+    private VolltextArtikel volltextArtikel;
 
+    public VolltextArtikel getVolltextArtikel()
+    {
+        return this.volltextArtikel;
+    }
 
+    public void setVolltextArtikel(VolltextArtikel volltextArtikel)
+    {
+        this.volltextArtikel = volltextArtikel;
+    }
 
-	public Date getErstellungsdatum() {
-		return erstellungsdatum;
-	}
+    public Artikel()
+    {
+    }
 
-	public void setErstellungsdatum(Date erstellungsdatum) {
-		this.erstellungsdatum = erstellungsdatum;
-	}
+    public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link, VolltextArtikel volltextArtikel)
+    {
+        this.erstellungsdatum = erstellungsdatum;
+        this.autor = autor;
+        this.titel = titel;
+        this.beschreibung = beschreibung;
+        this.link = link;
+        this.volltextArtikel = volltextArtikel;
+    }
 
-	public String getAutor() {
-		return autor;
-	}
+    public Date getErstellungsdatum()
+    {
+        return this.erstellungsdatum;
+    }
 
-	public void setAutor(String autor) {
-		this.autor = autor;
-	}
+    public void setErstellungsdatum(Date erstellungsdatum)
+    {
+        this.erstellungsdatum = erstellungsdatum;
+    }
 
-	public String getTitel() {
-		return titel;
-	}
+    public String getAutor()
+    {
+        return this.autor;
+    }
 
-	public void setTitel(String titel) {
-		this.titel = titel;
-	}
+    public void setAutor(String autor)
+    {
+        this.autor = autor;
+    }
 
-	public String getBeschreibung() {
-		return beschreibung;
-	}
+    public String getTitel()
+    {
+        return this.titel;
+    }
 
-	public void setBeschreibung(String beschreibung) {
-		this.beschreibung = beschreibung;
-	}
+    public void setTitel(String titel)
+    {
+        this.titel = titel;
+    }
 
-	public String getLink() {
-		return link;
-	}
+    public String getBeschreibung()
+    {
+        return this.beschreibung;
+    }
 
-	public void setLink(String link) {
-		this.link = link;
-	}
-	
-	
+    public void setBeschreibung(String beschreibung)
+    {
+        this.beschreibung = beschreibung;
+    }
+
+    public String getLink()
+    {
+        return this.link;
+    }
+
+    public void setLink(String link)
+    {
+        this.link = link;
+    }
+
+    // vergleicht auf autor und titel
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (this.getClass() != obj.getClass())
+        {
+            return false;
+        }
+        Artikel other = (Artikel) obj;
+        if (this.autor == null)
+        {
+            if (other.autor != null)
+            {
+                return false;
+            }
+        }
+        else
+            if (!this.autor.equals(other.autor))
+            {
+                return false;
+            }
+        if (this.titel == null)
+        {
+            if (other.titel != null)
+            {
+                return false;
+            }
+        }
+        else
+            if (!this.titel.equals(other.titel))
+            {
+                return false;
+            }
+        return true;
+    }
+
 }
