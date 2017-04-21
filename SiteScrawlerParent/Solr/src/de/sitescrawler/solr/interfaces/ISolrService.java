@@ -37,4 +37,6 @@ public interface ISolrService
      * Löscht alle Artikel (Warum?).
      */
     void clearSolr();
+    
+    List<Artikel> getAlleArtikel();
 }
