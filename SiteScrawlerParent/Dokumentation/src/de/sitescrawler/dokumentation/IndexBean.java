@@ -1,7 +1,12 @@
 package de.sitescrawler.dokumentation;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.resource.spi.ConfigProperty;
+
+import de.sitescrawler.model.ProjectConfig;
+
 import java.io.Serializable;
 
 @SessionScoped
@@ -13,13 +18,10 @@ public class IndexBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private ProjectConfig config = new ProjectConfig();
-
-	public IndexBean(){
-		config.loadConfig();
-	}
+	@Inject
+	private ProjectConfig config; 
 
 	public ProjectConfig getConfig() {
 		return config;
-	} 
+	}
 }

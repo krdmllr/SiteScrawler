@@ -9,7 +9,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.resource.spi.ConfigProperty;
 
 import de.sitescrawler.model.Archiveintrag;
 import de.sitescrawler.model.Artikel;
@@ -19,6 +21,7 @@ import de.sitescrawler.model.Filteprofil;
 import de.sitescrawler.model.Firma;
 import de.sitescrawler.model.FirmenFilterGruppe;
 import de.sitescrawler.model.Mitarbeiter;
+import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.utility.DateUtils;
 
 @SessionScoped
@@ -29,7 +32,8 @@ public class DataBean implements Serializable {
 	
 	private Benutzer nutzer;
 	
-	private ProjectConfig config = new ProjectConfig();
+	@Inject
+	private ProjectConfig config;
 	
 	private FilterGruppe filtergruppe; 
 	
@@ -106,18 +110,7 @@ public class DataBean implements Serializable {
 	}
 
 	@PostConstruct
-	void init() {
-		loadProperties();
-		
-	 
-		config.loadConfig();
-		 
-		System.out.println(config.getDomain());
-	}
-	
-	private void loadProperties(){
-		//String prop = System.getProperty("TestProp");
-		//System.out.println(prop);
+	void init() { 
 	}
 	
 	private void firmenDummyDaten(Firma firma){

@@ -7,10 +7,15 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.resource.spi.ConfigProperty;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+
+import de.sitescrawler.model.ProjectConfig;
+
 import java.io.Serializable;
 
 @SessionScoped
@@ -22,12 +27,13 @@ public class loginBean implements Serializable {
 	private String                   password;  
 	private String                   originalURL;
     private FacesContext context = FacesContext.getCurrentInstance();
-    private ProjectConfig config = new ProjectConfig();
+    
+    @Inject
+    private ProjectConfig config;
     
     @PostConstruct
     public void init()
-    {
-    	config.loadConfig();
+    { 
     	return;
     	
     	/**

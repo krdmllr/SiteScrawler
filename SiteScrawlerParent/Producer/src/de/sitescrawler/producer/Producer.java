@@ -15,5 +15,4 @@ public class Producer implements Serializable {
 	@Produces
 	@PersistenceContext
 	private EntityManager entityManager;
-
 }

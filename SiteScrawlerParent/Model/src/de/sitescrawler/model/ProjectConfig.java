@@ -1,12 +1,17 @@
-package de.sitescrawler.portal;
+package de.sitescrawler.model;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
-import java.util.Properties;import javax.servlet.ServletRequest;
+import java.util.Properties;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.servlet.ServletRequest;
+
+@ApplicationScoped
 public class ProjectConfig {
 
 	private String domain;
@@ -14,7 +19,7 @@ public class ProjectConfig {
 	String result = "";
 	InputStream inputStream;
  
-	public void loadConfig(){
+	public ProjectConfig(){
 		try {
 			Properties prop = new Properties();
 			String propFileName = "config.properties";
