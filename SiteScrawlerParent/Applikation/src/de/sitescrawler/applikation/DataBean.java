@@ -1,7 +1,5 @@
 package de.sitescrawler.applikation;
-
-import java.io.IOException;
-import java.io.InputStream;
+ 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,8 +8,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
-import javax.resource.spi.ConfigProperty;
+import javax.inject.Named; 
 
 import de.sitescrawler.model.Archiveintrag;
 import de.sitescrawler.model.Artikel;
