@@ -44,20 +44,29 @@ public class CrawlerLaufService implements ICrawlerLaufService
         }
     }
 
+    /**
+     * Ließt die Quellen aus der Datenbank aus und gibt Sie zurück.
+     *
+     * @return Quellen aus der Datenbank
+     */
     private List<Quelle> getQuellenAusDatenbank()
     {
         List<Quelle> quellen = new ArrayList<>();
         Quelle testQuelle = new Quelle();
         testQuelle.Url = "http://newsfeed.zeit.de/";
         testQuelle.Name = "Zeit";
+        testQuelle.TagOderId = "article-page";
         quellen.add(testQuelle);
 
         return quellen;
     }
 
+    /**
+     * Crawlt eine Quelle und übergibt Artikel an Solr.
+     */
     private void verarbeitung(Quelle quelle)
     {
-        System.out.println("CrawlRSS...");
+        System.out.println(quelle.Name + "...");
 
         try
         {
@@ -79,7 +88,7 @@ public class CrawlerLaufService implements ICrawlerLaufService
 
                 try
                 {
-                    absaetze = artikelZurechtschneiden.getAbsaetze(entry.getUri());
+                    absaetze = artikelZurechtschneiden.getAbsaetze(link, quelle.TagOderId);
                 }
                 catch (UnparsbarException e1)
                 {
@@ -88,8 +97,8 @@ public class CrawlerLaufService implements ICrawlerLaufService
                     System.out.println("Absätze nicht parsbar");
                 }
 
-                System.out.println(String.format("Added Titel: %s%n Autor: %s%n Link: %s%n Datum: %s%n Beschreibung:%s%n", title, author, link, publishedDate,
-                                description));
+                System.out.println(String.format("Added Titel: %s%n Autor: %s%n Link: %s%n Datum: %s%n Beschreibung:%s%n Absätze:%s%n", title, author, link,
+                                publishedDate, description, absaetze.toString()));
                 Artikel artikel = new Artikel(publishedDate, author, title, description, link, absaetze);
 
                 this.solrService.addArtikel(artikel);
@@ -101,11 +110,6 @@ public class CrawlerLaufService implements ICrawlerLaufService
         }
 
         System.out.println("Crawl ended.");
-
-        // List<Artikel> alleArtikel = this.solrService.getAlleArtikel();
-        // alleArtikel.forEach(e -> System.out.println(String.format("Titel: %s Autor: %s", e.getTitel(),
-        // e.getAutor())));
-        // System.out.println("Ende.");
     }
 
 }
