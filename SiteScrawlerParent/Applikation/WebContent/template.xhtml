@@ -4,98 +4,77 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-<h:head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	<link rel="icon" href="image/search.png" />
-	<title>SiteScrawler - Developer Dokumentation</title>
-
-	<h:outputStylesheet name="/css/bootstrap.min.css" />
-	<h:outputStylesheet name="/css/style.css" />
-
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-
-</h:head>
-<h:body>
-
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed"
-				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-				aria-controls="navbar">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="/">SiteScrawler</a>
-		</div>
-		
+	<ui:composition template="/common/master-template.xhtml">
+	<ui:define name="resources">
+		<h:outputStylesheet name="css/style.css" />
+	</ui:define>
+	<ui:define name="navbar">
 		<div id="navbar" class="navbar-collapse collapse">
 			<h:form id="gruppen-auswahl">
-			<ul class="nav navbar-nav">
-				
-				<li class="dropdown">
-          				<a href="/index.xhtml" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filtergruppe<span class="caret"></span></a>
-						<ul class="dropdown-menu"> 
-							<p:repeat value="#{data.filtergruppen}"
-								var="gruppe">
-								<li><p:commandLink  id="filter-gruppen-link" action="/index.xhtml?faces-redirect=true" value="#{gruppe.titel}" >
-										<f:actionListener for="filter-gruppen-link" binding="#{data.setFiltergruppe(gruppe)}" />
-									</p:commandLink>  
-								</li>
-							</p:repeat>
-						</ul>
-					 </li>
+				<ul class="nav navbar-nav">
 
-					<li class="dropdown">
-          				<a href="/meinefirmen.xhtml" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Firmen<span class="caret"></span></a>
+					<li class="dropdown"><a href="/index.xhtml"
+						class="dropdown-toggle" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">Filtergruppe<span
+							class="caret"></span></a>
 						<ul class="dropdown-menu">
-														<p:repeat value="#{data.firmen}" var="option">							
-								<li><p:commandLink id="firmen-link" action="/meinefirmen.xhtml?faces-redirect=true" value="#{option.name}">
-									<f:actionListener for="firmen-link" binding="#{firmen.setAusgewaehlteFirma(option)}" />
-								</p:commandLink> 
-								</li>
-							</p:repeat> 
-							<li>
-								 
-								<a href="#" onclick="$('.firmaErstellenModalPseudoClass').modal();return false;"><i class="fa fa-plus-circle"></i>Neue Firma</a>
-							 
-							</li> 
-						</ul>
-					</li>  
-			</ul> 
+							<p:repeat value="#{data.filtergruppen}" var="gruppe">
+								<li><p:commandLink id="filter-gruppen-link"
+										action="/index.xhtml?faces-redirect=true">
+										<f:actionListener for="filter-gruppen-link"
+											binding="#{data.setFiltergruppe(gruppe)}" />
+										<h4>#{gruppe.titel}</h4>
+										<h5>Quelle: #{gruppe.isFirma() ? gruppe.firma.name :
+											"Privat"}</h5>
+									</p:commandLink></li>
+								<li class="divider"></li>
+							</p:repeat>
+						</ul></li>
+
+					<li class="dropdown"><a href="/meinefirmen.xhtml"
+						class="dropdown-toggle" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false">Firmen<span
+							class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<p:repeat value="#{data.firmen}" var="option">
+								<li><p:commandLink id="firmen-link"
+										action="/meinefirmen.xhtml?faces-redirect=true">
+										<f:actionListener for="firmen-link"
+											binding="#{firmen.setAusgewaehlteFirma(option)}" />
+										<h4>#{option.name}</h4>
+									</p:commandLink></li>
+							</p:repeat>
+							<li><a href="#"
+								onclick="$('.firmaErstellenModalPseudoClass').modal();return false;">
+									<h4>
+										<i class="fa fa-plus-circle"></i> Neue Firma
+									</h4>
+							</a></li>
+						</ul></li>
+				</ul>
 			</h:form>
-			
+
 			<!-- Modal: Firma erstellen -->
-			<b:modal id="firma-erstellen-modal"
-				title="Firma erstellen"
+			<b:modal id="firma-erstellen-modal" title="Firma erstellen"
 				styleClass="firmaErstellenModalPseudoClass">
 				<h:form id="firmen-erstellung">
 					<p>Firmenname</p>
 					<div class="form-group">
-						<h:inputText  placeholder="Firmenname" class="form-control" />
+						<h:inputText placeholder="Firmenname" class="form-control" />
 					</div>
-					
+
 					<p>Kontaktemail</p>
-					<p>Unter dieser E-Mail werden wir uns bezüglich der Verifizierung der Firma melden.</p>
+					<p>Unter dieser E-Mail werden wir uns bezüglich der
+						Verifizierung der Firma melden.</p>
 					<div class="form-group">
-						<h:inputText  placeholder="Firmenname" class="form-control" />
-					</div> 
-					
+						<h:inputText placeholder="Firmenname" class="form-control" />
+					</div>
+
 					<p>Kommentar</p>
 					<div class="form-group">
-						<h:inputText  placeholder="E-Mail Adresse" class="form-control" />
+						<h:inputText placeholder="E-Mail Adresse" class="form-control" />
 					</div>
-					
+
 				</h:form>
 				<f:facet name="footer">
 					<h:form>
@@ -106,61 +85,24 @@
 				</f:facet>
 			</b:modal>
 			<!-- .Modal: Firma erstellen -->
-			
+
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown "><a href="#" class="dropdown-toggle"
 					id="profileNavbar" style="" data-toggle="dropdown">#{data.nutzer.ganzerName}
 						<h:graphicImage value="/resources/image/user.svg"
-							id="navbarProfilePicture" />
+							id="navbar-profil-bild" />
 				</a>
 
 					<ul class="dropdown-menu">
-						<li><a href="#"><i class="fa fa-cog"></i> Account</a></li>
+						<li><a class="link-item" href="#"><i class="fa fa-cog"></i>
+								Account</a></li>
 						<li class="divider"></li>
-						<li><a href="http://#{data.config.domain}"><i class="fa fa-sign-out"></i> Sign-out</a></li>
+						<li><a class="link-item" href="http://#{data.config.domain}"><i
+								class="fa fa-sign-out"></i> Sign-out</a></li>
 					</ul></li>
 			</ul>
 
-		</div> 
-	</div>
-	</nav>
-	 
-	<ui:insert name="header" />
-	<div id="content">
-		<ui:insert name="content" />
-
-		<hr class="featurette-divider" />
-		<footer id="footer">
-		<div class="container">
-			<p class="pull-right">
-				<a href="#">Nach oben</a>
-			</p>
-			<p>
-				2017 <a href="http://#{login.config.domain}/impressum.xhtml">Impressum</a>
-				<div>
-					Icons made by <a
-						href="http://www.flaticon.com/authors/madebyoliver"
-						title="Madebyoliver">Madebyoliver </a> , <a
-						href="http://www.flaticon.com/authors/vectors-market"
-						title="Vectors Market">Vectors Market </a> , <a
-						href="http://www.freepik.com" title="Freepik">Freepik </a> from <a
-						href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>
-					is licensed by <a
-						href="http://creativecommons.org/licenses/by/3.0/"
-						title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
-				</div>
-			</p>
-			<ui:insert name="footer" />
 		</div>
-		</footer>
-	</div>
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-‌​
-      <script
-		src="https://momentjs.com/downloads/moment.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>‌​
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-	<h:outputScript library="js" name="bootstrap.min.js"></h:outputScript>
-</h:body>
+	</ui:define>
+</ui:composition>
 </html>

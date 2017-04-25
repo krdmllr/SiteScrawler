@@ -3,16 +3,10 @@
  	  xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html" >
-<h:head>
-    <!-- Custom styles for this template -->
-    
-</h:head>
-<h:body>
+      xmlns:h="http://java.sun.com/jsf/html" > 
  	<ui:composition template="/template.xhtml">
- 	
-	    <ui:define name="header"> 
-		</ui:define>
+ 	  
+	    
 		<ui:define name="content">
 		
 	         <div class="intro-header">
@@ -64,14 +58,14 @@
 
              <div class="container">
 	            <div class="row">
-	                <div class="col col-lg-9">
+	                <div class="col-sm-9">
 	                     
 	                    <h2 class="section-heading">Übergreifende Suche</h2>
 	                    <p class="lead"> 
 	                    	SiteScrawler durchsucht für Sie das gesamte World Wide Web nach Ihren Schlagwörtern. Egal ob nationale oder lokale Eingrenzung, Wir finden alle relevanten Artikel für Sie!
 	                    </p>
 	                </div>
-	                <div class="col col-md-auto">
+	                <div class="col-sm-3">
 	                <h:graphicImage value="/resources/image/internet.svg" class="infoPicture" /> 
 	                </div>
 	            </div>
@@ -82,10 +76,10 @@
 
              <div class="container">
 	            <div class="row"> 
-	                <div class="col col-lg-3">
+	                <div class="col-sm-3">
 	                <h:graphicImage value="/resources/image/clock.svg" class="infoPicture" /> 
 	                </div>
-	                <div class="col col-lg-9">
+	                <div class="col-sm-9">
 	                     
 	                    <h2 class="section-heading">Immer auf dem neusten Stand</h2>
 	                    <p class="lead"> 
@@ -101,14 +95,14 @@
 
              <div class="container">
 	            <div class="row">
-	                <div class="col col-lg-9">
+	                <div class="col-sm-9">
 	                     
 	                    <h2 class="section-heading">Direkt ins Postfach</h2>
 	                    <p class="lead"> 
 	                    	Auf Wunsch wird Ihnen der erstellte Pressespiegel nicht nur online zur Verfügung gestellt, sondern auch per E-Mail zugeschickt. 
 	                    </p>
 	                </div>
-	                <div class="col col-md-auto">
+	                <div class="col-sm-3">
 	                <h:graphicImage value="/resources/image/email.svg" class="infoPicture" /> 
 	                </div>
 	            </div>
@@ -116,9 +110,7 @@
 	        </div>  
     </div>
 	    </ui:define>
-	    <ui:define name="footer">
-	    	
-	    </ui:define>
-	    </ui:composition>
-</h:body>
+	    
+	    	   
+	    </ui:composition> 
 </html>

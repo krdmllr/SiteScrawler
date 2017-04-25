@@ -1,206 +1,266 @@
 <!DOCTYPE html>
-<html
- 	  xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html" >
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:b="http://bootsfaces.net/ui">
 <h:head>
-    <!-- Custom styles for this template -->
-    
+	<!-- Custom styles for this template -->
+
 
 </h:head>
 <h:body>
- 	<ui:composition template="/template.xhtml">
-	    <ui:define name="header">
-	        <!-- Carousel
+	<ui:composition template="/template.xhtml">
+		<ui:define name="header">
+			<!-- Carousel
 	        ================================================== -->
-	        <div id="myCarousel" class="carousel slide" data-ride="carousel" style=" margin-bottom: 50px"
-	         >
-	            <!-- Indicators -->
-	            <ol class="carousel-indicators">
-	                <li data-target="#myCarousel" data-slide-to="0"></li>
-	                <li data-target="#myCarousel" data-slide-to="1"></li> 
-	                <li data-target="#myCarousel" data-slide-to="2"></li> 
-	                <li data-target="#myCarousel" data-slide-to="3"></li> 
-	                <li data-target="#myCarousel" data-slide-to="4" class="active"></li> 
-	            </ol>
-	            <div class="carousel-inner" role="listbox">
-	                <div class="item">
-	                    <h:graphicImage style=" min-width: 100%;
-    					height: 600px;object-fit: cover;" class="first-slide" value="/resources/image/Zeitungen.jpg" alt="First slide" />
-	                    <div class="container">
-	                        <div class="carousel-caption">
-	                            <h1>Abgabe 19.03.2017</h1>
-	                            <p>Aufgabenblatt 1</p>
-	                            <p><a class="btn btn-lg btn-primary" href="savespace/documents.xhtml#collapse" role="button">Zur Abgabe</a></p>
-	                        </div>
-	                    </div>
-	                </div>
-	                <div class="item">
-	                  <h:graphicImage style=" min-width: 100%; height: 600px;object-fit: cover;" class="second-slide" value="/resources/image/Zeitungen.jpg" alt="First slide" />
-	                  <div class="container">
-	                    <div class="carousel-caption">
-	                      <h1>Abgabe 26.03.2017</h1>
-	                      <p>Aufgabenblatt 2</p>
-	                      <p><a class="btn btn-lg btn-primary" href="savespace/documents.xhtml" role="button">Zur Abgabe</a></p>
-	                    </div>
-	                  </div>
-	                </div>
-	                
-	                <div class="item">
-	                  <h:graphicImage style=" min-width: 100%; height: 600px;object-fit: cover;" class="third-slide" value="/resources/image/Zeitungen.jpg" alt="First slide" />
-	                  <div class="container">
-	                    <div class="carousel-caption">
-	                      <h1>Abgabe 02.04.2017</h1>
-	                      <p>Aufgabenblatt 3</p>
-	                      <p><a class="btn btn-lg btn-primary" href="savespace/documents.xhtml" role="button">Zur Abgabe</a></p>
-	                    </div>
-	                  </div>
-	                </div>
-	                
-	                <div class="item">
-	                  <h:graphicImage style=" min-width: 100%; height: 600px;object-fit: cover;" class="forth-slide" value="/resources/image/Zeitungen.jpg" alt="First slide" />
-	                  <div class="container">
-	                    <div class="carousel-caption">
-	                      <h1>Abgabe 09.04.2017</h1>
-	                      <p>Aufgabenblatt 4</p>
-	                      <p><a class="btn btn-lg btn-primary" href="savespace/documents.xhtml" role="button">Zur Abgabe</a></p>
-	                    </div>
-	                  </div>
-	                </div>
-	                
-	                <div class="item  active">
-	                  <h:graphicImage style=" min-width: 100%; height: 600px;object-fit: cover;" class="forth-slide" value="/resources/image/Zeitungen.jpg" alt="First slide" />
-	                  <div class="container">
-	                    <div class="carousel-caption">
-	                      <h1>Abgabe 17.04.2017</h1>
-	                      <p>Aufgabenblatt 5</p>
-	                      <p><a class="btn btn-lg btn-primary" href="savespace/documents.xhtml" role="button">Zur Abgabe</a></p>
-	                    </div>
-	                  </div>
-	                </div>
-	            </div>
-	            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-	                <span class="sr-only">Previous</span>
-	            </a>
-	            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-	                <span class="sr-only">Next</span>
-	            </a>
-	        </div><!-- /.carousel -->
-	
+			<div id="myCarousel" class="carousel slide" data-ride="carousel"
+				style="margin-bottom: 50px">
+				<!-- Indicators -->
+				<ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					<li data-target="#myCarousel" data-slide-to="2"></li>
+					<li data-target="#myCarousel" data-slide-to="3"></li>
+					<li data-target="#myCarousel" data-slide-to="4" class="active"></li>
+				</ol>
+				<div class="carousel-inner" role="listbox">
+					<div class="item">
+						<h:graphicImage
+							style=" min-width: 100%;
+    					height: 600px;object-fit: cover;"
+							class="first-slide" value="/resources/image/Zeitungen.jpg"
+							alt="First slide" />
+						<div class="container">
+							<div class="carousel-caption">
+								<h1>Abgabe 19.03.2017</h1>
+								<p>Aufgabenblatt 1</p>
+								<p>
+									<a class="btn btn-lg btn-primary"
+										href="savespace/documents.xhtml#collapse" role="button">Zur
+										Abgabe</a>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<h:graphicImage
+							style=" min-width: 100%; height: 600px;object-fit: cover;"
+							class="second-slide" value="/resources/image/Zeitungen.jpg"
+							alt="First slide" />
+						<div class="container">
+							<div class="carousel-caption">
+								<h1>Abgabe 26.03.2017</h1>
+								<p>Aufgabenblatt 2</p>
+								<p>
+									<a class="btn btn-lg btn-primary"
+										href="savespace/documents.xhtml" role="button">Zur Abgabe</a>
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="item">
+						<h:graphicImage
+							style=" min-width: 100%; height: 600px;object-fit: cover;"
+							class="third-slide" value="/resources/image/Zeitungen.jpg"
+							alt="First slide" />
+						<div class="container">
+							<div class="carousel-caption">
+								<h1>Abgabe 02.04.2017</h1>
+								<p>Aufgabenblatt 3</p>
+								<p>
+									<a class="btn btn-lg btn-primary"
+										href="savespace/documents.xhtml" role="button">Zur Abgabe</a>
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="item">
+						<h:graphicImage
+							style=" min-width: 100%; height: 600px;object-fit: cover;"
+							class="forth-slide" value="/resources/image/Zeitungen.jpg"
+							alt="First slide" />
+						<div class="container">
+							<div class="carousel-caption">
+								<h1>Abgabe 09.04.2017</h1>
+								<p>Aufgabenblatt 4</p>
+								<p>
+									<a class="btn btn-lg btn-primary"
+										href="savespace/documents.xhtml" role="button">Zur Abgabe</a>
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="item  active">
+						<h:graphicImage
+							style=" min-width: 100%; height: 600px;object-fit: cover;"
+							class="forth-slide" value="/resources/image/Zeitungen.jpg"
+							alt="First slide" />
+						<div class="container">
+							<div class="carousel-caption">
+								<h1>Abgabe 17.04.2017</h1>
+								<p>Aufgabenblatt 5</p>
+								<p>
+									<a class="btn btn-lg btn-primary"
+										href="savespace/documents.xhtml" role="button">Zur Abgabe</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<a class="left carousel-control" href="#myCarousel" role="button"
+					data-slide="prev"> <span class="sr-only">Previous</span>
+				</a> <a class="right carousel-control" href="#myCarousel" role="button"
+					data-slide="next"> <span class="sr-only">Next</span>
+				</a>
+			</div>
+			<!-- /.carousel -->
+
 		</ui:define>
-	        
-	     
+
+
 		<ui:define name="content">
-	        
-	            <!-- Three columns of text below the carousel -->
-	            <div class="row">
-	                <div class="col-lg-4">
-	                    <h:graphicImage class="img-circle" value="/resources/image/internet.svg" alt="Generic placeholder image" width="140" height="140"/>
-	                    <h2>Umfassende Suche</h2>
-	                    <p>SiteScrawler durchsucht für Sie das gesamte World Wide Web nach Ihren Schlagwörtern. Wir finden alle relevanten Artikel für Sie!</p>
-	                </div><!-- /.col-lg-4 -->
-	                <div class="col-lg-4">
-	                    <h:graphicImage class="img-circle" value="/resources/image/email.svg" alt="Generic placeholder image" width="140" height="140"/>
-	                    <h2>Benachrichtigungen</h2>
-	                    <p>SiteScrawler benachrichtigt Sie wahlweise per Mail über aktuelle Nachrichten, die wir für Sie gefunden haben.</p>
-	                </div><!-- /.col-lg-4 -->
-	                <div class="col-lg-4">
-	                    <h:graphicImage class="img-circle" value="/resources/image/clock.svg" alt="Generic placeholder image" width="140" height="140"/>
-	                    <h2>Neuster Stand</h2>
-	                    <p>SiteScrawler sucht in regelmäßigen Abständen nach neuen Artikeln, die Ihren Anforderungen entsprechen, um immer aktuelle Ergebnisse zu liefern.</p>
-	                </div><!-- /.col-lg-4 -->
-	            </div><!-- /.row -->
-	
-	
-	            <!-- START THE FEATURETTES -->
-	
-	            <hr class="featurette-divider"/>
-	
-	            <div class="row featurette">
-	                <div class="col-md-7">
-	                    <h2 class="featurette-heading">Das Projekt</h2>
-	                    <p class="lead">Im Rahmen der Vorlesung "Software-Engineering" wurde die Webanwendung SiteScrawler entwickelt. Diese sammelt, je nach Präferenzen des Nutzers, relevante Nachrichten aus ausgewählten Quellen.</p>
-	                </div>
-	                <div class="col-md-5">
-	                    <h:graphicImage class="img-rounded" value="/resources/image/whiteboard.svg" alt="Generic placeholder image" width="400" height="300"/>
-	                </div>
-	            </div>
-	
-	            <hr class="featurette-divider"/>
-	
-	            <div class="row featurette">
-	                <div class="col-md-7 col-md-push-5">
-	                    <h2 class="featurette-heading">Die Gruppe</h2>
-	                    <p class="lead">Das Team der Webanwendung SiteScrawler besteht aus sechs Studierenden aus dem Fach Angewandte Informatik an der Dualen Hochschule Baden-Württemberg Campus Horb.</p>
-	                    <table class="table table-bordered">
-	                        <tr>
-	                            <th>Vorname</th>
-	                            <th>Nachname</th>
-	                            <th>Hauptrolle</th>
-	                            <th>Nebenrolle</th>
-	                        </tr>
-	                        <tbody>
-	                        <tr>
-	                            <td>Robin</td>
-	                            <td>Schmidt</td>
-	                            <td>Projektleiter</td>
-	                            <td></td>
-	                        </tr>
-	                        <tr>
-	                            <td>William</td>
-	                            <td>Riyadi</td>
-	                            <td>Verantwortlicher für Modellierung </td>
-	                            <td></td>
-	                        </tr>
-	                        <tr>
-	                            <td>Marcel</td>
-	                            <td>Vollmer</td>
-	                            <td>Verantwortlicher für Implementierung</td>
-	                            <td></td>
-	                        </tr>
-	                        <tr>
-	                            <td>Tobias</td>
-	                            <td>Berner</td>
-	                            <td>Verantwortlicher für Recherche</td>
-	                            <td></td>
-	                        </tr>
-	                        <tr>
-	                            <td>Yvette</td>
-	                            <td>Labastille</td>
-	                            <td>Verantwortliche für Tests</td>
-	                            <td></td>
-	                        </tr>
-	                        <tr>
-	                            <td>Konrad</td>
-	                            <td>Müller</td>
-	                            <td>Verantwortlicher für Qualitätssicherung und Dokumentation</td>
-	                            <td>Technischer Assistent</td>
-	                        </tr>
-	                        </tbody>
-	                    </table>
-	                </div>
-	                <div class="col-md-5 col-md-pull-7">
-	                    <h:graphicImage class="img-rounded" value="/resources/image/teamwork.svg" alt="Generic placeholder image" width="400" height="300"/>
-	                </div>
-	            </div>
-	
-	            <hr class="featurette-divider"/>
-	
-	            <div class="row featurette">
-	                <div class="col-md-7">
-	                    <h2 class="featurette-heading">Die Dokumente</h2>
-	                    <p class="lead">Hier finden Sie die Dokumente, die im Laufe des Projekts entstanden sind.</p>
-	                    <p><a class="btn btn-default" href="savespace/documents.xhtml" role="button">Zu den Dokumenten (geschützter Bereich)</a></p>
-	                </div>
-	                <div class="col-md-5">
-	                    <h:graphicImage class="img-rounded" value="/resources/image/DokumenteIcon.png" alt="Generic placeholder image" width="300" height="300"/>
-	                </div>
-	            </div> 
-	    </ui:define>
-	    <ui:define name="footer">
-	    	<div>Icons made by <a href="http://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver  </a> , <a href="http://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market  </a> , <a href="http://www.freepik.com" title="Freepik">Freepik </a>  from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-	    </ui:define>
+
+			<!-- Three columns of text below the carousel -->
+			<div class="row">
+				<div class="col-sm-4">
+					<h:graphicImage class="img-circle"
+						value="/resources/image/internet.svg"
+						alt="Generic placeholder image" width="140" height="140" />
+					<h2>Umfassende Suche</h2>
+					<p>SiteScrawler durchsucht für Sie das gesamte World Wide Web
+						nach Ihren Schlagwörtern. Wir finden alle relevanten Artikel für
+						Sie!</p>
+				</div>
+				<!-- /.col-lg-4 -->
+				<div class="col-sm-4">
+					<h:graphicImage class="img-circle"
+						value="/resources/image/email.svg" alt="Generic placeholder image"
+						width="140" height="140" />
+					<h2>Benachrichtigungen</h2>
+					<p>SiteScrawler benachrichtigt Sie wahlweise per Mail über
+						aktuelle Nachrichten, die wir für Sie gefunden haben.</p>
+				</div>
+				<!-- /.col-lg-4 -->
+				<div class="col-sm-4">
+					<h:graphicImage class="img-circle"
+						value="/resources/image/clock.svg" alt="Generic placeholder image"
+						width="140" height="140" />
+					<h2>Neuster Stand</h2>
+					<p>SiteScrawler sucht in regelmäßigen Abständen nach neuen
+						Artikeln, die Ihren Anforderungen entsprechen, um immer aktuelle
+						Ergebnisse zu liefern.</p>
+				</div>
+				<!-- /.col-lg-4 -->
+			</div>
+			<!-- /.row -->
+
+
+			<!-- START THE FEATURETTES -->
+
+			<hr class="featurette-divider" />
+
+			<div class="row featurette">
+				<div class="col-md-7">
+					<h2 class="featurette-heading">Das Projekt</h2>
+					<p class="lead">Im Rahmen der Vorlesung "Software-Engineering"
+						wurde die Webanwendung SiteScrawler entwickelt. Diese sammelt, je
+						nach Präferenzen des Nutzers, relevante Nachrichten aus
+						ausgewählten Quellen.</p>
+				</div>
+				<div class="col-md-5">
+					<h:graphicImage class="img-rounded"
+						value="/resources/image/whiteboard.svg"
+						alt="Generic placeholder image" width="400" height="300" />
+				</div>
+			</div>
+
+			<hr class="featurette-divider" />
+
+			<div class="row featurette">
+				<div class="col-md-7 col-md-push-5">
+					<h2 class="featurette-heading">Die Gruppe</h2>
+					<p class="lead">Das Team der Webanwendung SiteScrawler besteht
+						aus sechs Studierenden aus dem Fach Angewandte Informatik an der
+						Dualen Hochschule Baden-Württemberg Campus Horb.</p>
+					<table class="table table-bordered">
+						<tr>
+							<th>Vorname</th>
+							<th>Nachname</th>
+							<th>Hauptrolle</th>
+							<th>Nebenrolle</th>
+						</tr>
+						<tbody>
+							<tr>
+								<td>Robin</td>
+								<td>Schmidt</td>
+								<td>Projektleiter</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>William</td>
+								<td>Riyadi</td>
+								<td>Verantwortlicher für Modellierung</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Marcel</td>
+								<td>Vollmer</td>
+								<td>Verantwortlicher für Implementierung</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Tobias</td>
+								<td>Berner</td>
+								<td>Verantwortlicher für Recherche</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Yvette</td>
+								<td>Labastille</td>
+								<td>Verantwortliche für Tests</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Konrad</td>
+								<td>Müller</td>
+								<td>Verantwortlicher für Qualitätssicherung und
+									Dokumentation</td>
+								<td>Technischer Assistent</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-5 col-md-pull-7">
+					<h:graphicImage class="img-rounded"
+						value="/resources/image/teamwork.svg"
+						alt="Generic placeholder image" width="400" height="300" />
+				</div>
+			</div>
+
+			<hr class="featurette-divider" />
+
+			<div class="row featurette">
+				<div class="col-md-7">
+					<h2 class="featurette-heading">Die Dokumente</h2>
+					<p class="lead">Hier finden Sie die Dokumente, die im Laufe des
+						Projekts entstanden sind.</p>
+					<p>
+						<a class="btn btn-default" href="savespace/documents.xhtml"
+							role="button">Zu den Dokumenten (geschützter Bereich)</a>
+					</p>
+				</div>
+				<div class="col-md-5">
+					<h:graphicImage class="img-rounded"
+						value="/resources/image/DokumenteIcon.png"
+						alt="Generic placeholder image" width="300" height="300" />
+				</div>
+			</div>
+		</ui:define> s
 	    </ui:composition>
 </h:body>
 </html>
