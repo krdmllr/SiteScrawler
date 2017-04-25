@@ -16,6 +16,12 @@
   <packaging>ear</packaging>
   <description>Ear Projekt für SiteScrawler</description>
   <dependencies>
+   	<dependency>
+  		<groupId>CommonWeb</groupId>
+  		<artifactId>CommonWeb</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  		<type>jar</type>
+ 	</dependency>
   	<dependency>
   		<groupId>de.sitescrawler.applikation</groupId>
   		<artifactId>Applikation</artifactId>
@@ -73,11 +79,6 @@
   	<dependency>
   		<groupId>de.sitescrawler.firmenverwaltung</groupId>
   		<artifactId>Firmenverwaltung</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>CommonWeb</groupId>
-  		<artifactId>CommonWeb</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   </dependencies>

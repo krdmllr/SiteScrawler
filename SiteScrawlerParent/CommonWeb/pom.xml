@@ -8,6 +8,7 @@
   <groupId>CommonWeb</groupId>
   <artifactId>CommonWeb</artifactId> 
   <build>
+  	<finalName>CommonWeb</finalName>
     <sourceDirectory>src</sourceDirectory> 
     <plugins>
       <plugin>
