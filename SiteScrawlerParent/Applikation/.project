@@ -3,6 +3,7 @@
 	<name>Applikation</name>
 	<comment></comment>
 	<projects>
+		<project>CommonWeb</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

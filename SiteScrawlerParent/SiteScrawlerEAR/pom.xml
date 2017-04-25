@@ -20,7 +20,6 @@
   		<groupId>CommonWeb</groupId>
   		<artifactId>CommonWeb</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
-  		<type>jar</type>
  	</dependency>
   	<dependency>
   		<groupId>de.sitescrawler.applikation</groupId>
@@ -90,7 +89,7 @@
 	  		<version>2.10.1</version>
 	  		<configuration>
 	  			<version>7</version>
-	           <modules>
+	           <modules> 
 	             <webModule>
 	               <groupId>de.sitescrawler.applikation</groupId>
 	               <artifactId>Applikation</artifactId>

@@ -7,8 +7,8 @@
   </parent>
   <groupId>CommonWeb</groupId>
   <artifactId>CommonWeb</artifactId> 
+  <packaging>jar</packaging>
   <build>
-  	<finalName>CommonWeb</finalName>
     <sourceDirectory>src</sourceDirectory> 
     <plugins>
       <plugin>
