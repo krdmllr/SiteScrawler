@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
@@ -14,42 +16,52 @@ import com.rometools.rome.io.XmlReader;
 
 import de.sitescrawler.crawler.interfaces.ICrawlerLaufService;
 import de.sitescrawler.model.Artikel;
+import de.sitescrawler.model.Quelle;
 import de.sitescrawler.services.artikelausschneiden.ArtikelZurechtschneiden;
 import de.sitescrawler.services.artikelausschneiden.UnparsbarException;
 import de.sitescrawler.solr.SolrServiceImpl;
+import de.sitescrawler.solr.interfaces.ISolrService;
 
-public class Main
+public class CrawlerLaufService implements ICrawlerLaufService
 {
+    @Inject
+    private ISolrService solrService;
 
-    public static void main(String[] args)
+    public CrawlerLaufService()
     {
-
-        // try
-        // {
-        // List<String> absätze = new ArtikelZurechtschneiden()
-        // .getAbsaetze("http://www.zeit.de/mobilitaet/2017-04/streetscooter-deutsche-post-elektromobilitaet");
-        // System.out.println(absätze.toString());
-        // }
-        // catch (UnparsbarException e)
-        // {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // Main.verarbeitung();
-
-        ICrawlerLaufService crawler = new CrawlerLaufService();
-        crawler.crawl();
+        if (this.solrService == null)
+        {
+            this.solrService = new SolrServiceImpl();
+        }
     }
 
-    public static void verarbeitung()
+    @Override
+    public void crawl()
+    {
+        for (Quelle q : this.getQuellenAusDatenbank())
+        {
+            this.verarbeitung(q);
+        }
+    }
+
+    private List<Quelle> getQuellenAusDatenbank()
+    {
+        List<Quelle> quellen = new ArrayList<>();
+        Quelle testQuelle = new Quelle();
+        testQuelle.Url = "http://newsfeed.zeit.de/";
+        testQuelle.Name = "Zeit";
+        quellen.add(testQuelle);
+
+        return quellen;
+    }
+
+    private void verarbeitung(Quelle quelle)
     {
         System.out.println("CrawlRSS...");
-        String url = "http://newsfeed.zeit.de/";
-        SolrServiceImpl solr = new SolrServiceImpl();
-        // solr.clearSolr();
+
         try
         {
-            SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(url)));
+            SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(quelle.Url)));
             List<SyndEntry> entries = feed.getEntries();
             for (SyndEntry entry : entries)
             {
@@ -80,7 +92,7 @@ public class Main
                                 description));
                 Artikel artikel = new Artikel(publishedDate, author, title, description, link, absaetze);
 
-                // solr.addArtikel(artikel);
+                this.solrService.addArtikel(artikel);
             }
         }
         catch (IllegalArgumentException | FeedException | IOException e)
@@ -90,8 +102,10 @@ public class Main
 
         System.out.println("Crawl ended.");
 
-        List<Artikel> alleArtikel = solr.getAlleArtikel();
-        alleArtikel.forEach(e -> System.out.println(String.format("Titel: %s Autor: %s", e.getTitel(), e.getAutor())));
-        System.out.println("Ende.");
+        // List<Artikel> alleArtikel = this.solrService.getAlleArtikel();
+        // alleArtikel.forEach(e -> System.out.println(String.format("Titel: %s Autor: %s", e.getTitel(),
+        // e.getAutor())));
+        // System.out.println("Ende.");
     }
+
 }
