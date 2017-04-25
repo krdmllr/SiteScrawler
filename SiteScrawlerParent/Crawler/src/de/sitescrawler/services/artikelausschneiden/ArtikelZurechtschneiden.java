@@ -15,7 +15,7 @@ import org.jsoup.select.Elements;
 public class ArtikelZurechtschneiden
 {
 
-    public List<String> getVolltextartikel(String url) throws UnparsbarException
+    public List<String> getAbsaetze(String url) throws UnparsbarException
     {
 
         List<String> absaetze = new ArrayList<>();
