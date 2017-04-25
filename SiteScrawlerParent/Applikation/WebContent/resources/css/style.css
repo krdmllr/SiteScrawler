@@ -1,5 +1,13 @@
-#navbarProfilePicture {
-	height: 40px;
+/* Content */
+
+
+
+/* !Content */
+
+/* Navbar */
+
+#navbar-profil-bild {
+	height: 40px !important;
 	width: 40px; 
     position: relative;
 }  
@@ -7,15 +15,43 @@
 #profileNavbar{
 	padding-bottom: 5px;
 	padding-top: 5px; 
+} 
+
+body .navbar-inverse .navbar-nav > li > a{
+	color: #ddd;
 }
 
-#footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background-color: gray; 
-}   
+.nav-item{
+	background-color: #222 !important;
+	border: 0px !important;
+	color: #9d9d9d !important;
+}
+
+.nav .btn:hover { 
+	color: white !important;
+}
+
+.brand-image{
+	height: 30px; 
+    margin-top: -5px;
+    display: inline-block;
+}
+
+.divider{
+	margin: 0 !important;
+}
+
+.link-item{
+	padding-top: 8px !important;
+	padding-bottom: 8px !important;
+}
+
+ul.dropdown-menu{
+	padding: 0 !important;
+}
+
+/* !Navbar */
+ 
 
 #div1 {
     width: 350px;
@@ -30,6 +66,9 @@
 	padding-top: 50px; 
 	height: 100%;
 } 
+
+
+ 
   
 body .panel{
 	margin: 10px; 
@@ -41,9 +80,7 @@ body .column{
 	padding: 0px;
 	height: 100%;
 	overflow: hidden;
-    position: relative;   
-    bottom: 60px;
-    padding-top: 60px;
+    position: relative;
 }
 
 body .list-group{
@@ -68,6 +105,11 @@ div.panel-heading .schrift{
 div.panel-heading .bild{
 	width: 50px; 
 	margin-top: 15px;
+	fill: white;
+} 
+
+div.panel-heading .bild path{
+	fill: white;
 } 
 
 body.modal-open .modal-backdrop{
@@ -88,16 +130,6 @@ body .ui-widget-content{
 	padding: 2px;
 	border: 1px solid #ddd;
 	border-radius: 3px;
-}
-
-.nav-item{
-	background-color: #222 !important;
-	border: 0px !important;
-	color: #9d9d9d !important;
-}
-
-.nav .btn:hover { 
-	color: white !important;
 }
 
 .btn-group > .btn + .dropdown-toggle{
@@ -147,7 +179,7 @@ body .ui-widget-content{
 }
 
 .filterprofile{
-	height: Calc(100% - 80px);
+	height: Calc(100% - 87px);
 }
 
 .filtergruppe-profile{
@@ -164,11 +196,7 @@ body .ui-widget-content{
 
 .artikel-titel-container{
 	overflow: hidden;
-}
-
-.panel-body{
-	
-}
+} 
  
 .filter-gruppe-profil-entfernen{
 	width: 50px; 
@@ -191,4 +219,4 @@ body .ui-widget-content{
 	padding: 0px !important;
 }
 
- 
+<!-- !Firmen styles --> 
