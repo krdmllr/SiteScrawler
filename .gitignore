@@ -1,7 +1,6 @@
 .metadata
 
-RemoteSystems
-TempFiles
+RemoteSystemsTempFiles
 server
 
 documentation/WebContent/savespace/documents/*
