@@ -1,59 +1,70 @@
 package de.sitescrawler.services.artikelausschneiden;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import de.sitescrawler.model.VolltextArtikel; 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class ArtikelZurechtschneiden
 {
 
-    private ZeitArtikelZurechtschneiden          zeitArtikelZurechtschneiden;
-    private SpiegelOnlineArtikelZurechtschneiden spiegelOnlineArtikelZurechtschneiden;
-
-    private static ArtikelZurechtschneiden       artikelZurechtschneiden;
-
-    private ArtikelZurechtschneiden()
+    public List<String> getVolltextartikel(String url) throws UnparsbarException
     {
-        this.zeitArtikelZurechtschneiden = new ZeitArtikelZurechtschneiden();
-        this.spiegelOnlineArtikelZurechtschneiden = new SpiegelOnlineArtikelZurechtschneiden();
-    }
 
-    public static ArtikelZurechtschneiden getInstance()
-    {
-        if (ArtikelZurechtschneiden.artikelZurechtschneiden == null)
+        List<String> absaetze = new ArrayList<>();
+        try
         {
-            ArtikelZurechtschneiden.artikelZurechtschneiden = new ArtikelZurechtschneiden();
-        }
-        return ArtikelZurechtschneiden.artikelZurechtschneiden;
-    }
-
-    /**
-     * Gibt den ausgeschnittenen Artikel eines bestimmten Presseanbieters als VolltextArtikel zurück.
-     *
-     * @param url
-     *            - Url des Artikels
-     * @param presseanbieter
-     *            - Presseanbieter des Artikels
-     * @return VolltextArtikel des Artikels hinter der url
-     * @throws IOException
-     *             - bei I/O Fehlern
-     * @throws UnparsbarException
-     *             - Wenn ein Arikel aus bestimmten Gründen nicht parsbar ist
-     */
-    public VolltextArtikel getVolltextArtikel(String url, Presseanbieter presseanbieter) throws IOException, UnparsbarException
-    {
-        switch (presseanbieter)
-        {
-            case ZeitOnline:
-                return this.zeitArtikelZurechtschneiden.getZeitArtikel(url);
-            case SpiegelOnline:
-                return this.spiegelOnlineArtikelZurechtschneiden.getSpiegelOnlineArtikel(url);
-
-            default:
+            Document doc = Jsoup.connect(url).get();
+            Map<Element, Integer> kindAnzahlP = new HashMap<>();
+            // Alle P-Tags des Dokuments lesen
+            Elements allePTags = doc.select("p");
+            // Seite hat unerwarteter Weise keine P-Tags
+            if (allePTags.size() == 0)
+            {
                 throw new UnparsbarException();
+            }
+            for (Element ptag : allePTags)
+            {
+                Element elter = ptag.parent();
+                if (kindAnzahlP.containsKey(elter))
+                {
+                    kindAnzahlP.put(elter, (kindAnzahlP.get(elter) + 1));
+                }
+                else
+                {
+                    kindAnzahlP.put(elter, 1);
+                }
+            }
+            // Konoten mit meisten P-tags als Kind finden
+            Entry<Element, Integer> maxEntry = null;
+            for (Entry<Element, Integer> eintrag : kindAnzahlP.entrySet())
+            {
+                if (maxEntry == null || maxEntry.getValue() < eintrag.getValue())
+                {
+                    maxEntry = eintrag;
+                }
+            }
 
+            Elements pTagsAusArtikel = maxEntry.getKey().getElementsByTag("p");
+
+            for (Element absatzPTag : pTagsAusArtikel)
+            {
+                absaetze.add(absatzPTag.text());
+            }
         }
-
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return absaetze;
     }
 
 }

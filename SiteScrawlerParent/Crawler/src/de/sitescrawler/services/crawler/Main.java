@@ -2,22 +2,18 @@ package de.sitescrawler.services.crawler;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.solr.client.solrj.SolrServerException;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
- 
+
 import de.sitescrawler.model.Artikel;
-import de.sitescrawler.model.Filteprofil;
-import de.sitescrawler.model.VolltextArtikel;
 import de.sitescrawler.services.artikelausschneiden.ArtikelZurechtschneiden;
-import de.sitescrawler.services.artikelausschneiden.Presseanbieter;
 import de.sitescrawler.services.artikelausschneiden.UnparsbarException;
 import de.sitescrawler.solr.SolrServiceImpl;
 
@@ -29,18 +25,16 @@ public class Main
 
         try
         {
-        	System.out.println("TEST");
-            ArtikelZurechtschneiden.getInstance().getVolltextArtikel(
-                            "http://www.spiegel.de/politik/ausland/nordkorea-bundeswehr-analysten-warnen-vor-neuem-atom-test-a-1142768.html",
-                            Presseanbieter.SpiegelOnline);
-            verarbeitung();
+            List<String> absätze = new ArtikelZurechtschneiden()
+                            .getVolltextartikel("http://www.zeit.de/mobilitaet/2017-04/streetscooter-deutsche-post-elektromobilitaet");
+            System.out.println(absätze.toString());
         }
-        catch (IOException | UnparsbarException e)
+        catch (UnparsbarException e)
         {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // Main.verarbeitung();
+        Main.verarbeitung();
     }
 
     public static void verarbeitung()
@@ -48,13 +42,15 @@ public class Main
         System.out.println("CrawlRSS...");
         String url = "http://newsfeed.zeit.de/";
         SolrServiceImpl solr = new SolrServiceImpl();
-        solr.clearSolr();
+        // solr.clearSolr();
         try
         {
             SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(url)));
             List<SyndEntry> entries = feed.getEntries();
             for (SyndEntry entry : entries)
             {
+
+                System.out.println("Parse: " + entry.getUri());
                 String author = entry.getAuthor();
                 String description = entry.getDescription().getValue();
                 String regex = "<a.*/a>";
@@ -62,36 +58,25 @@ public class Main
                 String link = entry.getLink();
                 Date publishedDate = entry.getPublishedDate();
                 String title = entry.getTitle();
-                System.out.println(String.format("Added Titel: %s%n Autor: %s%n Link: %s%n Datum: %s%n Beschreibung:%s%n", title, author, link, publishedDate,
-                                description));
-                VolltextArtikel volltextArtikel = null;
+                ArtikelZurechtschneiden artikelZurechtschneiden = new ArtikelZurechtschneiden();
+                List<String> absaetze = new ArrayList<>();
+
                 try
                 {
-                    volltextArtikel = ArtikelZurechtschneiden.getInstance().getVolltextArtikel(link, Presseanbieter.ZeitOnline);
-                    Artikel artikel = new Artikel(publishedDate, author, title, description, link, volltextArtikel);
-                    Filteprofil filterProfil = new Filteprofil(artikel.getAutor(), artikel.getTitel());
-                    List<Artikel> sucheArtikel;
-                     
-                    sucheArtikel = solr.sucheArtikel(filterProfil);
-                    if (sucheArtikel.contains(artikel))
-                    {
-                        System.out.println("Artikel vorhanden.");
-                        System.out.println(artikel.getAutor() + " " + artikel.getTitel() + "\n");
-                    }
-                    else
-                    {
-                        solr.addArtikel(artikel);
-                    }
+                    absaetze = artikelZurechtschneiden.getVolltextartikel(entry.getUri());
                 }
                 catch (UnparsbarException e1)
                 {
-                    // TODO Auto-generated catch block
+                    // TODO Add log
                     e1.printStackTrace();
+                    System.out.println("Absätze nicht parsbar");
                 }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
+
+                System.out.println(String.format("Added Titel: %s%n Autor: %s%n Link: %s%n Datum: %s%n Beschreibung:%s%n", title, author, link, publishedDate,
+                                description));
+                Artikel artikel = new Artikel(publishedDate, author, title, description, link, absaetze);
+
+                // solr.addArtikel(artikel);
             }
         }
         catch (IllegalArgumentException | FeedException | IOException e)

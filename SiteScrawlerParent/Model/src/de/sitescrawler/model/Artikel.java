@@ -1,38 +1,45 @@
 package de.sitescrawler.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Artikel
 {
-    private Date            erstellungsdatum;
-    private String          autor;
-    private String          titel;
-    private String          beschreibung;
-    private String          link;
-    private VolltextArtikel volltextArtikel;
-
-    public VolltextArtikel getVolltextArtikel()
-    {
-        return this.volltextArtikel;
-    }
-
-    public void setVolltextArtikel(VolltextArtikel volltextArtikel)
-    {
-        this.volltextArtikel = volltextArtikel;
-    }
+    private Date         erstellungsdatum;
+    private String       autor;
+    private String       titel;
+    private String       beschreibung;
+    private String       link;
+    private List<String> absaetzeArtikel;
 
     public Artikel()
     {
     }
 
-    public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link, VolltextArtikel volltextArtikel)
+    public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link)
     {
         this.erstellungsdatum = erstellungsdatum;
         this.autor = autor;
         this.titel = titel;
         this.beschreibung = beschreibung;
         this.link = link;
-        this.volltextArtikel = volltextArtikel;
+        this.absaetzeArtikel = new ArrayList<>();
+    }
+
+    public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link, List<String> absaetzeArtikel)
+    {
+        this.erstellungsdatum = erstellungsdatum;
+        this.autor = autor;
+        this.titel = titel;
+        this.beschreibung = beschreibung;
+        this.link = link;
+        this.absaetzeArtikel = absaetzeArtikel;
+    }
+
+    public List<String> getAbsaetzeArtikel()
+    {
+        return this.absaetzeArtikel;
     }
 
     public Date getErstellungsdatum()
