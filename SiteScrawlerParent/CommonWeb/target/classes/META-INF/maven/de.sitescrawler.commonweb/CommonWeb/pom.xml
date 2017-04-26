@@ -5,20 +5,20 @@
     <artifactId>SiteScrawlerParent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>CommonWeb</groupId>
-  <artifactId>CommonWeb</artifactId> 
-  <packaging>jar</packaging>
+  <groupId>de.sitescrawler.commonweb</groupId>
+  <artifactId>CommonWeb</artifactId>
+  <name>CommonWeb</name>
   <build>
-    <sourceDirectory>src</sourceDirectory> 
-    <plugins>
-      <plugin>
+  	<sourceDirectory>src</sourceDirectory>
+  	<plugins>
+  		<plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.5.1</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
-    </plugins>
+  	</plugins>
   </build>
 </project>
