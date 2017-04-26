@@ -9,7 +9,7 @@
         <dependent-module archiveName="Model-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Model/Model">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="CommonWeb-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CommonWeb/CommonWeb">
+        <dependent-module archiveName="CommonWeb.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CommonWeb/CommonWeb">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="Portal"/>

@@ -65,7 +65,7 @@
 	</dependency>
   </dependencies>
   <modules>
-  	<module>CommonWeb</module>
+  	
     <module>Dokumentation</module>
     <module>Portal</module>
     <module>Prototyp</module>
