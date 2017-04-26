@@ -44,6 +44,12 @@
   		<groupId>de.sitescrawler.model</groupId>
   		<artifactId>Model</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
-  	</dependency> 
+  	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.sharedweb</groupId>
+  		<artifactId>SharedWeb</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  		<scope>runtime</scope>
+  	</dependency>
   </dependencies>
 </project>

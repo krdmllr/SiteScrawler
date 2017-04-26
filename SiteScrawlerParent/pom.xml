@@ -63,6 +63,10 @@
 	    <artifactId>javax.servlet-api</artifactId>
 	    <version>3.1.0</version>
 	</dependency>
+  <dependency>
+	    <groupId>junit</groupId>
+	    <artifactId>junit</artifactId>
+	    </dependency>
   </dependencies>
   <modules>
   	
@@ -71,7 +75,6 @@
     <module>Prototyp</module>
     <module>Applikation</module>
     <module>SiteScrawlerEAR</module>
-    <module>Test</module>
     <module>Solr</module>
     <module>Crawler</module>
     <module>Nutzerverwaltung</module>
@@ -81,5 +84,6 @@
     <module>Email</module>
     <module>PDF</module>
     <module>Model</module>
+    <module>SharedWeb</module>
   </modules>
 </project>
