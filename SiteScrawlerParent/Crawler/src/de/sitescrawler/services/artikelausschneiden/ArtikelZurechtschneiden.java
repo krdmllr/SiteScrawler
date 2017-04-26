@@ -90,10 +90,13 @@ public class ArtikelZurechtschneiden
                 }
             }
             Elements pTagsAusArtikel = maxEntry.getKey().getElementsByTag("p");
-
+            // System.out.println("Paar");
+            // System.out.println(url);
+            // System.out.println(maxEntry.getKey().text());
             for (Element absatzPTag : pTagsAusArtikel)
             {
                 absaetze.add(absatzPTag.text());
+
             }
         }
         catch (IOException e)

@@ -79,6 +79,7 @@ class Verarbeitung implements Runnable
         }
         catch (IllegalArgumentException | FeedException | IOException e)
         {
+            // TODO Add log
             e.printStackTrace();
         }
 

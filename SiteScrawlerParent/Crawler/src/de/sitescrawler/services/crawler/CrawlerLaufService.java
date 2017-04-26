@@ -52,7 +52,7 @@ public class CrawlerLaufService implements ICrawlerLaufService
         Quelle testQuelle2 = new Quelle();
         testQuelle2.Url = "http://www.spiegel.de/schlagzeilen/index.rss";
         testQuelle2.Name = "Spiegel";
-        testQuelle2.TagOderId = null;
+        testQuelle2.TagOderId = "spArticleContent";
         quellen.add(testQuelle2);
 
         return quellen;
