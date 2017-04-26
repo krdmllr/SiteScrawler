@@ -28,19 +28,16 @@ public class ArtikelZurechtschneiden
      */
     public List<String> getAbsaetze(String url, String classOderId) throws UnparsbarException
     {
-
         List<String> absaetze = new ArrayList<>();
         try
         {
             Document doc = Jsoup.connect(url).get();
-            Elements select2 = doc.select("p");
             Map<Element, Integer> kindAnzahlP = new HashMap<>();
             Elements allePTags = new Elements();
             // Alle P-Tags des Dokuments lesen (wenn classOderId gesetzt ist abhängig davon)
             if (classOderId == null || classOderId.equals(""))
             {
                 Elements select = doc.select("p");
-
                 allePTags.addAll(select);
             }
             else
@@ -71,7 +68,6 @@ public class ArtikelZurechtschneiden
             {
                 throw new UnparsbarException();
             }
-
             for (Element ptag : allePTags)
             {
                 Element elter = ptag.parent();
@@ -102,10 +98,9 @@ public class ArtikelZurechtschneiden
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
+            // TODO Log
             e.printStackTrace();
         }
         return absaetze;
     }
-
 }
