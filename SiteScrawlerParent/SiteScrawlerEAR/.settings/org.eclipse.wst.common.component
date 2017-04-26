@@ -14,6 +14,9 @@
         <dependent-module archiveName="Prototyp-0.0.1-SNAPSHOT.war" deploy-path="/" handle="module:/resource/Prototyp/Prototyp">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="CommonWeb-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/CommonWeb/CommonWeb">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="Crawler-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Crawler/Crawler">
             <dependency-type>uses</dependency-type>
         </dependent-module>

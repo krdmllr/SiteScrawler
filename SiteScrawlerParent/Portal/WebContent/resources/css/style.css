@@ -12,8 +12,11 @@
 	margin-left: 50px;
 }
 
-.footer{
-	height: 80px;
+.custom-footer {
+	padding-right: 50px;
+	padding-left: 50px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 	background-color:  #404057;
 }
 

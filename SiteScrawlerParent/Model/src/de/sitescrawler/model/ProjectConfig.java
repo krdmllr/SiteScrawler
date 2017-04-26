@@ -1,15 +1,12 @@
 package de.sitescrawler.model;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.FileInputStream; 
 import java.io.InputStream;
-import java.net.InetAddress;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-import javax.servlet.ServletRequest;
+import javax.enterprise.context.ApplicationScoped; 
 
 @ApplicationScoped
 public class ProjectConfig {
@@ -20,21 +17,24 @@ public class ProjectConfig {
 	InputStream inputStream;
  
 	public ProjectConfig(){
-		try {
-			Properties prop = new Properties();
-			String propFileName = "config.properties";
-			String fileName = System.getProperty("jboss.server.config.dir") + "\\config.properties";
+		try { 
+			String configPath = System.getProperty("jboss.server.config.dir");
+			String configName = "\\config.properties";
+			Path fileName = Paths.get(configPath, configName);
  
 			Properties properties = new Properties();
 			
-			try(FileInputStream fis = new FileInputStream(fileName)) {
+			try(FileInputStream fis = new FileInputStream(fileName.toFile())) {
 				  properties.load(fis);
 				}
+			catch (Exception e) {
+				System.out.println("Failed to load conif");
+				e.printStackTrace();
+			}
 			
-			domain = properties.getProperty("domain");
-			
+			domain = properties.getProperty("domain"); 
 			 
-  
+			System.out.println("Successfully loaded config.");
 		} catch (Exception e) {
 			System.out.println("Exception: " + e);
 		} finally {

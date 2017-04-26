@@ -1,0 +1,63 @@
+.dark-primary-color    { background: #404057 !important; }
+.default-primary-color { background: #384f94 !important; }
+.light-primary-color   { background: #C5CAE9 !important; }
+.text-primary-color    { color: #FFFFFF !important; }
+.accent-color          { background: #7C4DFF !important; }
+.primary-text-color    { color: #212121 !important; }
+.secondary-text-color  { color: #757575 !important; }
+.divider-color         { border-color: #BDBDBD !important; }
+.amazing-color		   { background: #004d4d !important; } 
+
+/* Content */
+
+
+
+/* !Content */
+
+/* Navbar */
+
+#navbar-profil-bild {
+	height: 40px !important;
+	width: 40px; 
+    position: relative;
+}  
+
+#profileNavbar{
+	padding-bottom: 5px;
+	padding-top: 5px; 
+} 
+
+body .navbar-inverse .navbar-nav > li > a{
+	color: #ddd;
+}
+
+.nav-item{
+	background-color: #222 !important;
+	border: 0px !important;
+	color: #9d9d9d !important;
+}
+
+.nav .btn:hover { 
+	color: white !important;
+}
+
+.brand-image{
+	height: 30px; 
+    margin-top: -5px;
+    display: inline-block;
+}
+
+.divider{
+	margin: 0 !important;
+}
+
+.link-item{
+	padding-top: 8px !important;
+	padding-bottom: 8px !important;
+}
+
+ul.dropdown-menu{
+	padding: 0 !important;
+}
+
+/* !Navbar */
