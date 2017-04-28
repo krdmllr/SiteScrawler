@@ -15,16 +15,54 @@ import org.jsoup.select.Elements;
 public class ArtikelZurechtschneiden
 {
 
-    public List<String> getAbsaetze(String url) throws UnparsbarException
+    /**
+     * Gibt die Absätze eines Artikels zurück
+     *
+     * @param url
+     *            - URL des Artikels
+     * @param classOderId
+     *            - Unter dem Element mit dem Klassennamen bzw. der Id wird nach dem Artikel geucht
+     * @return Absätze als Liste von Strings
+     * @throws UnparsbarException
+     *             fals der Artikel nicht geparset werden konnte
+     */
+    public List<String> getAbsaetze(String url, String classOderId) throws UnparsbarException
     {
-
         List<String> absaetze = new ArrayList<>();
         try
         {
             Document doc = Jsoup.connect(url).get();
             Map<Element, Integer> kindAnzahlP = new HashMap<>();
-            // Alle P-Tags des Dokuments lesen
-            Elements allePTags = doc.select("p");
+            Elements allePTags = new Elements();
+            // Alle P-Tags des Dokuments lesen (wenn classOderId gesetzt ist abhängig davon)
+            if (classOderId == null || classOderId.equals(""))
+            {
+                Elements select = doc.select("p");
+                allePTags.addAll(select);
+            }
+            else
+            {
+                // Füge PTags der Id hinzu
+                Element fallsIdAngegeben = doc.getElementById(classOderId);
+                if (fallsIdAngegeben != null)
+                {
+                    Elements elementsAbhängigVonID = fallsIdAngegeben.getElementsByTag("p");
+                    allePTags.addAll(elementsAbhängigVonID);
+                }
+
+                // Füge PTags der Klassen hinzu
+                Elements elementsAbhängigVonKlasse = doc.getElementsByClass(classOderId);
+                for (Element element : elementsAbhängigVonKlasse)
+                {
+                    allePTags.addAll(element.getElementsByTag("p"));
+                }
+                // Wenn Seitenstruktur sich innerhalb eines Anbieter unterscheidet -> Bestmögliches Parsen
+                if (allePTags.isEmpty())
+                {
+                    Elements select = doc.select("p");
+                    allePTags.addAll(select);
+                }
+            }
             // Seite hat unerwarteter Weise keine P-Tags
             if (allePTags.size() == 0)
             {
@@ -51,20 +89,21 @@ public class ArtikelZurechtschneiden
                     maxEntry = eintrag;
                 }
             }
-
             Elements pTagsAusArtikel = maxEntry.getKey().getElementsByTag("p");
-
+            // System.out.println("Paar");
+            // System.out.println(url);
+            // System.out.println(maxEntry.getKey().text());
             for (Element absatzPTag : pTagsAusArtikel)
             {
                 absaetze.add(absatzPTag.text());
+
             }
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
+            // TODO Log
             e.printStackTrace();
         }
         return absaetze;
     }
-
 }
