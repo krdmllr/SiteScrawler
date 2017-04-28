@@ -9,20 +9,22 @@ import javax.inject.Inject;
 
 import de.sitescrawler.crawler.interfaces.ICrawlerLaufService;
 import de.sitescrawler.model.Quelle;
-import de.sitescrawler.solr.SolrServiceImpl;
+import de.sitescrawler.solr.SolrService;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
 public class CrawlerLaufService implements ICrawlerLaufService
 {
     @Inject
     private ISolrService solrService;
+    
     ExecutorService      threadPool = Executors.newFixedThreadPool(5);
 
     public CrawlerLaufService()
     {
+    	//Falls inject nicht funktioniert (Ausführung ohne Serverumgebung) wird der SolrService manuell initialisiert.
         if (this.solrService == null)
         {
-            this.solrService = new SolrServiceImpl();
+            this.solrService = new SolrService();
         }
     }
 
@@ -43,6 +45,7 @@ public class CrawlerLaufService implements ICrawlerLaufService
      */
     private List<Quelle> getQuellenAusDatenbank()
     {
+    	//TODO Aktuell Dummy Quellen, wird durch Quellen aus Datenbank ersetzt.
         List<Quelle> quellen = new ArrayList<>();
         Quelle testQuelle = new Quelle();
         testQuelle.Url = "http://newsfeed.zeit.de/";

@@ -20,16 +20,16 @@ import de.sitescrawler.model.Artikel;
 import de.sitescrawler.model.Filteprofil;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
-public class SolrServiceImpl implements ISolrService
+public class SolrService implements ISolrService
 {
 
     private SolrClient                    solrClient;
     private static final String           SolrUrl   = "http://sitescrawler.de:8983/solr/gettingstarted";
     private static final SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss");
 
-    public SolrServiceImpl()
+    public SolrService()
     {
-        this.solrClient = new HttpSolrClient.Builder(SolrServiceImpl.SolrUrl).build();
+        this.solrClient = new HttpSolrClient.Builder(SolrService.SolrUrl).build();
     }
 
     /*
@@ -45,7 +45,7 @@ public class SolrServiceImpl implements ISolrService
         solrInputDocument.addField("titel", artikel.getTitel());
         solrInputDocument.addField("beschreibung", artikel.getBeschreibung());
         solrInputDocument.addField("link", artikel.getLink());
-        solrInputDocument.addField("erstellungsdatum", SolrServiceImpl.formatter.format(artikel.getErstellungsdatum()));
+        solrInputDocument.addField("erstellungsdatum", SolrService.formatter.format(artikel.getErstellungsdatum()));
         try
         {
             this.solrClient.add(solrInputDocument);
@@ -98,7 +98,7 @@ public class SolrServiceImpl implements ISolrService
             for (SolrDocument solrDocument : results)
             {
                 String date = ((ArrayList<String>) solrDocument.get("erstellungsdatum")).get(0);
-                Date erstellungsdatum = SolrServiceImpl.formatter.parse(date);
+                Date erstellungsdatum = SolrService.formatter.parse(date);
                 String autor = ((ArrayList<String>) solrDocument.get("autor")).get(0);
                 String titel = ((ArrayList<String>) solrDocument.get("titel")).get(0);
                 String beschreibung = ((ArrayList<String>) solrDocument.get("beschreibung")).get(0);
@@ -144,7 +144,7 @@ public class SolrServiceImpl implements ISolrService
             for (SolrDocument solrDocument : results)
             {
                 String date = ((ArrayList<String>) solrDocument.get("erstellungsdatum")).get(0);
-                Date erstellungsdatum = SolrServiceImpl.formatter.parse(date);
+                Date erstellungsdatum = SolrService.formatter.parse(date);
                 String autor = ((ArrayList<String>) solrDocument.get("autor")).get(0);
                 String titel = ((ArrayList<String>) solrDocument.get("titel")).get(0);
                 String beschreibung = ((ArrayList<String>) solrDocument.get("beschreibung")).get(0);

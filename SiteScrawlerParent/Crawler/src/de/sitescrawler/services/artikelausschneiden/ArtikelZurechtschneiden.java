@@ -12,9 +12,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class ArtikelZurechtschneiden
-{
+import de.sitescrawler.model.Quelle;
 
+public class ArtikelZurechtschneiden
+{ 	
     /**
      * Gibt die Absätze eines Artikels zurück
      *
@@ -26,7 +27,7 @@ public class ArtikelZurechtschneiden
      * @throws UnparsbarException
      *             fals der Artikel nicht geparset werden konnte
      */
-    public List<String> getAbsaetze(String url, String classOderId) throws UnparsbarException
+    public List<String> getAbsaetze(String url, Quelle quelle) throws UnparsbarException
     {
         List<String> absaetze = new ArrayList<>();
         try
@@ -34,15 +35,15 @@ public class ArtikelZurechtschneiden
             Document doc = Jsoup.connect(url).get();
             Map<Element, Integer> kindAnzahlP = new HashMap<>();
             Elements allePTags = new Elements();
-            // Alle P-Tags des Dokuments lesen (wenn classOderId gesetzt ist abhängig davon)
-            if (classOderId == null || classOderId.equals(""))
+            String classOderId = quelle.TagOderId;
+            
+            //Schaue ob der Nutzer eine Id oder eine Klasse angegeben hat, nach dem der Artikel gesucht werden soll.
+            boolean klasseOderIdVorgegeben = !(classOderId == null || "".equals(classOderId));
+            
+            //Suche die angegebene Klasse oder Id und verwende die Kinder p Tags.
+            if(klasseOderIdVorgegeben) 
             {
-                Elements select = doc.select("p");
-                allePTags.addAll(select);
-            }
-            else
-            {
-                // Füge PTags der Id hinzu
+                //Versuche P-Tags der Id hinzuzufügen
                 Element fallsIdAngegeben = doc.getElementById(classOderId);
                 if (fallsIdAngegeben != null)
                 {
@@ -50,24 +51,28 @@ public class ArtikelZurechtschneiden
                     allePTags.addAll(elementsAbhängigVonID);
                 }
 
-                // Füge PTags der Klassen hinzu
+                //Versuche P-Tags der Klasse hinzuzufügen
                 Elements elementsAbhängigVonKlasse = doc.getElementsByClass(classOderId);
                 for (Element element : elementsAbhängigVonKlasse)
                 {
                     allePTags.addAll(element.getElementsByTag("p"));
                 }
-                // Wenn Seitenstruktur sich innerhalb eines Anbieter unterscheidet -> Bestmögliches Parsen
-                if (allePTags.isEmpty())
-                {
-                    Elements select = doc.select("p");
-                    allePTags.addAll(select);
-                }
             }
-            // Seite hat unerwarteter Weise keine P-Tags
-            if (allePTags.size() == 0)
+            
+            //Falls nicht nach Id oder Klasse gesucht wurde oder keine P-Tags gefunden wurden durchsuche alle P-Tags
+            if (allePTags.isEmpty())
+            {
+                Elements select = doc.select("p");
+                allePTags.addAll(select);
+            }
+            
+            //Seite hat unerwarteter Weise keine P-Tags
+            if (allePTags.isEmpty())
             {
                 throw new UnparsbarException();
             }
+            
+            //Ordne P-Tags ihren Eltern zu
             for (Element ptag : allePTags)
             {
                 Element elter = ptag.parent();
@@ -80,7 +85,8 @@ public class ArtikelZurechtschneiden
                     kindAnzahlP.put(elter, 1);
                 }
             }
-            // Konoten mit meisten P-tags als Kind finden
+            
+            // Knoten mit meisten P-tags als Kind finden
             Entry<Element, Integer> maxEntry = null;
             for (Entry<Element, Integer> eintrag : kindAnzahlP.entrySet())
             {
@@ -88,11 +94,11 @@ public class ArtikelZurechtschneiden
                 {
                     maxEntry = eintrag;
                 }
-            }
+            } 
+            
+            //Nimm alle P-Tags des gefundenen Eltern-Knotens und gebe dessen Inhalt als Liste zurück.
             Elements pTagsAusArtikel = maxEntry.getKey().getElementsByTag("p");
-            // System.out.println("Paar");
-            // System.out.println(url);
-            // System.out.println(maxEntry.getKey().text());
+
             for (Element absatzPTag : pTagsAusArtikel)
             {
                 absaetze.add(absatzPTag.text());
