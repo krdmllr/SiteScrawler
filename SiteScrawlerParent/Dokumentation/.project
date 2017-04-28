@@ -3,7 +3,7 @@
 	<name>Dokumentation</name>
 	<comment></comment>
 	<projects>
-		<project>CommonWeb</project>
+		<project>SharedWeb</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
