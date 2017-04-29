@@ -8,7 +8,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import de.sitescrawler.model.Archiveintrag;
+import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.model.Artikel;
 
 import java.io.IOException;
@@ -16,53 +16,48 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List; 
+import java.util.List;
 
 @SessionScoped
 @Named("archiv")
 public class ArchivBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Inject
 	private DataBean dataBean;
-	
+
 	private Archiveintrag geweahlterArchiveintrag;
-	
+
 	private Date abZeitpunkt = new Date();
-	private Date bisZeitpunkt= new Date();
-		
-	public ArchivBean(){
-		
+	private Date bisZeitpunkt = new Date();
+
+	public ArchivBean() {
+
 	}
-	
+
 	@PostConstruct
 	void init() {
-		setGeweahlterArchiveintrag(getArchiveintraege().get(0));
+		setGeweahlterArchiveintrag((Archiveintrag)	dataBean.getFiltergruppe().getArchiveintraege().toArray()[0]);
 	}
-	
+
 	public Archiveintrag getGeweahlterArchiveintrag() {
 		return geweahlterArchiveintrag;
 	}
 
 	public void setGeweahlterArchiveintrag(Archiveintrag geweahlterArchiveintrag) {
-		this.geweahlterArchiveintrag = geweahlterArchiveintrag; 
+		this.geweahlterArchiveintrag = geweahlterArchiveintrag;
 	}
 
 	public void buttonAction(Archiveintrag eintrag) {
-		 setGeweahlterArchiveintrag(eintrag);
-         addMessage("Archiveintrag vom " + eintrag.getErstellungsDatum() + " ausgewählt!");
-    }   
-	
-	private void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-	
-	public List<Archiveintrag> getArchiveintraege(){
-		 List<Archiveintrag> result = dataBean.getFiltergruppe().getArchiveintraege();
-		return result;
+		setGeweahlterArchiveintrag(eintrag);
+		addMessage("Archiveintrag vom " + eintrag.getErstellungsdatum() + " ausgewählt!");
 	}
+
+	private void addMessage(String summary) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	} 
 
 	public Date getAbZeitpunkt() {
 		return abZeitpunkt;
@@ -80,4 +75,3 @@ public class ArchivBean implements Serializable {
 		this.bisZeitpunkt = bisZeitpunkt;
 	}
 }
-

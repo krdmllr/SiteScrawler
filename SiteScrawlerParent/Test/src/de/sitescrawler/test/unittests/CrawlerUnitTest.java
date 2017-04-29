@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.services.artikelausschneiden.ArtikelZurechtschneiden;
 import de.sitescrawler.services.artikelausschneiden.UnparsbarException;
 import de.sitescrawler.test.testdaten.CrawlerTestdaten;
@@ -22,9 +23,12 @@ public class CrawlerUnitTest
         List<String> spiegel_WieGelaehmt_Absaetze_ausgeschnitten = new ArrayList<>();
         try
         {
+        	Quelle spiegelQuelle = new Quelle();
+        	spiegelQuelle.setTagOderId("spArticleContent");
+        	
             // TODO String aus Datenbank lesen
             spiegel_WieGelaehmt_Absaetze_ausgeschnitten = new ArtikelZurechtschneiden().getAbsaetze(spiegel_WieGelaehmt_ArtikelUrl_WieGelaehmt_erwartet,
-                            "spArticleContent");
+            		spiegelQuelle);
         }
         catch (UnparsbarException e)
         {

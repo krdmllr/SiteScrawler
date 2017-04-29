@@ -9,11 +9,7 @@ import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
 
-import de.sitescrawler.model.Benutzer;
-import de.sitescrawler.model.FilterGruppe;
-import de.sitescrawler.model.Firma;
-import de.sitescrawler.model.FirmenFilterGruppe;
-import de.sitescrawler.model.Mitarbeiter;
+import de.sitescrawler.jpa.*; 
 
 @SessionScoped
 @Named("firmen")
@@ -28,11 +24,11 @@ public class FirmenBean implements Serializable {
 		
 		private String neuerMitarbeiterEmail;
 		
-		private FirmenFilterGruppe aktuelleFiltergruppe;
+		private Filterprofilgruppe aktuelleFiltergruppe;
 
 		@PostConstruct
 		void init() {
-			setAusgewaehlteFirma(dataBean.getFirmen().get(0));
+			setAusgewaehlteFirma((Firma)dataBean.getNutzer().getFirmen().toArray()[0]);
 		}
 
 		public Firma getAusgewaehlteFirma() {
@@ -63,22 +59,22 @@ public class FirmenBean implements Serializable {
 				return;
 			} 
 			
-			Benutzer dummyNutzer = new Benutzer();
+			Nutzer dummyNutzer = new Nutzer();
 			dummyNutzer.setVorname(neuerMitarbeiterEmail.split("@")[0]);
 			dummyNutzer.setNachname(neuerMitarbeiterEmail.split("@")[1]);
 			Mitarbeiter dummyMitarbeiter = new Mitarbeiter();
-			dummyMitarbeiter.setNutzeraccount(dummyNutzer);
+			dummyMitarbeiter.setNutzer(dummyNutzer);
 			
-			ausgewaehlteFirma.getMitarbeiter().add(0, dummyMitarbeiter); 
+			ausgewaehlteFirma.getMitarbeiter().add(dummyMitarbeiter); 
 			
 			neuerMitarbeiterEmail = "";
 		}
 
-		public FirmenFilterGruppe getAktuelleFiltergruppe() {
+		public Filterprofilgruppe getAktuelleFiltergruppe() {
 			return aktuelleFiltergruppe;
 		}
 
-		public void setAktuelleFiltergruppe(FirmenFilterGruppe aktuelleFiltergruppe) {
+		public void setAktuelleFiltergruppe(Filterprofilgruppe aktuelleFiltergruppe) {
 			this.aktuelleFiltergruppe = aktuelleFiltergruppe;
 		} 
 		
@@ -90,7 +86,7 @@ public class FirmenBean implements Serializable {
 		
 		public void add(Mitarbeiter mitarbeiter){
 			
-			aktuelleFiltergruppe.getEmpfaenger().add(mitarbeiter);
+			aktuelleFiltergruppe.getEmpfaenger().add(mitarbeiter.getNutzer());
 			
 			RequestContext.getCurrentInstance().update("gruppen-auswahl");
 		}

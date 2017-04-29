@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Artikel
+import de.sitescrawler.jpa.Artikelsolr;
+
+public class Artikel extends Artikelsolr
 {
     private Date         erstellungsdatum;
     private String       autor;

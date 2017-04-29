@@ -12,7 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import de.sitescrawler.model.Quelle;
+import de.sitescrawler.jpa.Quelle; 
 
 public class ArtikelZurechtschneiden
 { 	
@@ -35,7 +35,7 @@ public class ArtikelZurechtschneiden
             Document doc = Jsoup.connect(url).get();
             Map<Element, Integer> kindAnzahlP = new HashMap<>();
             Elements allePTags = new Elements();
-            String classOderId = quelle.TagOderId;
+            String classOderId = quelle.getTagOderId();
             
             //Schaue ob der Nutzer eine Id oder eine Klasse angegeben hat, nach dem der Artikel gesucht werden soll.
             boolean klasseOderIdVorgegeben = !(classOderId == null || "".equals(classOderId));

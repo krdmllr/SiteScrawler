@@ -16,8 +16,8 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 
-import de.sitescrawler.model.Artikel;
-import de.sitescrawler.model.Filteprofil;
+import de.sitescrawler.jpa.Filterprofil;
+import de.sitescrawler.model.Artikel; 
 import de.sitescrawler.solr.interfaces.ISolrService;
 
 public class SolrService implements ISolrService
@@ -63,12 +63,12 @@ public class SolrService implements ISolrService
      * @see de.sitescrawler.solr.ISolrService#sucheArtikel(de.sitescrawler.model. FilterProfil)
      */
     @Override
-    public List<Artikel> sucheArtikel(List<Filteprofil> filterprofile)
+    public List<Artikel> sucheArtikel(List<Filterprofil> filterprofile)
     {
 
         List<Artikel> artikel = new ArrayList<>();
 
-        for (Filteprofil filterprofil : filterprofile)
+        for (Filterprofil filterprofil : filterprofile)
         {
             artikel.addAll(this.sucheArtikel(filterprofil));
         }
@@ -83,13 +83,13 @@ public class SolrService implements ISolrService
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<Artikel> sucheArtikel(Filteprofil filterprofil)
+    public List<Artikel> sucheArtikel(Filterprofil filterprofil)
     {
 
         List<Artikel> artikel = new ArrayList<>();
 
         SolrQuery solrQuery = new SolrQuery();
-        String query = filterprofil.getTags().stream().reduce((s1, s2) -> s1.concat(" " + s2)).get();
+        String query = filterprofil.getTagstring();
         solrQuery.setQuery(query);
         try
         {

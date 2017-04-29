@@ -1,7 +1,7 @@
 package de.sitescrawler.firmenverwaltung.interfaces;
 
+import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Nutzer;
-import de.sitescrawler.model.Firma;
 
 /**
  * Service zum Verwalten von bestehenden Firmen.

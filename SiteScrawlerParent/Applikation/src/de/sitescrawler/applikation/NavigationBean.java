@@ -9,8 +9,8 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import de.sitescrawler.model.FilterGruppe;
-import de.sitescrawler.model.Filteprofil;
+import de.sitescrawler.jpa.Filterprofilgruppe;
+ 
 
 @SessionScoped
 @Named("navigation")
@@ -21,7 +21,7 @@ public class NavigationBean implements Serializable {
 	@Inject
 	private DataBean dataBean;
 		
-	public List<FilterGruppe> getSelectableFiltergruppen(){
+	public List<Filterprofilgruppe> getSelectableFiltergruppen(){
 		return dataBean.getFiltergruppen().stream()
 			    .filter(p -> p != dataBean.getFiltergruppe()).collect(Collectors.toList());
 	}  

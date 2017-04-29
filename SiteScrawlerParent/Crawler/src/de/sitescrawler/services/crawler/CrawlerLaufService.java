@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 
 import de.sitescrawler.crawler.interfaces.ICrawlerLaufService;
-import de.sitescrawler.model.Quelle;
+import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.solr.SolrService;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
@@ -48,14 +48,14 @@ public class CrawlerLaufService implements ICrawlerLaufService
     	//TODO Aktuell Dummy Quellen, wird durch Quellen aus Datenbank ersetzt.
         List<Quelle> quellen = new ArrayList<>();
         Quelle testQuelle = new Quelle();
-        testQuelle.Url = "http://newsfeed.zeit.de/";
-        testQuelle.Name = "Zeit";
-        testQuelle.TagOderId = "article-page";
+        testQuelle.setRsslink("http://newsfeed.zeit.de/");
+        testQuelle.setName("Zeit");
+        testQuelle.setTagOderId("article-page");
         quellen.add(testQuelle);
         Quelle testQuelle2 = new Quelle();
-        testQuelle2.Url = "http://www.spiegel.de/schlagzeilen/index.rss";
-        testQuelle2.Name = "Spiegel";
-        testQuelle2.TagOderId = "spArticleContent";
+        testQuelle2.setRsslink("http://www.spiegel.de/schlagzeilen/index.rss");
+        testQuelle2.setName("Spiegel");
+        testQuelle2.setTagOderId("spArticleContent"); 
         quellen.add(testQuelle2);
 
         return quellen;

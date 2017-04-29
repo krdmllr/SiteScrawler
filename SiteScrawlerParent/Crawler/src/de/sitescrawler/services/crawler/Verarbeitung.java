@@ -14,8 +14,8 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
-import de.sitescrawler.model.Artikel;
-import de.sitescrawler.model.Quelle;
+import de.sitescrawler.jpa.Quelle;
+import de.sitescrawler.model.Artikel; 
 import de.sitescrawler.services.artikelausschneiden.ArtikelZurechtschneiden;
 import de.sitescrawler.services.artikelausschneiden.UnparsbarException;
 import de.sitescrawler.solr.SolrService;
@@ -49,14 +49,14 @@ class Verarbeitung implements Runnable
     public void run()
     {
     	//TODO tausche durch loggger
-        System.out.println(this.quelle.Name + "...");
+        System.out.println(this.quelle.getName() + "...");
 
         ArtikelZurechtschneiden artikelZurechtschneiden = new ArtikelZurechtschneiden();
         
         try
         {
         	//Parse RSS Feed
-            SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(this.quelle.Url))); 
+            SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL(this.quelle.getRsslink()))); 
             
             //Gehe jeden Eintrag des RSS Feeds durch und crawle die hinterlegte Website nach dem Volltext
             List<SyndEntry> entries = feed.getEntries();

@@ -1,6 +1,6 @@
 package de.sitescrawler.pdf.interfaces;
 
-import de.sitescrawler.model.Archiveintrag;
+import de.sitescrawler.jpa.Archiveintrag;
 
 /**
  * Service zum erstellen von PDF Dateien.

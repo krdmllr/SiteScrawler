@@ -3,21 +3,17 @@ package de.sitescrawler.applikation;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Date; 
+import java.util.List; 
 import java.util.stream.Collectors;
-
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+ 
+import javax.enterprise.context.SessionScoped; 
 import javax.inject.Inject;
 import javax.inject.Named;
- 
-import de.sitescrawler.model.FilterGruppe;
-import de.sitescrawler.model.Filteprofil;
+  
+import de.sitescrawler.jpa.Filterprofil;
+import de.sitescrawler.jpa.Filterprofilgruppe;
+import de.sitescrawler.jpa.Uhrzeit;
 import de.sitescrawler.utility.DateUtils;
 
 @SessionScoped
@@ -31,17 +27,17 @@ public class FilterBearbeitenBean implements Serializable
 	private final String ZWEI_WOECHENTLICH = "Zwei-Wöchentlich";
 	private final String MONATLICH = "Monatlich"; 
 	
-	private List<Filteprofil> filterprofile; 
+	private List<Filterprofil> filterprofile; 
 
-	private FilterGruppe filtergruppe; 
+	private Filterprofilgruppe filtergruppe; 
 	
 	private String ausgewaehlteTagesoption = TAEGLICH; 
 	
-	private Filteprofil neuesFilterprofil = new Filteprofil();
+	private Filterprofil neuesFilterprofil = new Filterprofil();
 	private String neuerTag;
 	
 	
-	public void setParameter(FilterGruppe filtergruppe, List<Filteprofil> filterprofile){
+	public void setParameter(Filterprofilgruppe filtergruppe, List<Filterprofil> filterprofile){
 		this.filtergruppe = filtergruppe;
 		this.filterprofile = filterprofile;
 	}
@@ -54,19 +50,19 @@ public class FilterBearbeitenBean implements Serializable
 		this.ausgewaehlteTagesoption = ausgewaehlteTagesoption;
 	}
 	
-	public List<Filteprofil> getFilterprofile() {
+	public List<Filterprofil> getFilterprofile() {
 		return filterprofile;
 	}
 
-	public void setFilterprofile(List<Filteprofil> filterprofile) {
+	public void setFilterprofile(List<Filterprofil> filterprofile) {
 		this.filterprofile = filterprofile;
 	}
 
-	public FilterGruppe getFiltergruppe() {
+	public Filterprofilgruppe getFiltergruppe() {
 		return filtergruppe;
 	}
 
-	public void setFiltergruppe(FilterGruppe filtergruppe) {
+	public void setFiltergruppe(Filterprofilgruppe filtergruppe) {
 		this.filtergruppe = filtergruppe;
 	}
 
@@ -84,54 +80,56 @@ public class FilterBearbeitenBean implements Serializable
 			    .filter(p -> p != ausgewaehlteTagesoption).collect(Collectors.toList());
 	}
 	
-	public Boolean isInFiltergruppe(Filteprofil profil){ 
+	public Boolean isInFiltergruppe(Filterprofil profil){ 
 		return  getFiltergruppe().getFilterprofile().contains(profil);
 	}
 	
-	public void addProfil(Filteprofil profil){
-		getFiltergruppe().getFilterprofile().add(0, profil);
+	public void addProfil(Filterprofil profil){
+		getFiltergruppe().getFilterprofile().add(profil);
 	}
 	
-	public void profilVonGruppeEntfernen(Filteprofil profil){
+	public void profilVonGruppeEntfernen(Filterprofil profil){
 		getFiltergruppe().getFilterprofile().remove(profil);
 	}
 	
-	public void deleteProfil(Filteprofil profil){
+	public void deleteProfil(Filterprofil profil){
 		getFilterprofile().remove(profil);
 	}  
 
 	public void addTageszeiten() {
-		getFiltergruppe().getTageszeiten().add(DateUtils.asDate(LocalDateTime.now()));
+		Uhrzeit zeit = new Uhrzeit();
+		zeit.setUhrzeit(DateUtils.asDate(LocalDateTime.now()));
+		getFiltergruppe().getUhrzeiten().add(zeit);
 	}
 	
 	public void removeTageszeiten(Date date){
-		getFiltergruppe().getTageszeiten().remove(date);
+		getFiltergruppe().getUhrzeiten().remove(date);
 	}
 	
 	public void neuesFilterprofilSpeichern(){
 		if(neuesFilterprofil == null || dataBean == null) return;
 		
-		if(neuesFilterprofil.getTitel() == null || neuesFilterprofil.getTitel().isEmpty())
+		if(neuesFilterprofil.getFilterprofilname() == null || neuesFilterprofil.getFilterprofilname().isEmpty())
 		{
-			neuesFilterprofil.setTitel("Filterprofil " + dataBean.getFilterprofile().size());
+			neuesFilterprofil.setFilterprofilname("Filterprofil " + dataBean.getNutzer().getFilterprofile().size());
 		}
 		
 		getFilterprofile().add(0, neuesFilterprofil);
-		neuesFilterprofil = new Filteprofil();
+		neuesFilterprofil = new Filterprofil();
 	}
 
-	public Filteprofil getNeuesFilterprofil() {
+	public Filterprofil getNeuesFilterprofil() {
 		return neuesFilterprofil;
 	}
 
-	public void setNeuesFilterprofil(Filteprofil neuesFilterprofil) {
+	public void setNeuesFilterprofil(Filterprofil neuesFilterprofil) {
 		this.neuesFilterprofil = neuesFilterprofil;
 	}
 	
 	public void saveTag(){
-		if(neuerTag == null || neuerTag.isEmpty() || neuesFilterprofil.getTags().contains(neuerTag)) return;
+		if(neuerTag == null || neuerTag.isEmpty() || neuesFilterprofil.getTagstring().contains(neuerTag)) return;
 		
-		neuesFilterprofil.addTag(neuerTag);
+		neuesFilterprofil.setTagstring(neuesFilterprofil.getTagstring() + neuerTag);
 		neuerTag ="";
 	}
 
