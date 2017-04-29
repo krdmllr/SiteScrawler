@@ -19,7 +19,7 @@ public class ProjectConfig {
 	public ProjectConfig(){
 		try { 
 			String configPath = System.getProperty("jboss.server.config.dir");
-			String configName = "\\config.properties";
+			String configName = "config.properties";
 			Path fileName = Paths.get(configPath, configName);
  
 			Properties properties = new Properties();
