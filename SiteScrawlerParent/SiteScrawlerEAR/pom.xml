@@ -23,12 +23,6 @@
   		<type>war</type>
   	</dependency>
   	<dependency>
-  		<groupId>de.sitescrawler.prototyp</groupId>
-  		<artifactId>Prototyp</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  		<type>war</type>
-  	</dependency>
-  	<dependency>
   		<groupId>de.sitescrawler.portal</groupId>
   		<artifactId>Portal</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
@@ -75,6 +69,11 @@
   		<artifactId>Firmenverwaltung</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.sharedweb</groupId>
+  		<artifactId>SharedWeb</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
   <build>
 	  <plugins>
@@ -98,11 +97,6 @@
 	             <webModule>
 	               <groupId>de.sitescrawler.portal</groupId>
 	               <artifactId>Portal</artifactId>
-	               <contextRoot>/</contextRoot>
-	             </webModule>
-	             <webModule>
-	               <groupId>de.sitescrawler.prototyp</groupId>
-	               <artifactId>Prototyp</artifactId>
 	               <contextRoot>/</contextRoot>
 	             </webModule>
 	          </modules>

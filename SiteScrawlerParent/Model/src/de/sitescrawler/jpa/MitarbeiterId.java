@@ -1,5 +1,5 @@
 package de.sitescrawler.jpa;
-// Generated 26.04.2017 10:42:02 by Hibernate Tools 5.2.0.CR1
+// Generated 02.05.2017 16:40:27 by Hibernate Tools 5.2.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -11,30 +11,18 @@ import javax.persistence.Embeddable;
 public class MitarbeiterId implements java.io.Serializable
 {
 
-    private String firmenrolleFirmenrolle;
-    private String nutzerFiltermanagerIdentifikation;
-    private String firmaFiltermanagerIdentifikation;
+    private static final long serialVersionUID = 1L;
+    private String            nutzerFiltermanagerIdentifikation;
+    private String            firmaFiltermanagerIdentifikation;
 
     public MitarbeiterId()
     {
     }
 
-    public MitarbeiterId(String firmenrolleFirmenrolle, String nutzerFiltermanagerIdentifikation, String firmaFiltermanagerIdentifikation)
+    public MitarbeiterId(String nutzerFiltermanagerIdentifikation, String firmaFiltermanagerIdentifikation)
     {
-        this.firmenrolleFirmenrolle = firmenrolleFirmenrolle;
         this.nutzerFiltermanagerIdentifikation = nutzerFiltermanagerIdentifikation;
         this.firmaFiltermanagerIdentifikation = firmaFiltermanagerIdentifikation;
-    }
-
-    @Column(name = "Firmenrolle_firmenrolle", nullable = false, length = 45)
-    public String getFirmenrolleFirmenrolle()
-    {
-        return this.firmenrolleFirmenrolle;
-    }
-
-    public void setFirmenrolleFirmenrolle(String firmenrolleFirmenrolle)
-    {
-        this.firmenrolleFirmenrolle = firmenrolleFirmenrolle;
     }
 
     @Column(name = "Nutzer_Filtermanager_identifikation", nullable = false, length = 45)
@@ -59,34 +47,38 @@ public class MitarbeiterId implements java.io.Serializable
         this.firmaFiltermanagerIdentifikation = firmaFiltermanagerIdentifikation;
     }
 
+    @Override
     public boolean equals(Object other)
     {
         if ((this == other))
+        {
             return true;
+        }
         if ((other == null))
+        {
             return false;
+        }
         if (!(other instanceof MitarbeiterId))
+        {
             return false;
+        }
         MitarbeiterId castOther = (MitarbeiterId) other;
 
-        return ((this.getFirmenrolleFirmenrolle() == castOther.getFirmenrolleFirmenrolle())
-                || (this.getFirmenrolleFirmenrolle() != null && castOther.getFirmenrolleFirmenrolle() != null
-                    && this.getFirmenrolleFirmenrolle().equals(castOther.getFirmenrolleFirmenrolle())))
-               && ((this.getNutzerFiltermanagerIdentifikation() == castOther.getNutzerFiltermanagerIdentifikation())
-                   || (this.getNutzerFiltermanagerIdentifikation() != null && castOther.getNutzerFiltermanagerIdentifikation() != null
-                       && this.getNutzerFiltermanagerIdentifikation().equals(castOther.getNutzerFiltermanagerIdentifikation())))
+        return ((this.getNutzerFiltermanagerIdentifikation() == castOther.getNutzerFiltermanagerIdentifikation())
+                || (this.getNutzerFiltermanagerIdentifikation() != null && castOther.getNutzerFiltermanagerIdentifikation() != null
+                    && this.getNutzerFiltermanagerIdentifikation().equals(castOther.getNutzerFiltermanagerIdentifikation())))
                && ((this.getFirmaFiltermanagerIdentifikation() == castOther.getFirmaFiltermanagerIdentifikation())
                    || (this.getFirmaFiltermanagerIdentifikation() != null && castOther.getFirmaFiltermanagerIdentifikation() != null
                        && this.getFirmaFiltermanagerIdentifikation().equals(castOther.getFirmaFiltermanagerIdentifikation())));
     }
 
+    @Override
     public int hashCode()
     {
         int result = 17;
 
-        result = 37 * result + (getFirmenrolleFirmenrolle() == null ? 0 : this.getFirmenrolleFirmenrolle().hashCode());
-        result = 37 * result + (getNutzerFiltermanagerIdentifikation() == null ? 0 : this.getNutzerFiltermanagerIdentifikation().hashCode());
-        result = 37 * result + (getFirmaFiltermanagerIdentifikation() == null ? 0 : this.getFirmaFiltermanagerIdentifikation().hashCode());
+        result = 37 * result + (this.getNutzerFiltermanagerIdentifikation() == null ? 0 : this.getNutzerFiltermanagerIdentifikation().hashCode());
+        result = 37 * result + (this.getFirmaFiltermanagerIdentifikation() == null ? 0 : this.getFirmaFiltermanagerIdentifikation().hashCode());
         return result;
     }
 

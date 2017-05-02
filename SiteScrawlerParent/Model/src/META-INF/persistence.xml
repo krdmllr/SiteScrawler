@@ -3,8 +3,6 @@
 	<persistence-unit name="JPA">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/sitescrawler_db</jta-data-source>
-		<class>de.sitescrawler.jpa.Nutzer</class>
-		<class>de.sitescrawler.jpa.Rolle</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 		</properties>
