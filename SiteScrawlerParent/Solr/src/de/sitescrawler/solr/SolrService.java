@@ -16,8 +16,8 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 
+import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofil;
-import de.sitescrawler.model.Artikel; 
 import de.sitescrawler.solr.interfaces.ISolrService;
 
 public class SolrService implements ISolrService

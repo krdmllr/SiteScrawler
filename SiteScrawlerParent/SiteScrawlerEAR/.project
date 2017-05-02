@@ -3,7 +3,6 @@
 	<name>SiteScrawlerEAR</name>
 	<comment></comment>
 	<projects>
-		<project>Prototyp</project>
 		<project>Applikation</project>
 		<project>Portal</project>
 		<project>Model</project>
