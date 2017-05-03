@@ -13,7 +13,7 @@ import de.sitescrawler.email.interfaces.IMailSenderService;
 public class MailSenderServiceImpl implements IMailSenderService{
 
 	@Override
-	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge) {
+	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge) throws ServiceUnavailableException{
 		// localhost, da noch kein Mailserver
 		String host = "localhost";
 
@@ -73,7 +73,8 @@ public class MailSenderServiceImpl implements IMailSenderService{
 
 	@Override
 	public void sendeMassenMail(List<String> emailAdressen, String subjekt, String body, boolean htmlBody,
-			List<byte[]> anhaenge) {
+			List<byte[]> anhaenge) throws ServiceUnavailableException {
+		
 		// localhost, da noch kein Mailserver
 		String host = "localhost";
 

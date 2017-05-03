@@ -20,7 +20,11 @@ public class Main {
 		anhaenge.add(data);
 		
 		IMailSenderService mail = new MailSenderServiceImpl();
-		mail.sendeMail(emailAdresse,subjekt,subjekt,htmlBody,anhaenge);
+		try {
+			mail.sendeMail(emailAdresse,subjekt,subjekt,htmlBody,anhaenge);
+		} catch (ServiceUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
