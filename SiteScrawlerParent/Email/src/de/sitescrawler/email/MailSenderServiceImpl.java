@@ -95,7 +95,13 @@ public class MailSenderServiceImpl implements IMailSenderService{
 		try {
 			MimeMessage nachricht = new MimeMessage(session);
 			nachricht.setFrom(new InternetAdress(sender));
-			nachricht.addRecipients(Message.RecipientType.TO, new InternetAddress(emailAdressen));
+			
+			InternetAddress[] toAddress = new InternetAddress[emailAdressen.size()];
+			for(int i = 0; i < emailAdressen.size(); i++)
+			{
+				toAdress[i] = new InternetAddress(emailAdressen.get(i));
+			}
+			nachricht.addRecipients(Message.RecipientType.TO, toAdress);
 			nachricht.setSubject(subjekt);
 
 			// Teil eins ist die Nachricht
