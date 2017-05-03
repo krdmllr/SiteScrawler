@@ -3,9 +3,7 @@ package de.sitescrawler.logger;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -34,16 +32,11 @@ public class LoggerSiteScrawler
         // Globalen Logger holen zum Konfigurieren
         Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-        // Consolenausgabe unterdrücken
-        Logger wurzelLogger = Logger.getLogger("");
-        Handler[] handlers = wurzelLogger.getHandlers();
-        if (handlers[0] instanceof ConsoleHandler)
-        {
-            wurzelLogger.removeHandler(handlers[0]);
-        }
+        // Angabe, welche Level geloggt werden sollen
+        logger.setLevel(Level.ALL);
 
         // Neue Datei für Logger-Ausgabe erzeugen
-        logger.setLevel(Level.INFO);
+        // TODO: korrekte Ablage auf dem Server
         LoggerSiteScrawler.loggerDateiTxt = new FileHandler(LoggerSiteScrawler.dateiName);
 
         // Text für txt-Datei formatieren

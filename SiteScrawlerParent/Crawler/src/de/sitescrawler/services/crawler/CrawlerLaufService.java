@@ -12,22 +12,30 @@ import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.solr.SolrService;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
+/**
+ * @author tobias, Yvette
+ * Logik zum Starten des Crawl-Vorgangs.
+ */
 public class CrawlerLaufService implements ICrawlerLaufService
 {
     @Inject
     private ISolrService solrService;
-    
+
     ExecutorService      threadPool = Executors.newFixedThreadPool(5);
 
     public CrawlerLaufService()
     {
-    	//Falls inject nicht funktioniert (Ausführung ohne Serverumgebung) wird der SolrService manuell initialisiert.
+        // Falls inject nicht funktioniert (Ausführung ohne Serverumgebung),
+        // wird der SolrService manuell initialisiert.
         if (this.solrService == null)
         {
             this.solrService = new SolrService();
         }
     }
 
+    /**
+     * Crawlt durch die Quellen, die in der Datenbank abgelegt sind.
+     */
     @Override
     public void crawl()
     {
@@ -39,13 +47,13 @@ public class CrawlerLaufService implements ICrawlerLaufService
     }
 
     /**
-     * Ließt die Quellen aus der Datenbank aus und gibt Sie zurück.
+     * Liest die Quellen aus der Datenbank aus und gibt sie zurück.
      *
      * @return Quellen aus der Datenbank
      */
     private List<Quelle> getQuellenAusDatenbank()
     {
-    	//TODO Aktuell Dummy Quellen, wird durch Quellen aus Datenbank ersetzt.
+        //TODO Dummy-Daten durch Produktiv-Daten ersetzen.
         List<Quelle> quellen = new ArrayList<>();
         Quelle testQuelle = new Quelle();
         testQuelle.setRsslink("http://newsfeed.zeit.de/");
@@ -55,7 +63,7 @@ public class CrawlerLaufService implements ICrawlerLaufService
         Quelle testQuelle2 = new Quelle();
         testQuelle2.setRsslink("http://www.spiegel.de/schlagzeilen/index.rss");
         testQuelle2.setName("Spiegel");
-        testQuelle2.setTagOderId("spArticleContent"); 
+        testQuelle2.setTagOderId("spArticleContent");
         quellen.add(testQuelle2);
 
         return quellen;
