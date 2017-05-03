@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
@@ -22,33 +24,40 @@ import de.sitescrawler.solr.SolrService;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
 /**
- * @author tobias Verarbeitet eine Quelle. Durchsucht den RSS Feed der Quelle, parst die Artikel und gibt die gefundenen
- *         Artikel an Solr weiter.
+ * @author Tobias, Yvette
+ * Verarbeitet eine Quelle. Durchsucht den RSS Feed der Quelle,
+ * parst die Artikel und gibt die gefundenen Artikel an Solr weiter.
+ *
  */
 class Verarbeitung implements Runnable
 {
+    // Globalen Logger holen
+    private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+
     @Inject
     private ISolrService solrService;
-    // Quelle die durchsucht wird
+    // Quelle, die durchsucht wird
     private Quelle       quelle;
 
     public Verarbeitung(Quelle quelle)
     {
         this.quelle = quelle;
 
-        // Falls das projekt nicht auf der Serverumgebung läuft und inject fehlt, wird der SolrService manuell
-        // initialisiert.
+        // Falls das Projekt nicht auf der Serverumgebung läuft und inject fehlt,
+        // wird der SolrService manuell initialisiert.
         if (this.solrService == null)
         {
             this.solrService = new SolrService();
         }
     }
 
+    /**
+     * Startet und führt das Zuschneiden der Artikel aus den Quellen aus.
+     */
     @Override
     public void run()
     {
-        // TODO tausche durch loggger
-        System.out.println(this.quelle.getName() + "...");
+        Verarbeitung.LOGGER.log(Level.INFO, this.quelle.toString() + "...");
 
         ArtikelZurechtschneiden artikelZurechtschneiden = new ArtikelZurechtschneiden();
 
@@ -61,10 +70,9 @@ class Verarbeitung implements Runnable
             List<SyndEntry> entries = feed.getEntries();
             for (SyndEntry entry : entries)
             {
-                // TODO Logger
-                System.out.println("Parse: " + entry.getUri());
+                Verarbeitung.LOGGER.log(Level.INFO, "Parse: " + entry.getUri());
 
-                // Speichere wichtige eigenschaften zwischen.
+                // Speichere wichtige Eigenschaften zwischen
                 String autor = entry.getAuthor();
                 String beschreibung = entry.getDescription().getValue();
                 String regex = "<a.*/a>";
@@ -73,7 +81,7 @@ class Verarbeitung implements Runnable
                 Date veroeffentlichungsDatum = entry.getPublishedDate();
                 String titel = entry.getTitle();
 
-                // Crawle die website des Artikels nach dem Text ab.
+                // Crawle die Website des Artikels nach dem Text ab
                 List<String> absaetze = new ArrayList<>();
                 try
                 {
@@ -81,28 +89,27 @@ class Verarbeitung implements Runnable
                 }
                 catch (UnparsbarException e1)
                 {
-                    // TODO Add log
+                    Verarbeitung.LOGGER.log(Level.SEVERE, "Fehler beim Parsen der Absätze: " + entry.getUri());
                     // TODO Exceptions besser aufschlüsseln
                     e1.printStackTrace();
-                    System.out.println("Absätze nicht parsbar");
                 }
 
-                System.out.println(String.format("Added Titel: %s%n Autor: %s%n Link: %s%n Datum: %s%n Beschreibung:%s%n Absätze:%s%n", titel, autor, link,
-                                veroeffentlichungsDatum, beschreibung, absaetze.toString()));
+                Verarbeitung.LOGGER.log(Level.INFO, String.format("Added Titel: %s%n Autor: %s%n Link: %s%n Datum: %s%n Beschreibung:%s%n Absätze:%s%n",
+                                titel, autor, link, veroeffentlichungsDatum, beschreibung, absaetze.toString()));
 
-                // Erstelle einen neuen Artikel aus den gefundenen Daten und übergebe ihn an solr.
+                // Erstelle einen neuen Artikel aus den gefundenen Daten und übergebe ihn an Solr
                 Artikel artikel = new Artikel(veroeffentlichungsDatum, autor, titel, beschreibung, link, absaetze);
                 this.solrService.addArtikel(artikel);
             }
         }
         catch (IllegalArgumentException | FeedException | IOException e)
         {
-            // TODO Add log
+            Verarbeitung.LOGGER.log(Level.SEVERE, "Fehler beim Parsen der Seite!");
             e.printStackTrace();
         }
 
-        // TODO LOG + von welcher Quelle vong multithreading her
-        System.out.println("Crawl ended.");
+        // TODO: Quelle im Log mitaufnehmen?
+        Verarbeitung.LOGGER.log(Level.INFO, "Crawl fertig");
     }
 
 }
