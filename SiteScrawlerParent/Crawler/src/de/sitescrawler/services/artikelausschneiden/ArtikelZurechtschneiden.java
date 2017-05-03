@@ -47,13 +47,13 @@ public class ArtikelZurechtschneiden
                 Element fallsIdAngegeben = doc.getElementById(classOderId);
                 if (fallsIdAngegeben != null)
                 {
-                    Elements elementsAbhängigVonID = fallsIdAngegeben.getElementsByTag("p");
-                    allePTags.addAll(elementsAbhängigVonID);
+                    Elements elementsAbhaengigVonID = fallsIdAngegeben.getElementsByTag("p");
+                    allePTags.addAll(elementsAbhaengigVonID);
                 }
 
                 //Versuche P-Tags der Klasse hinzuzufügen
-                Elements elementsAbhängigVonKlasse = doc.getElementsByClass(classOderId);
-                for (Element element : elementsAbhängigVonKlasse)
+                Elements elementsAbhaengigVonKlasse = doc.getElementsByClass(classOderId);
+                for (Element element : elementsAbhaengigVonKlasse)
                 {
                     allePTags.addAll(element.getElementsByTag("p"));
                 }

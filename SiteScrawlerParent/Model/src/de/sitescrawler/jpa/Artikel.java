@@ -2,14 +2,17 @@ package de.sitescrawler.jpa;
 // Generated 02.05.2017 16:40:27 by Hibernate Tools 5.2.0.CR1
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
 /**
@@ -19,24 +22,24 @@ import javax.persistence.Transient;
 public class Artikel implements java.io.Serializable
 {
 
-    private static final long serialVersionUID = 1L;
-    private Archiveintrag     archiveintrag;
-    private String            solrid;
+    private static final long  serialVersionUID = 1L;
+    private Set<Archiveintrag> archiveintraege  = new HashSet<>(0);
+    private String             solrid;
 
-    private Date              erstellungsdatum;
-    private String            autor;
-    private String            titel;
-    private String            beschreibung;
-    private String            link;
-    private List<String>      absaetzeArtikel;
+    private Date               erstellungsdatum;
+    private String             autor;
+    private String             titel;
+    private String             beschreibung;
+    private String             link;
+    private List<String>       absaetzeArtikel;
 
     public Artikel()
     {
     }
 
-    public Artikel(Archiveintrag archiveintrag, String solrid)
+    public Artikel(Set<Archiveintrag> archiveintraege, String solrid)
     {
-        this.archiveintrag = archiveintrag;
+        this.archiveintraege = archiveintraege;
         this.solrid = solrid;
     }
 
@@ -61,10 +64,10 @@ public class Artikel implements java.io.Serializable
         this.absaetzeArtikel = absaetzeArtikel;
     }
 
-    public Artikel(Archiveintrag archiveintrag, String solrid, Date erstellungsdatum, String autor, String titel, String beschreibung, String link,
+    public Artikel(Set<Archiveintrag> archiveintraege, String solrid, Date erstellungsdatum, String autor, String titel, String beschreibung, String link,
                    List<String> absaetzeArtikel)
     {
-        this.archiveintrag = archiveintrag;
+        this.archiveintraege = archiveintraege;
         this.solrid = solrid;
         this.erstellungsdatum = erstellungsdatum;
         this.autor = autor;
@@ -74,16 +77,17 @@ public class Artikel implements java.io.Serializable
         this.absaetzeArtikel = absaetzeArtikel;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Archiveintrag_archiveintragid", nullable = false)
-    public Archiveintrag getArchiveintrag()
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Archiveintrag_beinhaltet_Artikel", joinColumns = { @JoinColumn(name = "Artikel_solrid", nullable = false, updatable = false) },
+               inverseJoinColumns = { @JoinColumn(name = "Archiveintrag_archiveintragid", nullable = false, updatable = false) })
+    public Set<Archiveintrag> getArchiveintraege()
     {
-        return this.archiveintrag;
+        return this.archiveintraege;
     }
 
-    public void setArchiveintrag(Archiveintrag archiveintrag)
+    public void setArchiveintraege(Set<Archiveintrag> archiveintraege)
     {
-        this.archiveintrag = archiveintrag;
+        this.archiveintraege = archiveintraege;
     }
 
     @Id

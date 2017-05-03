@@ -13,8 +13,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -29,7 +30,7 @@ public class Archiveintrag implements java.io.Serializable
     private Integer            archiveintragid;
     private Filterprofilgruppe filterprofilgruppe;
     private Date               erstellungsdatum;
-    private Set<Artikel>   artikel      = new HashSet<>(0);
+    private Set<Artikel>       artikel          = new HashSet<>(0);
 
     public Archiveintrag()
     {
@@ -85,7 +86,10 @@ public class Archiveintrag implements java.io.Serializable
         this.erstellungsdatum = erstellungsdatum;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "archiveintrag")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Archiveintrag_beinhaltet_Artikel",
+               joinColumns = { @JoinColumn(name = "Archiveintrag_archiveintragid", nullable = false, updatable = false) },
+               inverseJoinColumns = { @JoinColumn(name = "Artikel_solrid", nullable = false, updatable = false) })
     public Set<Artikel> getArtikel()
     {
         return this.artikel;
