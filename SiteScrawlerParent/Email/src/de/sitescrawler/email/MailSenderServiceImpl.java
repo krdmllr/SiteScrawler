@@ -8,10 +8,12 @@ import javax.activation.DataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-public class MailSenderServiceImpl {
+import de.sitescrawler.email.interfaces.IMailSenderService;
 
-	void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge)
-			throws ServiceUnavialableException {
+public class MailSenderServiceImpl implements IMailSenderService{
+
+	@Override
+	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge) {
 		// localhost, da noch kein Mailserver
 		String host = "localhost";
 
@@ -58,7 +60,7 @@ public class MailSenderServiceImpl {
 
 			// Zusammenführen der Teile
 			nachricht.setContent(multipart);
-			
+
 			Transport.send(nachricht);
 			System.out.println("Erfolgreich versendet"); // TODO: Logging
 
@@ -69,8 +71,9 @@ public class MailSenderServiceImpl {
 
 	}
 
-	void sendeMassenMail(List<String> emailAdressen, String subjekt, String body, boolean htmlBody,
-			List<byte[]> anhaenge) throws ServiceUnavialableException {
+	@Override
+	public void sendeMassenMail(List<String> emailAdressen, String subjekt, String body, boolean htmlBody,
+			List<byte[]> anhaenge) {
 		// localhost, da noch kein Mailserver
 		String host = "localhost";
 
