@@ -58,6 +58,8 @@ public class MailSenderServiceImpl {
 
 			// Zusammenführen der Teile
 			nachricht.setContent(multipart);
+			
+			Transport.send(nachricht);
 			System.out.println("Erfolgreich versendet"); // TODO: Logging
 
 		} catch (MessagingException e) {
@@ -93,7 +95,7 @@ public class MailSenderServiceImpl {
 			nachricht.addRecipients(Message.RecipientType.TO, new InternetAddress(emailAdressen));
 			nachricht.setSubject(subjekt);
 
-			// nachrichtTeil ist die Nachricht
+			// Teil eins ist die Nachricht
 			BodyPart nachrichtTeil = new MimeBodyPart();
 			if (htmlBody)
 				nachrichtTeil.setContent(body, "text/html");
