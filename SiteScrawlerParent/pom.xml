@@ -88,5 +88,6 @@
     <module>SharedWeb</module>
     <module>Logger</module>
     <module>Reporter</module>
+    <module>Formatierer</module>
   </modules>
 </project>
