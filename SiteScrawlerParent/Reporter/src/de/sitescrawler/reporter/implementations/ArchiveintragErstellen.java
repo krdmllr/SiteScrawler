@@ -60,10 +60,7 @@ public class ArchiveintragErstellen implements Runnable{
 		}
 	}
 	
-	public void run() {
-		
-		if(!sollArchiveintragErstelltWerden()) return;
-		
+	public void run() { 
 		filtergruppe.setLetzteerstellung(DateUtils.asDate(aktuelleZeit));
 		
 		List<Filterprofil> filterprofile = new ArrayList<Filterprofil>(filtergruppe.getFilterprofile());
@@ -72,8 +69,9 @@ public class ArchiveintragErstellen implements Runnable{
 		Set<Artikel> artikelAlsSet = new HashSet<Artikel>(artikel);
 		
 		Archiveintrag archiveintrag = new Archiveintrag(filtergruppe, DateUtils.asDate(aktuelleZeit), artikelAlsSet);
-		 
-		filtergruppenZugriff.speicherArchiveintrag(archiveintrag, filtergruppe, aktuelleZeit);
+		filtergruppe.getArchiveintraege().add(archiveintrag);
+				 
+		filtergruppenZugriff.speicherArchiveintrag(archiveintrag, filtergruppe);
 		
 		//TODO generiere PDF hier
 		byte [] pdf = new byte [0];
@@ -137,58 +135,4 @@ public class ArchiveintragErstellen implements Runnable{
 		
 		return alleNutzer;
 	}
-	
-	/**
-	 * Überprüft, ob ausgehend vom letzten erstellungs Datum, ein neuer Archiveintrag erstellt werden soll.
-	 * @return ob ein ein Archiveintrag erstellt werden soll.
-	 */
-	private boolean sollArchiveintragErstelltWerden(){
-		LocalDateTime letzteErstellung = DateUtils.asLocalDateTime(filtergruppe.getLetzteerstellung());
-		Intervall intervall = filtergruppe.getIntervall(); 
-		
-		if(letzteErstellung == aktuelleZeit) return false;
-		 
-		switch(intervall.getZeitIntervall()){ 
-		case MONATLICH:
-			return einMonatVergangen(letzteErstellung);
-		case TAEGLICH:
-			return true; 
-		case WOECHENTLICH:
-			return eineWocheVergangen(letzteErstellung);
-		default:
-			return false;
-		}
-	}
-	
-	/**
-	 * Überprüft, ob seit dem gegebenen Datum mindestens ein Monat vergangen ist und der gleiche Tag ist.
-	 * @param letztesDatum Datum, das mit dem aktuellen Datum verglichen wird.
-	 * @return ob seit dem gegebenen Datum mindestens ein Monat vergangen ist und der gleiche Tag ist.
-	 */
-	private boolean einMonatVergangen(LocalDateTime letztesDatum){
-		int letzterMonat = letztesDatum.getMonthValue();
-		int aktuellerMonat = aktuelleZeit.getMonthValue();
-		
-		//Überprüfe ob aktueller Monat > letzter Monat
-		boolean monatStimmt = false;
-		
-		if(letztesDatum.getYear() < aktuelleZeit.getYear()) 
-			monatStimmt = true;
-		else if(letzterMonat == aktuellerMonat - 1)
-			monatStimmt = true;
-		
-		return monatStimmt && letztesDatum.getDayOfMonth() == aktuelleZeit.getDayOfMonth(); 
-	}
-
-	/**
-	 * Überprüft, ob seit dem angegebenen Datum 7 Tage oder mehr vergangen sind.
-	 * @param letztesDatum Datum, das mit dem aktuellen Datum verglichen wird.
-	 * @return ob seit dem angegebenen Datum 7 Tage oder mehr vergangen sind.
-	 */
-	private boolean eineWocheVergangen(LocalDateTime letztesDatum){
-		 LocalDate letztesDatumOhneZeit = letztesDatum.toLocalDate();
-		 LocalDate aktuellesDatumOhneZeit = aktuelleZeit.toLocalDate();
-		 
-		 return letztesDatumOhneZeit.plusDays(7) == aktuellesDatumOhneZeit;
-	}  
 }

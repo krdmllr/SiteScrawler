@@ -19,5 +19,5 @@ public interface IFiltergruppenZugriffsManager {
 	/**
 	 * Speichert einen neune Archiveintrag in die Filtergruppe aus dem er erstellt wurde ab.
 	 */
-	public void speicherArchiveintrag(Archiveintrag archiveintrag, Filterprofilgruppe filtergruppe, LocalDateTime erstellungsZeitpunkt);
+	public void speicherArchiveintrag(Archiveintrag archiveintrag, Filterprofilgruppe filtergruppe);
 }
