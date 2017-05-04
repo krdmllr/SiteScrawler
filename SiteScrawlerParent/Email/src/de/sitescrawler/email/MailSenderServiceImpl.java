@@ -7,6 +7,7 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.mail.util.ByteArrayDataSource;
 
 import de.sitescrawler.email.interfaces.IMailSenderService;
 
@@ -30,11 +31,11 @@ public class MailSenderServiceImpl implements IMailSenderService{
 		props.setProperty("mail.password", "password");
 
 		// Default Session
-		Session session = Session.getDefaultInstance(properties);
+		Session session = Session.getDefaultInstance(props);
 
 		try {
 			MimeMessage nachricht = new MimeMessage(session);
-			nachricht.setFrom(new InternetAdress(sender));
+			nachricht.setFrom(new InternetAddress(sender));
 			nachricht.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAdresse));
 			nachricht.setSubject(subjekt);
 
@@ -91,18 +92,18 @@ public class MailSenderServiceImpl implements IMailSenderService{
 		props.setProperty("mail.password", "password");
 
 		// Default Session
-		Session session = Session.getDefaultInstance(properties);
+		Session session = Session.getDefaultInstance(props);
 
 		try {
 			MimeMessage nachricht = new MimeMessage(session);
-			nachricht.setFrom(new InternetAdress(sender));
+			nachricht.setFrom(new InternetAddress(sender));
 			
 			InternetAddress[] toAddress = new InternetAddress[emailAdressen.size()];
 			for(int i = 0; i < emailAdressen.size(); i++)
 			{
-				toAdress[i] = new InternetAddress(emailAdressen.get(i));
+				toAddress[i] = new InternetAddress(emailAdressen.get(i));
 			}
-			nachricht.addRecipients(Message.RecipientType.TO, toAdress);
+			nachricht.addRecipients(Message.RecipientType.TO, toAddress);
 			nachricht.setSubject(subjekt);
 
 			// Teil eins ist die Nachricht
