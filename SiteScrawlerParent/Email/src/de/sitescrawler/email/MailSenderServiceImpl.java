@@ -9,6 +9,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import javax.mail.util.*;
 
+
 import de.sitescrawler.email.interfaces.IMailSenderService;
 
 public class MailSenderServiceImpl implements IMailSenderService {
@@ -61,6 +62,7 @@ public class MailSenderServiceImpl implements IMailSenderService {
 			// Zusammenführen der Teile
 			nachricht.setContent(multipart);
 
+			
 			Transport.send(nachricht);
 			System.out.println("Erfolgreich versendet"); // TODO: Logging
 
@@ -92,9 +94,11 @@ public class MailSenderServiceImpl implements IMailSenderService {
 		try {
 			MimeMessage nachricht = new MimeMessage(session);
 			nachricht.setFrom(new InternetAddress(sender));
-
+			
 			InternetAddress[] toAddress = new InternetAddress[emailAdressen.size()];
-			for (int i = 0; i < emailAdressen.size(); i++) {
+			
+			for(int i = 0; i < emailAdressen.size(); i++)
+			{
 				toAddress[i] = new InternetAddress(emailAdressen.get(i));
 			}
 			nachricht.addRecipients(Message.RecipientType.TO, toAddress);
