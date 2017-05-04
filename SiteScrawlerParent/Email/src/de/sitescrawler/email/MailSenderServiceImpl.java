@@ -20,6 +20,7 @@ public class MailSenderServiceImpl implements IMailSenderService {
 		// localhost, da noch kein Mailserver
 		String host = "localhost";
 
+		
 		// Sender Mail
 		String sender = "beispielemail@gmail.com";
 
