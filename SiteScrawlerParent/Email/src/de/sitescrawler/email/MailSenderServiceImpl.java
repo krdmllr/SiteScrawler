@@ -7,13 +7,15 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.mail.util.*;
 
 import de.sitescrawler.email.interfaces.IMailSenderService;
 
-public class MailSenderServiceImpl implements IMailSenderService{
+public class MailSenderServiceImpl implements IMailSenderService {
 
 	@Override
-	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge) throws ServiceUnavailableException{
+	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge)
+			throws ServiceUnavailableException {
 		// localhost, da noch kein Mailserver
 		String host = "localhost";
 
@@ -25,16 +27,12 @@ public class MailSenderServiceImpl implements IMailSenderService{
 		// Mail Server initialisieren
 		props.put("mail.smtp.host", host);
 
-		// Falls benötigt
-		props.setProperty("mail.user", "username");
-		props.setProperty("mail.password", "password");
-
 		// Default Session
-		Session session = Session.getDefaultInstance(properties);
+		Session session = Session.getInstance(props);
 
 		try {
 			MimeMessage nachricht = new MimeMessage(session);
-			nachricht.setFrom(new InternetAdress(sender));
+			nachricht.setFrom(new InternetAddress(sender));
 			nachricht.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAdresse));
 			nachricht.setSubject(subjekt);
 
@@ -45,18 +43,20 @@ public class MailSenderServiceImpl implements IMailSenderService{
 			else
 				nachrichtTeil.setText(body);
 
-			// Teil zwei ist Anhang
-			MimeBodyPart anhang = new MimeBodyPart();
-			DataSource dataSource = new ByteArrayDataSource(anhaenge, "application/pdf");
-			anhang.setDataHandler(new DataHandler(dataSource));
-			anhang.setFileName("Pressespiegel");
-
 			// Erstelle eine multipar nachricht
 			Multipart multipart = new MimeMultipart();
 			// Setze text Nachricht Teil
 			multipart.addBodyPart(nachrichtTeil);
-			// Setze Anhang Teil
-			multipart.addBodyPart(anhang);
+
+			// Teil zwei ist Anhang
+			for (int i = 0; i < anhaenge.size(); i++) {
+				MimeBodyPart anhang = new MimeBodyPart();
+				DataSource bds = new ByteArrayDataSource(anhaenge.get(i), "application/pdf");
+				anhang.setDataHandler(new DataHandler(bds));
+				anhang.setFileName("Pressespiegel Nr." + i);
+				// Setze Anhang Teil
+				multipart.addBodyPart(anhang);
+			}
 
 			// Zusammenführen der Teile
 			nachricht.setContent(multipart);
@@ -74,7 +74,7 @@ public class MailSenderServiceImpl implements IMailSenderService{
 	@Override
 	public void sendeMassenMail(List<String> emailAdressen, String subjekt, String body, boolean htmlBody,
 			List<byte[]> anhaenge) throws ServiceUnavailableException {
-		
+
 		// localhost, da noch kein Mailserver
 		String host = "localhost";
 
@@ -86,23 +86,18 @@ public class MailSenderServiceImpl implements IMailSenderService{
 		// Mail Server initialisieren
 		props.put("mail.smtp.host", host);
 
-		// Falls benötigt
-		props.setProperty("mail.user", "username");
-		props.setProperty("mail.password", "password");
-
 		// Default Session
-		Session session = Session.getDefaultInstance(properties);
+		Session session = Session.getInstance(props);
 
 		try {
 			MimeMessage nachricht = new MimeMessage(session);
-			nachricht.setFrom(new InternetAdress(sender));
-			
+			nachricht.setFrom(new InternetAddress(sender));
+
 			InternetAddress[] toAddress = new InternetAddress[emailAdressen.size()];
-			for(int i = 0; i < emailAdressen.size(); i++)
-			{
-				toAdress[i] = new InternetAddress(emailAdressen.get(i));
+			for (int i = 0; i < emailAdressen.size(); i++) {
+				toAddress[i] = new InternetAddress(emailAdressen.get(i));
 			}
-			nachricht.addRecipients(Message.RecipientType.TO, toAdress);
+			nachricht.addRecipients(Message.RecipientType.TO, toAddress);
 			nachricht.setSubject(subjekt);
 
 			// Teil eins ist die Nachricht
@@ -112,18 +107,20 @@ public class MailSenderServiceImpl implements IMailSenderService{
 			else
 				nachrichtTeil.setText(body);
 
-			// Teil zwei ist Anhang
-			MimeBodyPart anhang = new MimeBodyPart();
-			DataSource dataSource = new ByteArrayDataSource(anhaenge, "application/pdf");
-			anhang.setDataHandler(new DataHandler(dataSource));
-			anhang.setFileName("Pressespiegel");
-
 			// Erstelle eine multipar nachricht
 			Multipart multipart = new MimeMultipart();
 			// Setze text Nachricht Teil
 			multipart.addBodyPart(nachrichtTeil);
-			// Setze Anhang Teil
-			multipart.addBodyPart(anhang);
+
+			// Teil zwei ist Anhang
+			for (int i = 0; i < anhaenge.size(); i++) {
+				MimeBodyPart anhang = new MimeBodyPart();
+				DataSource bds = new ByteArrayDataSource(anhaenge.get(i), "application/pdf");
+				anhang.setDataHandler(new DataHandler(bds));
+				anhang.setFileName("Pressespiegel Nr." + i);
+				// Setze Anhang Teil
+				multipart.addBodyPart(anhang);
+			}
 
 			// Zusammenführen der Teile
 			nachricht.setContent(multipart);
