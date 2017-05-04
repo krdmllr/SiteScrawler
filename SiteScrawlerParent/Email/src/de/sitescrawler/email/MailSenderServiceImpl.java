@@ -34,17 +34,8 @@ public class MailSenderServiceImpl implements IMailSenderService {
 		// Mail Server initialisieren
 		props.put("mail.smtp.host", host);
 
-<<<<<<< HEAD
 		// Default Session
 		Session session = Session.getInstance(props);
-=======
-		// Falls benötigt
-		props.setProperty("mail.user", "username");
-		props.setProperty("mail.password", "password");
-
-		// Default Session
-		Session session = Session.getDefaultInstance(props);
->>>>>>> refs/remotes/origin/EMail
 
 		try {
 			MimeMessage nachricht = new MimeMessage(session);
@@ -103,34 +94,17 @@ public class MailSenderServiceImpl implements IMailSenderService {
 		// Mail Server initialisieren
 		props.put("mail.smtp.host", host);
 
-<<<<<<< HEAD
 		// Default Session
 		Session session = Session.getInstance(props);
-=======
-		// Falls benötigt
-		props.setProperty("mail.user", "username");
-		props.setProperty("mail.password", "password");
-
-		// Default Session
-		Session session = Session.getDefaultInstance(props);
->>>>>>> refs/remotes/origin/EMail
 
 		try {
 			MimeMessage nachricht = new MimeMessage(session);
 			nachricht.setFrom(new InternetAddress(sender));
-<<<<<<< HEAD
-			
-=======
-			
->>>>>>> refs/remotes/origin/EMail
+
 			InternetAddress[] toAddress = new InternetAddress[emailAdressen.size()];
 			
 			for(int i = 0; i < emailAdressen.size(); i++)
-<<<<<<< HEAD
 			{
-=======
-			{
->>>>>>> refs/remotes/origin/EMail
 				toAddress[i] = new InternetAddress(emailAdressen.get(i));
 			}
 			nachricht.addRecipients(Message.RecipientType.TO, toAddress);
