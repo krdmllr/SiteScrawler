@@ -6,14 +6,10 @@ import java.util.*;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.*;
-<<<<<<< HEAD
 import javax.mail.internet.*;
 import javax.mail.util.*;
 
-=======
-import javax.mail.internet.*;
-import javax.mail.util.ByteArrayDataSource;
->>>>>>> refs/remotes/origin/EMail
+
 
 import de.sitescrawler.email.interfaces.IMailSenderService;
 
