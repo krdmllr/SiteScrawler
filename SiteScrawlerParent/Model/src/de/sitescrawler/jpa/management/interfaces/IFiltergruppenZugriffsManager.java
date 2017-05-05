@@ -1,4 +1,4 @@
-package de.sitescrawler.jpa.management;
+package de.sitescrawler.jpa.management.interfaces;
 
 import java.time.LocalDateTime;
 import java.util.List;

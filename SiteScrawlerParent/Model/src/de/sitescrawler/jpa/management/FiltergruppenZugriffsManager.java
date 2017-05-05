@@ -1,4 +1,4 @@
-package de.sitescrawler.jpa.management.implementation;
+package de.sitescrawler.jpa.management;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Filterprofilgruppe;
-import de.sitescrawler.jpa.management.IFiltergruppenZugriffsManager;
+import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager;
 import de.sitescrawler.utility.FiltergruppenZeitpunktCheckUtil;
 
 public class FiltergruppenZugriffsManager implements IFiltergruppenZugriffsManager {

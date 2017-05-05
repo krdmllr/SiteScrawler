@@ -86,6 +86,9 @@
         <dependent-module archiveName="Firmenverwaltung-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Firmenverwaltung/Firmenverwaltung">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="SharedWeb-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/SharedWeb/SharedWeb">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="Logger-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Logger/Logger">
             <dependency-type>uses</dependency-type>
         </dependent-module>

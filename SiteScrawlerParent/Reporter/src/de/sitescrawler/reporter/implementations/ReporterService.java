@@ -8,8 +8,8 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 
 import de.sitescrawler.jpa.Filterprofilgruppe;
-import de.sitescrawler.jpa.management.IFiltergruppenZugriffsManager;
-import de.sitescrawler.jpa.management.implementation.FiltergruppenZugriffsManager;
+import de.sitescrawler.jpa.management.FiltergruppenZugriffsManager;
+import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager;
 import de.sitescrawler.logger.LoggerSiteScrawler;
 import de.sitescrawler.reporter.interfaces.IReporterService; 
 
