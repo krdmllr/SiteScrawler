@@ -22,6 +22,7 @@ public class NavigationBean implements Serializable {
 	private DataBean dataBean;
 		
 	public List<Filterprofilgruppe> getSelectableFiltergruppen(){
+ 
 		return dataBean.getFiltergruppen().stream()
 			    .filter(p -> p != dataBean.getFiltergruppe()).collect(Collectors.toList());
 	}

@@ -21,7 +21,6 @@ import javax.persistence.Transient;
 @Entity
 public class Artikel implements java.io.Serializable
 {
-
     private static final long  serialVersionUID = 1L;
     private Set<Archiveintrag> archiveintraege  = new HashSet<>(0);
     private String             solrid;
