@@ -37,8 +37,11 @@ public class DataBean implements Serializable
     @Inject
     private ProjectConfig      config;
     
-	    //@Inject
-	    private INutzerDatenService nutzerDatenService = new NutzerDatenServiceDummy();
+    @Inject
+    private ArchivBean			archiv;
+    
+    //@Inject
+    private INutzerDatenService nutzerDatenService = new NutzerDatenServiceDummy();
 
     private Filterprofilgruppe filtergruppe;
 
@@ -71,7 +74,12 @@ public class DataBean implements Serializable
 
     public void setFiltergruppe(Filterprofilgruppe filtergruppe)
     {
+    	
         this.filtergruppe = filtergruppe;
+        if(filtergruppe.getArchiveintraege().size() > 0)
+        {
+        	 archiv.setGeweahlterArchiveintrag((Archiveintrag)filtergruppe.getArchiveintraege().toArray()[0]);
+        } 
     }
 
     public List<Filterprofilgruppe> getFiltergruppen()

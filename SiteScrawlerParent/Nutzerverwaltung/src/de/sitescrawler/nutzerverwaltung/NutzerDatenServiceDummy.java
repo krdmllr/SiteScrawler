@@ -156,8 +156,11 @@ public class NutzerDatenServiceDummy implements INutzerDatenService{
 	                {
 	                    Artikel artikel = new Artikel();
 	                    artikel.setAutor(name + "Autor" + i + "|" + j);
-	                    artikel.setBeschreibung(name + "Beschreibung" + i + "|" + j);
+	                    artikel.setBeschreibung(name + "Beschreibung" + i + "|" + j + "    " + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
 	                    artikel.setTitel(name + "Titel" + i + "|" + j);
+	                    for (int k = 0; k < 4; k++) {
+	                    	artikel.getAbsaetzeArtikel().add("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+						}
 	                    artikel.setErstellungsdatum(DateUtils.asDate(DateUtils.asLocalDateTime(eintrag.getErstellungsdatum()).plusMinutes(i)));
 	                    artikelListe.add(artikel);
 	                }

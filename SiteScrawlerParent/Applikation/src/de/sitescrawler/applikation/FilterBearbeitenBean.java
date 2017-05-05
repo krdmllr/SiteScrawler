@@ -35,7 +35,6 @@ public class FilterBearbeitenBean implements Serializable
 	private String ausgewaehlteTagesoption = TAEGLICH; 
 	
 	private Filterprofil neuesFilterprofil = new Filterprofil();
-	private String neuerTag;
 	
 	
 	public void setParameter(Filterprofilgruppe filtergruppe, Set<Filterprofil> filterprofile){
@@ -125,20 +124,5 @@ public class FilterBearbeitenBean implements Serializable
 
 	public void setNeuesFilterprofil(Filterprofil neuesFilterprofil) {
 		this.neuesFilterprofil = neuesFilterprofil;
-	}
-	
-	public void saveTag(){
-		if(neuerTag == null || neuerTag.isEmpty() || neuesFilterprofil.getTagstring().contains(neuerTag)) return;
-		
-		neuesFilterprofil.setTagstring(neuesFilterprofil.getTagstring() + neuerTag);
-		neuerTag ="";
-	}
-
-	public String getNeuerTag() {
-		return neuerTag;
-	}
-
-	public void setNeuerTag(String neuerTag) {
-		this.neuerTag = neuerTag;
 	}
 }
