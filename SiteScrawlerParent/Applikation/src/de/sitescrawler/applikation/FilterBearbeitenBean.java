@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date; 
-import java.util.List; 
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
  
 import javax.enterprise.context.SessionScoped; 
@@ -27,7 +28,7 @@ public class FilterBearbeitenBean implements Serializable
 	private final String ZWEI_WOECHENTLICH = "Zwei-Wöchentlich";
 	private final String MONATLICH = "Monatlich"; 
 	
-	private List<Filterprofil> filterprofile; 
+	private Set<Filterprofil> filterprofile; 
 
 	private Filterprofilgruppe filtergruppe; 
 	
@@ -37,7 +38,7 @@ public class FilterBearbeitenBean implements Serializable
 	private String neuerTag;
 	
 	
-	public void setParameter(Filterprofilgruppe filtergruppe, List<Filterprofil> filterprofile){
+	public void setParameter(Filterprofilgruppe filtergruppe, Set<Filterprofil> filterprofile){
 		this.filtergruppe = filtergruppe;
 		this.filterprofile = filterprofile;
 	}
@@ -50,11 +51,11 @@ public class FilterBearbeitenBean implements Serializable
 		this.ausgewaehlteTagesoption = ausgewaehlteTagesoption;
 	}
 	
-	public List<Filterprofil> getFilterprofile() {
+	public Set<Filterprofil> getFilterprofile() {
 		return filterprofile;
 	}
 
-	public void setFilterprofile(List<Filterprofil> filterprofile) {
+	public void setFilterprofile(Set<Filterprofil> filterprofile) {
 		this.filterprofile = filterprofile;
 	}
 
@@ -114,7 +115,7 @@ public class FilterBearbeitenBean implements Serializable
 			neuesFilterprofil.setFilterprofilname("Filterprofil " + dataBean.getNutzer().getFilterprofile().size());
 		}
 		
-		getFilterprofile().add(0, neuesFilterprofil);
+		getFilterprofile().add( neuesFilterprofil);
 		neuesFilterprofil = new Filterprofil();
 	}
 

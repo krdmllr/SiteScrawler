@@ -180,10 +180,9 @@ public class DataBean implements Serializable
         {
             System.out.println(ex);
         }
-        finally
-        {
-            return list;
-        }
+         
+        return list;
+         
     }
 
     public Nutzer getNutzer()

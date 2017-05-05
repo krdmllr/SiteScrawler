@@ -55,6 +55,30 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
         this.filterprofilgruppen = filterprofilgruppes;
         this.mitarbeiter = mitarbeiter;
     }
+    
+    //Unmapped
+    @Transient
+    public String getGanzenNamen(){
+    	return vorname + " " + nachname;
+    }
+    
+    @Transient
+    public boolean isFirmengruppeVonNutzer(Filterprofilgruppe filtergruppe){
+    	return filterprofilgruppen.contains(filtergruppe);
+    }
+    
+    public Firma getFirmaZuFirmengruppe(Filterprofilgruppe gruppe){
+    	for(Firma f: getFirmen())
+    	{
+    		if(f.getFilterprofilgruppen().contains(gruppe))
+    		{
+    			return f;
+    		}
+    	}
+    	return null;
+    }
+    
+    //Mapped
 
     @Column(name = "vorname")
     public String getVorname()

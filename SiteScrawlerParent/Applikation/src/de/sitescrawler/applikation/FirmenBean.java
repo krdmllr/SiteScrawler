@@ -28,7 +28,10 @@ public class FirmenBean implements Serializable {
 
 		@PostConstruct
 		void init() {
-			setAusgewaehlteFirma((Firma)dataBean.getNutzer().getFirmen().toArray()[0]);
+			if(dataBean.getNutzer().getFirmen().size() > 0)
+			{
+				setAusgewaehlteFirma((Firma)dataBean.getNutzer().getFirmen().toArray()[0]);
+			} 
 		}
 
 		public Firma getAusgewaehlteFirma() {

@@ -16,8 +16,8 @@
 				<div class="panel panel-default artikelPanel">
 					<div class="panel-heading">  
 						<div class="pull-left schrift">
-							<p:outputLabel rendered="#{data.filtergruppe.isFirma()}" value="#{data.filtergruppe.firma.name}" style="color: blue;"></p:outputLabel>
-							<p:outputLabel rendered="#{!data.filtergruppe.isFirma()}" value="Private Filtergruppe" style="color: green;"></p:outputLabel>
+							<p:outputLabel rendered="#{data.filtergruppe.firmenGruppe}" value="#{data.filtergruppe.firma.name}" style="color: blue;"></p:outputLabel>
+							<p:outputLabel rendered="#{data.filtergruppe.nutzerGruppe}" value="Private Filtergruppe" style="color: green;"></p:outputLabel>
 							<h4 >#{data.filtergruppe.titel}</h4>
 						</div>
 						
@@ -25,7 +25,7 @@
 							<p:commandLink id="filter-bearbeiten" action="/filterbearbeiten.xhtml?faces-redirect=true"> 
 								<!-- <f:param name="filterprofile" value="#{firmen.ausgewaehlteFirma.filterprofile}" />	
 								<f:param name="filtergruppe" value="#{gruppe}" /> -->
-								<f:actionListener for="filter-bearbeiten" binding="#{filterbearbeiten.setParameter(data.filtergruppe, data.filtergruppe.isFirma() ? data.filtergruppe.firma.filterprofile : data.filterprofile)}" />
+								<f:actionListener for="filter-bearbeiten" binding="#{filterbearbeiten.setParameter(data.filtergruppe, data.filtergruppe.firmenGruppe ? data.filtergruppe.firma.filterprofile : data.nutzer.filterprofile)}" />
 								<p:graphicImage value="/resources/image/edit-square.svg"
 									class="pull-right bild" />
 							</p:commandLink>
@@ -49,11 +49,11 @@
 						</h:form>
 					</div>
 					<p:dataList class="list-group archiveintraege"
-						value="#{archiv.archiveintraege}" var="eintrag" type="definition">
+						value="#{data.filtergruppe.archiveintraege}" var="eintrag" type="definition">
 						<h:form>
 							<p:commandLink class="list-group-item" id="ajax"
 								update="artikelBereich" action="#{archiv.buttonAction(eintrag)}">
-								<h:outputText value="#{eintrag.erstellungsDatum}">
+								<h:outputText value="#{eintrag.erstellungsdatum}">
 									<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 								</h:outputText>
 							</p:commandLink>
@@ -69,7 +69,7 @@
 						<h3 class="panel-title pull-left linkeUeberschrift">
 							Pressespiegel vong
 							<h:outputText
-								value="#{archiv.geweahlterArchiveintrag.erstellungsDatum}">
+								value="#{archiv.geweahlterArchiveintrag.erstellungsdatum}">
 								<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 							</h:outputText>
 						</h3>

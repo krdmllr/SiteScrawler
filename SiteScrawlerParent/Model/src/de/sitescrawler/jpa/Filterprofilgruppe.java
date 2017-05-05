@@ -1,6 +1,7 @@
 package de.sitescrawler.jpa;
 // Generated 02.05.2017 16:40:27 by Hibernate Tools 5.2.0.CR1
 
+import java.beans.Transient;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,11 +35,46 @@ public class Filterprofilgruppe implements java.io.Serializable
     private Set<Nutzer>        empfaenger           = new HashSet<>(0);
     private Set<Uhrzeit>       uhrzeiten        = new HashSet<>(0);
     private Set<Archiveintrag> archiveintraege  = new HashSet<>(0);
+    
+    //Unmapped
+    private Firma firma;
+    private Nutzer nutzer;
 
     public Filterprofilgruppe()
     {
     }
+    
+    //Unmapped
+    
+    @Transient
+    public boolean isFirmenGruppe(){
+    	return getFirma() != null;
+    }
+    
+    @Transient
+    public boolean isNutzerGruppe(){
+    	return getNutzer() != null;
+    }
+    
+    @Transient
+	public Firma getFirma() {
+		return firma;
+	}
 
+	public void setFirma(Firma firma) {
+		this.firma = firma;
+	}
+
+	@Transient
+	public Nutzer getNutzer() {
+		return nutzer;
+	}
+
+	public void setNutzer(Nutzer nutzer) {
+		this.nutzer = nutzer;
+	}
+	
+	//Mapped
     public Filterprofilgruppe(int filterprofilgruppeId, Filtermanager filtermanager, Intervall intervall, String titel)
     {
         this.filterprofilgruppeId = filterprofilgruppeId;
@@ -60,6 +96,11 @@ public class Filterprofilgruppe implements java.io.Serializable
         this.uhrzeiten = uhrzeiten;
         this.archiveintraege = archiveintraege;
     }
+    
+    //NOT MAPPED
+     
+    
+    //MAPPED
 
     @Id
 
@@ -172,5 +213,4 @@ public class Filterprofilgruppe implements java.io.Serializable
     {
         this.archiveintraege = archiveintraege;
     }
-
 }
