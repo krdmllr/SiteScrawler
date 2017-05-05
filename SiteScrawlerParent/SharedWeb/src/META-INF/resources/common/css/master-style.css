@@ -61,3 +61,12 @@ ul.dropdown-menu{
 }
 
 /* !Navbar */
+ 
+/* Button */
+
+body .btn-default {
+    color: #fff;
+    background-color: #8c98bd;
+}
+
+/* !Button */

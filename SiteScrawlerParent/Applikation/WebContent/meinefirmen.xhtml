@@ -54,7 +54,7 @@
 
 					<!-- Filtergruppen -->
 					<p:dataList class="list-group mitarbeiter-liste filterprofile"
-						value="#{firmen.ausgewaehlteFirma.filtergruppen}" var="gruppe"
+						value="#{firmen.ausgewaehlteFirma.filterprofilgruppen}" var="gruppe"
 						type="definition" id="filtergruppen-liste">
 						<h:form id="firma-filtergruppe">
 							<li class="list-group-item">
@@ -101,7 +101,7 @@
 							<div class="artikel-titel-container">
 
 								<p:outputLabel id="filter-profil-text"
-									value="#{mitarbeiter.nutzeraccount.ganzerName}" />
+									value="#{mitarbeiter.nutzer.ganzenNamen}" />
 
 								<p:commandLink
 									rendered="#{firmen.isEmpfaengerAktuellerFilterGruppe(mitarbeiter)}"
@@ -178,18 +178,18 @@
 								<div class="artikel-titel-container">
 
 									<p:outputLabel id="filter-profil-text"
-										value="#{mitarbeiter.nutzeraccount.ganzerName}" />
+										value="#{mitarbeiter.nutzer.ganzenNamen}" />
 
-									<p:commandLink rendered="#{!mitarbeiter.isAdmin}"
-										action="#{mitarbeiter.setIsAdmin(true)}" update="profil-item"
+									<p:commandLink rendered="#{!mitarbeiter.admin}"
+										action="#{mitarbeiter.macheZuAdmin()}" update="profil-item"
 										ajax="true">
 
 										<p:graphicImage value="/resources/image/shield-gray.svg"
 											class="filter-profil-icon pull-right" />
 									</p:commandLink>
 
-									<p:commandLink rendered="#{mitarbeiter.isAdmin}"
-										action="#{mitarbeiter.setIsAdmin(false)}"
+									<p:commandLink rendered="#{mitarbeiter.admin}"
+										action="#{mitarbeiter.macheZuNutzer()}"
 										update=" profil-item">
 
 										<p:graphicImage value="/resources/image/shield.svg"

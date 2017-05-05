@@ -1,6 +1,7 @@
 package de.sitescrawler.jpa;
 // Generated 02.05.2017 16:40:27 by Hibernate Tools 5.2.0.CR1
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +22,6 @@ import javax.persistence.Transient;
 @Entity
 public class Artikel implements java.io.Serializable
 {
-
     private static final long  serialVersionUID = 1L;
     private Set<Archiveintrag> archiveintraege  = new HashSet<>(0);
     private String             solrid;
@@ -31,7 +31,7 @@ public class Artikel implements java.io.Serializable
     private String             titel;
     private String             beschreibung;
     private String             link;
-    private List<String>       absaetzeArtikel;
+    private List<String>       absaetzeArtikel = new ArrayList();
 
     public Artikel()
     {

@@ -35,6 +35,11 @@
 		<artifactId>Utility</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
+	<dependency>
+		<groupId>de.sitescrawler.logger</groupId>
+		<artifactId>Logger</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
   </dependencies>
   <build>
   	<sourceDirectory>src</sourceDirectory>

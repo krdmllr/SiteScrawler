@@ -61,7 +61,7 @@
 						<h:form id="tageszeiten">
 							<div class="linkeUeberschrift" style="height: 50px;">
 								<h:outputText id="filter-profil-text"
-									value="Wiederholung: #{filterbearbeiten.filtergruppe.tageszeiten.size()}" />
+									value="Wiederholung: #{filterbearbeiten.filtergruppe.uhrzeiten.size()}" />
 								<p:commandLink action="#{filterbearbeiten.addTageszeiten()}"
 									update="tageszeiten">
 									<h:graphicImage value="/resources/image/add.svg"
@@ -69,7 +69,7 @@
 								</p:commandLink>
 							</div>
 							<p:dataList class="list-group filterprofile"
-								value="#{filterbearbeiten.filtergruppe.tageszeiten}" var="zeit"
+								value="#{filterbearbeiten.filtergruppe.uhrzeiten}" var="zeit"
 								type="definition">
 								<li class="list-group-item">
 									<div class="artikel-titel-container">
@@ -102,24 +102,23 @@
 				<div class="panel panel-default artikelPanel">
 					<div class="panel-heading">
 						<h3 class="pull-left">#{filterbearbeiten.filtergruppe.titel} bearbeiten</h3>
-						<p:outputLabel class="pull-right" rendered="#{data.filtergruppe.isFirma()}" value="#{data.filtergruppe.firma.name}" style="color: blue;"></p:outputLabel>
-						<p:outputLabel class="pull-right" rendered="#{!data.filtergruppe.isFirma()}" value="Private Filtergruppe" style="color: green;"></p:outputLabel>
+						<p:outputLabel class="pull-right" rendered="#{data.filtergruppe.firmenGruppe}" value="#{data.filtergruppe.firma.name}" style="color: blue;"></p:outputLabel>
+						<p:outputLabel class="pull-right" rendered="#{data.filtergruppe.nutzerGruppe}" value="Private Filtergruppe" style="color: green;"></p:outputLabel>
 						<div class="clearfix"></div>
 					</div>
 					<p:dataList class="list-group filtergruppe-profile"
 						value="#{filterbearbeiten.filtergruppe.filterprofile}" var="profil"
-						type="definition" id="filter-gruppen-profile">
+						type="definition" id="filter-gruppen-profile" >
 
 						<div class="list-group-item artikel-titel-container"
 							style="overflow: hidden; border-bottom: 1px solid #ddd;">
 							<h:form>
 								<div class="pull-left linkeUeberschrift"
 									style="width: Calc(100% - 80px);">
-									<h4>#{profil.titel}</h4>
+									<h4>#{profil.filterprofilname}</h4>
 									<div>
-										<p:repeat value="#{profil.tags}" var="tag">
-											<p class="pull-left tag">#{tag}</p>
-										</p:repeat>
+										 
+											<p class="pull-left tag">#{profil.tagstring}</p> 
 									</div>
 								</div>
 
@@ -152,30 +151,21 @@
 							<b:modal id="profil-anlegen-modal" title="Profil anlegen" styleClass="modalPseudoClass" >
 								<b:form id="profil-anlegen-modal-content">
 									<div class="form-group">
-										<p:inputText
-											value="#{filterbearbeiten.neuesFilterprofil.titel}"
-											placeholder="Profilname" class="form-control"></p:inputText>
+										<p:inputText 
+											value="#{filterbearbeiten.neuesFilterprofil.filterprofilname}"
+											placeholder="Profilname" class="form-control">
+											<p:ajax event="keyup"/>
+										</p:inputText>
 									</div>
 									<div class="form-group artikel-titel-container clearfix">
+										<p>Filter</p>
 										<p:inputText class="form-control pull-left"
 											style="width: 60%;" id="tag-eingabe"
-											value="#{filterbearbeiten.neuerTag}" placeholder="Neuer Tag"
-											onkeypress="if (event.keyCode == 13) {#{filterbearbeiten.saveTag()}}"
-											update="profil-anlegen-modal-content tag-eingabe tags" />
-										<b:commandButton class="form-control pull-right"
-											style="width: 35%;" value="Tag hinzufügen"
-											action="#{filterbearbeiten.saveTag()}"
-											update="profil-anlegen-modal-content tag-eingabe tags" />
-									</div>
-									<div class="form-group">
-										<div>
-											<p:repeat value="#{filterbearbeiten.neuesFilterprofil.tags}"
-												var="tag" id="tags">
-												<p class="tag">#{tag}</p>
-											</p:repeat>
-										</div>
-									</div>
-									<div class="form-group"></div>
+											value="#{filterbearbeiten.neuesFilterprofil.tagstring}" placeholder="Neuer Tag"
+											update="profil-anlegen-modal-content tag-eingabe tags">
+											<p:ajax event="keyup"/>
+										</p:inputText>
+									</div> 
 								</b:form>
 								<f:facet name="footer">
 									<b:form>
@@ -215,7 +205,7 @@
 										<p:graphicImage value="/resources/image/remove-minus.svg"
 											class="filter-profil-icon pull-left" />
 									</p:commandLink>
-									<p:outputLabel id="filter-profil-text" value="#{profil.titel}" />
+									<p:outputLabel id="filter-profil-text" value="#{profil.filterprofilname}" />
 									<h:graphicImage value="/resources/image/edit.svg"
 										class="filter-profil-icon pull-right" />
 									<p:commandLink

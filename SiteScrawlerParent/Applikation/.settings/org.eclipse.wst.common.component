@@ -11,7 +11,16 @@
         </dependent-module>
         <dependent-module archiveName="Model-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Model/Model">
             <dependency-type>uses</dependency-type>
+        </dependent-module> 
+        <dependent-module archiveName="SharedWeb-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/SharedWeb/SharedWeb">
+            <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="Nutzerverwaltung-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Nutzerverwaltung/Nutzerverwaltung">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Firmenverwaltung-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Firmenverwaltung/Firmenverwaltung">
+            <dependency-type>uses</dependency-type>
+        </dependent-module> 
         <property name="context-root" value="Applikation"/>
         <property name="java-output-path" value="/Applikation/target/classes"/>
     </wb-module>
