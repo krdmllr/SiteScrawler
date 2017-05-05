@@ -33,5 +33,10 @@
   		<artifactId>Crawler</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.reporter</groupId>
+  		<artifactId>Reporter</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>

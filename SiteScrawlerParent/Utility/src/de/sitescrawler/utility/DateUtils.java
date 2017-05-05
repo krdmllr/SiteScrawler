@@ -1,18 +1,29 @@
 package de.sitescrawler.utility;
 
+import java.text.DateFormat;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.text.DateFormatter;
+
 public class DateUtils
 {
     public static final String DATE_PATTERN = "EE dd.MM.yyyy";
+    
+    public static DateTimeFormatter getDateFormatter(){ 
+    	DateTimeFormatterBuilder formatBuilder = new DateTimeFormatterBuilder();
+    	
+    	return formatBuilder.toFormatter();
+    }
 
     public static Date asDate(LocalDate localDate)
     {
