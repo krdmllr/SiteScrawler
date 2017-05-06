@@ -1,7 +1,8 @@
 package de.sitescrawler.email.interfaces;
 
 import java.util.List;
-
+ 
+import de.sitescrawler.email.ServiceUnavailableException; 
 import de.sitescrawler.jpa.Nutzer; 
 
 /**
@@ -12,21 +13,23 @@ public interface IMailSenderService {
 
 	/**
 	 * Sendet eine Email an die angegebene Email Adresse.
-	 * @param emailAdresse Adresse des Empf‰ngers.
+	 * @param emailAdresse Adresse des Empf√§ngers.
 	 * @param subjekt Email Betreff.
 	 * @param body Email Inhalt.
 	 * @param htmlBody Soll der Email Inhalt als HTML gesendet werden.
-	 * @param anhaenge Eine Liste von Anh‰ngen.
+	 * @param anhaenge Eine Liste von Anh√§ngen.
+	 * @throws ServiceUnavailableException 
 	 */
-	void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody,  List<byte []> anhaenge);
+	void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody,  List<byte []> anhaenge) throws ServiceUnavailableException;
 	
 	/**
-	 * Sendet eine Email an eine Liste von Empf‰ngern.
-	 * @param empfaenger E-Mail Adressen der Empf‰nger.
+	 * Sendet eine Email an eine Liste von Empf√§ngern.
+	 * @param empfaenger E-Mail Adressen der Empf√§nger.
 	 * @param subjekt Email Betreff.
 	 * @param body Email Inhalt.
 	 * @param htmlBody Soll der Email Inhalt als HTML gesendet werden.
-	 * @param pdf Anzuh‰ngendes PDF.
+	 * @param pdf Anzuh√§ngendes PDF. 
+	 * @throws ServiceUnavailableException 
 	 */
-	void sendeMassenMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] pdf);
-}
+	void sendeMassenMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] pdf) throws ServiceUnavailableException;
+} 

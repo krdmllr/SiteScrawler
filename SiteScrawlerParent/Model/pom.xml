@@ -39,9 +39,13 @@
 	    <artifactId>mysql-connector-java</artifactId>
 	    <version>5.1.41</version>
 	</dependency>
-	<dependency>
+	<dependency> 
+		<groupId>de.sitescrawler.logger</groupId>
+		<artifactId>Logger</artifactId>
+</dependency>
+    <dependency> 
 		<groupId>de.sitescrawler.utility</groupId>
-		<artifactId>Utility</artifactId>
+		<artifactId>Utility</artifactId> 
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
   </dependencies>

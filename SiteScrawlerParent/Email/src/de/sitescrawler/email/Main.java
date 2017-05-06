@@ -1,18 +1,15 @@
-package de.sitescrawler.test.unittests;
+package de.sitescrawler.email;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
-import de.sitescrawler.email.MailSenderService;
-import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.email.interfaces.IMailSenderService;
 
-public class EmailUnitTest
-{
-	@Test
-	public void sendeMail(){
+public class Main {
+
+	public static void main(String[] args) {
+		// Zu Testzwecken
+		
 		String emailAdresse = "skyf1ash3r@gmail.com";
 		String subjekt = "Testtitel";
 		String body = "testbody";
@@ -29,4 +26,5 @@ public class EmailUnitTest
 			e.printStackTrace();
 		}
 	}
+
 }
