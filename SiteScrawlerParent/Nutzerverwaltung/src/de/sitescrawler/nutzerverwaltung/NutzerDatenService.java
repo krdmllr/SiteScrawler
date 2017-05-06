@@ -10,8 +10,7 @@ import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 import de.sitescrawler.qualifier.Produktiv;
-
-@Produktiv
+ 
 @SessionScoped
 @Named
 public class NutzerDatenService implements Serializable, INutzerDatenService

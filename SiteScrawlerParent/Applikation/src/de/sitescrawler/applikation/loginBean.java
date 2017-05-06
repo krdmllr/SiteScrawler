@@ -31,8 +31,7 @@ public class loginBean implements Serializable
     @Inject
     private ProjectConfig       config;
 
-    @Inject
-    @Produktiv
+    @Inject 
     private INutzerDatenService nutzerDatenService;
 
     @PostConstruct

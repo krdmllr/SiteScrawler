@@ -32,9 +32,9 @@ public class DataBean implements Serializable
     @Inject
     private ArchivBean          archiv;
 
-    // @Inject
-    // @Produktiv
-    private INutzerDatenService nutzerDatenService = new NutzerDatenServiceDummy();
+    @Inject
+    //@Produktiv
+    private INutzerDatenService nutzerDatenService;
 
     private Filterprofilgruppe  filtergruppe;
 
