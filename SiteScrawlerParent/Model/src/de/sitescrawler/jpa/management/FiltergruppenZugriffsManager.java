@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
@@ -15,9 +17,11 @@ import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager;
 import de.sitescrawler.utility.FiltergruppenZeitpunktCheckUtil;
 
+@ApplicationScoped
+@Named
 public class FiltergruppenZugriffsManager implements IFiltergruppenZugriffsManager
 {
-    @Inject
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override

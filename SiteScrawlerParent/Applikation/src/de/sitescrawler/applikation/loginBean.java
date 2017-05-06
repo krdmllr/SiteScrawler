@@ -14,8 +14,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import de.sitescrawler.model.ProjectConfig;
-import de.sitescrawler.nutzerverwaltung.NutzerDatenService;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
+import de.sitescrawler.qualifier.Produktiv;
 
 @SessionScoped
 @Named("login")
@@ -31,14 +31,13 @@ public class loginBean implements Serializable
     @Inject
     private ProjectConfig       config;
 
-    // @Inject
-    // @Produktiv
+    @Inject
+    @Produktiv
     private INutzerDatenService nutzerDatenService;
 
     @PostConstruct
     public void init()
     {
-        this.nutzerDatenService = new NutzerDatenService();
         ExternalContext externalContext = this.context.getExternalContext();
         this.originalURL = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
         if (this.originalURL == null)
@@ -66,7 +65,6 @@ public class loginBean implements Serializable
         {
             request.login(this.uid, this.password);
             externalContext.redirect(this.originalURL);
-
             this.nutzerDatenService.setNutzer(this.uid);
         }
         catch (ServletException | IOException e)

@@ -2,12 +2,18 @@ package de.sitescrawler.nutzerverwaltung;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
+import de.sitescrawler.qualifier.Produktiv;
 
+@Produktiv
+@SessionScoped
+@Named
 public class NutzerDatenService implements Serializable, INutzerDatenService
 {
 
