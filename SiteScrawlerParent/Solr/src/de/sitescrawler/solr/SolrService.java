@@ -29,7 +29,6 @@ public class SolrService implements ISolrService
 //    private static final String           SolrUrl   = "http://sitescrawler.de:8983/solr/testdaten";
 //    private static final String           SolrUrl   = "http://sitescrawler.de:8983/solr/spielwiesewilliam1";
     private static final String           SolrUrl   = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";  //TODO: in config-Datei auslagern
-//    private static final SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss");
     private static final SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'");
 
     public SolrService()
