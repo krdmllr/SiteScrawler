@@ -24,8 +24,12 @@ public class SolrService implements ISolrService
 {
 
     private SolrClient                    solrClient;
-    private static final String           SolrUrl   = "http://sitescrawler.de:8983/solr/gettingstarted";
-    private static final SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss");
+    
+    
+//    private static final String           SolrUrl   = "http://sitescrawler.de:8983/solr/testdaten";
+//    private static final String           SolrUrl   = "http://sitescrawler.de:8983/solr/spielwiesewilliam1";
+    private static final String           SolrUrl   = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";  //TODO: in config-Datei auslagern
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'");
 
     public SolrService()
     {
@@ -81,7 +85,7 @@ public class SolrService implements ISolrService
      *
      * @see de.sitescrawler.solr.ISolrService#sucheArtikel(de.sitescrawler.model. FilterProfil)
      */
-    @SuppressWarnings("unchecked")
+
     @Override
     public List<Artikel> sucheArtikel(Filterprofil filterprofil)
     {
@@ -97,13 +101,13 @@ public class SolrService implements ISolrService
             SolrDocumentList results = response.getResults();
             for (SolrDocument solrDocument : results)
             {
-                String date = ((ArrayList<String>) solrDocument.get("erstellungsdatum")).get(0);
+                String date = SolrService.formatter.format((solrDocument.getFirstValue("erstellungsdatum")));
                 Date erstellungsdatum = SolrService.formatter.parse(date);
-                String autor = ((ArrayList<String>) solrDocument.get("autor")).get(0);
-                String titel = ((ArrayList<String>) solrDocument.get("titel")).get(0);
-                String beschreibung = ((ArrayList<String>) solrDocument.get("beschreibung")).get(0);
-                String link = ((ArrayList<String>) solrDocument.get("link")).get(0);
-                artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link, null));
+                String autor =  (String) solrDocument.get("autor");
+                String titel = (String) solrDocument.get("titel");
+                String beschreibung = (String) solrDocument.get("beschreibung");
+                String link =  (String) solrDocument.get("link");
+                artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link,null));
             }
         }
         catch (SolrServerException | IOException | ParseException e)
@@ -143,12 +147,12 @@ public class SolrService implements ISolrService
             SolrDocumentList results = response.getResults();
             for (SolrDocument solrDocument : results)
             {
-                String date = ((ArrayList<String>) solrDocument.get("erstellungsdatum")).get(0);
+                String date = SolrService.formatter.format((solrDocument.getFirstValue("erstellungsdatum")));
                 Date erstellungsdatum = SolrService.formatter.parse(date);
-                String autor = ((ArrayList<String>) solrDocument.get("autor")).get(0);
-                String titel = ((ArrayList<String>) solrDocument.get("titel")).get(0);
-                String beschreibung = ((ArrayList<String>) solrDocument.get("beschreibung")).get(0);
-                String link = ((ArrayList<String>) solrDocument.get("link")).get(0);
+                String autor =  (String) solrDocument.get("autor");
+                String titel = (String) solrDocument.get("titel");
+                String beschreibung = (String) solrDocument.get("beschreibung");
+                String link =  (String) solrDocument.get("link");
                 artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link));
             }
         }
@@ -158,4 +162,33 @@ public class SolrService implements ISolrService
         }
         return artikel;
     }
+    
+    public List<Artikel> getArtikelAusID(List<String> ids){
+        List<Artikel> artikel = new ArrayList<Artikel>();
+        for(String id : ids){
+            SolrQuery solrQuery = new SolrQuery("id:" + id);
+            try
+            {
+                QueryResponse response = this.solrClient.query(solrQuery);
+                SolrDocumentList results = response.getResults();
+                for (SolrDocument solrDocument : results)
+                {
+                    String date = SolrService.formatter.format((solrDocument.getFirstValue("erstellungsdatum")));
+                    Date erstellungsdatum = SolrService.formatter.parse(date);
+                    String autor =  (String) solrDocument.get("autor");
+                    String titel = (String) solrDocument.get("titel");
+                    String beschreibung = (String) solrDocument.get("beschreibung");
+                    String link =  (String) solrDocument.get("link");
+                    artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link));
+                }
+            }
+            catch (SolrServerException | IOException | ParseException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+            return artikel;
+    }
+    
 }
