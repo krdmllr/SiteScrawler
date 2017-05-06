@@ -3,7 +3,6 @@ package de.sitescrawler.nutzerverwaltung;
 import java.io.Serializable;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
@@ -15,7 +14,6 @@ import javax.transaction.Transactional.TxType;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
-import de.sitescrawler.qualifier.Produktiv;
 
 @ApplicationScoped
 @Named

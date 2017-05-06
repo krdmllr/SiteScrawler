@@ -1,116 +1,131 @@
 <!DOCTYPE html>
-<html
- 	  xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html" > 
- 	<ui:composition template="/template.xhtml">
- 	  
-	    
-		<ui:define name="content">
-		
-	         <div class="intro-header">
-		        <div class="container"> 
-		            <div class="row">
-					            <a  href="http://doc.#{login.config.domain}">  
-							            <div style="margin-left: 10px; margin-right: 10px;" class="alert alert-warning" role="alert">
-							            Achtung!
-							            Bei dieser Website handelt es sich um die Web-Applikation, die im Rahmen der Vorlesung Software-Engineering an der DHBW Horb entstanden ist.
-							            Um zur Projektdokumentation mit weiteren Informationen zur Gruppe und der internen Dokumenten zu gelangen, klicken Sie bitte hier.
-							            </div>
-					            </a>	 
-					            <div class="col-sm-6">	
-		            
-		            
-				            <h1>Warum SiteScrawler</h1>
-						      	<p>Sie wollen neueste Informationen zu einem sportlichen Ereignis? <br />
-							Sie wollen wissen, welche Meinungen es zum nächsten Top-Smartphone gibt? <br /> 
-							Oder Sie wollen einfach nur einen Überblick über Meldungen zu Ihren Interessen aus verschiedensten Pressediensten gesammelt an einem Platz einsehen können? <br />
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<ui:composition template="/template.xhtml">
+
+
+	<ui:define name="content">
+
+		<div class="intro-header">
+			<div class="container">
+				<div class="row">
+					<a href="http://doc.#{login.config.domain}">
+						<div style="margin-left: 10px; margin-right: 10px;"
+							class="alert alert-warning" role="alert">Achtung! Bei
+							dieser Website handelt es sich um die Web-Applikation, die im
+							Rahmen der Vorlesung Software-Engineering an der DHBW Horb
+							entstanden ist. Um zur Projektdokumentation mit weiteren
+							Informationen zur Gruppe und der internen Dokumenten zu gelangen,
+							klicken Sie bitte hier.</div>
+					</a>
+					<div class="col-sm-6">
+
+
+						<h1>Warum SiteScrawler</h1>
+						<p>
+							Sie wollen neueste Informationen zu einem sportlichen Ereignis? <br />
+							Sie wollen wissen, welche Meinungen es zum nächsten
+							Top-Smartphone gibt? <br /> Oder Sie wollen einfach nur einen
+							Überblick über Meldungen zu Ihren Interessen aus verschiedensten
+							Pressediensten gesammelt an einem Platz einsehen können? <br />
 							Dann ist SiteScrawler für Sie die perfekte Wahl! <br />
-							SiteScrawler bietet Ihnen die Möglichkeit, mit moderner Medienbeobachtung für Online-Medien und Social-Media zu erfahren, was es für Neuigkeiten über Ihre Interessen gibt. Dabei werden Ihnen diese Informationen visuell aufbereitet zur Verfügung gestellt. Erstellte Pressespiegel werden für Sie archiviert, sodass Sie jederzeit darauf zugreifen können. Und das Ganze finden Sie zentral auf unserer Webseite, ohne sich durch hunderte Seiten von Online-Medien klicken zu müssen. 
-							Bequem und einfach wissen, was in der Welt passiert. Komplett auf Sie zugeschnitten. 
-							</p>
-						    </div>
-						    <div class="col-sm-6">
-						      <div id="register-form">
-			                        <h1>Jetzt starten</h1>   
-			                        <div class="form-group">
-	                                <input type="text" placeholder="Vorname" class="form-control"></input>
-	                                </div>
-			                        <div class="form-group">
-	                                <input type="text" placeholder="Nachname" class="form-control"></input>
-	                                </div>
-					                <div class="form-group">
-						                <input type="text" placeholder="Email" class="form-control"></input>
-						              </div>
-						               <div class="form-group">
-						                <input type="password" placeholder="Passwort" class="form-control"></input> 
-						              </div>
-						               <div class="form-group">
-						              <button type="submit" class="btn btn-success">Registrieren</button>
-								                    </div>
-								                     </div>
-			                	</div> 
-			            </div>
-		            </div> 
-	         </div>
-       		<div class="content-section-a content-section">
+							SiteScrawler bietet Ihnen die Möglichkeit, mit moderner
+							Medienbeobachtung für Online-Medien und Social-Media zu erfahren,
+							was es für Neuigkeiten über Ihre Interessen gibt. Dabei werden
+							Ihnen diese Informationen visuell aufbereitet zur Verfügung
+							gestellt. Erstellte Pressespiegel werden für Sie archiviert,
+							sodass Sie jederzeit darauf zugreifen können. Und das Ganze
+							finden Sie zentral auf unserer Webseite, ohne sich durch hunderte
+							Seiten von Online-Medien klicken zu müssen. Bequem und einfach
+							wissen, was in der Welt passiert. Komplett auf Sie zugeschnitten.
+						</p>
+					</div>
+					<div class="col-sm-6">
+						<div id="register-form">
+							<h1>Jetzt starten</h1>
+							<div class="form-group">
+								<input type="text" placeholder="Vorname" class="form-control"></input>
+							</div>
+							<div class="form-group">
+								<input type="text" placeholder="Nachname" class="form-control"></input>
+							</div>
+							<div class="form-group">
+								<input type="text" placeholder="Email" class="form-control"></input>
+							</div>
+							<div class="form-group">
+								<input type="password" placeholder="Passwort"
+									class="form-control"></input>
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-success">Registrieren</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content-section-a content-section">
 
-             <div class="container">
-	            <div class="row">
-	                <div class="col-sm-9">
-	                     
-	                    <h2 class="section-heading">Übergreifende Suche</h2>
-	                    <p class="lead"> 
-	                    	SiteScrawler durchsucht für Sie das gesamte World Wide Web nach Ihren Schlagwörtern. Egal ob nationale oder lokale Eingrenzung, Wir finden alle relevanten Artikel für Sie!
-	                    </p>
-	                </div>
-	                <div class="col-sm-3">
-	                <h:graphicImage value="/resources/image/internet.svg" class="infoPicture" /> 
-	                </div>
-	            </div>
-	
-	        </div> 
-	        </div>
-	        <div class="content-section-b content-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9">
 
-             <div class="container">
-	            <div class="row"> 
-	                <div class="col-sm-3">
-	                <h:graphicImage value="/resources/image/clock.svg" class="infoPicture" /> 
-	                </div>
-	                <div class="col-sm-9">
-	                     
-	                    <h2 class="section-heading">Immer auf dem neusten Stand</h2>
-	                    <p class="lead"> 
-	                    	SiteScrawler sucht in regelmäßigen Abständen nach neuen Artikeln, die Ihren Anforderungen entsprechen. So können Wir Ihnen immer aktuelle Ergebnisse liefern.
-	                    </p>
-	                </div>
-	            </div>
-	
-	        </div> 
-	        </div>
-	        
-	        <div class="content-section-c content-section">
+						<h2 class="section-heading">Übergreifende Suche</h2>
+						<p class="lead">SiteScrawler durchsucht für Sie das gesamte
+							World Wide Web nach Ihren Schlagwörtern. Egal ob nationale oder
+							lokale Eingrenzung, Wir finden alle relevanten Artikel für Sie!</p>
+					</div>
+					<div class="col-sm-3">
+						<h:graphicImage value="/resources/image/internet.svg"
+							class="infoPicture" />
+					</div>
+				</div>
 
-             <div class="container">
-	            <div class="row">
-	                <div class="col-sm-9">
-	                     
-	                    <h2 class="section-heading">Direkt ins Postfach</h2>
-	                    <p class="lead"> 
-	                    	Auf Wunsch wird Ihnen der erstellte Pressespiegel nicht nur online zur Verfügung gestellt, sondern auch per E-Mail zugeschickt. 
-	                    </p>
-	                </div>
-	                <div class="col-sm-3">
-	                <h:graphicImage value="/resources/image/email.svg" class="infoPicture" /> 
-	                </div>
-	            </div>
-	
-	        </div>  
-    </div>
-	    </ui:define>
-	    
-	    	   
-	    </ui:composition> 
+			</div>
+		</div>
+		<div class="content-section-b content-section">
+
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-3">
+						<h:graphicImage value="/resources/image/clock.svg"
+							class="infoPicture" />
+					</div>
+					<div class="col-sm-9">
+
+						<h2 class="section-heading">Immer auf dem neusten Stand</h2>
+						<p class="lead">SiteScrawler sucht in regelmäßigen Abständen
+							nach neuen Artikeln, die Ihren Anforderungen entsprechen. So
+							können Wir Ihnen immer aktuelle Ergebnisse liefern.</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="content-section-c content-section">
+
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-9">
+
+						<h2 class="section-heading">Direkt ins Postfach</h2>
+						<p class="lead">Auf Wunsch wird Ihnen der erstellte
+							Pressespiegel nicht nur online zur Verfügung gestellt, sondern
+							auch per E-Mail zugeschickt.</p>
+					</div>
+					<div class="col-sm-3">
+						<h:graphicImage value="/resources/image/email.svg"
+							class="infoPicture" />
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</ui:define>
+
+
+</ui:composition>
 </html>

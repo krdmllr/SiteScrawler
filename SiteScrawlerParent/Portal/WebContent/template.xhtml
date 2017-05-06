@@ -3,16 +3,17 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:b="http://bootsfaces.net/ui">
 <ui:composition template="/common/master-footer-template.xhtml">
 	<ui:define name="resources">
 		<h:outputStylesheet name="css/style.css" />
 	</ui:define>
 	<ui:define name="navbar">
 		<div id="navbar" class="navbar-collapse collapse">
-			<h:form class="navbar-form navbar-right"> 
+			<h:form class="navbar-form navbar-right">
 				<div class="form-group">
-					<a href="http://app.#{}" class="btn btn-success">Anmelden</a> 
+					<a href="http://app.#{portal.config.domain}" class="btn btn-success">Anmelden</a>
 				</div>
 			</h:form>
 		</div>

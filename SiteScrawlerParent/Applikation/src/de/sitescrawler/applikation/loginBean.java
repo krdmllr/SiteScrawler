@@ -13,32 +13,27 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
-import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
+import de.sitescrawler.qualifier.Produktiv;
 
 @SessionScoped
 @Named("login")
 public class loginBean implements Serializable
 {
 
-    private static final long serialVersionUID = 1L;
-    private String            uid;
-    private String            password;
-    private String            originalURL;
-    private FacesContext      context          = FacesContext.getCurrentInstance();
+    private static final long   serialVersionUID = 1L;
+    private String              uid;
+    private String              password;
+    private String              originalURL;
+    private FacesContext        context          = FacesContext.getCurrentInstance();
 
     @Inject
-    private ProjectConfig     config;
-    
+    private ProjectConfig       config;
+
     @Inject
-    private DataBean data;
-    
-    @Inject
-    private INutzerService nutzerService;
-    
-    @Inject INutzerDatenService nutzerDatenService;
+    @Produktiv
+    private INutzerDatenService nutzerDatenService;
 
     @PostConstruct
     public void init()
@@ -70,8 +65,7 @@ public class loginBean implements Serializable
         {
             request.login(this.uid, this.password);
             externalContext.redirect(this.originalURL);
-             
-            nutzerDatenService.setNutzer(uid); 
+            this.nutzerDatenService.setNutzer(this.uid);
         }
         catch (ServletException | IOException e)
         {
