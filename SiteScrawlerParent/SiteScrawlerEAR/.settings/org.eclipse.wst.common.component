@@ -98,6 +98,9 @@
         <dependent-module archiveName="Reporter-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Reporter/Reporter">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="Formatierer-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Formatierer/Formatierer">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="bootsfaces-1.0.2.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/bootsfaces/bootsfaces/1.0.2/bootsfaces-1.0.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>

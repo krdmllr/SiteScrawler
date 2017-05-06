@@ -1,5 +1,5 @@
 package de.sitescrawler.email;
-
+ 
 import java.io.IOException;
 import java.util.*;
 
@@ -18,7 +18,7 @@ public class MailSenderService implements IMailSenderService {
 	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge)
 			throws ServiceUnavailableException {
 
-		// Project Config laden für username/password
+		// Project Config laden fï¿½r username/password
 		ProjectConfig projectConfig = new ProjectConfig();
 
 		String username = projectConfig.getUsername();
@@ -65,7 +65,7 @@ public class MailSenderService implements IMailSenderService {
 				multipart.addBodyPart(anhang);
 			}
 
-			// Zusammenführen der Teile
+			// Zusammenfï¿½hren der Teile
 			nachricht.setContent(multipart);
 
 			Transport transport = session.getTransport("smtp");
@@ -88,7 +88,7 @@ public class MailSenderService implements IMailSenderService {
 	public void sendeMassenMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] pdf)
 			throws ServiceUnavailableException {
 
-		// Project Config laden für username/password
+		// Project Config laden fï¿½r username/password
 		ProjectConfig projectConfig = new ProjectConfig();
 
 		String username = projectConfig.getUsername();
@@ -144,7 +144,7 @@ public class MailSenderService implements IMailSenderService {
 			// Setze Anhang Teil
 			multipart.addBodyPart(anhang);
 
-			// Zusammenführen der Teile
+			// Zusammenfï¿½hren der Teile
 			nachricht.setContent(multipart);
 
 			Transport transport = session.getTransport("smtp");
@@ -161,6 +161,5 @@ public class MailSenderService implements IMailSenderService {
 			e.printStackTrace();
 		}
 
-	}
-
+	}  
 }

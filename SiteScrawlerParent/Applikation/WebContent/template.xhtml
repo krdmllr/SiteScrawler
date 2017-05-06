@@ -24,8 +24,7 @@
 										<f:actionListener for="filter-gruppen-link"
 											binding="#{data.setFiltergruppe(gruppe)}" />
 										<h4>#{gruppe.titel}</h4>
-										<h5>Quelle: #{gruppe.isFirma() ? gruppe.firma.name :
-											"Privat"}</h5>
+										<h5>Quelle: #{gruppe.nutzerGruppe ?"Privat" : gruppe.firma.name}</h5>
 									</p:commandLink></li>
 								<li class="divider"></li>
 							</p:repeat>
@@ -36,7 +35,7 @@
 						aria-haspopup="true" aria-expanded="false">Firmen<span
 							class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<p:repeat value="#{data.firmen}" var="option">
+							<p:repeat value="#{data.nutzer.firmen}" var="option">
 								<li><p:commandLink id="firmen-link"
 										action="/meinefirmen.xhtml?faces-redirect=true">
 										<f:actionListener for="firmen-link"
@@ -88,7 +87,7 @@
 
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown "><a href="#" class="dropdown-toggle"
-					id="profileNavbar" style="" data-toggle="dropdown">#{data.nutzer.ganzerName}
+					id="profileNavbar" style="" data-toggle="dropdown">#{data.nutzer.ganzenNamen}
 						<h:graphicImage value="/resources/image/user.svg"
 							id="navbar-profil-bild" />
 				</a>

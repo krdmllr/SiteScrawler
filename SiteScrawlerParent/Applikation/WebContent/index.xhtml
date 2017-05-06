@@ -14,24 +14,28 @@
 			<div class="col-md-3 hidden-xs hidden-sm column">
 				<!-- Filter -->
 				<div class="panel panel-default artikelPanel">
-					<div class="panel-heading">  
+					<div class="panel-heading">
 						<div class="pull-left schrift">
-							<p:outputLabel rendered="#{data.filtergruppe.isFirma()}" value="#{data.filtergruppe.firma.name}" style="color: blue;"></p:outputLabel>
-							<p:outputLabel rendered="#{!data.filtergruppe.isFirma()}" value="Private Filtergruppe" style="color: green;"></p:outputLabel>
-							<h4 >#{data.filtergruppe.titel}</h4>
+							<p:outputLabel rendered="#{data.filtergruppe.firmenGruppe}"
+								value="#{data.filtergruppe.firma.name}" style="color: blue;"></p:outputLabel>
+							<p:outputLabel rendered="#{data.filtergruppe.nutzerGruppe}"
+								value="Private Filtergruppe" style="color: green;"></p:outputLabel>
+							<h4>#{data.filtergruppe.titel}</h4>
 						</div>
-						
+
 						<b:form>
-							<p:commandLink id="filter-bearbeiten" action="/filterbearbeiten.xhtml?faces-redirect=true"> 
+							<p:commandLink id="filter-bearbeiten"
+								action="/filterbearbeiten.xhtml?faces-redirect=true">
 								<!-- <f:param name="filterprofile" value="#{firmen.ausgewaehlteFirma.filterprofile}" />	
 								<f:param name="filtergruppe" value="#{gruppe}" /> -->
-								<f:actionListener for="filter-bearbeiten" binding="#{filterbearbeiten.setParameter(data.filtergruppe, data.filtergruppe.isFirma() ? data.filtergruppe.firma.filterprofile : data.filterprofile)}" />
+								<f:actionListener for="filter-bearbeiten"
+									binding="#{filterbearbeiten.setParameter(data.filtergruppe, data.filtergruppe.firmenGruppe ? data.filtergruppe.firma.filterprofile : data.nutzer.filterprofile)}" />
 								<p:graphicImage value="/resources/image/edit-square.svg"
 									class="pull-right bild" />
 							</p:commandLink>
 						</b:form>
 						<div class="clearfix"></div>
-					 
+
 					</div>
 
 					<div class="panel-body filter">
@@ -49,11 +53,12 @@
 						</h:form>
 					</div>
 					<p:dataList class="list-group archiveintraege"
-						value="#{archiv.archiveintraege}" var="eintrag" type="definition">
+						value="#{data.filtergruppe.archiveintraege}" var="eintrag"
+						type="definition">
 						<h:form>
 							<p:commandLink class="list-group-item" id="ajax"
 								update="artikelBereich" action="#{archiv.buttonAction(eintrag)}">
-								<h:outputText value="#{eintrag.erstellungsDatum}">
+								<h:outputText value="#{eintrag.erstellungsdatum}">
 									<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 								</h:outputText>
 							</p:commandLink>
@@ -61,15 +66,29 @@
 					</p:dataList>
 				</div>
 			</div>
+
 			<!-- Ausgewaehltes Archiv -->
+
+			<b:modal id="artikel-modal" title="#{archiv.geweahlterArtikel.titel}"
+				styleClass="modalPseudoClass">
+				<div id="artikel-inhalt">
+					<p:repeat value="#{archiv.geweahlterArtikel.absaetzeArtikel}"
+						var="absatz">
+						<p>#{absatz}"</p>
+					</p:repeat>
+				</div>
+				
+			</b:modal>
+
 			<div class="col-md-9 column">
 				<!-- Archiv -->
+
 				<h:form class="panel panel-default artikelPanel" id="artikelBereich">
 					<div class="panel-heading">
 						<h3 class="panel-title pull-left linkeUeberschrift">
 							Pressespiegel vong
 							<h:outputText
-								value="#{archiv.geweahlterArchiveintrag.erstellungsDatum}">
+								value="#{archiv.geweahlterArchiveintrag.erstellungsdatum}">
 								<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 							</h:outputText>
 						</h3>
@@ -92,11 +111,12 @@
 						<div class="clearfix"></div>
 					</div>
 
+
 					<p:dataList class="list-group artikel"
 						value="#{archiv.geweahlterArchiveintrag.artikel}" var="artikel"
 						type="definition">
+						<div class="list-group-item">
 
-						<a href="#" class="list-group-item">
 							<div class="artikel-titel-container">
 								<h4 class="pull-left">#{artikel.titel}</h4>
 								<p class="pull-right">
@@ -106,14 +126,25 @@
 									</h:outputText>
 								</p>
 							</div>
-							<p id="artikel-zusammenfassung">#{artikel.titel}</p>
+
+							<p id="artikel-zusammenfassung">#{artikel.beschreibung}</p>
+
 							<div class="artikel-titel-container">
 								<h5 class="pull-left">#{artikel.autor}</h5>
-								<button type="button"
-									class="btn btn-info pull-right artikel-button">Artikel
-									ansehen</button>
+								<div class="btn-group pull-right" role="group">
+									<p:commandLink type="button" 
+										id="artikel-oeffnen-button"
+										class="btn btn-default"
+										update="artikel-modal" 
+										oncomplete="$('.modalPseudoClass').modal();return false;"
+										value="Artikel ansehen"> 
+										<f:actionListener for="artikel-oeffnen-button" binding="#{archiv.setGeweahlterArtikel(artikel)}"></f:actionListener>
+									</p:commandLink>
+									<p:link href="#{artikel.link}" type="button" class="btn btn-default"
+										value="Website öffnen" />
+								</div>
 							</div>
-						</a>
+						</div>
 
 					</p:dataList>
 

@@ -8,4 +8,41 @@
   <groupId>de.sitescrawler.reporter</groupId>
   <artifactId>Reporter</artifactId>
   <name>Reporter</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>de.sitescrawler.model</groupId>
+  		<artifactId>Model</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.solr</groupId>
+  		<artifactId>Solr</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.formatierer</groupId>
+  		<artifactId>Formatierer</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.logger</groupId>
+  		<artifactId>Logger</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.utility</groupId>
+  		<artifactId>Utility</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.pdf</groupId>
+  		<artifactId>PDF</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.email</groupId>
+  		<artifactId>Email</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

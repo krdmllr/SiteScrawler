@@ -14,8 +14,8 @@
 			    <f:viewParam name="filtergruppe" value="#{filterbearbeiten.filtergruppe}" />
 			    <f:viewParam name="filterprofile" value="#{filterbearbeiten.filterprofile}" />
 			</f:metadata> -->
-		
-		
+
+
 			<!-- Email Informationen -->
 			<div class="col-md-2 hidden-xs column">
 
@@ -44,10 +44,10 @@
 									<ul class="dropdown-menu">
 										<p:repeat var="option"
 											value="#{filterbearbeiten.tagesOptionen}">
-											<li><p:commandLink
+											<li><p:commandLink 
 													action="#{filterbearbeiten.setAusgewaehlteTagesoption(option)}"
-													value="#{option}" update="tages-option">
-
+													value="#{option}"
+													update="tages-option tageszeiten">
 												</p:commandLink></li>
 										</p:repeat>
 									</ul>
@@ -55,21 +55,19 @@
 							</h:form>
 						</div>
 
-						<!-- Anzahl Tage -->
-
-
-						<h:form id="tageszeiten">
+						<!-- Uhrzeiten -->
+						<h:form id="tageszeiten" rendered="#{filterbearbeiten.taeglich}">
 							<div class="linkeUeberschrift" style="height: 50px;">
 								<h:outputText id="filter-profil-text"
-									value="Wiederholung: #{filterbearbeiten.filtergruppe.tageszeiten.size()}" />
+									value="Wiederholung: #{filterbearbeiten.filtergruppe.uhrzeiten.size()}" />
 								<p:commandLink action="#{filterbearbeiten.addTageszeiten()}"
 									update="tageszeiten">
 									<h:graphicImage value="/resources/image/add.svg"
 										class="filter-profil-icon pull-right" />
 								</p:commandLink>
 							</div>
-							<p:dataList class="list-group filterprofile"
-								value="#{filterbearbeiten.filtergruppe.tageszeiten}" var="zeit"
+							<p:dataList class="list-group uhrzeiten"
+								value="#{filterbearbeiten.filtergruppe.uhrzeiten}" var="zeit"
 								type="definition">
 								<li class="list-group-item">
 									<div class="artikel-titel-container">
@@ -77,8 +75,8 @@
 											<div class="zeit-input pull-left">
 
 												<p:outputLabel for="time" value="" />
-												<p:calendar id="time" value="#{zeit}" pattern="HH:mm"
-													timeOnly="true" />
+												<p:calendar id="time" value="#{zeit.uhrzeit}"
+													pattern="HH:mm" timeOnly="true" />
 
 											</div>
 											<p:commandLink
@@ -92,6 +90,7 @@
 								</li>
 							</p:dataList>
 						</h:form>
+						<!-- !Uhrzeiten -->
 					</div>
 				</div>
 			</div>
@@ -101,25 +100,29 @@
 
 				<div class="panel panel-default artikelPanel">
 					<div class="panel-heading">
-						<h3 class="pull-left">#{filterbearbeiten.filtergruppe.titel} bearbeiten</h3>
-						<p:outputLabel class="pull-right" rendered="#{data.filtergruppe.isFirma()}" value="#{data.filtergruppe.firma.name}" style="color: blue;"></p:outputLabel>
-						<p:outputLabel class="pull-right" rendered="#{!data.filtergruppe.isFirma()}" value="Private Filtergruppe" style="color: green;"></p:outputLabel>
+						<h3 class="pull-left">#{filterbearbeiten.filtergruppe.titel}
+							bearbeiten</h3>
+						<p:outputLabel class="pull-right"
+							rendered="#{data.filtergruppe.firmenGruppe}"
+							value="#{data.filtergruppe.firma.name}" style="color: blue;"></p:outputLabel>
+						<p:outputLabel class="pull-right"
+							rendered="#{data.filtergruppe.nutzerGruppe}"
+							value="Private Filtergruppe" style="color: green;"></p:outputLabel>
 						<div class="clearfix"></div>
 					</div>
 					<p:dataList class="list-group filtergruppe-profile"
-						value="#{filterbearbeiten.filtergruppe.filterprofile}" var="profil"
-						type="definition" id="filter-gruppen-profile">
+						value="#{filterbearbeiten.filtergruppe.filterprofile}"
+						var="profil" type="definition" id="filter-gruppen-profile">
 
 						<div class="list-group-item artikel-titel-container"
 							style="overflow: hidden; border-bottom: 1px solid #ddd;">
 							<h:form>
 								<div class="pull-left linkeUeberschrift"
 									style="width: Calc(100% - 80px);">
-									<h4>#{profil.titel}</h4>
+									<h4>#{profil.filterprofilname}</h4>
 									<div>
-										<p:repeat value="#{profil.tags}" var="tag">
-											<p class="pull-left tag">#{tag}</p>
-										</p:repeat>
+
+										<p class="pull-left tag">#{profil.tagstring}</p>
 									</div>
 								</div>
 
@@ -138,44 +141,38 @@
 				</div>
 			</div>
 			<!-- Alle Filterprofile -->
+			<!-- Alle Filterprofile header -->
 			<div class="col-md-3 hidden-xs column">
 				<div class="panel panel-default artikelPanel">
 					<div class="panel-heading">
 						<div>
 							<h3 class=" pull-left">Filterprofile</h3>
 							<b:form>
-								<a onclick="$('.modalPseudoClass').modal();return false;">
-									<p:graphicImage class="pull-right" style="width: 50px;"
+								<a onclick="$('.modalPseudoClass').modal();return false;"> <p:graphicImage
+										class="pull-right" style="width: 50px;"
 										value="/resources/image/file.svg" />
 								</a>
 							</b:form>
-							<b:modal id="profil-anlegen-modal" title="Profil anlegen" styleClass="modalPseudoClass" >
+							<b:modal id="profil-anlegen-modal" title="Profil anlegen"
+								styleClass="modalPseudoClass">
 								<b:form id="profil-anlegen-modal-content">
 									<div class="form-group">
 										<p:inputText
-											value="#{filterbearbeiten.neuesFilterprofil.titel}"
-											placeholder="Profilname" class="form-control"></p:inputText>
+											value="#{filterbearbeiten.neuesFilterprofil.filterprofilname}"
+											placeholder="Profilname" class="form-control">
+											<p:ajax event="keyup" />
+										</p:inputText>
 									</div>
 									<div class="form-group artikel-titel-container clearfix">
+										<p>Filter</p>
 										<p:inputText class="form-control pull-left"
 											style="width: 60%;" id="tag-eingabe"
-											value="#{filterbearbeiten.neuerTag}" placeholder="Neuer Tag"
-											onkeypress="if (event.keyCode == 13) {#{filterbearbeiten.saveTag()}}"
-											update="profil-anlegen-modal-content tag-eingabe tags" />
-										<b:commandButton class="form-control pull-right"
-											style="width: 35%;" value="Tag hinzufügen"
-											action="#{filterbearbeiten.saveTag()}"
-											update="profil-anlegen-modal-content tag-eingabe tags" />
+											value="#{filterbearbeiten.neuesFilterprofil.tagstring}"
+											placeholder="Neuer Tag"
+											update="profil-anlegen-modal-content tag-eingabe tags">
+											<p:ajax event="keyup" />
+										</p:inputText>
 									</div>
-									<div class="form-group">
-										<div>
-											<p:repeat value="#{filterbearbeiten.neuesFilterprofil.tags}"
-												var="tag" id="tags">
-												<p class="tag">#{tag}</p>
-											</p:repeat>
-										</div>
-									</div>
-									<div class="form-group"></div>
 								</b:form>
 								<f:facet name="footer">
 									<b:form>
@@ -183,17 +180,55 @@
 											data-dismiss="modal">Verwerfen</button>
 										<b:commandButton value="Anlegen" class="btn btn-primary"
 											action="#{filterbearbeiten.neuesFilterprofilSpeichern()}"
-											update="profil-anlegen-modal-content profil-liste" data-dismiss="modal"></b:commandButton>
+											update="profil-anlegen-modal-content profil-liste"
+											data-dismiss="modal"></b:commandButton>
 									</b:form>
 								</f:facet>
-							</b:modal> 
+							</b:modal>
+
+							<!-- Ändere Filterprofil Modal -->
+							<b:modal id="profil-aendern-modal" title="Profil ändern"
+								styleClass="profilAendernClass">
+								<b:form id="profil-aendern-modal-content">
+									<div class="form-group">
+										<p:inputText
+											value="#{filterbearbeiten.zuAenderndesProfil.filterprofilname}"
+											placeholder="Profilname" class="form-control">
+											<p:ajax event="keyup" />
+										</p:inputText>
+									</div>
+									<div class="form-group artikel-titel-container clearfix">
+										<p>Filter</p>
+										<p:inputText class="form-control pull-left"
+											style="width: 60%;" id="tag-eingabe"
+											value="#{filterbearbeiten.zuAenderndesProfil.tagstring}"
+											placeholder="Neuer Tag"
+											update="profil-aendern-modal-content tag-eingabe tags">
+											<p:ajax event="keyup" />
+										</p:inputText>
+									</div>
+								</b:form>
+								<f:facet name="footer">
+									<b:form>
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Verwerfen</button>
+										<b:commandButton value="Speichern" class="btn btn-primary"
+											action="#{filterbearbeiten.modalAenderungSpeichern()}"
+											update="profil-aendern-modal-content profil-liste"
+											data-dismiss="modal"></b:commandButton>
+									</b:form>
+								</f:facet>
+							</b:modal>
+							<!-- !Ändere Filterprofil Modal -->
+
 							<div class="clearfix" />
 						</div>
 					</div>
 
+					<!-- Alle Filterprofile - Liste -->
 					<p:dataList class="list-group filterprofile"
-						value="#{filterbearbeiten.filterprofile}" var="profil" type="definition"
-						id="profil-liste">
+						value="#{filterbearbeiten.filterprofile}" var="profil"
+						type="definition" id="profil-liste">
 						<h:form id="profil-item">
 							<li class="list-group-item">
 								<div class="artikel-titel-container">
@@ -215,9 +250,16 @@
 										<p:graphicImage value="/resources/image/remove-minus.svg"
 											class="filter-profil-icon pull-left" />
 									</p:commandLink>
-									<p:outputLabel id="filter-profil-text" value="#{profil.titel}" />
-									<h:graphicImage value="/resources/image/edit.svg"
-										class="filter-profil-icon pull-right" />
+									<p:outputLabel id="filter-profil-text"
+										value="#{profil.filterprofilname}" />
+									<p:commandLink id="profil-aendern-button"
+										oncomplete="$('.profilAendernClass').modal();return false;"
+										update="profil-aendern-modal-content">
+										<h:graphicImage value="/resources/image/edit.svg"
+											class="filter-profil-icon pull-right" />
+										<f:actionListener for="profil-aendern-button"
+											binding="#{filterbearbeiten.aendereProfil(profil)}" />
+									</p:commandLink>
 									<p:commandLink
 										action="#{filterbearbeiten.deleteProfil(profil)}"
 										update="profil-liste">

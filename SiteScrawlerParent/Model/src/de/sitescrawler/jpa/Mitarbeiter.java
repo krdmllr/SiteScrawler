@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import de.sitescrawler.model.Firmenrolle;
 
@@ -55,6 +56,26 @@ public class Mitarbeiter implements java.io.Serializable
         this.id = id;
     }
 
+    //UNMAPPED
+    
+    @Transient
+    public boolean isAdmin(){
+    	return getFirmenrolle() == Firmenrolle.Administrator;
+    }
+    
+    public void macheZuAdmin(){
+    	//TODO in Datenbank ablegen
+    	setFirmenrolle(Firmenrolle.Administrator);
+    }
+    
+    public void macheZuNutzer(){
+    	//TODO in Datenbank ablegen
+    	setFirmenrolle(Firmenrolle.Mitarbeiter);
+    }
+    
+    
+    //MAPPED
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Firma_Filtermanager_identifikation", nullable = false, insertable = false, updatable = false)
     public Firma getFirma()

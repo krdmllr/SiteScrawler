@@ -4,6 +4,7 @@ package de.sitescrawler.jpa;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -46,6 +47,11 @@ public class Filterprofil implements java.io.Serializable
         this.filterprofilgruppen = filterprofilgruppen;
         this.quellen = quellen;
     }
+    
+    //NOT MAPPED
+     
+    
+    //MAPPED
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.sitescrawler.jpa.Archiveintrag;
+import de.sitescrawler.jpa.Artikel;
 
 @SessionScoped
 @Named("archiv")
@@ -23,6 +24,7 @@ public class ArchivBean implements Serializable
     private DataBean          dataBean;
 
     private Archiveintrag     geweahlterArchiveintrag;
+    private Artikel			  geweahlterArtikel;
 
     private Date              abZeitpunkt      = new Date();
     private Date              bisZeitpunkt     = new Date();
@@ -79,4 +81,12 @@ public class ArchivBean implements Serializable
     {
         this.bisZeitpunkt = bisZeitpunkt;
     }
+
+	public Artikel getGeweahlterArtikel() {
+		return geweahlterArtikel;
+	}
+
+	public void setGeweahlterArtikel(Artikel geweahlterArtikel) {
+		this.geweahlterArtikel = geweahlterArtikel;
+	}
 }

@@ -43,6 +43,7 @@ public interface INutzerService
 
     /**
      * Gibt einen Nutzer anhand seiner id zurück.
+     * Der zurückgegebene Nutzer beinhaltet alle für ihn relevanten Daten wie seine Filtergruppen, in denen auch alle Felder gefüllt sind.
      * 
      * @param uid
      *            Id des Nutzers.
