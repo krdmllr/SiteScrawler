@@ -14,8 +14,7 @@ import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
 
 public class MailSenderService implements IMailSenderService {
-
-	@Override
+ 
 	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge)
 			throws ServiceUnavailableException {
 
@@ -26,7 +25,7 @@ public class MailSenderService implements IMailSenderService {
 		String password = projectConfig.getPassword();
 
 		Properties props = System.getProperties();
-		String host = "smtp.gmail.com";
+		String host = "smtp.outlook.com";
 
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", host);
@@ -85,8 +84,7 @@ public class MailSenderService implements IMailSenderService {
 		}
 
 	}
-
-	@Override
+ 
 	public void sendeMassenMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] pdf)
 			throws ServiceUnavailableException {
 

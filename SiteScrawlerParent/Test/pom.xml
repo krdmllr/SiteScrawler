@@ -33,5 +33,10 @@
   		<artifactId>Crawler</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.email</groupId>
+  		<artifactId>Email</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>
