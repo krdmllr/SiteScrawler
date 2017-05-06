@@ -21,7 +21,6 @@ public class Producer implements Serializable
     private static final long serialVersionUID = 1L;
 
     @Produces
-    @Produktiv
     @PersistenceContext
     private EntityManager     entityManager;
 
