@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -55,8 +56,8 @@ public class Uhrzeit implements java.io.Serializable
         this.uhrzeit = uhrzeit;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "filtergruppe_erstellt_zu_uhrzeit", joinColumns = { @JoinColumn(name = "Uhrzeit_uhrzeit", nullable = false, updatable = false) },
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinTable(name = "Filtergruppe_erstellt_zu_Uhrzeit", joinColumns = { @JoinColumn(name = "Uhrzeit_uhrzeit", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Filtergruppe_FilterprofilgruppeId", nullable = false, updatable = false) })
     public Set<Filterprofilgruppe> getFilterprofilgruppen()
     {

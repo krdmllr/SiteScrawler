@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -22,6 +26,16 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@NamedEntityGraph(name = "Nutzer.*", includeAllAttributes = true,
+                  attributeNodes = { @NamedAttributeNode(value = "filterprofilgruppen", subgraph = "filterprofilgruppenGraph"),
+                                     @NamedAttributeNode(value = "filterprofile", subgraph = "filterprofileGraph") },
+                  subgraphs = { @NamedSubgraph(name = "filterprofilgruppenGraph",
+                                               attributeNodes = { @NamedAttributeNode(value = "intervall"), @NamedAttributeNode(value = "uhrzeiten"),
+                                                                  @NamedAttributeNode(value = "filterprofile", subgraph = "filterprofileGraph"),
+                                                                  @NamedAttributeNode(value = "archiveintraege", subgraph = "archiveintraegeGraph") }),
+                                @NamedSubgraph(name = "filterprofileGraph",
+                                               attributeNodes = { @NamedAttributeNode(value = "quellen"), @NamedAttributeNode(value = "kategorien") }),
+                                @NamedSubgraph(name = "archiveintraegeGraph", attributeNodes = { @NamedAttributeNode(value = "artikel") }), })
 public class Nutzer extends Filtermanager implements java.io.Serializable
 {
 
@@ -55,30 +69,40 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
         this.filterprofilgruppen = filterprofilgruppes;
         this.mitarbeiter = mitarbeiter;
     }
-    
-    //Unmapped
+
+    // Unmapped
     @Transient
-    public String getGanzenNamen(){
-    	return vorname + " " + nachname;
+    public String getGanzenNamen()
+    {
+        return this.vorname + " " + this.nachname;
     }
-    
+
     @Transient
-    public boolean isFirmengruppeVonNutzer(Filterprofilgruppe filtergruppe){
-    	return filterprofilgruppen.contains(filtergruppe);
+    public boolean isFirmengruppeVonNutzer(Filterprofilgruppe filtergruppe)
+    {
+        return this.filterprofilgruppen.contains(filtergruppe);
     }
-    
-    public Firma getFirmaZuFirmengruppe(Filterprofilgruppe gruppe){
-    	for(Firma f: getFirmen())
-    	{
-    		if(f.getFilterprofilgruppen().contains(gruppe))
-    		{
-    			return f;
-    		}
-    	}
-    	return null;
+
+    @Transient
+    public Firma getFirmaZuFirmengruppe(Filterprofilgruppe gruppe)
+    {
+        for (Firma f : this.getFirmen())
+        {
+            if (f.getFilterprofilgruppen().contains(gruppe))
+            {
+                return f;
+            }
+        }
+        return null;
     }
-    
-    //Mapped
+
+    @Transient
+    public List<Firma> getFirmen()
+    {
+        return this.mitarbeiter.stream().map(Mitarbeiter::getFirma).collect(Collectors.toList());
+    }
+
+    // Mapped
 
     @Column(name = "vorname")
     public String getVorname()
@@ -124,8 +148,8 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
         this.passwort = passwort;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "nutzer_hat_rolle", joinColumns = { @JoinColumn(name = "Nutzer_Filtermanager_identifikation", nullable = false, updatable = false) },
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinTable(name = "Nutzer_hat_Rolle", joinColumns = { @JoinColumn(name = "Nutzer_Filtermanager_identifikation", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Rolle_rolle", nullable = false, updatable = false) })
     public Set<Rolle> getRollen()
     {
@@ -138,7 +162,7 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
     }
 
     @Override
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(name = "empfaenger", joinColumns = { @JoinColumn(name = "Nutzer_Filtermanager_identifikation", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Filtergruppe_FilterprofilgruppeId", nullable = false, updatable = false) })
     public Set<Filterprofilgruppe> getFilterprofilgruppen()
@@ -152,7 +176,7 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
         this.filterprofilgruppen = filterprofilgruppen;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nutzer")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "nutzer", cascade = { CascadeType.ALL })
     public Set<Mitarbeiter> getMitarbeiter()
     {
         return this.mitarbeiter;
@@ -161,12 +185,6 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
     public void setMitarbeiter(Set<Mitarbeiter> mitarbeiter)
     {
         this.mitarbeiter = mitarbeiter;
-    }
-
-    @Transient
-    public List<Firma> getFirmen()
-    {
-        return this.mitarbeiter.stream().map(Mitarbeiter::getFirma).collect(Collectors.toList());
     }
 
 }

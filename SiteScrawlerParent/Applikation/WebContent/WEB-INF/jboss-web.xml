@@ -2,4 +2,5 @@
 <jboss-web>
 	<virtual-host>App</virtual-host>
     <context-root>/</context-root>
+    <security-domain>database</security-domain>
 </jboss-web>

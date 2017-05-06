@@ -4,9 +4,9 @@ package de.sitescrawler.jpa;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,11 +47,10 @@ public class Filterprofil implements java.io.Serializable
         this.filterprofilgruppen = filterprofilgruppen;
         this.quellen = quellen;
     }
-    
-    //NOT MAPPED
-     
-    
-    //MAPPED
+
+    // NOT MAPPED
+
+    // MAPPED
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -67,7 +66,7 @@ public class Filterprofil implements java.io.Serializable
         this.filterprofilId = filterprofilId;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "Filtermanager_identifikation")
     public Filtermanager getFiltermanager()
     {
@@ -101,8 +100,8 @@ public class Filterprofil implements java.io.Serializable
         this.tagstring = tagstring;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "filterprofil_beinhaltet_kategorie",
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinTable(name = "Filterprofil_beinhaltet_Kategorie",
                joinColumns = { @JoinColumn(name = "Filterprofil_FilterprofilId", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Kategorie_kategorienname", nullable = false, updatable = false) })
     public Set<Kategorie> getKategorien()
@@ -115,7 +114,7 @@ public class Filterprofil implements java.io.Serializable
         this.kategorien = kategorien;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(name = "filterprofilgruppe_beinhaltet_filterprofil",
                joinColumns = { @JoinColumn(name = "Filterprofil_FilterprofilId", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Filterprofilgruppe_FilterprofilgruppeId", nullable = false, updatable = false) })
@@ -129,8 +128,8 @@ public class Filterprofil implements java.io.Serializable
         this.filterprofilgruppen = filterprofilgruppen;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "filterprofil_beinhaltet_quelle",
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinTable(name = "Filterprofil_beinhaltet_Quelle",
                joinColumns = { @JoinColumn(name = "Filterprofil_FilterprofilId", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Quelle_qid", nullable = false, updatable = false) })
     public Set<Quelle> getQuellen()

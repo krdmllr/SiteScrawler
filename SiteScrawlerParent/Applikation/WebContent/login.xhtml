@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head><title>Login</title></h:head>
+<h:body>
+	<b:container fluid="true">
+			<h1>Login</h1>
+		
+			<h:form style="margin:0 auto;max-width:330px; padding:15px;"> 
+				<b:growl id="growl" timer="5000" allow-dismiss="true" showDetail="true" placement-from="bottom" global-only="false"/>
+				<b:row>
+					<b:focus target="@next"/>
+					<b:inputText id="username" value="#{login.uid}" required="true" placeholder="Benutzername" label="Benutzer"
+					required-message="Benutzername ist Pflichtfeld.">
+						<f:facet name="prepend">
+							<b:iconAwesome  name="user"/>
+						</f:facet>
+					</b:inputText>
+				</b:row>
+				<b:row>
+					<b:inputSecret id="passsword" value="#{login.password}" required="true" placeholder="Passwort" label="Passwort" 
+					required-message="Passwort ist Pflichtfeld.">
+						<f:facet name="prepend">
+							<b:iconAwesome  name="key"/>
+						</f:facet>
+					</b:inputSecret>
+				</b:row>	
+				<b:row>
+					<b:commandButton value="Login" action="#{login.login}" iconAwesome="sign-in" update="@form" size="lg" look="primary btn-block"/>
+				</b:row>					
+			</h:form>
+	</b:container>
+</h:body>
+		
+</html>

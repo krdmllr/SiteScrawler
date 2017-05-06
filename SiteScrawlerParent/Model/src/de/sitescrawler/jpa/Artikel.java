@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,7 +32,7 @@ public class Artikel implements java.io.Serializable
     private String             titel;
     private String             beschreibung;
     private String             link;
-    private List<String>       absaetzeArtikel = new ArrayList();
+    private List<String>       absaetzeArtikel  = new ArrayList();
 
     public Artikel()
     {
@@ -77,7 +78,7 @@ public class Artikel implements java.io.Serializable
         this.absaetzeArtikel = absaetzeArtikel;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(name = "Archiveintrag_beinhaltet_Artikel", joinColumns = { @JoinColumn(name = "Artikel_solrid", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Archiveintrag_archiveintragid", nullable = false, updatable = false) })
     public Set<Archiveintrag> getArchiveintraege()

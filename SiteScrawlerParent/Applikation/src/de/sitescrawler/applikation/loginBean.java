@@ -1,4 +1,4 @@
-package de.sitescrawler.portal;
+package de.sitescrawler.applikation;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -9,12 +9,11 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
-import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 
 @SessionScoped
 @Named("login")
@@ -29,33 +28,44 @@ public class loginBean implements Serializable
 
     @Inject
     private ProjectConfig     config;
-    @Inject
-    private INutzerService    nutzerService;
 
     @PostConstruct
     public void init()
     {
-        return;
+        ExternalContext externalContext = this.context.getExternalContext();
+        this.originalURL = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
+        if (this.originalURL == null)
+        {
+            this.originalURL = externalContext.getRequestContextPath() + "/index.xhtml";
+        }
+        else
+        {
+            String originalQuery = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_QUERY_STRING);
 
-        /**
-         * ExternalContext externalContext = this.context.getExternalContext(); this.originalURL = (String)
-         * externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI); if (this.originalURL == null) {
-         * this.originalURL = externalContext.getRequestContextPath() + "/index.xhtml"; } else { String originalQuery =
-         * (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_QUERY_STRING);
-         *
-         * if (originalQuery != null) { this.originalURL += "?" + originalQuery; } }
-         **/
+            if (originalQuery != null)
+            {
+                this.originalURL += "?" + originalQuery;
+            }
+        }
+
     }
 
     public void login()
     {
-        return;
-        /**
-         * System.out.println("Login: " + uid + " | " + password); HttpServletRequest request = (HttpServletRequest)
-         * this.context.getExternalContext().getRequest(); try { request.login(this.uid, this.password);
-         * this.context.getExternalContext().redirect(this.originalURL); } catch (ServletException | IOException e) {
-         * e.printStackTrace(); }
-         **/
+        System.out.println("Login: " + this.uid + " | " + this.password);
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+        try
+        {
+            request.login(this.uid, this.password);
+            externalContext.redirect(this.originalURL);
+            // TODO SetNutzer
+        }
+        catch (ServletException | IOException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     public void logout()
@@ -99,8 +109,4 @@ public class loginBean implements Serializable
         return this.config;
     }
 
-    public void test()
-    {
-        Nutzer nutzer = this.nutzerService.getNutzer(this.uid);
-    }
 }

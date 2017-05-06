@@ -4,6 +4,7 @@ package de.sitescrawler.jpa;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,8 +52,8 @@ public class Kategorie implements java.io.Serializable
         this.kategorienname = kategorienname;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "filterprofil_beinhaltet_kategorie",
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinTable(name = "Filterprofil_beinhaltet_Kategorie",
                joinColumns = { @JoinColumn(name = "Kategorie_kategorienname", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Filterprofil_FilterprofilId", nullable = false, updatable = false) })
     public Set<Filterprofil> getFilterprofile()
