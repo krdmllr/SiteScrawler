@@ -4,6 +4,7 @@ package de.sitescrawler.jpa;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -54,7 +55,7 @@ public class Intervall implements java.io.Serializable
         this.zeitintervall = intervall;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "intervall")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "intervall", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     public Set<Filterprofilgruppe> getFilterprofilgruppen()
     {
         return this.filterprofilgruppen;

@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import de.sitescrawler.email.MailSenderService;
+import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.email.interfaces.IMailSenderService;
 import de.sitescrawler.formatierer.interfaces.IFormatiererService;
 import de.sitescrawler.jpa.Archiveintrag;
@@ -107,8 +108,13 @@ public class ArchiveintragErstellen implements Runnable{
 		{
 			body = formatiererService.generierePlaintextZusammenfassung(archiveintrag);
 		}
-		
-		mailSenderService.sendeMassenMail(empfaenger, betreff, body, html, pdf);
+		 
+		try {
+			mailSenderService.sendeMassenMail(empfaenger, betreff, body, html, pdf);
+		} catch (ServiceUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	} 
 	
 	

@@ -3,6 +3,7 @@ package de.sitescrawler.jpa;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -56,27 +57,29 @@ public class Mitarbeiter implements java.io.Serializable
         this.id = id;
     }
 
-    //UNMAPPED
-    
+    // UNMAPPED
+
     @Transient
-    public boolean isAdmin(){
-    	return getFirmenrolle() == Firmenrolle.Administrator;
+    public boolean isAdmin()
+    {
+        return this.getFirmenrolle() == Firmenrolle.Administrator;
     }
-    
-    public void macheZuAdmin(){
-    	//TODO in Datenbank ablegen
-    	setFirmenrolle(Firmenrolle.Administrator);
+
+    public void macheZuAdmin()
+    {
+        // TODO in Datenbank ablegen
+        this.setFirmenrolle(Firmenrolle.Administrator);
     }
-    
-    public void macheZuNutzer(){
-    	//TODO in Datenbank ablegen
-    	setFirmenrolle(Firmenrolle.Mitarbeiter);
+
+    public void macheZuNutzer()
+    {
+        // TODO in Datenbank ablegen
+        this.setFirmenrolle(Firmenrolle.Mitarbeiter);
     }
-    
-    
-    //MAPPED
-    
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    // MAPPED
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "Firma_Filtermanager_identifikation", nullable = false, insertable = false, updatable = false)
     public Firma getFirma()
     {
@@ -88,7 +91,7 @@ public class Mitarbeiter implements java.io.Serializable
         this.firma = firma;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "Nutzer_Filtermanager_identifikation", nullable = false, insertable = false, updatable = false)
     public Nutzer getNutzer()
     {

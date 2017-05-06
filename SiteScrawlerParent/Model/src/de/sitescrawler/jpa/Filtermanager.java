@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -71,15 +72,16 @@ public class Filtermanager implements java.io.Serializable
         this.maxfiltergruppe = maxfiltergruppe;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "filtermanager")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "filtermanager", cascade = { CascadeType.ALL })
     public Set<Filterprofil> getFilterprofile()
     {
         return this.filterprofile;
     }
-    
+
     @Transient
-    public List<Filterprofil> getFilterprofileList(){
-    	return new ArrayList<Filterprofil>();
+    public List<Filterprofil> getFilterprofileList()
+    {
+        return new ArrayList<>();
     }
 
     public void setFilterprofile(Set<Filterprofil> filterprofile)
@@ -87,7 +89,7 @@ public class Filtermanager implements java.io.Serializable
         this.filterprofile = filterprofile;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "filtermanager")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "filtermanager", cascade = { CascadeType.ALL })
     public Set<Filterprofilgruppe> getFilterprofilgruppen()
     {
         return this.filterprofilgruppen;

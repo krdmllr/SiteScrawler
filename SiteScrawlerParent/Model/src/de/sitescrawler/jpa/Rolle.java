@@ -4,6 +4,7 @@ package de.sitescrawler.jpa;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,8 +52,8 @@ public class Rolle implements java.io.Serializable
         this.rolle = rolle;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "nutzer_hat_rolle", joinColumns = { @JoinColumn(name = "Rolle_rolle", nullable = false, updatable = false) },
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinTable(name = "Nutzer_hat_Rolle", joinColumns = { @JoinColumn(name = "Rolle_rolle", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Nutzer_Filtermanager_identifikation", nullable = false, updatable = false) })
     public Set<Nutzer> getNutzer()
     {

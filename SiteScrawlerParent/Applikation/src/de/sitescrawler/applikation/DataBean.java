@@ -1,11 +1,8 @@
 package de.sitescrawler.applikation;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -13,49 +10,45 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.sitescrawler.jpa.Archiveintrag;
-import de.sitescrawler.jpa.Artikel;
-import de.sitescrawler.jpa.Filterprofil;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Firma;
-import de.sitescrawler.jpa.Mitarbeiter;
 import de.sitescrawler.jpa.Nutzer;
-import de.sitescrawler.model.Firmenrolle;
 import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.nutzerverwaltung.NutzerDatenServiceDummy;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
-import de.sitescrawler.utility.DateUtils;
 
 @SessionScoped
 @Named("data")
 public class DataBean implements Serializable
 {
 
-    private static final long  serialVersionUID = 1L;
+    private static final long   serialVersionUID   = 1L;
 
-    private Nutzer             nutzer;
+    private Nutzer              nutzer;
 
     @Inject
-    private ProjectConfig      config;
-    
+    private ProjectConfig       config;
+
     @Inject
-    private ArchivBean			archiv;
-    
-    //@Inject
+    private ArchivBean          archiv;
+
+    // @Inject
+    // @Produktiv
     private INutzerDatenService nutzerDatenService = new NutzerDatenServiceDummy();
 
-    private Filterprofilgruppe filtergruppe;
+    private Filterprofilgruppe  filtergruppe;
 
     public DataBean()
-    { 
-    	
+    {
+
     }
 
     @PostConstruct
     void init()
     {
-    	this.nutzer = nutzerDatenService.getNutzer();
-    	filtergruppe = new ArrayList<Filterprofilgruppe>(nutzer.getFilterprofilgruppen()).get(0);
-    } 
+        this.nutzer = this.nutzerDatenService.getNutzer();
+        this.filtergruppe = new ArrayList<>(this.nutzer.getFilterprofilgruppen()).get(0);
+    }
 
     public Nutzer getNutzer()
     {
@@ -74,12 +67,12 @@ public class DataBean implements Serializable
 
     public void setFiltergruppe(Filterprofilgruppe filtergruppe)
     {
-    	
+
         this.filtergruppe = filtergruppe;
-        if(filtergruppe.getArchiveintraege().size() > 0)
+        if (filtergruppe.getArchiveintraege().size() > 0)
         {
-        	 archiv.setGeweahlterArchiveintrag((Archiveintrag)filtergruppe.getArchiveintraege().toArray()[0]);
-        } 
+            this.archiv.setGeweahlterArchiveintrag((Archiveintrag) filtergruppe.getArchiveintraege().toArray()[0]);
+        }
     }
 
     public List<Filterprofilgruppe> getFiltergruppen()

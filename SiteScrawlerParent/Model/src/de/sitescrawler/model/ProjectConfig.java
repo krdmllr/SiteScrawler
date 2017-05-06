@@ -21,39 +21,43 @@ public class ProjectConfig {
 
 	public ProjectConfig() {
 
-		String configPath = System.getProperty("jboss.server.config.dir");
+		try{
+			String configPath = System.getProperty("jboss.server.config.dir");
 
-		if (configPath == null || configPath.isEmpty()) {
-			//Perhabs server is not running
-			System.out.println("Could not resolve config path. Searching in project path for config instead.");
-			String currentDir = System.getProperty("user.dir");
-			File currentFile = new File(currentDir);
-			
-			while(!currentFile.getName().toLowerCase().equals("sitescrawler")){
-				currentFile = currentFile.getParentFile();
+			if (configPath == null || configPath.isEmpty()) {
+				//Perhabs server is not running
+				System.out.println("Could not resolve config path. Searching in project path for config instead.");
+				String currentDir = System.getProperty("user.dir");
+				File currentFile = new File(currentDir);
+				
+				while(!currentFile.getName().toLowerCase().equals("sitescrawler")){
+					currentFile = currentFile.getParentFile();
+				}
+				configPath =  currentFile.getAbsolutePath();
+				System.out.println("Present Project Directory : " + configPath);
 			}
-			configPath =  currentFile.getAbsolutePath();
-			System.out.println("Present Project Directory : " + configPath);
-		}
 
-		String configName = "config.properties";
-		Path fileName = Paths.get(configPath, configName);
+			String configName = "config.properties";
+			Path fileName = Paths.get(configPath, configName);
 
-		Properties properties = new Properties();
+			Properties properties = new Properties();
 
-		try (FileInputStream fis = new FileInputStream(fileName.toFile())) {
-			properties.load(fis);
+			try (FileInputStream fis = new FileInputStream(fileName.toFile())) {
+				properties.load(fis);
 
-			domain = properties.getProperty("domain");
-			username = properties.getProperty("username");
-			password = properties.getProperty("password");
+				domain = properties.getProperty("domain");
+				username = properties.getProperty("username");
+				password = properties.getProperty("password");
 
-			System.out.println("Successfully loaded config.");
-		} catch (Exception e) {
-			System.out.println("Failed to load conifg");
+				System.out.println("Successfully loaded config.");
+			} catch (Exception e) {
+				System.out.println("Failed to load conifg");
+				e.printStackTrace();
+			}
+		} 
+		catch(Exception e)
+		{
 			e.printStackTrace();
-		} finally {
-
 		}
 	}
 

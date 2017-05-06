@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -62,7 +63,7 @@ public class Archiveintrag implements java.io.Serializable
         this.archiveintragid = archiveintragid;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "Filtergruppe_FilterprofilgruppeId", nullable = false)
     public Filterprofilgruppe getFilterprofilgruppe()
     {
@@ -86,7 +87,7 @@ public class Archiveintrag implements java.io.Serializable
         this.erstellungsdatum = erstellungsdatum;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(name = "Archiveintrag_beinhaltet_Artikel",
                joinColumns = { @JoinColumn(name = "Archiveintrag_archiveintragid", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Artikel_solrid", nullable = false, updatable = false) })

@@ -4,6 +4,7 @@ package de.sitescrawler.jpa;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,7 +42,7 @@ public class Firma extends Filtermanager implements java.io.Serializable
         this.name = name;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "firma")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "firma", cascade = { CascadeType.ALL })
     public Set<Mitarbeiter> getMitarbeiter()
     {
         return this.mitarbeiter;
