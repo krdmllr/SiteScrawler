@@ -19,9 +19,9 @@ public class Main {
 		byte[] data = new byte[1460];
 		anhaenge.add(data);
 		
-		IMailSenderService mail = new MailSenderServiceImpl();
+		IMailSenderService mail = new MailSenderService();
 		try {
-			mail.sendeMail(emailAdresse,subjekt,subjekt,htmlBody,anhaenge);
+			mail.sendeMail(emailAdresse,subjekt,body,htmlBody,anhaenge);
 		} catch (ServiceUnavailableException e) {
 			e.printStackTrace();
 		}

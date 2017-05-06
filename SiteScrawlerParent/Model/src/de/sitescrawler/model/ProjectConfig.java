@@ -12,6 +12,8 @@ import javax.enterprise.context.ApplicationScoped;
 public class ProjectConfig {
 
 	private String domain;
+	private String username;
+	private String password;
 	
 	String result = "";
 	InputStream inputStream;
@@ -33,6 +35,8 @@ public class ProjectConfig {
 			}
 			
 			domain = properties.getProperty("domain"); 
+			username = properties.getProperty("username");
+			password = properties.getProperty("password");
 			 
 			System.out.println("Successfully loaded config.");
 		} catch (Exception e) {
@@ -40,6 +44,14 @@ public class ProjectConfig {
 		} finally {
 		 
 		} 
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 
 	public String getDomain() {
