@@ -37,7 +37,7 @@
 						<div class="clearfix"></div>
 
 					</div>
-
+				
 					<div class="panel-body filter">
 						<h:form>
 							<h4>Filter</h4>
@@ -52,18 +52,25 @@
 							</div>
 						</h:form>
 					</div>
-					<p:dataList class="list-group archiveintraege"
-						value="#{data.filtergruppe.archiveintraege}" var="eintrag"
-						type="definition">
-						<h:form>
-							<p:commandLink class="list-group-item" id="ajax"
-								update="artikelBereich" action="#{archiv.buttonAction(eintrag)}">
-								<h:outputText value="#{eintrag.erstellungsdatum}">
-									<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
-								</h:outputText>
-							</p:commandLink>
-						</h:form>
-					</p:dataList>
+					<hr /> 
+					<h:form id="manueller-crawl-form">
+						<b:commandButton value="Jetzt Crawlen" action="#{archiv.manuellCrawlen()}"/> 
+					</h:form>
+					<hr />
+					<div>
+						<p:dataList class="list-group archiveintraege"
+							value="#{data.filtergruppe.archiveintraege}" var="eintrag"
+							type="definition">
+							<h:form>
+								<p:commandLink class="list-group-item" id="ajax"
+									update="artikelBereich" action="#{archiv.buttonAction(eintrag)}">
+									<h:outputText value="#{eintrag.erstellungsdatum}">
+										<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
+									</h:outputText>
+								</p:commandLink>
+							</h:form>
+						</p:dataList>
+					</div>
 				</div>
 			</div>
 

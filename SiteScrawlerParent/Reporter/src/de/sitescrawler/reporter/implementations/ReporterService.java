@@ -5,15 +5,16 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.management.FiltergruppenZugriffsManager;
-import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager;
-import de.sitescrawler.logger.LoggerSiteScrawler;
+import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager; 
 import de.sitescrawler.reporter.interfaces.IReporterService;
 import de.sitescrawler.utility.DateUtils; 
 
+@ApplicationScoped
 public class ReporterService implements IReporterService {
 	 
 	@Inject
@@ -38,5 +39,10 @@ public class ReporterService implements IReporterService {
 	
 	private List<Filterprofilgruppe> getFiltergruppeMitEmpfangZuAktuellemZeitpunkt(LocalDateTime zeitpunkt){
 		return filtergruppenZugriff.getFiltergruppeMitEmpfangZuZeitpunkt(zeitpunkt); 
+	}
+
+	public void generiereManuellenReport(Filterprofilgruppe profilgruppe) {
+		ArchiveintragErstellen ersteller = new ArchiveintragErstellen(profilgruppe, LocalDateTime.now()); 
+		ersteller.erstelleReport();
 	} 
 }

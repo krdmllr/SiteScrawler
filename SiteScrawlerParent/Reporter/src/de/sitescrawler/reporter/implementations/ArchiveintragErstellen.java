@@ -62,6 +62,10 @@ public class ArchiveintragErstellen implements Runnable{
 	}
 	
 	public void run() { 
+		erstelleReport();
+	}
+	
+	public void erstelleReport(){
 		filtergruppe.setLetzteerstellung(DateUtils.asDate(aktuelleZeit));
 		
 		List<Filterprofil> filterprofile = new ArrayList<Filterprofil>(filtergruppe.getFilterprofile());

@@ -25,7 +25,8 @@ public class QuellenBean implements Serializable {
     private Quelle geweahlteQuelle;
     
     public List<Quelle> getQuellen(){
-    	return quellenManager.getQuellen();
+    	List<Quelle> quellen = quellenManager.getQuellen();
+    	return quellen;
     }
 
 	public Quelle getGeweahlteQuelle() {
