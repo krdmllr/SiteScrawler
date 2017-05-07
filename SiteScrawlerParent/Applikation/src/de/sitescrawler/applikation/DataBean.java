@@ -14,15 +14,15 @@ import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
-import de.sitescrawler.nutzerverwaltung.NutzerDatenServiceDummy;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
+import de.sitescrawler.qualifier.Produktiv;
 
 @SessionScoped
 @Named("data")
 public class DataBean implements Serializable
 {
 
-    private static final long   serialVersionUID   = 1L;
+    private static final long   serialVersionUID = 1L;
 
     private Nutzer              nutzer;
 
@@ -33,7 +33,7 @@ public class DataBean implements Serializable
     private ArchivBean          archiv;
 
     @Inject
-    //@Produktiv
+    @Produktiv
     private INutzerDatenService nutzerDatenService;
 
     private Filterprofilgruppe  filtergruppe;
