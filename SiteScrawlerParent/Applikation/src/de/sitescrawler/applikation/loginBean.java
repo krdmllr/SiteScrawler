@@ -31,7 +31,8 @@ public class loginBean implements Serializable
     @Inject
     private ProjectConfig       config;
 
-    @Inject 
+    @Inject
+    @Produktiv
     private INutzerDatenService nutzerDatenService;
 
     @PostConstruct
@@ -75,7 +76,7 @@ public class loginBean implements Serializable
 
     public void logout()
     {
-        ExternalContext externalContext = this.context.getExternalContext();
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.invalidateSession();
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
         try

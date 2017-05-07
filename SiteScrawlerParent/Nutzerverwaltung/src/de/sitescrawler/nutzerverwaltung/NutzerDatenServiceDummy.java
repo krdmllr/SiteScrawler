@@ -1,8 +1,11 @@
 package de.sitescrawler.nutzerverwaltung;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.enterprise.context.SessionScoped;
 
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
@@ -17,18 +20,23 @@ import de.sitescrawler.utility.DateUtils;
 
 /**
  * Dummy implementierung für den INutzerDatenService.
+ *
  * @author klmue
  *
  */
-public class NutzerDatenServiceDummy implements INutzerDatenService{
+@SessionScoped
+public class NutzerDatenServiceDummy implements Serializable, INutzerDatenService
+{
 
-	Nutzer nutzer;
-	
-	@Override
-	public Nutzer getNutzer() {
-		nutzer = new Nutzer();
-        nutzer.setNachname("Dieter");
-        nutzer.setVorname("Hans");
+    private static final long serialVersionUID = 1L;
+    private Nutzer            nutzer;
+
+    @Override
+    public Nutzer getNutzer()
+    {
+        this.nutzer = new Nutzer();
+        this.nutzer.setNachname("Dieter");
+        this.nutzer.setVorname("Hans");
 
         for (int i = 0; i < 15; i++)
         {
@@ -40,7 +48,7 @@ public class NutzerDatenServiceDummy implements INutzerDatenService{
         }
 
         Filterprofilgruppe nutzerFiltergruppe = new Filterprofilgruppe();
-        nutzerFiltergruppe.setNutzer(nutzer);
+        nutzerFiltergruppe.setNutzer(this.nutzer);
         nutzerFiltergruppe.setTitel("Meine Filtergruppe");
         this.nutzer.getFilterprofilgruppen().add(nutzerFiltergruppe);
 
@@ -52,7 +60,7 @@ public class NutzerDatenServiceDummy implements INutzerDatenService{
                 nutzerFiltergruppe.getFilterprofile().add((Filterprofil) this.nutzer.getFilterprofile().toArray()[i]);
             }
         }
-        //this.setFiltergruppe(nutzerFiltergruppe);
+        // this.setFiltergruppe(nutzerFiltergruppe);
 
         Firma firmaVonNutzer = new Firma();
         firmaVonNutzer.setName("Eine Firma");
@@ -63,7 +71,7 @@ public class NutzerDatenServiceDummy implements INutzerDatenService{
         this.nutzer.getMitarbeiter().add(nutzerArbeiter1);
         nutzerArbeiter1.setFirma(firmaVonNutzer);
         firmaVonNutzer.getMitarbeiter().add(nutzerArbeiter1);
-        
+
         Firma fremdFirma = new Firma();
         fremdFirma.setName("Andere Firma");
         Mitarbeiter nutzerArbeiter2 = new Mitarbeiter();
@@ -98,114 +106,122 @@ public class NutzerDatenServiceDummy implements INutzerDatenService{
 
         this.nutzer.getFirmen().add(firmaVonNutzer);
         this.nutzer.getFirmen().add(fremdFirma);
-        
-        return nutzer;
-	}
-	
-	 private void firmenDummyDaten(Firma firma)
-	    {
-	        for (int i = 0; i < 10; i++)
-	        {
-	            Filterprofil testProfil = new Filterprofil();
-	            testProfil.setFilterprofilname("FirmenFilterprofil" + i);
 
-	            for (int j = 0; j < 5; j++)
-	            {
-	                testProfil.setTagstring("Merkel");
-	            }
-	            firma.getFilterprofile().add(testProfil);
-	        }
+        return this.nutzer;
+    }
 
-	        for (int j = 0; j < 2; j++)
-	        {
-	            Filterprofilgruppe testGruppe = new Filterprofilgruppe();
-	            testGruppe.setFirma(firma);
-	            testGruppe.setTitel("FirmenFilterGruppe" + j);
-	            testGruppe.setFiltermanager(firma);
-	            for (int k = 0; k < 10; k++)
-	            {
-	                testGruppe.getEmpfaenger().add(((Mitarbeiter) firma.getMitarbeiter().toArray()[k]).getNutzer());
-	            }
+    private void firmenDummyDaten(Firma firma)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            Filterprofil testProfil = new Filterprofil();
+            testProfil.setFilterprofilname("FirmenFilterprofil" + i);
 
-	            for (int k = 0; k < 2; k++)
-	            {
-	                testGruppe.getFilterprofile().add((Filterprofil) firma.getFilterprofile().toArray()[k]);
-	            }
+            for (int j = 0; j < 5; j++)
+            {
+                testProfil.setTagstring("Merkel");
+            }
+            firma.getFilterprofile().add(testProfil);
+        }
 
-	            testGruppe.setArchiveintraege(this.getDummyArchiveintraege(testGruppe.getTitel() + "Eintrag"));
+        for (int j = 0; j < 2; j++)
+        {
+            Filterprofilgruppe testGruppe = new Filterprofilgruppe();
+            testGruppe.setFirma(firma);
+            testGruppe.setTitel("FirmenFilterGruppe" + j);
+            testGruppe.setFiltermanager(firma);
+            for (int k = 0; k < 10; k++)
+            {
+                testGruppe.getEmpfaenger().add(((Mitarbeiter) firma.getMitarbeiter().toArray()[k]).getNutzer());
+            }
 
-	            firma.getFilterprofilgruppen().add(testGruppe);
-	        }
-	    }
+            for (int k = 0; k < 2; k++)
+            {
+                testGruppe.getFilterprofile().add((Filterprofil) firma.getFilterprofile().toArray()[k]);
+            }
 
-	    private Set<Archiveintrag> getDummyArchiveintraege(String name)
-	    {
+            testGruppe.setArchiveintraege(this.getDummyArchiveintraege(testGruppe.getTitel() + "Eintrag"));
 
-	        Set<Archiveintrag> list = new HashSet<>();
+            firma.getFilterprofilgruppen().add(testGruppe);
+        }
+    }
 
-	        try
-	        {
+    private Set<Archiveintrag> getDummyArchiveintraege(String name)
+    {
 
-	            for (int i = 0; i < 20; i++)
-	            {
-	                Archiveintrag eintrag = new Archiveintrag();
-	                Set<Artikel> artikelListe = new HashSet<>();
+        Set<Archiveintrag> list = new HashSet<>();
 
-	                eintrag.setErstellungsdatum(DateUtils.asDate(LocalDateTime.now().minusDays(i)));
-	                for (int j = 0; j < 30; j++)
-	                {
-	                    Artikel artikel = new Artikel();
-	                    artikel.setAutor(name + "Autor" + i + "|" + j);
-	                    artikel.setBeschreibung(name + "Beschreibung" + i + "|" + j + "    " + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
-	                    artikel.setTitel(name + "Titel" + i + "|" + j);
-	                    for (int k = 0; k < 4; k++) {
-	                    	artikel.getAbsaetzeArtikel().add("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
-						}
-	                    artikel.setErstellungsdatum(DateUtils.asDate(DateUtils.asLocalDateTime(eintrag.getErstellungsdatum()).plusMinutes(i)));
-	                    artikelListe.add(artikel);
-	                }
-	                eintrag.setArtikel(artikelListe);
-	                list.add(eintrag);
-	            }
+        try
+        {
 
-	        }
-	        catch (Exception ex)
-	        {
-	            System.out.println(ex);
-	        }
-	         
-	        return list;
-	         
-	    }
+            for (int i = 0; i < 20; i++)
+            {
+                Archiveintrag eintrag = new Archiveintrag();
+                Set<Artikel> artikelListe = new HashSet<>();
 
-	@Override
-	public void setNutzer(String uid) {
-		// TODO Auto-generated method stub
-		
-	}
+                eintrag.setErstellungsdatum(DateUtils.asDate(LocalDateTime.now().minusDays(i)));
+                for (int j = 0; j < 30; j++)
+                {
+                    Artikel artikel = new Artikel();
+                    artikel.setAutor(name + "Autor" + i + "|" + j);
+                    artikel.setBeschreibung(name + "Beschreibung" + i + "|" + j + "    "
+                                            + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+                    artikel.setTitel(name + "Titel" + i + "|" + j);
+                    for (int k = 0; k < 4; k++)
+                    {
+                        artikel.getAbsaetzeArtikel().add(
+                                        "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+                    }
+                    artikel.setErstellungsdatum(DateUtils.asDate(DateUtils.asLocalDateTime(eintrag.getErstellungsdatum()).plusMinutes(i)));
+                    artikelListe.add(artikel);
+                }
+                eintrag.setArtikel(artikelListe);
+                list.add(eintrag);
+            }
 
-	@Override
-	public void aendereNutzernamen(String neuerNutzername, String passwort) {
-		// TODO Auto-generated method stub
-		
-	}
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
 
-	@Override
-	public void aendereEmailAdresse(String neueEmailAdresse, String passwort) {
-		// TODO Auto-generated method stub
-		
-	}
+        return list;
 
-	@Override
-	public void aenderePasswort(String neuesPasswort, String altesPasswort) {
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-	@Override
-	public void loescheNutzer(String passwort) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void setNutzer(String uid)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void aendereNutzernamen(String neuerNutzername, String passwort)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void aendereEmailAdresse(String neueEmailAdresse, String passwort)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void aenderePasswort(String neuesPasswort, String altesPasswort)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void loescheNutzer(String passwort)
+    {
+        // TODO Auto-generated method stub
+
+    }
 
 }
