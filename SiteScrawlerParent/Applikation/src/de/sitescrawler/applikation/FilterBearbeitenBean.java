@@ -23,9 +23,9 @@ public class FilterBearbeitenBean implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	private final String TAEGLICH = "Täglich";
-	private final String WOECHENTLICH = "Wöchentlich";
-	private final String ZWEI_WOECHENTLICH = "Zwei-Wöchentlich";
+	private final String TAEGLICH = "TÃ¤glich";
+	private final String WOECHENTLICH = "WÃ¶chentlich";
+	private final String ZWEI_WOECHENTLICH = "Zwei-WÃ¶chentlich";
 	private final String MONATLICH = "Monatlich"; 
 	
 	private Set<Filterprofil> filterprofile; 
@@ -51,7 +51,7 @@ public class FilterBearbeitenBean implements Serializable
 	public void setAusgewaehlteTagesoption(String ausgewaehlteTagesoption) {
 		this.ausgewaehlteTagesoption = ausgewaehlteTagesoption;
 		
-		//TODO:DB Ändere neue Option in Datenbank
+		//TODO:DB Ã„ndere neue Option in Datenbank
 	}
 	
 	public Set<Filterprofil> getFilterprofile() {
@@ -121,18 +121,18 @@ public class FilterBearbeitenBean implements Serializable
 	}
 
 	/**
-	 * Setzt und speichert, ob eine Email bei der Archiveintrags-Generierung an die Empfänger verschickt werden soll.
+	 * Setzt und speichert, ob eine Email bei der Archiveintrags-Generierung an die EmpfÃ¤nger verschickt werden soll.
 	 */
 	public void setVerschickeEmail(boolean verschicke){
-		//TODO:DB Änderung in Datenbank abspeichern	
+		//TODO:DB Ã„nderung in Datenbank abspeichern	
 	}
 	
 	/*
-	 * Fügt der aktiven Filtergruppe ein neues Filterprofil hinzu.
+	 * FÃ¼gt der aktiven Filtergruppe ein neues Filterprofil hinzu.
 	 */
 	public void addProfil(Filterprofil profil){
 		getFiltergruppe().getFilterprofile().add(profil);
-		//TODO:DB Änderung in Datenbank abspeichern		
+		//TODO:DB Ã„nderung in Datenbank abspeichern		
 	}
 	
 	/**
@@ -141,11 +141,11 @@ public class FilterBearbeitenBean implements Serializable
 	 */
 	public void profilVonGruppeEntfernen(Filterprofil profil){
 		getFiltergruppe().getFilterprofile().remove(profil);
-		//TODO:DB Änderung in Datenbank abspeichern		
+		//TODO:DB Ã„nderung in Datenbank abspeichern		
 	}
 	
 	/**
-	 * Löscht das Filterprofil aus dem Filtermanager und löscht es aus der aktiven Filtergruppe, falls es teil diser war.
+	 * LÃ¶scht das Filterprofil aus dem Filtermanager und lÃ¶scht es aus der aktiven Filtergruppe, falls es teil diser war.
 	 * @param profil
 	 */
 	public void deleteProfil(Filterprofil profil){
@@ -156,11 +156,11 @@ public class FilterBearbeitenBean implements Serializable
 		
 		getFilterprofile().remove(profil);
 				
-		//TODO:DB Änderung in Datenbank abspeichern		
+		//TODO:DB Ã„nderung in Datenbank abspeichern		
 	}  
 	
 	/**
-	 * Kopiert das gewählte Filterprofil in ein temporäres profil, dass bearbeitet werden kann.
+	 * Kopiert das gewÃ¤hlte Filterprofil in ein temporÃ¤res profil, dass bearbeitet werden kann.
 	 * @param profil
 	 */
 	public void aendereProfil(Filterprofil profil){
@@ -173,16 +173,16 @@ public class FilterBearbeitenBean implements Serializable
 	}
 	
 	/**
-	 * Kopiert Änderungen aus dem temporär erstellen Profil in das original Profil.
+	 * Kopiert Ã¤nderungen aus dem temporÃ¤r erstellen Profil in das original Profil.
 	 */
 	public void modalAenderungSpeichern(){ 
 		zuAenderndesProfilOriginal.setFilterprofilname(zuAenderndesProfil.getFilterprofilname());
 		zuAenderndesProfilOriginal.setTagstring(zuAenderndesProfil.getTagstring());
-		//TODO:DB Speicher Profiländerung in DB
+		//TODO:DB Speicher ProfilÃ¤nderung in DB
 	}
 
 	/**
-	 * Fügt der Filtergruppe eine neue Uhrzeit zur Archiveintraggenerierung hinzu.
+	 * FÃ¼gt der Filtergruppe eine neue Uhrzeit zur Archiveintraggenerierung hinzu.
 	 */
 	public void addTageszeiten() {
 		Uhrzeit zeit = new Uhrzeit();

@@ -58,7 +58,7 @@ public class FirmenBean implements Serializable {
 			//TODO Nutzer einladen
 			System.out.println("lade ein: " + neuerMitarbeiterEmail);
 			if(neuerMitarbeiterEmail == null || neuerMitarbeiterEmail.isEmpty() || !neuerMitarbeiterEmail.contains("@")) {
-				System.out.println(neuerMitarbeiterEmail + " nicht gültig.");
+				System.out.println(neuerMitarbeiterEmail + " nicht gÃ¼ltig.");
 				return;
 			} 
 			

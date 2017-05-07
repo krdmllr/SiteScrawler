@@ -15,7 +15,6 @@ import javax.inject.Named;
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofilgruppe;
-import de.sitescrawler.logger.LoggerSiteScrawler;
 import de.sitescrawler.reporter.interfaces.IReporterService;
 
 @SessionScoped
@@ -71,7 +70,7 @@ public class ArchivBean implements Serializable
     public void buttonAction(Archiveintrag eintrag)
     {
         this.setGeweahlterArchiveintrag(eintrag);
-        this.addMessage("Archiveintrag vom " + eintrag.getErstellungsdatum() + " ausgew‰hlt!");
+        this.addMessage("Archiveintrag vom " + eintrag.getErstellungsdatum() + " ausgew√§hlt!");
     }
 
     private void addMessage(String summary)
