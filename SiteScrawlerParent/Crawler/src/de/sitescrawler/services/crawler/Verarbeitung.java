@@ -57,7 +57,16 @@ class Verarbeitung implements Runnable
     @Override
     public void run()
     {
-        Verarbeitung.LOGGER.log(Level.INFO, this.quelle.toString() + "...");
+    	List<Artikel> gefundeneArtikel = durchsucheQuelle(true);
+    	 
+        Verarbeitung.LOGGER.log(Level.INFO, "Crawl von " + quelle.getName() + " fertig. " + gefundeneArtikel.size() + " Artikel gefunden.");
+    }
+    
+    public List<Artikel> durchsucheQuelle(boolean sendeAnSolr){
+    	
+    	List<Artikel> gefundeneArtikel = new ArrayList<>();
+    	
+    	Verarbeitung.LOGGER.log(Level.INFO, this.quelle.toString() + "...");
 
         ArtikelZurechtschneiden artikelZurechtschneiden = new ArtikelZurechtschneiden();
 
@@ -99,7 +108,13 @@ class Verarbeitung implements Runnable
 
                 // Erstelle einen neuen Artikel aus den gefundenen Daten und übergebe ihn an Solr
                 Artikel artikel = new Artikel(veroeffentlichungsDatum, autor, titel, beschreibung, link, absaetze);
-                this.solrService.addArtikel(artikel);
+                
+                gefundeneArtikel.add(artikel);
+                
+                if(sendeAnSolr)
+                {
+                	this.solrService.addArtikel(artikel);
+                }
             }
         }
         catch (IllegalArgumentException | FeedException | IOException e)
@@ -107,9 +122,8 @@ class Verarbeitung implements Runnable
             Verarbeitung.LOGGER.log(Level.SEVERE, "Fehler beim Parsen der Seite!");
             e.printStackTrace();
         }
-
-        // TODO: Quelle im Log mitaufnehmen?
-        Verarbeitung.LOGGER.log(Level.INFO, "Crawl fertig");
+        
+        return gefundeneArtikel; 
     }
 
 }

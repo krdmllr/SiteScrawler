@@ -178,6 +178,21 @@ body .ui-widget-content{
 	height: Calc(100% - 200px - 80px);
 }
 
+<!-- Quellen Auswahl -->
+
+.quellen-filter{
+	height: 80px;
+}
+
+.quellen{
+	height: Calc(100% - 80px - 80px);
+}
+ 
+
+.fill-width{
+	width: 100%;
+}
+
 .filterprofile{
 	height: Calc(100% - 87px);
 }

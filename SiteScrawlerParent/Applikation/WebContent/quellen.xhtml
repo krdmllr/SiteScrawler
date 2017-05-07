@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"> 
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="content">
+		
+			<!-- Quellenliste -->
+			<div class="col-md-3 hidden-xs hidden-sm column">
+				<!-- Filter -->
+				<div class="panel panel-default artikelPanel">
+					<div class="panel-heading">
+						<div class="pull-left schrift">
+							<h4>Quellen</h4>
+						</div>
+
+						<b:form>
+							<p:commandLink id="quelle-erstellen" >  
+								<p:graphicImage value="/resources/image/edit-square.svg"
+									class="pull-right bild" />
+							</p:commandLink>
+						</b:form>
+						<div class="clearfix"></div>
+					 
+					</div>
+					<div class="panel-body quellen-filter">
+						<h:form>
+							<h4>Suche</h4> 
+							<p:inputText placeholder="Name"></p:inputText>
+						</h:form>
+					</div> 
+					<p:dataList class="list-group quellen"
+					
+						value="#{quellen.quellen}" var="quelle"
+						type="definition">
+						<h:form>
+							<p:commandLink class="list-group-item" id="ajax"
+								update="geweahlte-quelle" 
+								value="#{quelle.name}" 
+								action="#{quellen.setGeweahlteQuelle(quelle)}"> 
+							</p:commandLink>
+						</h:form>
+					</p:dataList>
+				</div>
+			</div>
+
+			<!-- Ausgewaehltes Archiv -->
+
+			<b:modal id="artikel-modal" title="#{archiv.geweahlterArtikel.titel}"
+				styleClass="modalPseudoClass">
+				<div id="artikel-inhalt">
+					<p:repeat value="#{archiv.geweahlterArtikel.absaetzeArtikel}"
+						var="absatz">
+						<p>#{absatz}"</p>
+					</p:repeat>
+				</div>
+			</b:modal>
+
+			<div class="col-md-9 column">
+				<!-- Archiv --> 
+				<h:form class="panel panel-default artikelPanel" id="geweahlte-quelle">
+					<div class="panel-heading">
+						<h3 class="panel-title pull-left linkeUeberschrift">
+							Quelle: 
+							<p:inputText value="#{quellen.geweahlteQuelle.name}"/>
+						</h3>
+						<div class="btn-group pull-right" role="group">
+						
+							<!-- Lösch button -->
+							<p:commandButton value="Löschen" type="button" class="btn btn-default"/>
+								
+							<!-- Erstellen button -->
+							<p:commandButton value="Erstellen" type="button" class="btn btn-default"/>
+							
+							<!-- Speichern button -->
+							<p:commandButton value="Speichern" type="button" class="btn btn-default"/>
+							 
+						</div>
+						<div class="clearfix"></div>
+					</div> 
+					<div class="panel-body">
+						<!-- Quelle präsentation -->
+						<h4>RSS Url</h4>
+						<p:inputText class="fill-width" label="RSS URL" value="#{quellen.geweahlteQuelle.rsslink}"></p:inputText>
+						 
+						<h4>Inhalt Id oder Klasse</h4>
+						<p>Hier kann die Id oder Klasse des Elementes angegeben werden, welches den Inhalt umschließt.</p>
+						<p:inputText class="fill-width" label="RSS URL" value="#{quellen.geweahlteQuelle.tagOderId}"></p:inputText>
+					</div>
+				</h:form>
+			</div> 
+		</ui:define> 
+	</ui:composition>
+</h:body>
+</html>

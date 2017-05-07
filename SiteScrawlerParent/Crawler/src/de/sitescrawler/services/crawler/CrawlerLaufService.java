@@ -8,7 +8,9 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 
 import de.sitescrawler.crawler.interfaces.ICrawlerLaufService;
+import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Quelle;
+import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 import de.sitescrawler.solr.SolrService;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
@@ -20,6 +22,9 @@ public class CrawlerLaufService implements ICrawlerLaufService
 {
     @Inject
     private ISolrService solrService;
+    
+    @Inject
+    private IQuellenManager quellenManager;
 
     ExecutorService      threadPool = Executors.newFixedThreadPool(5);
 
@@ -45,6 +50,12 @@ public class CrawlerLaufService implements ICrawlerLaufService
             this.threadPool.submit(run);
         }
     }
+    
+	@Override
+	public List<Artikel> testeQuelle(Quelle quelle) { 
+		Verarbeitung verarbeitung = new Verarbeitung(quelle); 
+		return verarbeitung.durchsucheQuelle(false);
+	}
 
     /**
      * Liest die Quellen aus der Datenbank aus und gibt sie zurück.
@@ -52,21 +63,9 @@ public class CrawlerLaufService implements ICrawlerLaufService
      * @return Quellen aus der Datenbank
      */
     private List<Quelle> getQuellenAusDatenbank()
-    {
-        //TODO Dummy-Daten durch Produktiv-Daten ersetzen.
-        List<Quelle> quellen = new ArrayList<>();
-        Quelle testQuelle = new Quelle();
-        testQuelle.setRsslink("http://newsfeed.zeit.de/");
-        testQuelle.setName("Zeit");
-        testQuelle.setTagOderId("article-page");
-        quellen.add(testQuelle);
-        Quelle testQuelle2 = new Quelle();
-        testQuelle2.setRsslink("http://www.spiegel.de/schlagzeilen/index.rss");
-        testQuelle2.setName("Spiegel");
-        testQuelle2.setTagOderId("spArticleContent");
-        quellen.add(testQuelle2);
+    { 
+        List<Quelle> quellen = quellenManager.getQuellen();
 
         return quellen;
-    }
-
+    }  
 }
