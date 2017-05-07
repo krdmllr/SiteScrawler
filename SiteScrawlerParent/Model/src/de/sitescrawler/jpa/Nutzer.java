@@ -28,14 +28,20 @@ import javax.persistence.UniqueConstraint;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 @NamedEntityGraph(name = "Nutzer.*", includeAllAttributes = true,
                   attributeNodes = { @NamedAttributeNode(value = "filterprofilgruppen", subgraph = "filterprofilgruppenGraph"),
-                                     @NamedAttributeNode(value = "filterprofile", subgraph = "filterprofileGraph") },
+                                     @NamedAttributeNode(value = "filterprofile", subgraph = "filterprofileGraph"),
+                                     @NamedAttributeNode(value = "mitarbeiter", subgraph = "mitarbeiterGraph") },
                   subgraphs = { @NamedSubgraph(name = "filterprofilgruppenGraph",
                                                attributeNodes = { @NamedAttributeNode(value = "intervall"), @NamedAttributeNode(value = "uhrzeiten"),
                                                                   @NamedAttributeNode(value = "filterprofile", subgraph = "filterprofileGraph"),
-                                                                  @NamedAttributeNode(value = "archiveintraege", subgraph = "archiveintraegeGraph") }),
+                                                                  @NamedAttributeNode(value = "archiveintraege", subgraph = "archiveintraegeGraph"),
+                                                                  @NamedAttributeNode(value = "empfaenger") }),
                                 @NamedSubgraph(name = "filterprofileGraph",
                                                attributeNodes = { @NamedAttributeNode(value = "quellen"), @NamedAttributeNode(value = "kategorien") }),
-                                @NamedSubgraph(name = "archiveintraegeGraph", attributeNodes = { @NamedAttributeNode(value = "artikel") }), })
+                                @NamedSubgraph(name = "archiveintraegeGraph", attributeNodes = { @NamedAttributeNode(value = "artikel") }),
+                                @NamedSubgraph(name = "mitarbeiterGraph", attributeNodes = { @NamedAttributeNode(value = "firma", subgraph = "firmaGraph") }),
+                                @NamedSubgraph(name = "firmaGraph",
+                                               attributeNodes = { @NamedAttributeNode(value = "filterprofilgruppen", subgraph = "filterprofilgruppenGraph"),
+                                                                  @NamedAttributeNode(value = "filterprofile", subgraph = "filterprofileGraph") }) })
 public class Nutzer extends Filtermanager implements java.io.Serializable
 {
 

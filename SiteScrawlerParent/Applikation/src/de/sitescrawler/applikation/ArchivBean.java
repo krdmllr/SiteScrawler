@@ -1,7 +1,9 @@
 package de.sitescrawler.applikation;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -12,6 +14,7 @@ import javax.inject.Named;
 
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
+import de.sitescrawler.jpa.Filterprofilgruppe;
 
 @SessionScoped
 @Named("archiv")
@@ -24,7 +27,7 @@ public class ArchivBean implements Serializable
     private DataBean          dataBean;
 
     private Archiveintrag     geweahlterArchiveintrag;
-    private Artikel			  geweahlterArtikel;
+    private Artikel           geweahlterArtikel;
 
     private Date              abZeitpunkt      = new Date();
     private Date              bisZeitpunkt     = new Date();
@@ -37,7 +40,12 @@ public class ArchivBean implements Serializable
     @PostConstruct
     void init()
     {
-        this.setGeweahlterArchiveintrag((Archiveintrag) this.dataBean.getFiltergruppe().getArchiveintraege().toArray()[0]);
+        Filterprofilgruppe filtergruppe = this.dataBean.getFiltergruppe();
+        List<Archiveintrag> archiveintraege = new ArrayList<>(filtergruppe.getArchiveintraege());
+        if (!archiveintraege.isEmpty())
+        {
+            this.setGeweahlterArchiveintrag(archiveintraege.get(0));
+        }
     }
 
     public Archiveintrag getGeweahlterArchiveintrag()
@@ -82,11 +90,13 @@ public class ArchivBean implements Serializable
         this.bisZeitpunkt = bisZeitpunkt;
     }
 
-	public Artikel getGeweahlterArtikel() {
-		return geweahlterArtikel;
-	}
+    public Artikel getGeweahlterArtikel()
+    {
+        return this.geweahlterArtikel;
+    }
 
-	public void setGeweahlterArtikel(Artikel geweahlterArtikel) {
-		this.geweahlterArtikel = geweahlterArtikel;
-	}
+    public void setGeweahlterArtikel(Artikel geweahlterArtikel)
+    {
+        this.geweahlterArtikel = geweahlterArtikel;
+    }
 }
