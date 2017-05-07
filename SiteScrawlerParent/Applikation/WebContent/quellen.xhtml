@@ -1,0 +1,139 @@
+a<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui"> 
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="content">
+		
+			<!-- Quellenliste -->
+			<div class="col-md-3 hidden-xs hidden-sm column">
+				<!-- Filter -->
+				<div class="panel panel-default artikelPanel">
+					<div class="panel-heading">
+						<div class="pull-left schrift">
+							<h4>Quellen</h4>
+						</div>
+
+						<b:form>
+							<p:commandLink id="quelle-erstellen" >  
+								<p:graphicImage value="/resources/image/edit-square.svg"
+									class="pull-right bild" />
+							</p:commandLink>
+						</b:form>
+						<div class="clearfix"></div>
+
+					</div>
+
+					<div class="panel-body filter">
+						<h:form>
+							<h4>Suche</h4> 
+							<p:inputText placeholder="Name"></p:inputText>
+						</h:form>
+					</div>
+					<p:dataList class="list-group quellen"
+						value="#{quellen.quellen}" var="quelle"
+						type="definition">
+						<h:form>
+							<p:commandLink class="list-group-item" id="ajax"
+								update="artikelBereich" action="#{quelle.name}"> 
+							</p:commandLink>
+						</h:form>
+					</p:dataList>
+				</div>
+			</div>
+
+			<!-- Ausgewaehltes Archiv -->
+
+			<b:modal id="artikel-modal" title="#{archiv.geweahlterArtikel.titel}"
+				styleClass="modalPseudoClass">
+				<div id="artikel-inhalt">
+					<p:repeat value="#{archiv.geweahlterArtikel.absaetzeArtikel}"
+						var="absatz">
+						<p>#{absatz}"</p>
+					</p:repeat>
+				</div>
+				
+			</b:modal>
+
+			<div class="col-md-9 column">
+				<!-- Archiv -->
+
+				<h:form class="panel panel-default artikelPanel" id="artikelBereich">
+					<div class="panel-heading">
+						<h3 class="panel-title pull-left linkeUeberschrift">
+							Pressespiegel vong
+							<h:outputText
+								value="#{archiv.geweahlterArchiveintrag.erstellungsdatum}">
+								<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
+							</h:outputText>
+						</h3>
+						<div class="btn-group pull-right" role="group">
+							<button type="button" class="btn btn-default">PDF
+								exportieren</button>
+							<div class="btn-group" role="group">
+								<button class="btn btn-default dropdown-toggle" type="button"
+									id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="true">
+									Archiveintrag bearbeiten <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="#">Löschen</a></li>
+									<li><a href="#">Filterprofil anzeigen</a></li>
+									<li><a href="#">Something else here</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+
+					<p:dataList class="list-group artikel"
+						value="#{archiv.geweahlterArchiveintrag.artikel}" var="artikel"
+						type="definition">
+						<div class="list-group-item">
+
+							<div class="artikel-titel-container">
+								<h4 class="pull-left">#{artikel.titel}</h4>
+								<p class="pull-right">
+									Erschienen am
+									<h:outputText value="#{artikel.erstellungsdatum}">
+										<f:convertDateTime type="date" pattern="dd.MM.yyyy hh:mm" />
+									</h:outputText>
+								</p>
+							</div>
+
+							<p id="artikel-zusammenfassung">#{artikel.beschreibung}</p>
+
+							<div class="artikel-titel-container">
+								<h5 class="pull-left">#{artikel.autor}</h5>
+								<div class="btn-group pull-right" role="group">
+									<p:commandLink type="button" 
+										id="artikel-oeffnen-button"
+										class="btn btn-default"
+										update="artikel-modal" 
+										oncomplete="$('.modalPseudoClass').modal();return false;"
+										value="Artikel ansehen"> 
+										<f:actionListener for="artikel-oeffnen-button" binding="#{archiv.setGeweahlterArtikel(artikel)}"></f:actionListener>
+									</p:commandLink>
+									<p:link href="#{artikel.link}" type="button" class="btn btn-default"
+										value="Website öffnen" />
+								</div>
+							</div>
+						</div>
+
+					</p:dataList>
+
+				</h:form>
+			</div>
+
+
+		</ui:define>
+		<ui:define name="footer">
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

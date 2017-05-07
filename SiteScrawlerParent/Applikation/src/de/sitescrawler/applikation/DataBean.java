@@ -13,9 +13,11 @@ import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Nutzer;
+import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.nutzerverwaltung.NutzerDatenServiceDummy;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
+import de.sitescrawler.qualifier.Produktiv;
 
 @SessionScoped
 @Named("data")
@@ -35,6 +37,9 @@ public class DataBean implements Serializable
     @Inject
     //@Produktiv
     private INutzerDatenService nutzerDatenService;
+    
+    @Inject
+    private IQuellenManager 	quellenManager;
 
     private Filterprofilgruppe  filtergruppe;
 
@@ -48,7 +53,7 @@ public class DataBean implements Serializable
     {
         this.nutzer = this.nutzerDatenService.getNutzer();
         this.filtergruppe = new ArrayList<>(this.nutzer.getFilterprofilgruppen()).get(0);
-    }
+    } 
 
     public Nutzer getNutzer()
     {
