@@ -1,15 +1,14 @@
 package de.sitescrawler.reporter.implementations;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped; 
 import javax.inject.Inject;
 
-import de.sitescrawler.email.MailSenderService;
 import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.email.interfaces.IMailSenderService;
 import de.sitescrawler.formatierer.interfaces.IFormatiererService;
@@ -17,15 +16,13 @@ import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofil;
 import de.sitescrawler.jpa.Filterprofilgruppe;
-import de.sitescrawler.jpa.Intervall;
 import de.sitescrawler.jpa.Nutzer;
-import de.sitescrawler.jpa.management.FiltergruppenZugriffsManager;
 import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager;
-import de.sitescrawler.solr.SolrService;
 import de.sitescrawler.solr.interfaces.ISolrService;
 import de.sitescrawler.utility.DateUtils;
 
-public class ArchiveintragErstellen implements Runnable{
+@ApplicationScoped
+public class ArchiveintragErstellen{
 
 	@Inject
 	ISolrService solr;
@@ -37,35 +34,10 @@ public class ArchiveintragErstellen implements Runnable{
 	IFiltergruppenZugriffsManager filtergruppenZugriff;
 	
 	@Inject
-	IFormatiererService formatiererService;
+	IFormatiererService formatiererService; 
 	
-	Filterprofilgruppe filtergruppe;
-	LocalDateTime aktuelleZeit;
-	
-	public ArchiveintragErstellen(Filterprofilgruppe filtergruppe,
+	public void erstelleReport(Filterprofilgruppe filtergruppe,
 			LocalDateTime aktuelleZeit){
-		
-		this.filtergruppe = filtergruppe;
-		this.aktuelleZeit = aktuelleZeit;
-		
-		if(solr == null){
-			solr = new SolrService();
-		}
-		
-		if(mailSenderService == null){
-			mailSenderService = new MailSenderService();
-		}
-		
-		if(filtergruppenZugriff == null){
-			filtergruppenZugriff = new FiltergruppenZugriffsManager();
-		}
-	}
-	
-	public void run() { 
-		erstelleReport();
-	}
-	
-	public void erstelleReport(){
 		filtergruppe.setLetzteerstellung(DateUtils.asDate(aktuelleZeit));
 		
 		List<Filterprofil> filterprofile = new ArrayList<Filterprofil>(filtergruppe.getFilterprofile());
@@ -81,18 +53,20 @@ public class ArchiveintragErstellen implements Runnable{
 		//TODO generiere PDF hier
 		byte [] pdf = new byte [0];
 		
-		sendeMailAnEmfaenger(getNutzerHtmlEmpfang() ,true, archiveintrag, pdf);
-		sendeMailAnEmfaenger(getNutzerPlaintextEmpfang(),false, archiveintrag, pdf);
+		sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, getNutzerHtmlEmpfang(filtergruppe) ,true, archiveintrag, pdf);
+		sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, getNutzerPlaintextEmpfang(filtergruppe),false, archiveintrag, pdf);
 	}
 	
 	/**
-	 * Sendet eine Benachrichtigung über den generierten Archiveintrag an alle angegebenen Nutzer.
-	 * @param empfaenger Empfänger der Benachrichtigung
+	 * Sendet eine Benachrichtigung ï¿½ber den generierten Archiveintrag an alle angegebenen Nutzer.
+	 * @param empfaenger Empfï¿½nger der Benachrichtigung
 	 * @param html Soll der Inhalt der Email als HTML formatiert werden.
-	 * @param archiveintrag Der Archiveintrag über den Informiert wird.
+	 * @param archiveintrag Der Archiveintrag ï¿½ber den Informiert wird.
 	 * @param pdf Das PDF mit dem Inhalt des Archiveintrags.
 	 */
 	private void sendeMailAnEmfaenger(
+			Filterprofilgruppe filtergruppe,
+			LocalDateTime aktuelleZeit,
 			List<Nutzer> empfaenger,
 			boolean html, 
 			Archiveintrag archiveintrag,
@@ -123,10 +97,10 @@ public class ArchiveintragErstellen implements Runnable{
 	
 	
 	/**
-	 * Gibt alle Empfänger zurück, die ihre Mail mit HTML Elementen empfangen wollen.
-	 * @return html Empfänger.
+	 * Gibt alle Empfï¿½nger zurï¿½ck, die ihre Mail mit HTML Elementen empfangen wollen.
+	 * @return html Empfï¿½nger.
 	 */
-	private List<Nutzer> getNutzerHtmlEmpfang(){ 
+	private List<Nutzer> getNutzerHtmlEmpfang(Filterprofilgruppe filtergruppe){ 
 		List<Nutzer> alleNutzer = new ArrayList<Nutzer>(filtergruppe.getEmpfaenger());
 		
 		//TODO HTML/Plain eigenschaft fehlt noch
@@ -135,10 +109,10 @@ public class ArchiveintragErstellen implements Runnable{
 	}
 	
 	/**`
-	 * Gibt alle Empfänger zurück, die ihre Mail im Plaintext empfangen wollen.
-	 * @return Plaintext Empfänger.
+	 * Gibt alle Empfï¿½nger zurï¿½ck, die ihre Mail im Plaintext empfangen wollen.
+	 * @return Plaintext Empfï¿½nger.
 	 */
-	private List<Nutzer> getNutzerPlaintextEmpfang(){ 
+	private List<Nutzer> getNutzerPlaintextEmpfang(Filterprofilgruppe filtergruppe){ 
 		List<Nutzer> alleNutzer = new ArrayList<Nutzer>(filtergruppe.getEmpfaenger());
 		
 		//TODO HTML/Plain eigenschaft fehlt noch

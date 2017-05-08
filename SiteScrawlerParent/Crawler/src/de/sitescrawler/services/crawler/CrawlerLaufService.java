@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import de.sitescrawler.crawler.interfaces.ICrawlerLaufService;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Quelle;
+import de.sitescrawler.jpa.management.QuellenManager;
 import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 import de.sitescrawler.solr.SolrService;
 import de.sitescrawler.solr.interfaces.ISolrService;
@@ -64,6 +65,9 @@ public class CrawlerLaufService implements ICrawlerLaufService
      */
     private List<Quelle> getQuellenAusDatenbank()
     { 
+    	if(quellenManager == null)
+    		quellenManager = new QuellenManager();
+    	
         List<Quelle> quellen = quellenManager.getQuellen();
 
         return quellen;

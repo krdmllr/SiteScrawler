@@ -1,11 +1,16 @@
 package de.sitescrawler.solr;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -20,10 +25,14 @@ import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofil;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
-public class SolrService implements ISolrService
+@ApplicationScoped
+@Named
+public class SolrService implements ISolrService, Serializable
 {
+	private static final long serialVersionUID = 1L;
 
-    private SolrClient                    solrClient;
+
+	private SolrClient                    solrClient;
     
     
 //    private static final String           SolrUrl   = "http://sitescrawler.de:8983/solr/testdaten";
@@ -50,6 +59,8 @@ public class SolrService implements ISolrService
         solrInputDocument.addField("beschreibung", artikel.getBeschreibung());
         solrInputDocument.addField("link", artikel.getLink());
         solrInputDocument.addField("erstellungsdatum", SolrService.formatter.format(artikel.getErstellungsdatum()));
+        solrInputDocument.addField("absaetze", artikel.getAbsaetzeArtikel());
+        
         try
         {
             this.solrClient.add(solrInputDocument);
@@ -60,6 +71,20 @@ public class SolrService implements ISolrService
             e.printStackTrace();
         }
     }
+    
+//    private String SerList(List<String> list){
+//    	String res = "";
+//    	for(String s : list){
+//    		res += s;
+//    		if(list.indexOf(s) != list.size())
+//    			res += "\n";
+//    	}
+//    	return res;
+//    }
+//    
+//    private List<String> desList(
+    
+    
 
     /*
      * (non-Javadoc)
@@ -77,6 +102,10 @@ public class SolrService implements ISolrService
             artikel.addAll(this.sucheArtikel(filterprofil));
         }
 
+        for(Artikel a : artikel){
+        	a.setSolrid(UUID.randomUUID().toString());
+        }
+        
         return artikel;
     }
 
@@ -153,6 +182,7 @@ public class SolrService implements ISolrService
                 String titel = (String) solrDocument.get("titel");
                 String beschreibung = (String) solrDocument.get("beschreibung");
                 String link =  (String) solrDocument.get("link");
+                List<String> absaetze = (List<String>) solrDocument.get("absaetze");
                 artikel.add(new Artikel(erstellungsdatum, autor, titel, beschreibung, link));
             }
         }

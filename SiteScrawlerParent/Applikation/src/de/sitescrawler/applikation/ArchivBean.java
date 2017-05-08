@@ -15,7 +15,7 @@ import javax.inject.Named;
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofilgruppe;
-//import de.sitescrawler.reporter.interfaces.IReporterService;
+import de.sitescrawler.reporter.interfaces.IReporterService;
 
 @SessionScoped
 @Named("archiv")
@@ -27,8 +27,8 @@ public class ArchivBean implements Serializable
     @Inject
     private DataBean          dataBean;
     
-    //@Inject
-    //private IReporterService reporterService;
+    @Inject
+    private IReporterService reporterService;
 
     private Archiveintrag     geweahlterArchiveintrag;
     private Artikel           geweahlterArtikel;
@@ -54,7 +54,7 @@ public class ArchivBean implements Serializable
     
     public void manuellCrawlen(){
     	System.out.println("CRAWLE");
-    	//reporterService.generiereManuellenReport(dataBean.getFiltergruppe());
+    	reporterService.generiereManuellenReport(dataBean.getFiltergruppe());
     }
 
     public Archiveintrag getGeweahlterArchiveintrag()
