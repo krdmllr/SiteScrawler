@@ -13,31 +13,37 @@
   		<groupId>de.sitescrawler.model</groupId>
   		<artifactId>Model</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
+  		<scope>provided</scope>
   	</dependency>
   	<dependency>
   		<groupId>de.sitescrawler.solr</groupId>
   		<artifactId>Solr</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
+  		<scope>provided</scope>
   	</dependency>
   	<dependency>
   		<groupId>de.sitescrawler.email</groupId>
   		<artifactId>Email</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
+  		<scope>provided</scope>
   	</dependency>
   	<dependency>
   		<groupId>de.sitescrawler.pdf</groupId>
   		<artifactId>PDF</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
+  		<scope>provided</scope>
   	</dependency>
   	<dependency>
   		<groupId>de.sitescrawler.utility</groupId>
   		<artifactId>Utility</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
+  		<scope>provided</scope>
   	</dependency>
   	<dependency>
   		<groupId>de.sitescrawler.formatierung</groupId>
   		<artifactId>Formatierung</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
+  		<scope>provided</scope>
   	</dependency>
   </dependencies>
   <build> 

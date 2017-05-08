@@ -21,12 +21,14 @@
 	    <groupId>org.hibernate</groupId>
 	    <artifactId>hibernate-core</artifactId>
 	    <version>5.2.9.Final</version>
+	    <scope>provided</scope>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
 	<dependency>
 	    <groupId>org.hibernate</groupId>
 	    <artifactId>hibernate-entitymanager</artifactId>
 	    <version>5.2.9.Final</version>
+	    <scope>provided</scope>
 	</dependency>
 	<dependency>
 	    <groupId>org.jsoup</groupId>
@@ -43,12 +45,14 @@
 		<groupId>de.sitescrawler.logger</groupId>
 		<artifactId>Logger</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<scope>provided</scope>
 	</dependency>
     <dependency> 
 		<groupId>de.sitescrawler.utility</groupId>
 		<artifactId>Utility</artifactId> 
 		<version>0.0.1-SNAPSHOT</version>
-	</dependency>
+		<scope>provided</scope>
+    </dependency>
   </dependencies>
   <build>
   	<sourceDirectory>src</sourceDirectory>

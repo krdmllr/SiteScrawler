@@ -1,6 +1,5 @@
 package de.sitescrawler.services.crawler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,18 +15,17 @@ import de.sitescrawler.solr.SolrService;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
 /**
- * @author tobias, Yvette
- * Logik zum Starten des Crawl-Vorgangs.
+ * @author tobias, Yvette Logik zum Starten des Crawl-Vorgangs.
  */
 public class CrawlerLaufService implements ICrawlerLaufService
 {
     @Inject
-    private ISolrService solrService;
-    
+    private ISolrService    solrService;
+
     @Inject
     private IQuellenManager quellenManager;
 
-    ExecutorService      threadPool = Executors.newFixedThreadPool(5);
+    ExecutorService         threadPool = Executors.newFixedThreadPool(5);
 
     public CrawlerLaufService()
     {
@@ -51,12 +49,13 @@ public class CrawlerLaufService implements ICrawlerLaufService
             this.threadPool.submit(run);
         }
     }
-    
-	@Override
-	public List<Artikel> testeQuelle(Quelle quelle) { 
-		Verarbeitung verarbeitung = new Verarbeitung(quelle); 
-		return verarbeitung.durchsucheQuelle(false);
-	}
+
+    @Override
+    public List<Artikel> testeQuelle(Quelle quelle)
+    {
+        Verarbeitung verarbeitung = new Verarbeitung(quelle);
+        return verarbeitung.durchsucheQuelle(false);
+    }
 
     /**
      * Liest die Quellen aus der Datenbank aus und gibt sie zurück.
@@ -64,12 +63,14 @@ public class CrawlerLaufService implements ICrawlerLaufService
      * @return Quellen aus der Datenbank
      */
     private List<Quelle> getQuellenAusDatenbank()
-    { 
-    	if(quellenManager == null)
-    		quellenManager = new QuellenManager();
-    	
-        List<Quelle> quellen = quellenManager.getQuellen();
+    {
+        if (this.quellenManager == null)
+        {
+            this.quellenManager = new QuellenManager();
+        }
+
+        List<Quelle> quellen = this.quellenManager.getQuellen();
 
         return quellen;
-    }  
+    }
 }
