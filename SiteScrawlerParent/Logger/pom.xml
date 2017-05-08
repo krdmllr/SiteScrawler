@@ -9,10 +9,11 @@
   <artifactId>Logger</artifactId>
   <name>Logger</name>
   <dependencies>
-	<dependency> 
-  		<groupId>org.slf4j</groupId>
-  		<artifactId>slf4j-jdk14</artifactId>
-  		<version>1.8.0-alpha2</version>
-	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-api</artifactId>
+	    <version>1.7.25</version>
+	</dependency> 
   </dependencies>
 </project>
