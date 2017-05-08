@@ -15,7 +15,7 @@ import javax.inject.Named;
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofilgruppe;
-import de.sitescrawler.report.IReportService;
+import de.sitescrawler.report.IReportService; 
 
 @SessionScoped
 @Named("archiv")

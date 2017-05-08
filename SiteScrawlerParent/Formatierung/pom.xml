@@ -16,40 +16,17 @@
   	</dependency>
   </dependencies>
   <build>
-  	<sourceDirectory>C:\Workspace\SiteScrawler\SiteScrawlerParent\Formatierung\src</sourceDirectory>
-  	<plugins>
-  		<plugin>
+  	<finalName>Formatierung</finalName>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.5.1</version>
-        <executions>
-          <execution>
-            <id>default-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <source>1.8</source>
-              <target>1.8</target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>default-testCompile</id>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-            <configuration>
-              <source>1.8</source>
-              <target>1.8</target>
-            </configuration>
-          </execution>
-        </executions>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
         </configuration>
-      </plugin>
-  	</plugins>
+      </plugin> 
+     </plugins>
   </build>
 </project>
