@@ -19,12 +19,10 @@ public class ReporterService implements IReporterService {
 	 
 	@Inject
 	IFiltergruppenZugriffsManager filtergruppenZugriff;
-	ExecutorService      threadPool = Executors.newFixedThreadPool(5);
+	ExecutorService      threadPool = Executors.newFixedThreadPool(5); 
 	
-	public ReporterService(){
-		if(filtergruppenZugriff == null)
-			filtergruppenZugriff = new FiltergruppenZugriffsManager();
-	}
+	@Inject
+	ArchiveintragErstellen archiveintragErstellen;
 	
 	public void generiereReports(LocalDateTime zeitpunkt) { 
 		LocalDateTime korrigierteAktuelleZeit = DateUtils.rundeZeitpunkt(zeitpunkt);
@@ -32,8 +30,7 @@ public class ReporterService implements IReporterService {
 		List<Filterprofilgruppe> gruppen = getFiltergruppeMitEmpfangZuAktuellemZeitpunkt(korrigierteAktuelleZeit); 
 		
 		for(Filterprofilgruppe fg : gruppen){
-			Runnable run = new ArchiveintragErstellen(fg, korrigierteAktuelleZeit);
-            this.threadPool.submit(run);
+			archiveintragErstellen.erstelleReport(fg, korrigierteAktuelleZeit);
 		}
 	}   
 	
@@ -42,7 +39,7 @@ public class ReporterService implements IReporterService {
 	}
 
 	public void generiereManuellenReport(Filterprofilgruppe profilgruppe) {
-		ArchiveintragErstellen ersteller = new ArchiveintragErstellen(profilgruppe, LocalDateTime.now()); 
-		ersteller.erstelleReport();
+		 
+		archiveintragErstellen.erstelleReport(profilgruppe, LocalDateTime.now());
 	} 
 }

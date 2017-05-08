@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
+import javax.enterprise.context.ApplicationScoped;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.mail.util.*;
@@ -13,6 +14,7 @@ import de.sitescrawler.email.interfaces.IMailSenderService;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
 
+@ApplicationScoped
 public class MailSenderService implements IMailSenderService {
  
 	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge)
@@ -95,7 +97,7 @@ public class MailSenderService implements IMailSenderService {
 		String password = projectConfig.getPassword();
 
 		Properties props = System.getProperties();
-		String host = "smtp.gmail.com";
+		String host = "smtp.outlook.com";
 
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", host);
