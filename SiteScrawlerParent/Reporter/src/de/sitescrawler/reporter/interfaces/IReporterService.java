@@ -12,8 +12,8 @@ public interface IReporterService {
 	void generiereReports(LocalDateTime zeitpunkt);
 	
 	/**
-	 * Generiert einen Report für die gegebene Filterprofilgruppe.
-	 * @param profilgruppe Filterprofilgruppe für die der Report erstellt wird.
+	 * Generiert einen Report fï¿½r die gegebene Filterprofilgruppe.
+	 * @param profilgruppe Filterprofilgruppe fuer die der Report erstellt wird.
 	 */
 	void generiereManuellenReport(Filterprofilgruppe profilgruppe);
 }

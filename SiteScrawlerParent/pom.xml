@@ -70,10 +70,12 @@
 </dependency>  
   </dependencies>
   <modules>
-  	
+	    
     <module>Dokumentation</module>
     <module>Portal</module>
     <module>Prototyp</module>
+    <module>Reporter</module>
+    <module>Formatierer</module>
     <module>Applikation</module>
     <module>SiteScrawlerEAR</module>
     <module>Solr</module>
@@ -86,8 +88,6 @@
     <module>PDF</module>
     <module>Model</module>
     <module>SharedWeb</module>
-    <module>Logger</module>
-    <module>Reporter</module>
-    <module>Formatierer</module>
+    <module>Logger</module> 
   </modules>
 </project>
