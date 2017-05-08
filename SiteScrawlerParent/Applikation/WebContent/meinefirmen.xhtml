@@ -181,7 +181,7 @@
 										value="#{mitarbeiter.nutzer.ganzenNamen}" />
 
 									<p:commandLink rendered="#{!mitarbeiter.admin}"
-										action="#{mitarbeiter.macheZuAdmin()}" update="profil-item"
+										action="#{firmen.mitarbeiterZuAdmin(mitarbeiter)}" update="profil-item"
 										ajax="true">
 
 										<p:graphicImage value="/resources/image/shield-gray.svg"
@@ -189,7 +189,7 @@
 									</p:commandLink>
 
 									<p:commandLink rendered="#{mitarbeiter.admin}"
-										action="#{mitarbeiter.macheZuNutzer()}"
+										action="#{firmen.mitarbeiterZuMitarbeiter(mitarbeiter)}"
 										update=" profil-item">
 
 										<p:graphicImage value="/resources/image/shield.svg"
