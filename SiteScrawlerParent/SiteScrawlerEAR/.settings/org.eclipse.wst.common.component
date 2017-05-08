@@ -26,9 +26,6 @@
         <dependent-module archiveName="jdom2-2.0.6.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/jdom/jdom2/2.0.6/jdom2-2.0.6.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="slf4j-api-1.7.16.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.16/slf4j-api-1.7.16.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="Producer-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Producer/Producer">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -57,6 +54,9 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="Logger-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Logger/Logger">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="slf4j-api-1.7.25.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="Report-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Report/Report">
