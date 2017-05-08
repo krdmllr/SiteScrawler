@@ -101,10 +101,10 @@
         <dependent-module archiveName="slf4j-jdk14-1.8.0-alpha2.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-jdk14/1.8.0-alpha2/slf4j-jdk14-1.8.0-alpha2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="Reporter-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Reporter/Reporter">
+        <dependent-module archiveName="Report-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Report/Report">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="Formatierer-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Formatierer/Formatierer">
+        <dependent-module archiveName="Formatierung-0.0.1-SNAPSHOT.jar" deploy-path="/" handle="module:/resource/Formatierung/Formatierung">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="bootsfaces-1.0.2.jar" deploy-path="/" handle="module:/classpath/var/M2_REPO/net/bootsfaces/bootsfaces/1.0.2/bootsfaces-1.0.2.jar">

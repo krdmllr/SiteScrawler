@@ -2,21 +2,21 @@ package de.sitescrawler.test.unittests;
 
 import java.time.LocalDateTime;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import de.sitescrawler.reporter.implementations.ReporterService;
-import de.sitescrawler.reporter.interfaces.IReporterService;
+import de.sitescrawler.report.IReportService;
+import de.sitescrawler.report.ReporterService;
 
-public class ReporterUnitTest {
-	
-	@Test
+public class ReporterUnitTest
+{
+
+    @Test
     public void testeReporter()
     {
         LocalDateTime zeitpunkt = LocalDateTime.now();
 
-        IReporterService reportService = new ReporterService();
-         
+        IReportService reportService = new ReporterService();
+
         reportService.generiereReports(zeitpunkt);
     }
 }

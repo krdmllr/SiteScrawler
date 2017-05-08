@@ -80,8 +80,13 @@
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   	<dependency>
-  		<groupId>de.sitescrawler.reporter</groupId>
-  		<artifactId>Reporter</artifactId>
+  		<groupId>de.sitescrawler.report</groupId>
+  		<artifactId>Report</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.formatierung</groupId>
+  		<artifactId>Formatierung</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   </dependencies>
