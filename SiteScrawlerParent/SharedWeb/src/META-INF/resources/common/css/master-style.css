@@ -65,39 +65,40 @@ ul.dropdown-menu{
 /* Button */
 
 body .btn-default {
-    color: #fff;
+    color: black;
     background-color: #8c98bd;
-    border-color: #d0d0d0;
+    border-color: #6f8888;
 }
 
-body .btn-success:active{
-	background-color: #99d299;
-    border-color: #9cdc9c;
-    color: #004d4d;
+body .btn-default:hover {
+     color: black;
+   background-color: #5a6faf;
+    border-color: #565656;
 }
 
-body .btn-success:hover{
-    background-color: #99d299;
-    border-color: #9cdc9c;
-    color: #004d4d;
+body .btn-default:active {
+    color: black;
+    background-color: #466de2;
+    border-color: #565656
 }
 
-body .btn-success:active:hover{
-    background-color: #99d299;
-    border-color: #9cdc9c;
-    color: #004d4d;
+body .btn-default:focus {
+    color: black;
+    background-color: #466de2;
+    border-color: #565656
 }
 
-body .btn-success:visited{
-    background-color: #99d299;
-    border-color: #9cdc9c;
-    color: #004d4d;
+body .btn-default:hover:active {
+    color: black;
+    background-color: #466de2;
+    border-color: #565656
 }
 
-body .btn-success:focus{
-    background-color: #99d299;
-    border-color: #9cdc9c;
-    color: #004d4d;
+body .btn-default:focus:active {
+    color: black;
+    background-color: #466de2;
+    border-color: #565656
 }
+  
 
 /* !Button */
