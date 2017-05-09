@@ -50,27 +50,6 @@
         <dependent-module archiveName="mysql-connector-java-5.1.41.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/mysql/mysql-connector-java/5.1.41/mysql-connector-java-5.1.41.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="Firmenverwaltung-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Firmenverwaltung/Firmenverwaltung">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="SharedWeb-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/SharedWeb/SharedWeb">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="Logger-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Logger/Logger">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="slf4j-api-1.7.25.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="Report-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Report/Report">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="Formatierung-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Formatierung/Formatierung">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="Solr-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Solr/Solr">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="solr-solrj-6.5.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/solr/solr-solrj/6.5.0/solr-solrj-6.5.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -99,6 +78,27 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="jcl-over-slf4j-1.7.7.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/jcl-over-slf4j/1.7.7/jcl-over-slf4j-1.7.7.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Firmenverwaltung-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Firmenverwaltung/Firmenverwaltung">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="SharedWeb-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/SharedWeb/SharedWeb">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Logger-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Logger/Logger">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="slf4j-api-1.7.25.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Report-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Report/Report">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Formatierung-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Formatierung/Formatierung">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Solr-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Solr/Solr">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="Utility-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Utility/Utility">

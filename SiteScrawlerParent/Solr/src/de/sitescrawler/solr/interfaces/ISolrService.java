@@ -13,7 +13,7 @@ public interface ISolrService
      *
      * @param artikel
      */
-    void addArtikel(Artikel artikel);
+    void addArtikel(List<Artikel> artikel);
 
     /**
      * Sucht passende Artikel zu einer Liste von Filterprofilen.
@@ -32,6 +32,15 @@ public interface ISolrService
      * @return Liste der Artikel, die dem Filterprofil entsprechen.
      */
     List<Artikel> sucheArtikel(Filterprofil filterprofil);
+
+    /**
+     * Sucht die passenden Artikel zur solr id.
+     *
+     * @param id
+     *            des Artikels
+     * @return Liste der gefundenen Artikel
+     */
+    Artikel sucheArtikelAusID(String id);
 
     /**
      * Löscht alle Artikel (Warum?).

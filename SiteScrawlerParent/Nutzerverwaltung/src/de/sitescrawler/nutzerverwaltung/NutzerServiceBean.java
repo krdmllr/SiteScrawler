@@ -3,6 +3,7 @@ package de.sitescrawler.nutzerverwaltung;
 import java.io.Serializable;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
@@ -11,9 +12,13 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import de.sitescrawler.jpa.Archiveintrag;
+import de.sitescrawler.jpa.Artikel;
+import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
+import de.sitescrawler.solr.interfaces.ISolrService;
 
 @ApplicationScoped
 @Named
@@ -21,9 +26,10 @@ public class NutzerServiceBean implements INutzerService, Serializable
 {
 
     private static final long serialVersionUID = 1L;
-
     @PersistenceContext
     private EntityManager     entityManager;
+    @Inject
+    ISolrService              solrService;
 
     @Override
     @Transactional(value = TxType.REQUIRED)
@@ -40,7 +46,29 @@ public class NutzerServiceBean implements INutzerService, Serializable
         EntityGraph<?> entityGraph = this.entityManager.getEntityGraph("Nutzer.*");
         query.setHint("javax.persistence.loadgraph", entityGraph);
         Nutzer nutzer = query.getSingleResult();
+        this.completeNutzer(nutzer);
         return nutzer;
+    }
+
+    /**
+     * Lädt alle Daten aus der DB um den nutzer zu vervollständigen
+     *
+     * @param nutzer
+     */
+    private void completeNutzer(Nutzer nutzer)
+    {
+        for (Filterprofilgruppe filterprofilgruppe : nutzer.getFilterprofilgruppen())
+        {
+            for (Archiveintrag archiveintrag : filterprofilgruppe.getArchiveintraege())
+            {
+                for (Artikel artikel : archiveintrag.getArtikel())
+                {
+                    String solrid = artikel.getSolrid();
+                    // TODO auf neues Model anpassen mit Quellen
+                    artikel = this.solrService.sucheArtikelAusID(solrid);
+                }
+            }
+        }
     }
 
     @Override

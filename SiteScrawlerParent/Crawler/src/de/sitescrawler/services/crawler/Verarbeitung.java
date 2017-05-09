@@ -99,10 +99,10 @@ class Verarbeitung
 
                 gefundeneArtikel.add(artikel);
 
-                if (sendeAnSolr)
-                {
-                    this.solrService.addArtikel(artikel);
-                }
+            }
+            if (sendeAnSolr)
+            {
+                this.solrService.addArtikel(gefundeneArtikel);
             }
         }
         catch (IllegalArgumentException | FeedException | IOException e)
