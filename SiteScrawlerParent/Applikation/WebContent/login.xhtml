@@ -5,35 +5,59 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-<h:head><title>Login</title></h:head>
+<h:head>
+<title>Login</title>
+		<h:outputStylesheet library="common" name="/css/bootstrap.min.css" />
+		<h:outputStylesheet library="common" name="/css/master-style.css" />
+<h:outputStylesheet name="css/style.css"/>
+<h:outputStylesheet name="css/login.css"/>
+
+</h:head>
 <h:body>
-	<b:container fluid="true">
-			<h1>Login</h1>
-		
-			<h:form style="margin:0 auto;max-width:330px; padding:15px;"> 
-				<b:growl id="growl" timer="5000" allow-dismiss="true" showDetail="true" placement-from="bottom" global-only="false"/>
-				<b:row>
-					<b:focus target="@next"/>
-					<b:inputText id="username" value="#{login.uid}" required="true" placeholder="Benutzername" label="Benutzer"
-					required-message="Benutzername ist Pflichtfeld.">
-						<f:facet name="prepend">
-							<b:iconAwesome  name="user"/>
-						</f:facet>
-					</b:inputText>
-				</b:row>
-				<b:row>
-					<b:inputSecret id="passsword" value="#{login.password}" required="true" placeholder="Passwort" label="Passwort" 
-					required-message="Passwort ist Pflichtfeld.">
-						<f:facet name="prepend">
-							<b:iconAwesome  name="key"/>
-						</f:facet>
-					</b:inputSecret>
-				</b:row>	
-				<b:row>
-					<b:commandButton value="Login" action="#{login.login()}" iconAwesome="sign-in" update="@form" size="lg" look="primary btn-block"/>
-				</b:row>					
-			</h:form>
-	</b:container>
+ 	<div class="col-lg col-md-4 col-sm-3 col-xs-0"> 
+	</div>
+	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+		<div class="outer-container well">
+		<b:container class="inner-container"> 
+		 
+			<h:graphicImage name="image/logo.svg" library="common" class="logo"/>
+			<h4>Bei SiteScrawler anmelden</h4>
+		 
+			</b:container>
+			<b:container class="inner-container login-container"> 
+					<h:form> 
+						
+						<b:growl id="growl" timer="5000" allow-dismiss="true" showDetail="true" placement-from="bottom" global-only="false"/>
+						<b:row>
+							<b:focus target="@next"/>
+							<b:inputText id="username" value="#{login.uid}" required="true" placeholder="Benutzername" label="Benutzer"
+							required-message="Benutzername ist Pflichtfeld.">
+								 
+							</b:inputText>
+						</b:row>
+						<b:row>
+							<b:focus target="submit-button"/>
+							<b:inputSecret id="passsword" value="#{login.password}" required="true" placeholder="Passwort" label="Passwort" 
+							required-message="Passwort ist Pflichtfeld.">
+								 
+							</b:inputSecret>
+							
+						</b:row>
+						
+						<b:row>
+							<b:commandButton id="submit-button" value="Anmelden" action="#{login.login()}" update="@form" size="md" class="btn btn-success"/>
+							<b:selectBooleanCheckbox value="#{login.login}" caption="Ich bin bereits registriert."/>
+							</b:row> 
+						<b:row>
+							<p:commandLink value="Passwort vergessen?"></p:commandLink>  
+						</b:row>					
+					</h:form>
+			</b:container>
+		</div>
+	</div>
+	<div class="col-lg col-md-4 col-sm-3 col-xs-0">
+	</div>
+	 
 </h:body>
 		
 </html>
