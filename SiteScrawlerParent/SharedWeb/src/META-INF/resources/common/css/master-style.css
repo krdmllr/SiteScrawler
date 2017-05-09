@@ -67,6 +67,37 @@ ul.dropdown-menu{
 body .btn-default {
     color: #fff;
     background-color: #8c98bd;
+    border-color: #d0d0d0;
+}
+
+body .btn-success:active{
+	background-color: #99d299;
+    border-color: #9cdc9c;
+    color: #004d4d;
+}
+
+body .btn-success:hover{
+    background-color: #99d299;
+    border-color: #9cdc9c;
+    color: #004d4d;
+}
+
+body .btn-success:active:hover{
+    background-color: #99d299;
+    border-color: #9cdc9c;
+    color: #004d4d;
+}
+
+body .btn-success:visited{
+    background-color: #99d299;
+    border-color: #9cdc9c;
+    color: #004d4d;
+}
+
+body .btn-success:focus{
+    background-color: #99d299;
+    border-color: #9cdc9c;
+    color: #004d4d;
 }
 
 /* !Button */
