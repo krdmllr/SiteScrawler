@@ -38,6 +38,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * @author Tobias, Yvette Verarbeitet eine Quelle. Durchsucht den RSS Feed der
  *         Quelle, parst die Artikel und gibt die gefundenen Artikel an Solr
  *         weiter.
+ *         Crawlt außerdem Twitter nach Tweets und gibt diese an Solr weiter.
  *
  */
 @RequestScoped
@@ -50,6 +51,8 @@ public class Verarbeitung {
 	private ISolrService solrService;
 	@Inject
 	private IFiltergruppenZugriffsManager filtergruppenZugriffsManager;
+	@Inject
+	private ProjectConfig projectConfig;
 
 	public Verarbeitung() {
 	}
@@ -119,10 +122,13 @@ public class Verarbeitung {
 		return gefundeneArtikel;
 	}
 
+	/**
+	 * Durchsucht die Twitter Trends in Deutschland und gibt für jeden Trend bis zu 100 Tweets zurück.
+	 * @param sendeAnSolr
+	 * @return gefundeneArtikel
+	 */
 	public List<Artikel> durchsucheTwitter(boolean sendeAnSolr) {
 		List<Artikel> gefundeneArtikel = new ArrayList<>();
-
-		ProjectConfig projectConfig = new ProjectConfig();
 
 		String consumerKey = projectConfig.getConsumerKey();
 		String consumerSecret = projectConfig.getConsumerSecret();
