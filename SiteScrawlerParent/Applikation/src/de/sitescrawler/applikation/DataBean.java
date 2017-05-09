@@ -36,9 +36,9 @@ public class DataBean implements Serializable
     @Inject
     @Produktiv
     private INutzerDatenService nutzerDatenService;
-    
+
     @Inject
-    private IQuellenManager 	quellenManager;
+    private IQuellenManager     quellenManager;
 
     private Filterprofilgruppe  filtergruppe;
 
@@ -50,9 +50,13 @@ public class DataBean implements Serializable
     @PostConstruct
     void init()
     {
+        // TODO Konni WARUM?
         this.nutzer = this.nutzerDatenService.getNutzer();
-        this.filtergruppe = new ArrayList<>(this.nutzer.getFilterprofilgruppen()).get(0);
-    } 
+        if (!this.nutzer.getFilterprofilgruppen().isEmpty())
+        {
+            this.filtergruppe = new ArrayList<>(this.nutzer.getFilterprofilgruppen()).get(0);
+        }
+    }
 
     public Nutzer getNutzer()
     {

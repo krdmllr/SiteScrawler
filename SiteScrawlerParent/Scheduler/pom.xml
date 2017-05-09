@@ -39,8 +39,8 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>de.sitescrawler.model</groupId>
-			<artifactId>Model</artifactId>
+			<groupId>de.sitescrawler.crawler</groupId>
+			<artifactId>Crawler</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
