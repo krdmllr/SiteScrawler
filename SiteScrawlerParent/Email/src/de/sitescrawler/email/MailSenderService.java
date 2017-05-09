@@ -1,7 +1,9 @@
 package de.sitescrawler.email;
- 
+
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -16,11 +18,13 @@ import de.sitescrawler.model.ProjectConfig;
 
 @ApplicationScoped
 public class MailSenderService implements IMailSenderService {
- 
+
+	private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+
 	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge)
 			throws ServiceUnavailableException {
 
-		// Project Config laden f�r username/password
+		// Project Config laden f?r username/password
 		ProjectConfig projectConfig = new ProjectConfig();
 
 		String username = projectConfig.getUsername();
@@ -36,8 +40,10 @@ public class MailSenderService implements IMailSenderService {
 		props.put("mail.smtp.port", "587");
 		props.put("mail.smtp.auth", "true");
 
-		Session session = Session.getInstance(props); // getInstance statt getDefaultInstance (neue convention)
-														
+		Session session = Session.getInstance(props); // getInstance statt
+														// getDefaultInstance
+														// (neue convention)
+
 		MimeMessage nachricht = new MimeMessage(session);
 
 		try {
@@ -67,7 +73,7 @@ public class MailSenderService implements IMailSenderService {
 				multipart.addBodyPart(anhang);
 			}
 
-			// Zusammenf�hren der Teile
+			// Zusammenf?hren der Teile
 			nachricht.setContent(multipart);
 
 			Transport transport = session.getTransport("smtp");
@@ -75,22 +81,22 @@ public class MailSenderService implements IMailSenderService {
 			transport.sendMessage(nachricht, nachricht.getAllRecipients());
 			transport.close();
 
-			System.out.println("Erfolgreich versendet"); // TODO: Logging
+			MailSenderService.LOGGER.log(Level.INFO, "Email versendet an: " + emailAdresse);
 
 		} catch (AddressException ae) {
-			//TODO: Logging
+			MailSenderService.LOGGER.log(Level.SEVERE, "Adressierungsfehler beim Senden der Mail an: " + emailAdresse);
 			ae.printStackTrace();
 		} catch (MessagingException e) {
-			System.out.println("Fehler beim versenden"); // TODO: Logging
+			MailSenderService.LOGGER.log(Level.SEVERE, "Fehler beim Senden der Mail an: " + emailAdresse);
 			e.printStackTrace();
 		}
 
 	}
- 
+
 	public void sendeMassenMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] pdf)
 			throws ServiceUnavailableException {
 
-		// Project Config laden f�r username/password
+		// Project Config laden f?r username/password
 		ProjectConfig projectConfig = new ProjectConfig();
 
 		String username = projectConfig.getUsername();
@@ -106,62 +112,58 @@ public class MailSenderService implements IMailSenderService {
 		props.put("mail.smtp.port", "587");
 		props.put("mail.smtp.auth", "true");
 
-		Session session = Session.getInstance(props); // getInstance statt getDefaultInstance (neue convention)
-												
-		MimeMessage nachricht = new MimeMessage(session);
+		for (int i = 0; i < empfaenger.size(); i++) {
+			Session session = Session.getInstance(props); // getInstance statt
+															// getDefaultInstance
+															// (neue convention)
+			MimeMessage nachricht = new MimeMessage(session);
 
-		try {
-			nachricht.setFrom(new InternetAddress(username));
+			try {
+				nachricht.setFrom(new InternetAddress(username));
+				nachricht.addRecipient(Message.RecipientType.TO, new InternetAddress(empfaenger.get(i).getEmail()));
+				nachricht.setSubject(subjekt);
 
-			InternetAddress[] toAddress = new InternetAddress[empfaenger.size()];
+				// Teil eins ist die Nachricht
+				BodyPart nachrichtTeil = new MimeBodyPart();
+				if (htmlBody)
+					nachrichtTeil.setContent(body, "text/html");
+				else
+					nachrichtTeil.setText(body);
 
-			for (int i = 0; i < empfaenger.size(); i++) {
-				toAddress[i] = new InternetAddress(empfaenger.get(i).getEmail());
+				// Erstelle eine multipar nachricht
+				Multipart multipart = new MimeMultipart();
+				// Setze text Nachricht Teil
+				multipart.addBodyPart(nachrichtTeil);
+
+				// Teil zwei ist Anhang
+				MimeBodyPart anhang = new MimeBodyPart();
+				DataSource bds = new ByteArrayDataSource(pdf, "application/pdf");
+				anhang.setDataHandler(new DataHandler(bds));
+				anhang.setFileName("Pressespiegel");
+
+				// Setze Anhang Teil
+				multipart.addBodyPart(anhang);
+
+				// Zusammenf?hren der Teile
+				nachricht.setContent(multipart);
+
+				Transport transport = session.getTransport("smtp");
+				transport.connect(host, username, password);
+				transport.sendMessage(nachricht, nachricht.getAllRecipients());
+				transport.close();
+
+				MailSenderService.LOGGER.log(Level.INFO, "Email versendet an: " + empfaenger.get(i).getEmail());
+
+			} catch (AddressException ae) {
+				MailSenderService.LOGGER.log(Level.SEVERE,
+						"Adressierungsfehler beim Senden der Mail an: " + empfaenger.get(i).getEmail());
+				ae.printStackTrace();
+			} catch (MessagingException e) {
+				MailSenderService.LOGGER.log(Level.SEVERE,
+						"Fehler beim Senden der Mail an: " + empfaenger.get(i).getEmail());
+				e.printStackTrace();
 			}
-
-			for (int i = 0; i < toAddress.length; i++) {
-				nachricht.addRecipient(Message.RecipientType.TO, toAddress[i]);
-			}
-
-			nachricht.setSubject(subjekt);
-
-			// Teil eins ist die Nachricht
-			BodyPart nachrichtTeil = new MimeBodyPart();
-			if (htmlBody)
-				nachrichtTeil.setContent(body, "text/html");
-			else
-				nachrichtTeil.setText(body);
-
-			// Erstelle eine multipar nachricht
-			Multipart multipart = new MimeMultipart();
-			// Setze text Nachricht Teil
-			multipart.addBodyPart(nachrichtTeil);
-
-			// Teil zwei ist Anhang
-
-			MimeBodyPart anhang = new MimeBodyPart();
-			DataSource bds = new ByteArrayDataSource(pdf, "application/pdf");
-			anhang.setDataHandler(new DataHandler(bds));
-			anhang.setFileName("Pressespiegel");
-			// Setze Anhang Teil
-			multipart.addBodyPart(anhang);
-
-			// Zusammenf�hren der Teile
-			nachricht.setContent(multipart);
-
-			Transport transport = session.getTransport("smtp");
-			transport.connect(host, username, password);
-			transport.sendMessage(nachricht, nachricht.getAllRecipients());
-			transport.close();
-			System.out.println("Erfolgreich versendet"); // TODO: Logging
-
-		} catch (AddressException ae) {
-			//TODO:Logging
-			ae.printStackTrace();
-		} catch (MessagingException e) {
-			System.out.println("Fehler beim versenden"); // TODO: Logging
-			e.printStackTrace();
 		}
 
-	}  
+	}
 }
