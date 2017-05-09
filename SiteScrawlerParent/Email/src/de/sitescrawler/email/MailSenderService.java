@@ -19,6 +19,12 @@ import de.sitescrawler.email.interfaces.IMailSenderService;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
 
+/**
+ * 
+ * @author robin Versendet Mails an Empfänger als HTML/Plain Text mit Anhängen
+ *
+ */
+
 @ApplicationScoped
 public class MailSenderService implements IMailSenderService {
 
@@ -93,11 +99,11 @@ public class MailSenderService implements IMailSenderService {
 	
 	/**
 	 * Erstellt und Verschickt die Nachricht an die Empfï¿½nger
-	 * @param emailAdresse
-	 * @param subjekt
-	 * @param body
-	 * @param htmlBody
-	 * @param anhaenge
+	 * @param emailAdresse email der empfänger
+	 * @param subjekt Betreff der Mail
+	 * @param body Body der Mail (Text oder HTML)
+	 * @param htmlBody gibt an ob Body Text oder HTML ist
+	 * @param anhaenge Anhänge die hinzugefügt werden müssen
 	 */
 	private void erstelleUndVerschickeNachricht(List<String> emailAdresse, String subjekt, String body, boolean htmlBody, byte[] anhaenge){
 		Session session = Session.getInstance(props);
@@ -116,12 +122,12 @@ public class MailSenderService implements IMailSenderService {
 	
 	/**
 	 * Erstellt die einzelnen Teile der Nachricht und fï¿½gt diese in einer Nachricht zusammen.
-	 * @param session
-	 * @param emailAdresse
-	 * @param subjekt
-	 * @param body
-	 * @param htmlBody
-	 * @param anhaenge
+	 * @param session 
+	 * @param emailAdresse Email des Empfängers
+	 * @param subjekt Betreff der Mail
+	 * @param body Body der Mail (Text oder HTML)
+	 * @param htmlBody gibt an ob Body Text oder HTML ist
+	 * @param anhaenge Anhänge die hinzugefügt werden müssen
 	 * @return
 	 * @throws AddressException
 	 * @throws MessagingException
@@ -161,8 +167,8 @@ public class MailSenderService implements IMailSenderService {
 
 	/**
 	 * Baut den Transport auf und sendet die Nachricht
-	 * @param nachrichten
-	 * @param session
+	 * @param nachrichten Zu sendenden Nachrichten
+	 * @param session derzeitige Session
 	 */
 	private void sendeNachricht(List<MimeMessage> nachrichten, Session session) {
 		

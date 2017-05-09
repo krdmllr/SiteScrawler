@@ -5,10 +5,14 @@ import java.util.List;
 
 import de.sitescrawler.email.interfaces.IMailSenderService;
 
+/**
+ * 
+ * @author robin
+ *	Wird zum manuellen Versenden von Mails zu Testzwecken genutzt.
+ */
 public class Main {
 
 	public static void main(String[] args) {
-		// Zu Testzwecken
 		
 		String emailAdresse = "sitescrawler@spoofmail.de";
 		String subjekt = "Testtitel";

@@ -124,8 +124,8 @@ public class Verarbeitung {
 
 	/**
 	 * Durchsucht die Twitter Trends in Deutschland und gibt für jeden Trend bis zu 100 Tweets zurück.
-	 * @param sendeAnSolr
-	 * @return gefundeneArtikel
+	 * @param sendeAnSolr gibt an ob die Artikel in Solr geschrieben werden sollen
+	 * @return gefundeneArtikel Liste der gefundenen Artikel
 	 */
 	public List<Artikel> durchsucheTwitter(boolean sendeAnSolr) {
 		List<Artikel> gefundeneArtikel = new ArrayList<>();
