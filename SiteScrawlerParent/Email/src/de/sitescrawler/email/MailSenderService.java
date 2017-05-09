@@ -45,6 +45,9 @@ public class MailSenderService implements IMailSenderService {
 
 	private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
 
+	/**
+	 * Versendet Mail an einen Empfänger
+	 */
 	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, byte[] anhaenge)
 			throws ServiceUnavailableException { 
 		manuellerInject();
@@ -54,12 +57,18 @@ public class MailSenderService implements IMailSenderService {
 		erstelleUndVerschickeNachricht(empfaenger, subjekt, body, htmlBody, anhaenge);
 	}
 
+	/**
+	 * Sendet Mail an eine Liste von Empfängern
+	 */
 	public void sendeMail(List<String> empfaenger, String subjekt, String body, boolean htmlBody, byte[] anhaenge)
 			throws ServiceUnavailableException {
 		manuellerInject();
 		erstelleUndVerschickeNachricht(empfaenger, subjekt, body, htmlBody, anhaenge);
 	} 
 	
+	/**
+	 * Außerhalb der Server Umgebung, falls Inject nicht funktioniert
+	 */
 	private void manuellerInject(){
 		if(projectConfig == null)
 		{
@@ -77,6 +86,14 @@ public class MailSenderService implements IMailSenderService {
 		} 
 	}
 	
+	/**
+	 * Erstellt und Verschickt die Nachricht an die Empfänger
+	 * @param emailAdresse
+	 * @param subjekt
+	 * @param body
+	 * @param htmlBody
+	 * @param anhaenge
+	 */
 	private void erstelleUndVerschickeNachricht(List<String> emailAdresse, String subjekt, String body, boolean htmlBody, byte[] anhaenge){
 		Session session = Session.getInstance(props);
 		List<MimeMessage> nachrichten = new ArrayList<>();
@@ -85,13 +102,25 @@ public class MailSenderService implements IMailSenderService {
 			try {
 				nachrichten.add(erstelleNachricht(session, empfaenger, subjekt, body, htmlBody, anhaenge));
 			} catch (MessagingException e) {
-				// TODO Auto-generated catch block
+				MailSenderService.LOGGER.log(Level.SEVERE, "Fehler beim erstellen und Verschicken der Nachricht.");
 				e.printStackTrace();
 			}
 		}
 		sendeNachricht(nachrichten, session);
 	}
 	
+	/**
+	 * Erstellt die einzelnen Teile der Nachricht und fügt diese in einer Nachricht zusammen.
+	 * @param session
+	 * @param emailAdresse
+	 * @param subjekt
+	 * @param body
+	 * @param htmlBody
+	 * @param anhaenge
+	 * @return
+	 * @throws AddressException
+	 * @throws MessagingException
+	 */
 	private MimeMessage erstelleNachricht(Session session, String emailAdresse, String subjekt, String body, boolean htmlBody, byte[] anhaenge) throws AddressException, MessagingException{
 	
 		MimeMessage nachricht = new MimeMessage(session); 
@@ -125,6 +154,11 @@ public class MailSenderService implements IMailSenderService {
 		return nachricht;
 	}
 
+	/**
+	 * Baut den Transport auf und sendet die Nachricht
+	 * @param nachrichten
+	 * @param session
+	 */
 	private void sendeNachricht(List<MimeMessage> nachrichten, Session session) {
 		
 		try {
@@ -133,7 +167,7 @@ public class MailSenderService implements IMailSenderService {
 
 			transport.connect(host, username, password);
 
-			MailSenderService.LOGGER.log(Level.INFO, "Verbindung zu Mailserver geÃ¶ffnet.");
+			MailSenderService.LOGGER.log(Level.INFO, "Verbindung zu Mailserver geöffnet.");
 
 			for (MimeMessage nachricht : nachrichten) {
 				Address[] adressen = nachricht.getAllRecipients();
@@ -149,7 +183,7 @@ public class MailSenderService implements IMailSenderService {
 			transport.close();
 			MailSenderService.LOGGER.log(Level.INFO, "Verbindung zu Mailserver geschlossen.");
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
+			MailSenderService.LOGGER.log(Level.SEVERE, "Fehler beim Senden der Nachricht.");
 			e.printStackTrace();
 		}
 	}
