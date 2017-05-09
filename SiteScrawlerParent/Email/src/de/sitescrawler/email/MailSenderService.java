@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -54,10 +55,15 @@ public class MailSenderService implements IMailSenderService {
 		erstelleUndVerschickeNachricht(empfaenger, subjekt, body, htmlBody, anhaenge);
 	}
 
-	public void sendeMail(List<String> empfaenger, String subjekt, String body, boolean htmlBody, byte[] anhaenge)
+	public void sendeMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] anhaenge)
 			throws ServiceUnavailableException {
 		manuellerInject();
-		erstelleUndVerschickeNachricht(empfaenger, subjekt, body, htmlBody, anhaenge);
+		
+		List<String> empfaengerAdressen = empfaenger.stream()
+                .map(Nutzer::getEmail)
+                .collect(Collectors.toList());
+		
+		erstelleUndVerschickeNachricht(empfaengerAdressen, subjekt, body, htmlBody, anhaenge);
 	} 
 	
 	private void manuellerInject(){

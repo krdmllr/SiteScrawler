@@ -81,10 +81,7 @@ public class ArchiveintragErstellen
         }
 
         String body;
-        String betreff = "SiteScrawler zusammenfassung von " + filtergruppe.getTitel() + " vom " + aktuelleZeit.format(DateUtils.getDateFormatter());
-        List<String> empfaengerAdressen = empfaenger.stream()
-                .map(Nutzer::getEmail)
-                .collect(Collectors.toList());
+        String betreff = "SiteScrawler zusammenfassung von " + filtergruppe.getTitel() + " vom " + aktuelleZeit.format(DateUtils.getDateFormatter()); 
 
         // Generiere die Zusammenfassung je nach Einstellung
         if (html)
@@ -98,7 +95,7 @@ public class ArchiveintragErstellen
 
         try
         {
-            this.mailSenderService.sendeMail(empfaengerAdressen, betreff, body, html, pdf);
+            this.mailSenderService.sendeMail(empfaenger, betreff, body, html, pdf);
         }
         catch (ServiceUnavailableException e)
         {

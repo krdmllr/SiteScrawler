@@ -31,5 +31,5 @@ public interface IMailSenderService {
 	 * @param pdf Anzuhängendes PDF. 
 	 * @throws ServiceUnavailableException 
 	 */
-	void sendeMail(List<String> empfaenger, String subjekt, String body, boolean htmlBody, byte [] anhang) throws ServiceUnavailableException;
+	void sendeMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte [] anhang) throws ServiceUnavailableException; 
 } 

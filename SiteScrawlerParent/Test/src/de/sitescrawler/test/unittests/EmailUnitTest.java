@@ -8,6 +8,7 @@ import org.junit.Test;
 import de.sitescrawler.email.MailSenderService;
 import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.email.interfaces.IMailSenderService;
+import de.sitescrawler.jpa.Nutzer;
 
 public class EmailUnitTest
 {
@@ -33,9 +34,11 @@ public class EmailUnitTest
 	
 	@Test
 	public void sende_massen_mail(){ 
-		List<String> emailAdressen = new ArrayList<>();
-		emailAdressen.add(emailAdresse);
-		emailAdressen.add(emailAdresse);
+		List<Nutzer> emailAdressen = new ArrayList<>();
+		Nutzer nutzer = new Nutzer();
+		nutzer.setEmail(emailAdresse);
+		emailAdressen.add(nutzer);
+		emailAdressen.add(nutzer);
 		
 		String subjekt = "Testtitel";
 		String body = "testbody";
