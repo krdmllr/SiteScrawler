@@ -21,9 +21,18 @@ import com.rometools.rome.io.XmlReader;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager;
+import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.services.artikelausschneiden.ArtikelZurechtschneiden;
 import de.sitescrawler.services.artikelausschneiden.UnparsbarException;
 import de.sitescrawler.solr.interfaces.ISolrService;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
+import twitter4j.Trends;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * @author Tobias, Yvette Verarbeitet eine Quelle. Durchsucht den RSS Feed der Quelle, parst die Artikel und gibt die
@@ -115,10 +124,57 @@ class Verarbeitung
         return gefundeneArtikel;
     }
 
-    public List<Artikel> durchsucheTwitter()
+    public List<Artikel> durchsucheTwitter(boolean sendeAnSolr)
     {
         List<Artikel> gefundeneArtikel = new ArrayList<>();
-        // TODO Robin
+        
+        ProjectConfig projectConfig = new ProjectConfig();
+        
+        String consumerKey = projectConfig.getConsumerKey();
+        String consumerSecret = projectConfig.getConsumerSecret();
+        String accessToken = projectConfig.getAccessToken();
+        String accessTokenSecret = projectConfig.getAccessTokenSecret();
+        
+        //Authentication
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+              .setOAuthConsumerKey(consumerKey)
+              .setOAuthConsumerSecret(consumerSecret)
+              .setOAuthAccessToken(accessToken)
+              .setOAuthAccessTokenSecret(accessTokenSecret);
+        
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+        
+        try {
+        	//Trends für Deutschland mittels WOEID holen
+			Trends trends = twitter.getPlaceTrends(23424829); 
+			
+			// Für jeden Trend neue Query erzeugen und die Tweets lesen
+			for (int i = 0; i < trends.getTrends().length; i++) {
+	            String suchstring = trends.getTrends()[i].getQuery();
+	            Query query = new Query(suchstring);
+	            QueryResult result;
+	            result = twitter.search(query);
+	            List<Status> tweets = result.getTweets();
+	            
+	            //Artikel aus den Tweets erzeugen
+	            for (Status tweet : tweets) {
+	            	Artikel artikel = new Artikel(tweet.getCreatedAt(),tweet.getUser().getScreenName(),"Tweet" + tweet.getId(), tweet.getText(),tweet.getSource()); //überprüfen ob richtig erstellt
+	            	gefundeneArtikel.add(artikel);
+	            	Verarbeitung.LOGGER.log(Level.INFO, "Tweet gefunden: @" + tweet.getUser().getScreenName() + " - " + tweet.getText());
+	            }
+	        }
+			if (sendeAnSolr)
+            {
+                this.solrService.addArtikel(gefundeneArtikel);
+            }
+		} catch (TwitterException e) {
+			Verarbeitung.LOGGER.log(Level.SEVERE, "Fehler beim holen der Trends!");
+			e.printStackTrace();
+		} 
+        
+        Verarbeitung.LOGGER.log(Level.INFO, "Crawl von Twitter abgeschlossen. Tweets gefunden: " + gefundeneArtikel.size() );
         return gefundeneArtikel;
     }
 
