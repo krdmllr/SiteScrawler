@@ -42,7 +42,7 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 @RequestScoped
 @Named
-class Verarbeitung {
+public class Verarbeitung {
 	// Globalen Logger holen
 	private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
 

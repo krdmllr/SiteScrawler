@@ -11,20 +11,43 @@ import de.sitescrawler.email.interfaces.IMailSenderService;
 
 public class EmailUnitTest
 {
+	private final String emailAdresse = "sitescrawler@spoofmail.de";
+	
 	@Test
-	public void sendeMail(){
-		String emailAdresse = "skyf1ash3r@gmail.com";
+	public void sende_einzel_mail(){ 
 		String subjekt = "Testtitel";
 		String body = "testbody";
 		boolean htmlBody = false;
 		
-		List anhaenge = new ArrayList();
+		 
 		byte[] data = new byte[1460];
-		anhaenge.add(data);
+		 
 		
 		IMailSenderService mail = new MailSenderService();
 		try {
-			mail.sendeMail(emailAdresse,subjekt,body,htmlBody,anhaenge);
+			mail.sendeMail(emailAdresse,subjekt,body,htmlBody,data);
+		} catch (ServiceUnavailableException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void sende_massen_mail(){ 
+		List<String> emailAdressen = new ArrayList<>();
+		emailAdressen.add(emailAdresse);
+		emailAdressen.add(emailAdresse);
+		
+		String subjekt = "Testtitel";
+		String body = "testbody";
+		boolean htmlBody = false;
+		
+		 
+		byte[] data = new byte[1460];
+		 
+		
+		IMailSenderService mail = new MailSenderService();
+		try {
+			mail.sendeMail(emailAdressen,subjekt,body,htmlBody,data);
 		} catch (ServiceUnavailableException e) {
 			e.printStackTrace();
 		}
