@@ -29,9 +29,9 @@ public class NutzerDatenService implements Serializable, INutzerDatenService
     }
 
     @Override
-    public void setNutzer(String uid)
+    public void setNutzer(String email)
     {
-        this.nutzer = this.nutzerService.getNutzer(uid);
+        this.nutzer = this.nutzerService.getNutzer(email);
     }
 
     @Override

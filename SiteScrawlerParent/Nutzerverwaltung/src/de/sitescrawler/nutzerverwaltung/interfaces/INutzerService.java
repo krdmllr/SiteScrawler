@@ -45,13 +45,11 @@ public interface INutzerService
      * Gibt einen Nutzer anhand seiner id zurück. Der zurückgegebene Nutzer beinhaltet alle für ihn relevanten Daten wie
      * seine Filtergruppen, in denen auch alle Felder gefüllt sind.
      *
-     * @param uid
+     * @param email
      *            Id des Nutzers.
      * @return Nutzer mit der angegebenen Id.
      */
-    Nutzer
-
-                    getNutzer(String uid);
+    Nutzer getNutzer(String email);
 
     /**
      * Schickt dem Nutzer eine Email mit einem Token zu, über den der Nutzer sein Passwort zurücksetzen kann.

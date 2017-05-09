@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import org.apache.solr.client.solrj.beans.Field;
@@ -42,6 +43,7 @@ public class Artikel implements java.io.Serializable
     @Field
     private List<String>       absaetzeArtikel  = new ArrayList<>();
     private Date               erstellungsdatum;
+    private Quelle             quelle;
 
     public Artikel()
     {
@@ -111,6 +113,18 @@ public class Artikel implements java.io.Serializable
     public void setSolrid(String solrid)
     {
         this.solrid = solrid;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @JoinColumn(name = "Quelle_qid", nullable = false, insertable = false, updatable = false)
+    public Quelle getQuelle()
+    {
+        return this.quelle;
+    }
+
+    public void setQuelle(Quelle quelle)
+    {
+        this.quelle = quelle;
     }
 
     // Unmanaged

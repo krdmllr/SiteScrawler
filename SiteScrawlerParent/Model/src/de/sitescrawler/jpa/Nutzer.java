@@ -37,14 +37,16 @@ import javax.persistence.UniqueConstraint;
                                                                   @NamedAttributeNode(value = "empfaenger") }),
                                 @NamedSubgraph(name = "filterprofileGraph",
                                                attributeNodes = { @NamedAttributeNode(value = "quellen"), @NamedAttributeNode(value = "kategorien") }),
-                                @NamedSubgraph(name = "archiveintraegeGraph", attributeNodes = { @NamedAttributeNode(value = "artikel") }),
+                                @NamedSubgraph(name = "archiveintraegeGraph",
+                                               attributeNodes = { @NamedAttributeNode(value = "artikel", subgraph = "artikelGraph") }),
                                 @NamedSubgraph(name = "mitarbeiterFirmaGraph",
                                                attributeNodes = { @NamedAttributeNode(value = "firma", subgraph = "firmaGraph") }),
                                 @NamedSubgraph(name = "firmaGraph",
                                                attributeNodes = { @NamedAttributeNode(value = "filterprofilgruppen", subgraph = "filterprofilgruppenGraph"),
                                                                   @NamedAttributeNode(value = "filterprofile", subgraph = "filterprofileGraph"),
                                                                   @NamedAttributeNode(value = "mitarbeiter", subgraph = "mitarbeiterNutzerGraph") }),
-                                @NamedSubgraph(name = "mitarbeiterNutzerGraph", attributeNodes = { @NamedAttributeNode(value = "nutzer") }) })
+                                @NamedSubgraph(name = "mitarbeiterNutzerGraph", attributeNodes = { @NamedAttributeNode(value = "nutzer") }),
+                                @NamedSubgraph(name = "artikelGraph", attributeNodes = { @NamedAttributeNode(value = "quelle") }) })
 public class Nutzer extends Filtermanager implements java.io.Serializable
 {
 
@@ -53,6 +55,7 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
     private String                  nachname;
     private String                  email;
     private String                  passwort;
+    private Boolean                 empfangehtmlmails;
     private Set<Rolle>              rollen              = new HashSet<>(0);
     private Set<Filterprofilgruppe> filterprofilgruppen = new HashSet<>(0);
     private Set<Mitarbeiter>        mitarbeiter         = new HashSet<>(0);
@@ -67,15 +70,16 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
         this.passwort = passwort;
     }
 
-    public Nutzer(String vorname, String nachname, String email, String passwort, Set<Rolle> rollen, Set<Filterprofilgruppe> filterprofilgruppes,
-                  Set<Mitarbeiter> mitarbeiter)
+    public Nutzer(String vorname, String nachname, String email, String passwort, Boolean empfangehtmlmails, Set<Rolle> rollen,
+                  Set<Filterprofilgruppe> filterprofilgruppen, Set<Mitarbeiter> mitarbeiter)
     {
         this.vorname = vorname;
         this.nachname = nachname;
         this.email = email;
         this.passwort = passwort;
+        this.empfangehtmlmails = empfangehtmlmails;
         this.rollen = rollen;
-        this.filterprofilgruppen = filterprofilgruppes;
+        this.filterprofilgruppen = filterprofilgruppen;
         this.mitarbeiter = mitarbeiter;
     }
 
@@ -194,6 +198,16 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
     public void setMitarbeiter(Set<Mitarbeiter> mitarbeiter)
     {
         this.mitarbeiter = mitarbeiter;
+    }
+
+    public Boolean getEmpfangehtmlmails()
+    {
+        return this.empfangehtmlmails;
+    }
+
+    public void setEmpfangehtmlmails(Boolean empfangehtmlmails)
+    {
+        this.empfangehtmlmails = empfangehtmlmails;
     }
 
 }

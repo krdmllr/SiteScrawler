@@ -86,9 +86,8 @@ class Verarbeitung
                 }
                 catch (UnparsbarException e1)
                 {
-                    Verarbeitung.LOGGER.log(Level.SEVERE, "Fehler beim Parsen der Absätze: " + entry.getUri());
+                    Verarbeitung.LOGGER.log(Level.SEVERE, "Fehler beim Parsen der Absätze: " + entry.getUri(), e1);
                     // TODO Exceptions besser aufschlüsseln
-                    e1.printStackTrace();
                 }
 
                 Verarbeitung.LOGGER.log(Level.INFO, String.format("Added Titel: %s%n Autor: %s%n Link: %s%n Datum: %s%n Beschreibung:%s%n Absätze:%s%n", titel,
@@ -107,8 +106,7 @@ class Verarbeitung
         }
         catch (IllegalArgumentException | FeedException | IOException e)
         {
-            Verarbeitung.LOGGER.log(Level.SEVERE, "Fehler beim Parsen der Seite!");
-            e.printStackTrace();
+            Verarbeitung.LOGGER.log(Level.SEVERE, "Fehler beim Parsen der Seite!", e);
         }
 
         Verarbeitung.LOGGER.log(Level.INFO, "Crawl von " + quelle.getName() + " fertig. " + gefundeneArtikel.size() + " Artikel gefunden.");

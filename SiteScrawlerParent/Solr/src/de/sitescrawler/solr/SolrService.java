@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
@@ -25,15 +27,14 @@ import de.sitescrawler.solr.interfaces.ISolrService;
 public class SolrService implements ISolrService, Serializable
 {
     private static final long             serialVersionUID = 1L;
+    private static final Logger           LOGGER           = Logger.getLogger("de.sitescrawler.logger");
 
     private SolrClient                    solrClient;
 
+    // TODO: in config-Datei auslagern
     // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/testdaten";
-    // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/spielwiesewilliam1";
-    private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr"; // TODO:
-                                                                                                                       // in
-                                                                                                                       // config-Datei
-                                                                                                                       // auslagern
+    private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/spielwiesewilliam2";
+    // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";
     private static final SimpleDateFormat formatter        = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'");
 
     public SolrService()
@@ -52,11 +53,14 @@ public class SolrService implements ISolrService, Serializable
         artikel.forEach(a -> a.setSolrdatum(SolrService.formatter.format(a.getErstellungsdatum())));
         try
         {
+            SolrService.LOGGER.info("Schreibe in Solrinstanz " + SolrService.SolrUrl + " folgende Artikel: " + artikel);
             this.solrClient.addBeans(artikel);
             this.solrClient.commit();
+            SolrService.LOGGER.info("Schreiben in Solr erfolgreich");
         }
         catch (SolrServerException | IOException e)
         {
+            SolrService.LOGGER.log(Level.SEVERE, "Fehler beim schreiben in Solrinstanz " + SolrService.SolrUrl, e);
             e.printStackTrace();
         }
     }
@@ -106,8 +110,10 @@ public class SolrService implements ISolrService, Serializable
         }
         catch (SolrServerException | IOException | ParseException e)
         {
+            SolrService.LOGGER.log(Level.SEVERE, "Fehler beim suchen von Artikeln.", e);
             e.printStackTrace();
         }
+        SolrService.LOGGER.info("Es wurden " + artikel.size() + " Artikel zur Query " + solrQuery.getQuery() + " gefunden.");
         return artikel;
     }
 
@@ -125,6 +131,7 @@ public class SolrService implements ISolrService, Serializable
         }
         catch (SolrServerException | IOException e)
         {
+            SolrService.LOGGER.log(Level.SEVERE, "Fehler bei clearSolr.", e);
             e.printStackTrace();
         }
     }
@@ -136,7 +143,7 @@ public class SolrService implements ISolrService, Serializable
     }
 
     @Override
-    public Artikel sucheArtikelAusID(String id)
+    public Artikel sucheArtikelMitID(String id)
     {
         SolrQuery solrQuery = new SolrQuery("id:" + id);
         List<Artikel> artikel = this.getArtikel(solrQuery);
