@@ -40,6 +40,11 @@ public class Artikel implements java.io.Serializable
     private String             link;
     @Field
     private List<String>       absaetzeArtikel  = new ArrayList<>();
+    @Field
+    private int	retweetzahl;
+	@Field
+    private int favoritenzahl;    
+    
     private Date               erstellungsdatum;
     private Quelle             quelle;
 
@@ -77,6 +82,24 @@ public class Artikel implements java.io.Serializable
         this.link = link;
         this.absaetzeArtikel = absaetzeArtikel;
     }
+    
+    @Transient
+    public int getRetweetzahl() {
+		return retweetzahl;
+	}
+
+	public void setRetweetzahl(int retweetzahl) {
+		this.retweetzahl = retweetzahl;
+	}
+
+	@Transient
+	public int getFavoritenzahl() {
+		return favoritenzahl;
+	}
+
+	public void setFavoritenzahl(int favoritenzahl) {
+		this.favoritenzahl = favoritenzahl;
+	}
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(name = "Archiveintrag_beinhaltet_Artikel", joinColumns = { @JoinColumn(name = "Artikel_solrid", nullable = false, updatable = false) },

@@ -161,6 +161,8 @@ public class Verarbeitung {
 					// TODO: überprüfen ob Artikel richtig erstellt
 					Artikel artikel = new Artikel(tweet.getCreatedAt(), tweet.getUser().getScreenName(),
 							"Tweet" + tweet.getId(), tweet.getText(), tweet.getSource());
+					artikel.setFavoritenzahl(tweet.getFavoriteCount());
+					artikel.setRetweetzahl(tweet.getRetweetCount());
 					gefundeneArtikel.add(artikel);
 					Verarbeitung.LOGGER.log(Level.INFO,
 							"Tweet gefunden: @" + tweet.getUser().getScreenName() + " - " + tweet.getText());
