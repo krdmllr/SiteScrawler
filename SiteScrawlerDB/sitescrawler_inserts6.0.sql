@@ -81,7 +81,7 @@ INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_Filter
 
 
 
- AvH ist sehr neugierig
+
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,1);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,2);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,3);

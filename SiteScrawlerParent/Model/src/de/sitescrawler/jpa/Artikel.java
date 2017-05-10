@@ -29,13 +29,13 @@ public class Artikel implements java.io.Serializable
     private Set<Archiveintrag> archiveintraege  = new HashSet<>(0);
 
     @Field
+    private String             link;
+    @Field
     private String             autor;
     @Field
     private String             titel;
     @Field
     private String             beschreibung;
-    @Field
-    private String             link;
     @Field
     private Date               erstellungsdatum;
     @Field
@@ -46,16 +46,17 @@ public class Artikel implements java.io.Serializable
     {
     }
 
-    public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link)
+    public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link, Quelle quelle)
     {
         this.erstellungsdatum = erstellungsdatum;
         this.autor = autor;
         this.titel = titel;
         this.beschreibung = beschreibung;
         this.link = link;
+        this.quelle = quelle;
     }
 
-    public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link, List<String> absaetzeArtikel)
+    public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link, List<String> absaetzeArtikel, Quelle quelle)
     {
         this.erstellungsdatum = erstellungsdatum;
         this.autor = autor;
@@ -63,10 +64,11 @@ public class Artikel implements java.io.Serializable
         this.beschreibung = beschreibung;
         this.link = link;
         this.absaetzeArtikel = absaetzeArtikel;
+        this.quelle = quelle;
     }
 
     public Artikel(Set<Archiveintrag> archiveintraege, Date erstellungsdatum, String autor, String titel, String beschreibung, String link,
-                   List<String> absaetzeArtikel)
+                   List<String> absaetzeArtikel, Quelle quelle)
     {
         this.archiveintraege = archiveintraege;
         this.erstellungsdatum = erstellungsdatum;
@@ -75,10 +77,11 @@ public class Artikel implements java.io.Serializable
         this.beschreibung = beschreibung;
         this.link = link;
         this.absaetzeArtikel = absaetzeArtikel;
+        this.quelle = quelle;
     }
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
-    @JoinTable(name = "Archiveintrag_beinhaltet_Artikel", joinColumns = { @JoinColumn(name = "Artikel_solrid", nullable = false, updatable = false) },
+    @JoinTable(name = "Archiveintrag_beinhaltet_Artikel", joinColumns = { @JoinColumn(name = "Artikel_link", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Archiveintrag_archiveintragid", nullable = false, updatable = false) })
     public Set<Archiveintrag> getArchiveintraege()
     {
@@ -91,7 +94,7 @@ public class Artikel implements java.io.Serializable
     }
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    @JoinColumn(name = "Quelle_qid", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "Quelle_qid", nullable = false)
     public Quelle getQuelle()
     {
         return this.quelle;
