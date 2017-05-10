@@ -21,9 +21,9 @@ public interface INutzerDatenService
     /**
      * Ermittelt der uid bei der Anmeldung die Nutzerdaten und gibt sie zur Verwaltung.
      * 
-     * @param uid Benutzername.
+     * @param email Benutzername.
      */
-    public void setNutzer(String uid);
+    public void setNutzer(String email);
     
 
     /**

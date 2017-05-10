@@ -48,7 +48,6 @@ public class FiltergruppenZugriffsManager implements IFiltergruppenZugriffsManag
     public void speicherArchiveintrag(Archiveintrag archiveintrag, Filterprofilgruppe filtergruppe)
     {
         this.entityManager.merge(archiveintrag);
-
     }
 
     private List<Filterprofilgruppe> getAlleFilterprofilgruppen()

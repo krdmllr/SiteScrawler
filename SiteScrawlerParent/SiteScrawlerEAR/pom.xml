@@ -89,6 +89,22 @@
   		<artifactId>Formatierung</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.scheduler</groupId>
+  		<artifactId>Scheduler</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  		<type>ejb</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.solr</groupId>
+  		<artifactId>Solr</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.sitescrawler.utility</groupId>
+  		<artifactId>Utility</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
   <build>
 	  <plugins>
@@ -98,7 +114,12 @@
 	  		<version>2.10.1</version>
 	  		<configuration>
 	  			<version>7</version>
-	           <modules> 
+	  			<defaultLibBundleDir>lib</defaultLibBundleDir>
+	           <modules>
+	           	<ejbModule>
+	           		<groupId>de.sitescrawler.scheduler</groupId>
+	           		<artifactId>Scheduler</artifactId>
+	           	</ejbModule> 
 	             <webModule>
 	               <groupId>de.sitescrawler.applikation</groupId>
 	               <artifactId>Applikation</artifactId>
