@@ -45,11 +45,11 @@ public interface INutzerService
      * Gibt einen Nutzer anhand seiner id zur�ck. Der zur�ckgegebene Nutzer beinhaltet alle f�r ihn relevanten Daten wie
      * seine Filtergruppen, in denen auch alle Felder gef�llt sind.
      *
-     * @param uid
+     * @param email
      *            Id des Nutzers.
      * @return Nutzer mit der angegebenen Id.
-     */
-    Nutzer getNutzer(String uid);
+     */ 
+    Nutzer getNutzer(String email); 
 
     /**
      * Schickt dem Nutzer eine Email mit einem Token zu, �ber den der Nutzer sein Passwort zur�cksetzen kann.
