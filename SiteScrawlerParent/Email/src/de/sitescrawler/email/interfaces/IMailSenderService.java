@@ -20,7 +20,7 @@ public interface IMailSenderService {
 	 * @param anhaenge Eine Liste von Anhängen.
 	 * @throws ServiceUnavailableException 
 	 */
-	void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody,  List<byte []> anhaenge) throws ServiceUnavailableException;
+	void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody,  byte [] anhang) throws ServiceUnavailableException;
 	
 	/**
 	 * Sendet eine Email an eine Liste von Empfängern.
@@ -31,5 +31,5 @@ public interface IMailSenderService {
 	 * @param pdf Anzuhängendes PDF. 
 	 * @throws ServiceUnavailableException 
 	 */
-	void sendeMassenMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] pdf) throws ServiceUnavailableException;
+	void sendeMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte [] anhang) throws ServiceUnavailableException; 
 } 
