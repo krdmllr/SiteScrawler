@@ -1,0 +1,48 @@
+html{
+	height: 100%;
+}
+
+body{
+	height: 100%;
+	background-color: #004d4d !important;
+}
+
+.inner-container{
+	width:100% !important; 
+	padding-top: 20px !important; 
+	padding-bottom: 20px !important; 
+}
+
+.login-container{
+	padding-left: 30px !important;
+	padding-right: 30px !important;
+}
+
+.outer-container{ 
+	margin-top:100px;  
+ 	width:100% !important;
+ 	padding: 0px !important; 
+ 	
+}
+
+.btn{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+.logo{
+	width: 80px;
+	margin-left: calc(100%/2 - 40px);
+	
+}
+
+h4{
+	text-align: center;
+vertical-align: middle;
+}
+
+.logo-container{
+	margin-bottom: 30px;
+}
+
