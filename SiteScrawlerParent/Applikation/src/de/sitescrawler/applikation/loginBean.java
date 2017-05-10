@@ -27,7 +27,7 @@ public class loginBean implements Serializable
     private String              password;
     private String              originalURL;
     private FacesContext        context          = FacesContext.getCurrentInstance();
-    private boolean	login = true;
+    private boolean             registriert      = true;
 
     @Inject
     private ProjectConfig       config;
@@ -116,12 +116,14 @@ public class loginBean implements Serializable
         return this.config;
     }
 
-	public boolean isLogin() {
-		return login;
-	}
+    public boolean isRegistriert()
+    {
+        return this.registriert;
+    }
 
-	public void setLogin(boolean login) {
-		this.login = login;
-	}
+    public void setRegistriert(boolean registriert)
+    {
+        this.registriert = registriert;
+    }
 
 }

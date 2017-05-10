@@ -51,6 +51,7 @@
   		<groupId>de.sitescrawler.nutzerverwaltung</groupId>
   		<artifactId>Nutzerverwaltung</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
+  		<scope>provided</scope>
   	</dependency>
   </dependencies>
 </project>

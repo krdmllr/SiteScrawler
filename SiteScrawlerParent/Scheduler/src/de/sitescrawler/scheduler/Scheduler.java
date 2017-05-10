@@ -16,7 +16,7 @@ public class Scheduler
     @Inject
     private ICrawlerLaufService crawlerLaufService;
 
-    @Schedule(second = "0", minute = "*/2", hour = "*", persistent = false)
+    @Schedule(second = "0", minute = "*/30", hour = "*", persistent = false)
     public void starteCrawl()
     {
         Scheduler.LOGGER.info("Scheduler starte Crawlvorgang...");
