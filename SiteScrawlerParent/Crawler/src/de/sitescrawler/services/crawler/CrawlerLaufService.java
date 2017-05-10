@@ -38,7 +38,7 @@ public class CrawlerLaufService implements ICrawlerLaufService
         {
             this.verarbeitung.durchsucheQuelle(true, q);
         }
-        this.verarbeitung.durchsucheTwitter();
+        this.verarbeitung.durchsucheTwitter(true);
     }
 
     @Override

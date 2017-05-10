@@ -15,6 +15,10 @@ public class ProjectConfig {
 	private String domain;
 	private String username;
 	private String password;
+	private String consumerKey;
+	private String consumerSecret;
+	private String accessToken;
+	private String accessTokenSecret;
 
 	String result = "";
 	InputStream inputStream;
@@ -48,6 +52,10 @@ public class ProjectConfig {
 				domain = properties.getProperty("domain");
 				username = properties.getProperty("username");
 				password = properties.getProperty("password");
+				consumerKey = properties.getProperty("consumerKey");
+				consumerSecret = properties.getProperty("consumerSecret");
+				accessToken = properties.getProperty("accessToken");
+				accessTokenSecret = properties.getProperty("accessTokenSecret");
 
 				System.out.println("Successfully loaded config.");
 			} catch (Exception e) {
@@ -72,4 +80,21 @@ public class ProjectConfig {
 	public String getDomain() {
 		return domain;
 	}
+	
+	public String getConsumerKey() {
+		return consumerKey;
+	}
+
+	public String getConsumerSecret() {
+		return consumerSecret;
+	}
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public String getAccessTokenSecret() {
+		return accessTokenSecret;
+	}
+
 }

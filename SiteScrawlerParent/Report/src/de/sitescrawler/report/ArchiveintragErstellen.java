@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -80,7 +81,7 @@ public class ArchiveintragErstellen
         }
 
         String body;
-        String betreff = "SiteScrawler zusammenfassung von " + filtergruppe.getTitel() + " vom " + aktuelleZeit.format(DateUtils.getDateFormatter());
+        String betreff = "SiteScrawler zusammenfassung von " + filtergruppe.getTitel() + " vom " + aktuelleZeit.format(DateUtils.getDateFormatter()); 
 
         // Generiere die Zusammenfassung je nach Einstellung
         if (html)
@@ -94,7 +95,7 @@ public class ArchiveintragErstellen
 
         try
         {
-            this.mailSenderService.sendeMassenMail(empfaenger, betreff, body, html, pdf);
+            this.mailSenderService.sendeMail(empfaenger, betreff, body, html, pdf);
         }
         catch (ServiceUnavailableException e)
         {
