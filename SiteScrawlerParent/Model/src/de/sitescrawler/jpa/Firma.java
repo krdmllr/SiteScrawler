@@ -25,6 +25,11 @@ public class Firma extends Filtermanager implements java.io.Serializable
     {
     }
 
+    public Firma(String name)
+    {
+        this(name, new HashSet<>());
+    }
+
     public Firma(String name, Set<Mitarbeiter> mitarbeiter)
     {
         this.name = name;

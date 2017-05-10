@@ -28,8 +28,6 @@ public class Artikel implements java.io.Serializable
     private static final long  serialVersionUID = 1L;
     private Set<Archiveintrag> archiveintraege  = new HashSet<>(0);
 
-    @Field("erstellungsdatum")
-    private String             solrdatum;
     @Field
     private String             autor;
     @Field

@@ -21,7 +21,7 @@ import de.sitescrawler.model.ProjectConfig;
 
 /**
  * 
- * @author robin Versendet Mails an Empfänger als HTML/Plain Text mit Anhängen
+ * @author robin Versendet Mails an Empfï¿½nger als HTML/Plain Text mit Anhï¿½ngen
  *
  */
 
@@ -99,11 +99,11 @@ public class MailSenderService implements IMailSenderService {
 	
 	/**
 	 * Erstellt und Verschickt die Nachricht an die Empfï¿½nger
-	 * @param emailAdresse email der empfänger
+	 * @param emailAdresse email der empfï¿½nger
 	 * @param subjekt Betreff der Mail
 	 * @param body Body der Mail (Text oder HTML)
 	 * @param htmlBody gibt an ob Body Text oder HTML ist
-	 * @param anhaenge Anhänge die hinzugefügt werden müssen
+	 * @param anhaenge Anhï¿½nge die hinzugefï¿½gt werden mï¿½ssen
 	 */
 	private void erstelleUndVerschickeNachricht(List<String> emailAdresse, String subjekt, String body, boolean htmlBody, byte[] anhaenge){
 		Session session = Session.getInstance(props);
@@ -123,11 +123,11 @@ public class MailSenderService implements IMailSenderService {
 	/**
 	 * Erstellt die einzelnen Teile der Nachricht und fï¿½gt diese in einer Nachricht zusammen.
 	 * @param session 
-	 * @param emailAdresse Email des Empfängers
+	 * @param emailAdresse Email des Empfï¿½ngers
 	 * @param subjekt Betreff der Mail
 	 * @param body Body der Mail (Text oder HTML)
 	 * @param htmlBody gibt an ob Body Text oder HTML ist
-	 * @param anhaenge Anhänge die hinzugefügt werden müssen
+	 * @param anhaenge Anhï¿½nge die hinzugefï¿½gt werden mï¿½ssen
 	 * @return
 	 * @throws AddressException
 	 * @throws MessagingException

@@ -1,6 +1,7 @@
 package de.sitescrawler.nutzerverwaltung;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,25 +23,28 @@ import de.sitescrawler.solr.interfaces.ISolrService;
 
 @ApplicationScoped
 @Named
+@Transactional
 public class NutzerServiceBean implements INutzerService, Serializable
 {
-
-    private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER           = Logger.getLogger("de.sitescrawler.logger");
+    private static final long   serialVersionUID = 1L;
     @PersistenceContext
-    private EntityManager     entityManager;
+    private EntityManager       entityManager;
     @Inject
-    ISolrService              solrService;
+    ISolrService                solrService;
 
     @Override
     @Transactional(value = TxType.REQUIRED)
     public void rolleAnlegen(Rolle rolle)
     {
         this.entityManager.merge(rolle);
+        NutzerServiceBean.LOGGER.info(rolle + " als Rolle angelegt.");
     }
 
     @Override
     public Nutzer getNutzer(String email)
     {
+        NutzerServiceBean.LOGGER.info("Suche Nutzer in der DB mit Email " + email);
         TypedQuery<Nutzer> query = this.entityManager.createQuery("SELECT n FROM Nutzer n WHERE n.email= :email", Nutzer.class);
         query.setParameter("email", email);
         EntityGraph<?> entityGraph = this.entityManager.getEntityGraph("Nutzer.*");
@@ -51,7 +55,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
     }
 
     /**
-     * Lädt alle Daten aus der DB um den nutzer zu vervollständigen
+     * Lï¿½dt alle Daten aus der DB um den nutzer zu vervollstï¿½ndigen
      *
      * @param nutzer
      */
@@ -64,7 +68,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
                 for (Artikel artikel : archiveintrag.getArtikel())
                 {
                     String link = artikel.getLink();
-                    // Füge solrartikel die Quelle hinzu und überschreibe damit artikel
+                    // FÃ¼ge solrartikel die Quelle hinzu und ï¿½berschreibe damit artikel
                     Artikel solrartikel = this.solrService.sucheArtikelMitLink(link);
                     solrartikel.setQuelle(artikel.getQuelle());
                     artikel = solrartikel;
@@ -77,6 +81,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
     @Transactional(value = TxType.REQUIRED)
     public void nutzerSpeichern(Nutzer nutzer)
     {
+        NutzerServiceBean.LOGGER.info("Nutzer " + nutzer + " wird persistiert.");
         this.entityManager.merge(nutzer);
     }
 
@@ -109,6 +114,13 @@ public class NutzerServiceBean implements INutzerService, Serializable
     {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void nutzerLoeschen(Nutzer nutzer)
+    {
+        this.entityManager.remove(nutzer);
+        NutzerServiceBean.LOGGER.info(nutzer + " wurde gelï¿½scht.");
     }
 
 }

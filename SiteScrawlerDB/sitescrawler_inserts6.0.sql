@@ -81,7 +81,7 @@ INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_Filter
 
 
 
- -- AvH ist sehr neugierig
+ AvH ist sehr neugierig
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,1);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,2);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,3);
@@ -158,3 +158,13 @@ INSERT INTO Nutzer_hat_Rolle VALUES(11, 'Registrered');
 
 COMMIT;
 
+INSERT INTO Quelle (name,rsslink) VALUES('Spiegel', 'http://www.spiegel.de/schlagzeilen/tops/index.rss');
+
+INSERT INTO Filterprofil_beinhaltet_Quelle VALUES(1,1);
+INSERT INTO Filterprofil_beinhaltet_Quelle VALUES(2,1);
+INSERT INTO Filterprofil_beinhaltet_Quelle VALUES(3,1);
+INSERT INTO Filterprofil_beinhaltet_Quelle VALUES(4,1);
+INSERT INTO Filterprofil_beinhaltet_Quelle VALUES(5,1);
+INSERT INTO Filterprofil_beinhaltet_Quelle VALUES(6,1);
+INSERT INTO Filterprofil_beinhaltet_Quelle VALUES(7,1);
+INSERT INTO Filterprofil_beinhaltet_Quelle VALUES(8,1);

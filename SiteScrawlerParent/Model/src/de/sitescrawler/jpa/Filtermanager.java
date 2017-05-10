@@ -36,15 +36,13 @@ public class Filtermanager implements java.io.Serializable
     {
     }
 
-    public Filtermanager(Integer identifikation, int maxfiltergruppe)
+    public Filtermanager(int maxfiltergruppe)
     {
-        this.identifikation = identifikation;
         this.maxfiltergruppe = maxfiltergruppe;
     }
 
-    public Filtermanager(Integer identifikation, int maxfiltergruppe, Set<Filterprofil> filterprofile, Set<Filterprofilgruppe> filterprofilgruppen)
+    public Filtermanager(int maxfiltergruppe, Set<Filterprofil> filterprofile, Set<Filterprofilgruppe> filterprofilgruppen)
     {
-        this.identifikation = identifikation;
         this.maxfiltergruppe = maxfiltergruppe;
         this.filterprofile = filterprofile;
         this.filterprofilgruppen = filterprofilgruppen;

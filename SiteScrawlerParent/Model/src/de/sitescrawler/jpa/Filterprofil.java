@@ -37,6 +37,11 @@ public class Filterprofil implements java.io.Serializable
     {
     }
 
+    public Filterprofil(Filtermanager filtermanager, String filterprofilname)
+    {
+        this(filtermanager, filterprofilname, "", new HashSet<>(), new HashSet<>(), new HashSet<>());
+    }
+
     public Filterprofil(Filtermanager filtermanager, String filterprofilname, String tagstring, Set<Kategorie> kategorien,
                         Set<Filterprofilgruppe> filterprofilgruppen, Set<Quelle> quellen)
     {
