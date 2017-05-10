@@ -21,7 +21,7 @@ import de.sitescrawler.utility.FiltergruppenZeitpunktCheckUtil;
 @Named
 public class FiltergruppenZugriffsManager implements IFiltergruppenZugriffsManager
 {
-    @PersistenceContext(unitName = "Model_Persistance")
+    @PersistenceContext()
     private EntityManager entityManager;
 
     @Override

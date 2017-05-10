@@ -33,7 +33,7 @@ public class SolrService implements ISolrService, Serializable
 
     // TODO: in config-Datei auslagern
     // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/testdaten";
-    private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/spielwiesewilliam3";
+    private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/spielwiesewilliam";
     // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";
     private static final SimpleDateFormat formatter        = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'");
 

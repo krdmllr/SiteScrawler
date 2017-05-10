@@ -197,13 +197,6 @@ public class NutzerDatenServiceDummy implements Serializable, INutzerDatenServic
     }
 
     @Override
-    public void aendereNutzernamen(String neuerNutzername, String passwort)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void aendereEmailAdresse(String neueEmailAdresse, String passwort)
     {
         // TODO Auto-generated method stub

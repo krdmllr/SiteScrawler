@@ -20,36 +20,37 @@ public interface INutzerDatenService
 
     /**
      * Ermittelt der uid bei der Anmeldung die Nutzerdaten und gibt sie zur Verwaltung.
-     * 
-     * @param email Benutzername.
+     *
+     * @param email
+     *            Benutzername.
      */
     public void setNutzer(String email);
-    
-
-    /**
-     * Ändert den Nutzernamen des aktuellen Nutzers auf den neuen Nutzernamen.
-     * @param neuerNutzername Neuer Nutzername.
-     * @param passwort Aktuelles Passwort zur Validierung.
-     */
-    void aendereNutzernamen(String neuerNutzername, String passwort);
 
     /**
      * Ändert die Email Adresse des aktuellen Nutzers auf die neue Adresse.
-     * @param neueEmailAdresse Neue Email Adresse.
-     * @param passwort Aktuelles Passwort zur Validierung.
+     * 
+     * @param neueEmailAdresse
+     *            Neue Email Adresse.
+     * @param passwort
+     *            Aktuelles Passwort zur Validierung.
      */
     void aendereEmailAdresse(String neueEmailAdresse, String passwort);
-    
+
     /**
      * Aendert das Passwort auf das neue Passwort.
-     * @param neuesPasswort Das neue Passwort.
-     * @param altesPasswort Aktuelles Passwort zur Validierung.
+     * 
+     * @param neuesPasswort
+     *            Das neue Passwort.
+     * @param altesPasswort
+     *            Aktuelles Passwort zur Validierung.
      */
     void aenderePasswort(String neuesPasswort, String altesPasswort);
-    
+
     /**
      * Löscht den Account des aktuellen Nutzers.
-     * @param passwort Aktuelles Passwort zur validierung.
+     * 
+     * @param passwort
+     *            Aktuelles Passwort zur validierung.
      */
     void loescheNutzer(String passwort);
 }

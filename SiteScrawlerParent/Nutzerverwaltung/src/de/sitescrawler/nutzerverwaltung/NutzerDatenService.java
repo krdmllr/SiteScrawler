@@ -35,31 +35,34 @@ public class NutzerDatenService implements Serializable, INutzerDatenService
     }
 
     @Override
-    public void aendereNutzernamen(String neuerNutzername, String passwort)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void aendereEmailAdresse(String neueEmailAdresse, String passwort)
     {
-        // TODO Auto-generated method stub
+        if (this.nutzer.getPasswort().equals(passwort))
+        {
+            this.nutzer.setEmail(neueEmailAdresse);
+            this.nutzerService.nutzerSpeichern(this.nutzer);
+        }
 
     }
 
     @Override
     public void aenderePasswort(String neuesPasswort, String altesPasswort)
     {
-        // TODO Auto-generated method stub
+        if (this.nutzer.getPasswort().equals(altesPasswort))
+        {
+            this.nutzer.setPasswort(neuesPasswort);
+            this.nutzerService.nutzerSpeichern(this.nutzer);
+        }
 
     }
 
     @Override
     public void loescheNutzer(String passwort)
     {
-        // TODO Auto-generated method stub
-
+        if (this.nutzer.getPasswort().equals(passwort))
+        {
+            this.nutzerService.nutzerLoeschen(this.nutzer);
+        }
     }
 
 }

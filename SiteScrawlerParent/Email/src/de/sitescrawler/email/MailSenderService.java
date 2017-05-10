@@ -1,167 +1,200 @@
 package de.sitescrawler.email;
- 
-import java.io.IOException;
-import java.util.*;
+
+import java.util.List;
+import java.util.Properties;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.enterprise.context.ApplicationScoped;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.mail.util.*;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 import de.sitescrawler.email.interfaces.IMailSenderService;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
 
 @ApplicationScoped
-public class MailSenderService implements IMailSenderService {
- 
-	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge)
-			throws ServiceUnavailableException {
+public class MailSenderService implements IMailSenderService
+{
 
-		// Project Config laden f�r username/password
-		ProjectConfig projectConfig = new ProjectConfig();
+    @Override
+    public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, List<byte[]> anhaenge) throws ServiceUnavailableException
+    {
 
-		String username = projectConfig.getUsername();
-		String password = projectConfig.getPassword();
+        // Project Config laden f�r username/password
+        ProjectConfig projectConfig = new ProjectConfig();
 
-		Properties props = System.getProperties();
-		String host = "smtp.outlook.com";
+        String username = projectConfig.getUsername();
+        String password = projectConfig.getPassword();
 
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.user", username);
-		props.put("mail.smtp.password", password);
-		props.put("mail.smtp.port", "587");
-		props.put("mail.smtp.auth", "true");
+        Properties props = System.getProperties();
+        String host = "smtp.outlook.com";
 
-		Session session = Session.getInstance(props); // getInstance statt getDefaultInstance (neue convention)
-														
-		MimeMessage nachricht = new MimeMessage(session);
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.user", username);
+        props.put("mail.smtp.password", password);
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
 
-		try {
-			nachricht.setFrom(new InternetAddress(username));
-			nachricht.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAdresse));
-			nachricht.setSubject(subjekt);
+        Session session = Session.getInstance(props); // getInstance statt getDefaultInstance (neue convention)
 
-			// Teil eins ist die Nachricht
-			MimeBodyPart nachrichtTeil = new MimeBodyPart();
-			if (htmlBody)
-				nachrichtTeil.setContent(body, "text/html");
-			else
-				nachrichtTeil.setText(body);
+        MimeMessage nachricht = new MimeMessage(session);
 
-			// Erstelle eine multipar nachricht
-			Multipart multipart = new MimeMultipart();
-			// Setze text Nachricht Teil
-			multipart.addBodyPart(nachrichtTeil);
+        try
+        {
+            nachricht.setFrom(new InternetAddress(username));
+            nachricht.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAdresse));
+            nachricht.setSubject(subjekt);
 
-			// Teil zwei ist Anhang
-			for (int i = 0; i < anhaenge.size(); i++) {
-				MimeBodyPart anhang = new MimeBodyPart();
-				DataSource bds = new ByteArrayDataSource(anhaenge.get(i), "application/pdf");
-				anhang.setDataHandler(new DataHandler(bds));
-				anhang.setFileName("Pressespiegel Nr." + i);
-				// Setze Anhang Teil
-				multipart.addBodyPart(anhang);
-			}
+            // Teil eins ist die Nachricht
+            MimeBodyPart nachrichtTeil = new MimeBodyPart();
+            if (htmlBody)
+            {
+                nachrichtTeil.setContent(body, "text/html");
+            }
+            else
+            {
+                nachrichtTeil.setText(body);
+            }
 
-			// Zusammenf�hren der Teile
-			nachricht.setContent(multipart);
+            // Erstelle eine multipar nachricht
+            Multipart multipart = new MimeMultipart();
+            // Setze text Nachricht Teil
+            multipart.addBodyPart(nachrichtTeil);
 
-			Transport transport = session.getTransport("smtp");
-			transport.connect(host, username, password);
-			transport.sendMessage(nachricht, nachricht.getAllRecipients());
-			transport.close();
+            // Teil zwei ist Anhang
+            for (int i = 0; i < anhaenge.size(); i++)
+            {
+                MimeBodyPart anhang = new MimeBodyPart();
+                DataSource bds = new ByteArrayDataSource(anhaenge.get(i), "application/pdf");
+                anhang.setDataHandler(new DataHandler(bds));
+                anhang.setFileName("Pressespiegel Nr." + i);
+                // Setze Anhang Teil
+                multipart.addBodyPart(anhang);
+            }
 
-			System.out.println("Erfolgreich versendet"); // TODO: Logging
+            // Zusammenf�hren der Teile
+            nachricht.setContent(multipart);
 
-		} catch (AddressException ae) {
-			//TODO: Logging
-			ae.printStackTrace();
-		} catch (MessagingException e) {
-			System.out.println("Fehler beim versenden"); // TODO: Logging
-			e.printStackTrace();
-		}
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, username, password);
+            transport.sendMessage(nachricht, nachricht.getAllRecipients());
+            transport.close();
 
-	}
- 
-	public void sendeMassenMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] pdf)
-			throws ServiceUnavailableException {
+            System.out.println("Erfolgreich versendet"); // TODO: Logging
 
-		// Project Config laden f�r username/password
-		ProjectConfig projectConfig = new ProjectConfig();
+        }
+        catch (AddressException ae)
+        {
+            // TODO: Logging
+            ae.printStackTrace();
+        }
+        catch (MessagingException e)
+        {
+            System.out.println("Fehler beim versenden"); // TODO: Logging
+            e.printStackTrace();
+        }
 
-		String username = projectConfig.getUsername();
-		String password = projectConfig.getPassword();
+    }
 
-		Properties props = System.getProperties();
-		String host = "smtp.outlook.com";
+    @Override
+    public void sendeMassenMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] pdf) throws ServiceUnavailableException
+    {
 
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.user", username);
-		props.put("mail.smtp.password", password);
-		props.put("mail.smtp.port", "587");
-		props.put("mail.smtp.auth", "true");
+        // Project Config laden f�r username/password
+        ProjectConfig projectConfig = new ProjectConfig();
 
-		Session session = Session.getInstance(props); // getInstance statt getDefaultInstance (neue convention)
-												
-		MimeMessage nachricht = new MimeMessage(session);
+        String username = projectConfig.getUsername();
+        String password = projectConfig.getPassword();
 
-		try {
-			nachricht.setFrom(new InternetAddress(username));
+        Properties props = System.getProperties();
+        String host = "smtp.outlook.com";
 
-			InternetAddress[] toAddress = new InternetAddress[empfaenger.size()];
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.user", username);
+        props.put("mail.smtp.password", password);
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
 
-			for (int i = 0; i < empfaenger.size(); i++) {
-				toAddress[i] = new InternetAddress(empfaenger.get(i).getEmail());
-			}
+        Session session = Session.getInstance(props); // getInstance statt getDefaultInstance (neue convention)
 
-			for (int i = 0; i < toAddress.length; i++) {
-				nachricht.addRecipient(Message.RecipientType.TO, toAddress[i]);
-			}
+        MimeMessage nachricht = new MimeMessage(session);
 
-			nachricht.setSubject(subjekt);
+        try
+        {
+            nachricht.setFrom(new InternetAddress(username));
 
-			// Teil eins ist die Nachricht
-			BodyPart nachrichtTeil = new MimeBodyPart();
-			if (htmlBody)
-				nachrichtTeil.setContent(body, "text/html");
-			else
-				nachrichtTeil.setText(body);
+            InternetAddress[] toAddress = new InternetAddress[empfaenger.size()];
 
-			// Erstelle eine multipar nachricht
-			Multipart multipart = new MimeMultipart();
-			// Setze text Nachricht Teil
-			multipart.addBodyPart(nachrichtTeil);
+            for (int i = 0; i < empfaenger.size(); i++)
+            {
+                toAddress[i] = new InternetAddress(empfaenger.get(i).getEmail());
+            }
 
-			// Teil zwei ist Anhang
+            for (int i = 0; i < toAddress.length; i++)
+            {
+                nachricht.addRecipient(Message.RecipientType.TO, toAddress[i]);
+            }
 
-			MimeBodyPart anhang = new MimeBodyPart();
-			DataSource bds = new ByteArrayDataSource(pdf, "application/pdf");
-			anhang.setDataHandler(new DataHandler(bds));
-			anhang.setFileName("Pressespiegel");
-			// Setze Anhang Teil
-			multipart.addBodyPart(anhang);
+            nachricht.setSubject(subjekt);
 
-			// Zusammenf�hren der Teile
-			nachricht.setContent(multipart);
+            // Teil eins ist die Nachricht
+            BodyPart nachrichtTeil = new MimeBodyPart();
+            if (htmlBody)
+            {
+                nachrichtTeil.setContent(body, "text/html");
+            }
+            else
+            {
+                nachrichtTeil.setText(body);
+            }
 
-			Transport transport = session.getTransport("smtp");
-			transport.connect(host, username, password);
-			transport.sendMessage(nachricht, nachricht.getAllRecipients());
-			transport.close();
-			System.out.println("Erfolgreich versendet"); // TODO: Logging
+            // Erstelle eine multipar nachricht
+            Multipart multipart = new MimeMultipart();
+            // Setze text Nachricht Teil
+            multipart.addBodyPart(nachrichtTeil);
 
-		} catch (AddressException ae) {
-			//TODO:Logging
-			ae.printStackTrace();
-		} catch (MessagingException e) {
-			System.out.println("Fehler beim versenden"); // TODO: Logging
-			e.printStackTrace();
-		}
+            // Teil zwei ist Anhang
 
-	}  
+            MimeBodyPart anhang = new MimeBodyPart();
+            DataSource bds = new ByteArrayDataSource(pdf, "application/pdf");
+            anhang.setDataHandler(new DataHandler(bds));
+            anhang.setFileName("Pressespiegel");
+            // Setze Anhang Teil
+            multipart.addBodyPart(anhang);
+
+            // Zusammenf�hren der Teile
+            nachricht.setContent(multipart);
+
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, username, password);
+            transport.sendMessage(nachricht, nachricht.getAllRecipients());
+            transport.close();
+            System.out.println("Erfolgreich versendet"); // TODO: Logging
+
+        }
+        catch (AddressException ae)
+        {
+            // TODO:Logging
+            ae.printStackTrace();
+        }
+        catch (MessagingException e)
+        {
+            System.out.println("Fehler beim versenden"); // TODO: Logging
+            e.printStackTrace();
+        }
+
+    }
 }

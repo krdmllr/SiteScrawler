@@ -210,4 +210,10 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
         this.empfangehtmlmails = empfangehtmlmails;
     }
 
+    @Override
+    public String toString()
+    {
+        return this.vorname + " " + this.nachname + " " + this.email;
+    }
+
 }

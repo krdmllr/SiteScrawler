@@ -42,14 +42,14 @@ public interface INutzerService
     void rolleAnlegen(Rolle rolle);
 
     /**
-     * Gibt einen Nutzer anhand seiner id zurï¿½ck. Der zurï¿½ckgegebene Nutzer beinhaltet alle fï¿½r ihn relevanten Daten wie
-     * seine Filtergruppen, in denen auch alle Felder gefï¿½llt sind.
+     * Gibt einen Nutzer anhand seiner id zurï¿½ck. Der zurï¿½ckgegebene Nutzer beinhaltet alle fï¿½r ihn relevanten
+     * Daten wie seine Filtergruppen, in denen auch alle Felder gefï¿½llt sind.
      *
      * @param email
      *            Id des Nutzers.
      * @return Nutzer mit der angegebenen Id.
-     */ 
-    Nutzer getNutzer(String email); 
+     */
+    Nutzer getNutzer(String email);
 
     /**
      * Schickt dem Nutzer eine Email mit einem Token zu, ï¿½ber den der Nutzer sein Passwort zurï¿½cksetzen kann.
@@ -62,8 +62,8 @@ public interface INutzerService
     void passwortZuruecksetzen(String email, String nutzername);
 
     /**
-     * Setzt ein neues Passwort fï¿½r einen Nutzer der zuvor ï¿½ber die passwortZuruecksetzen funktion einen Token generiert
-     * hat.
+     * Setzt ein neues Passwort fï¿½r einen Nutzer der zuvor ï¿½ber die passwortZuruecksetzen funktion einen Token
+     * generiert hat.
      *
      * @param token
      *            Zuvor generierter Token.
@@ -71,4 +71,11 @@ public interface INutzerService
      *            Neues Passwort.
      */
     void neuesPasswortSetzen(String token, String neuesPasswort);
+
+    /**
+     * Löscht den Nutzer aus der Datenbank
+     * 
+     * @param nutzer
+     */
+    void nutzerLoeschen(Nutzer nutzer);
 }
