@@ -28,8 +28,6 @@ public class Artikel implements java.io.Serializable
     private static final long  serialVersionUID = 1L;
     private Set<Archiveintrag> archiveintraege  = new HashSet<>(0);
 
-    @Field("erstellungsdatum")
-    private String             solrdatum;
     @Field
     private String             autor;
     @Field
@@ -39,8 +37,9 @@ public class Artikel implements java.io.Serializable
     @Field
     private String             link;
     @Field
-    private List<String>       absaetzeArtikel  = new ArrayList<>();
     private Date               erstellungsdatum;
+    @Field
+    private List<String>       absaetzeArtikel  = new ArrayList<>();
     private Quelle             quelle;
 
     public Artikel()
@@ -169,17 +168,6 @@ public class Artikel implements java.io.Serializable
     public void setAbsaetzeArtikel(List<String> absaetzeArtikel)
     {
         this.absaetzeArtikel = absaetzeArtikel;
-    }
-
-    @Transient
-    public String getSolrdatum()
-    {
-        return this.solrdatum;
-    }
-
-    public void setSolrdatum(String solrdatum)
-    {
-        this.solrdatum = solrdatum;
     }
 
 }

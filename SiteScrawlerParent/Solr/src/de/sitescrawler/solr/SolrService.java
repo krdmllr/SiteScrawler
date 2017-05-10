@@ -50,7 +50,16 @@ public class SolrService implements ISolrService, Serializable
     @Override
     public void addArtikel(List<Artikel> artikel)
     {
-        artikel.forEach(a -> a.setSolrdatum(SolrService.formatter.format(a.getErstellungsdatum())));
+        artikel.forEach(a -> {
+            try
+            {
+                a.setErstellungsdatum(SolrService.formatter.parse(SolrService.formatter.format(a.getErstellungsdatum())));
+            }
+            catch (ParseException e)
+            {
+                SolrService.LOGGER.log(Level.SEVERE, "Fehler beim parsen des Erstellungsdatums", e);
+            }
+        });
         try
         {
             SolrService.LOGGER.info("Schreibe in Solrinstanz " + SolrService.SolrUrl + " folgende Artikel: " + artikel);
@@ -102,12 +111,8 @@ public class SolrService implements ISolrService, Serializable
         {
             QueryResponse response = this.solrClient.query(solrQuery);
             artikel = response.getBeans(Artikel.class);
-            for (Artikel a : artikel)
-            {
-                a.setErstellungsdatum(SolrService.formatter.parse(a.getSolrdatum()));
-            }
         }
-        catch (SolrServerException | IOException | ParseException e)
+        catch (SolrServerException | IOException e)
         {
             SolrService.LOGGER.log(Level.SEVERE, "Fehler beim suchen von Artikeln.", e);
         }

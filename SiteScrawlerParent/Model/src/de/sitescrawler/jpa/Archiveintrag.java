@@ -39,7 +39,7 @@ public class Archiveintrag implements java.io.Serializable
 
     public Archiveintrag(Filterprofilgruppe filterprofilgruppe)
     {
-        this.filterprofilgruppe = filterprofilgruppe;
+        this(filterprofilgruppe, new Date(), new HashSet<>());
     }
 
     public Archiveintrag(Filterprofilgruppe filterprofilgruppe, Date erstellungsdatum, Set<Artikel> artikel)

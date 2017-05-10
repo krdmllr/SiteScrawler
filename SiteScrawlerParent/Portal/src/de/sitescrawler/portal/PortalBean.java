@@ -1,15 +1,17 @@
 package de.sitescrawler.portal;
 
 import java.io.Serializable;
-import java.util.HashSet;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.sitescrawler.jpa.Filterprofilgruppe;
+import de.sitescrawler.jpa.Intervall;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
 import de.sitescrawler.model.ProjectConfig;
+import de.sitescrawler.model.ZeitIntervall;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 
 @SessionScoped
@@ -120,11 +122,17 @@ public class PortalBean implements Serializable
 
     public void sendeRegistrierungAb()
     {
-        HashSet<Rolle> rollen = new HashSet<>();
-        rollen.add(new Rolle("Registered"));
-        this.nutzer.setRollen(rollen);
+        this.initNewNutzer();
         this.nutzerService.registrieren(this.nutzer);
         // TODO Leite Nutzer weiter
+    }
+
+    private void initNewNutzer()
+    {
+        this.nutzer.getRollen().add(new Rolle("Registered"));
+        Filterprofilgruppe filterprofilgruppe = new Filterprofilgruppe(this.nutzer, new Intervall(ZeitIntervall.TAEGLICH), "Meine Gruppe");
+        filterprofilgruppe.setNutzer(this.nutzer);
+        this.nutzer.getFilterprofilgruppen().add(filterprofilgruppe);
     }
 
     public Nutzer getNutzer()

@@ -33,6 +33,11 @@ public class Mitarbeiter implements java.io.Serializable
     {
     }
 
+    public Mitarbeiter(Firma firma, Nutzer nutzer)
+    {
+        this(new MitarbeiterId(nutzer.getIdentifikation(), firma.getIdentifikation()), firma, nutzer, Firmenrolle.Mitarbeiter);
+    }
+
     public Mitarbeiter(MitarbeiterId id, Firma firma, Nutzer nutzer, Firmenrolle firmenrolle)
     {
         this.id = id;
