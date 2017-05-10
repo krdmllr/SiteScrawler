@@ -20,7 +20,7 @@ import com.rometools.rome.io.XmlReader;
 
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Quelle;
-import de.sitescrawler.jpa.management.interfaces.IArtikelManager;
+import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager;
 import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.services.artikelausschneiden.ArtikelZurechtschneiden;
 import de.sitescrawler.services.artikelausschneiden.UnparsbarException;
@@ -44,14 +44,14 @@ import twitter4j.conf.ConfigurationBuilder;
 public class Verarbeitung
 {
     // Globalen Logger holen
-    private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+    private final static Logger           LOGGER = Logger.getLogger("de.sitescrawler.logger");
 
     @Inject
-    private ISolrService        solrService;
+    private ISolrService                  solrService;
     @Inject
-    private IArtikelManager     artikelManager;
+    private IFiltergruppenZugriffsManager filtergruppenZugriffsManager;
     @Inject
-    private ProjectConfig       projectConfig;
+    private ProjectConfig                 projectConfig;
 
     public Verarbeitung()
     {
@@ -113,7 +113,10 @@ public class Verarbeitung
                 gefundeneArtikel.add(artikel);
 
             }
-            this.persistiereArtikel(sendeAnSolr, gefundeneArtikel);
+            if (sendeAnSolr)
+            {
+                this.solrService.addArtikel(gefundeneArtikel);
+            }
         }
         catch (IllegalArgumentException | FeedException | IOException e)
         {
@@ -168,16 +171,18 @@ public class Verarbeitung
                 {
 
                     // TODO: überprüfen ob Artikel richtig erstellt
-                    // TODO Quelle mit Bild ua anpassen
-                    Quelle quelle = new Quelle("Twitter", "https://twitter.com");
-                    quelle.setQid(2);
                     Artikel artikel = new Artikel(tweet.getCreatedAt(), tweet.getUser().getScreenName(), "Tweet" + tweet.getId(), tweet.getText(),
-                                                  tweet.getSource(), quelle);
+                                                  tweet.getSource(), new Quelle());
+                    artikel.setFavoritenzahl(tweet.getFavoriteCount());
+                    artikel.setRetweetzahl(tweet.getRetweetCount());
                     gefundeneArtikel.add(artikel);
                     Verarbeitung.LOGGER.log(Level.INFO, "Tweet gefunden: @" + tweet.getUser().getScreenName() + " - " + tweet.getText());
                 }
             }
-            this.persistiereArtikel(sendeAnSolr, gefundeneArtikel);
+            if (sendeAnSolr)
+            {
+                this.solrService.addArtikel(gefundeneArtikel);
+            }
         }
         catch (TwitterException e)
         {
@@ -187,14 +192,5 @@ public class Verarbeitung
 
         Verarbeitung.LOGGER.log(Level.INFO, "Crawl von Twitter abgeschlossen. Tweets gefunden: " + gefundeneArtikel.size());
         return gefundeneArtikel;
-    }
-
-    private void persistiereArtikel(boolean sendeAnSolr, List<Artikel> gefundeneArtikel)
-    {
-        if (sendeAnSolr)
-        {
-            this.solrService.addArtikel(gefundeneArtikel);
-            gefundeneArtikel.forEach(artikel -> this.artikelManager.speichereArtikel(artikel));
-        }
     }
 }

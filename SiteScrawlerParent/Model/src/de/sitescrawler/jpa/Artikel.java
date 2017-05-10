@@ -37,9 +37,13 @@ public class Artikel implements java.io.Serializable
     @Field
     private String             beschreibung;
     @Field
-    private Date               erstellungsdatum;
-    @Field
     private List<String>       absaetzeArtikel  = new ArrayList<>();
+    @Field
+    private int                retweetzahl;
+    @Field
+    private int                favoritenzahl;
+    @Field
+    private Date               erstellungsdatum;
     private Quelle             quelle;
 
     public Artikel()
@@ -78,6 +82,28 @@ public class Artikel implements java.io.Serializable
         this.link = link;
         this.absaetzeArtikel = absaetzeArtikel;
         this.quelle = quelle;
+    }
+
+    @Transient
+    public int getRetweetzahl()
+    {
+        return this.retweetzahl;
+    }
+
+    public void setRetweetzahl(int retweetzahl)
+    {
+        this.retweetzahl = retweetzahl;
+    }
+
+    @Transient
+    public int getFavoritenzahl()
+    {
+        return this.favoritenzahl;
+    }
+
+    public void setFavoritenzahl(int favoritenzahl)
+    {
+        this.favoritenzahl = favoritenzahl;
     }
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
