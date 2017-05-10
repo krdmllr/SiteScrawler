@@ -18,7 +18,7 @@
 						</div>
 
 						<b:form>
-							<p:commandLink id="quelle-erstellen" action="#{quellen.starteQuellenErstellen()}" update="geweahlte-quelle gewaehlte-quelle">  
+							<p:commandLink id="quelle-erstellen" action="#{quellen.starteQuellenErstellen()}" update="gewaehlte-quelle-form gewaehlte-quelle">  
 								<p:graphicImage value="/resources/image/add.svg"
 									class="pull-right bild" />
 							</p:commandLink>
@@ -38,7 +38,7 @@
 						type="definition">
 						<h:form>
 							<p:commandLink class="list-group-item" id="ajax"
-								update="geweahlte-quelle" 
+								update="gewaehlte-quelle-form" 
 								value="#{quelle.name}" 
 								action="#{quellen.gewaehlteQuelle(quelle)}"> 
 							</p:commandLink>
@@ -62,13 +62,15 @@
 			<div class="col-md-9 column">
 				<!-- Archiv -->
 				<p:panel id="gewaehlte-quelle">
-					<h:form class="panel panel-default artikelPanel" id="geweahlte-quelle"  rendered="#{quellen.zeigeQuelleAn()}">
+					<h:form class="panel panel-default artikelPanel" id="gewaehlte-quelle-form"  rendered="#{quellen.zeigeQuelleAn()}">
 						<div class="panel-heading">
 							<h3 class="panel-title pull-left linkeUeberschrift">
 								Quelle: 
-								<p:inputText value="#{quellen.gewaehlteQuelle.name}"/>
+								<p:inputText value="#{quellen.gewaehlteQuelle.name}">
+									<p:ajax event="keyup" update="gewaehlte-quelle-form:bearbeiten-buttons"/>
+								</p:inputText>
 							</h3>
-							<div class="btn-group pull-right" role="group" id="bearbeiten-buttons">
+							<p:panel class="btn-group pull-right" role="group" id="bearbeiten-buttons">
 								 
 									<!-- Löschen button -->
 									<b:commandButton rendered="#{quellen.zeigeLoeschButton()}" 
@@ -94,20 +96,20 @@
 									update="@form gewaehlte-quelle"
 									value="Verwerfen" type="button" class="btn btn-default"/>
 								
-							</div>
+							</p:panel>
 							<div class="clearfix"></div>
 						</div> 
 						<div class="panel-body">
 							<!-- Quelle präsentation -->
 							<h4>RSS Url</h4>
-							<p:inputText class="fill-width" label="RSS URL" value="#{quellen.gewaehlteQuelle.rsslink}">
-								<p:ajax event="keyup" update="bearbeiten-buttons"/>
+							<p:inputText  id="name-feld" class="fill-width" label="RSS URL" value="#{quellen.gewaehlteQuelle.rsslink}">
+								<p:ajax event="keyup" update="gewaehlte-quelle-form:bearbeiten-buttons"/>
 							</p:inputText>
 							 
 							<h4>Inhalt Id oder Klasse</h4>
 							<p>Hier kann die Id oder Klasse des Elementes angegeben werden, welches den Inhalt umschließt.</p>
-							<p:inputText class="fill-width" label="RSS URL" value="#{quellen.gewaehlteQuelle.tagOderId}">
-								<p:ajax event="keyup" update=":geweahlte-quelle:bearbeiten-buttons"/>
+							<p:inputText id="klasse-id-feld" class="fill-width" label="RSS URL" value="#{quellen.gewaehlteQuelle.tagOderId}">
+								
 							</p:inputText>
 						</div>
 					</h:form>

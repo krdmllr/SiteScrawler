@@ -25,7 +25,7 @@ public class QuellenManager implements IQuellenManager
 
     public QuellenManager()
     {
-        // TODOD Remove falls db zugriff gewünscht.
+        // TODOD Remove falls db zugriff gewï¿½nscht.
         // this.quellen = new ArrayList<>();
         // Quelle spiegelQuelle = new Quelle("Spiegel", "http://www.spiegel.de/schlagzeilen/tops/index.rss");
         // this.quellen.add(spiegelQuelle);
@@ -51,7 +51,7 @@ public class QuellenManager implements IQuellenManager
     @Transactional(value = TxType.REQUIRED)
     private void speichereQuelle(Quelle quelle)
     {
-        this.entityManager.merge(quelle);
+        this.entityManager.merge(quelle); 
     }
 
     @Override

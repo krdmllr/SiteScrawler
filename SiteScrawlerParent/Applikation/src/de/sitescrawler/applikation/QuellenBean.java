@@ -60,9 +60,17 @@ public class QuellenBean implements Serializable {
 	}
 	
 	public void verwerfeErstellteQuelle(){
-		setzeDefaultQuelle();
-		setUiStatus(1);
-		neueQuelle = null;
+		if(uiStatus == 1)
+		{
+			//Verwerfe Änderungen
+		}
+		else{
+			//Verwerfe neue Quelle
+			setGewaehlteQuelle(null);
+			setzeDefaultQuelle();
+			setUiStatus(1);
+			neueQuelle = null;
+		} 
 	}
 	
 	public void speichereAenderung(){
