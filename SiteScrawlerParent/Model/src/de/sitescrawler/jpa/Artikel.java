@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -28,8 +27,7 @@ public class Artikel implements java.io.Serializable
 {
     private static final long  serialVersionUID = 1L;
     private Set<Archiveintrag> archiveintraege  = new HashSet<>(0);
-    @Field("id")
-    private String             solrid;
+
     @Field("erstellungsdatum")
     private String             solrdatum;
     @Field
@@ -49,15 +47,8 @@ public class Artikel implements java.io.Serializable
     {
     }
 
-    public Artikel(Set<Archiveintrag> archiveintraege, String solrid)
-    {
-        this.archiveintraege = archiveintraege;
-        this.solrid = solrid;
-    }
-
     public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link)
     {
-        super();
         this.erstellungsdatum = erstellungsdatum;
         this.autor = autor;
         this.titel = titel;
@@ -67,7 +58,6 @@ public class Artikel implements java.io.Serializable
 
     public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link, List<String> absaetzeArtikel)
     {
-        super();
         this.erstellungsdatum = erstellungsdatum;
         this.autor = autor;
         this.titel = titel;
@@ -76,11 +66,10 @@ public class Artikel implements java.io.Serializable
         this.absaetzeArtikel = absaetzeArtikel;
     }
 
-    public Artikel(Set<Archiveintrag> archiveintraege, String solrid, Date erstellungsdatum, String autor, String titel, String beschreibung, String link,
+    public Artikel(Set<Archiveintrag> archiveintraege, Date erstellungsdatum, String autor, String titel, String beschreibung, String link,
                    List<String> absaetzeArtikel)
     {
         this.archiveintraege = archiveintraege;
-        this.solrid = solrid;
         this.erstellungsdatum = erstellungsdatum;
         this.autor = autor;
         this.titel = titel;
@@ -100,19 +89,6 @@ public class Artikel implements java.io.Serializable
     public void setArchiveintraege(Set<Archiveintrag> archiveintraege)
     {
         this.archiveintraege = archiveintraege;
-    }
-
-    @Id
-
-    @Column(name = "solrid", unique = true, nullable = false)
-    public String getSolrid()
-    {
-        return this.solrid;
-    }
-
-    public void setSolrid(String solrid)
-    {
-        this.solrid = solrid;
     }
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
@@ -173,7 +149,7 @@ public class Artikel implements java.io.Serializable
         this.beschreibung = beschreibung;
     }
 
-    @Transient
+    @Id
     public String getLink()
     {
         return this.link;

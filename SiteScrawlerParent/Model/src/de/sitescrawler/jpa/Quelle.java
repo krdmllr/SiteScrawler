@@ -134,4 +134,10 @@ public class Quelle implements java.io.Serializable
         this.artikel = artikel;
     }
 
+    @Override
+    public String toString()
+    {
+        return this.name + " " + this.rsslink;
+    }
+
 }

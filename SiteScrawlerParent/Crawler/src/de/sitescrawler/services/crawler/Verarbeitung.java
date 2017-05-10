@@ -54,7 +54,7 @@ class Verarbeitung
 
         List<Artikel> gefundeneArtikel = new ArrayList<>();
 
-        Verarbeitung.LOGGER.log(Level.INFO, quelle.toString() + "...");
+        Verarbeitung.LOGGER.log(Level.INFO, "Quelle: " + quelle.toString() + "...");
 
         ArtikelZurechtschneiden artikelZurechtschneiden = new ArtikelZurechtschneiden();
 

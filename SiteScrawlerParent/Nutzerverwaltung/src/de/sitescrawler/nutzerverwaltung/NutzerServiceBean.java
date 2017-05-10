@@ -63,9 +63,9 @@ public class NutzerServiceBean implements INutzerService, Serializable
             {
                 for (Artikel artikel : archiveintrag.getArtikel())
                 {
-                    String solrid = artikel.getSolrid();
+                    String link = artikel.getLink();
                     // Füge solrartikel die Quelle hinzu und überschreibe damit artikel
-                    Artikel solrartikel = this.solrService.sucheArtikelMitID(solrid);
+                    Artikel solrartikel = this.solrService.sucheArtikelMitLink(link);
                     solrartikel.setQuelle(artikel.getQuelle());
                     artikel = solrartikel;
                 }

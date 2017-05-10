@@ -33,7 +33,7 @@ public class SolrService implements ISolrService, Serializable
 
     // TODO: in config-Datei auslagern
     // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/testdaten";
-    private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/spielwiesewilliam2";
+    private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/spielwiesewilliam3";
     // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";
     private static final SimpleDateFormat formatter        = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'");
 
@@ -61,7 +61,6 @@ public class SolrService implements ISolrService, Serializable
         catch (SolrServerException | IOException e)
         {
             SolrService.LOGGER.log(Level.SEVERE, "Fehler beim schreiben in Solrinstanz " + SolrService.SolrUrl, e);
-            e.printStackTrace();
         }
     }
 
@@ -111,7 +110,6 @@ public class SolrService implements ISolrService, Serializable
         catch (SolrServerException | IOException | ParseException e)
         {
             SolrService.LOGGER.log(Level.SEVERE, "Fehler beim suchen von Artikeln.", e);
-            e.printStackTrace();
         }
         SolrService.LOGGER.info("Es wurden " + artikel.size() + " Artikel zur Query " + solrQuery.getQuery() + " gefunden.");
         return artikel;
@@ -143,9 +141,9 @@ public class SolrService implements ISolrService, Serializable
     }
 
     @Override
-    public Artikel sucheArtikelMitID(String id)
+    public Artikel sucheArtikelMitLink(String link)
     {
-        SolrQuery solrQuery = new SolrQuery("id:" + id);
+        SolrQuery solrQuery = new SolrQuery("link:" + link);
         List<Artikel> artikel = this.getArtikel(solrQuery);
         return artikel.isEmpty() ? null : artikel.get(0);
     }

@@ -11,13 +11,13 @@ INSERT INTO Filtermanager (maxfiltergruppe) VALUES (1);
 INSERT INTO Filtermanager (maxfiltergruppe) VALUES (1);
 COMMIT;
 SELECT * FROM Filtermanager;
-INSERT INTO Nutzer (vorname, nachname, email, passwort, empfangehtmlmails) VALUES(10, 'Tooooobi', 'Burner', 'k.l.mueller@outlook.com','qwe',1);
-INSERT INTO Nutzer (vorname, nachname, email, passwort, empfangehtmlmails) VALUES(5, 'Haaans', 'Ricardi', 'elodril@gmx.de','qwe',1);
-INSERT INTO Nutzer (vorname, nachname, email, passwort, empfangehtmlmails) VALUES(6, 'Yvonne', 'Laberschtille', 'sitescrawler@gmx.de','qwe',1);
-INSERT INTO Nutzer (vorname, nachname, email, passwort, empfangehtmlmails) VALUES(7, 'Marcel', 'Vollbart', 'sitescrawler1@spoofmail.de','qwe',1);
-INSERT INTO Nutzer (vorname, nachname, email, passwort, empfangehtmlmails) VALUES(8, 'Konni', 'Müller', 'k.mueller96@gmail.com','qwe',1);
-INSERT INTO Nutzer (vorname, nachname, email, passwort, empfangehtmlmails) VALUES(9, 'Robien', 'Schmitt', 'sitescrawler2@spoofmail.de','qwe',1);
-INSERT INTO Nutzer (vorname, nachname, email, passwort, empfangehtmlmails) VALUES(11, 'Toni', 'van den Hof', 'sitescrawler3@spoofmail.de','qwe',1);
+INSERT INTO Nutzer (identifikation, vorname, nachname, email, passwort, empfangehtmlmails) VALUES(10, 'Tooooobi', 'Burner', 'k.l.mueller@outlook.com','qwe',1);
+INSERT INTO Nutzer (identifikation, vorname, nachname, email, passwort, empfangehtmlmails) VALUES(5, 'Haaans', 'Ricardi', 'elodril@gmx.de','qwe',1);
+INSERT INTO Nutzer (identifikation, vorname, nachname, email, passwort, empfangehtmlmails) VALUES(6, 'Yvonne', 'Laberschtille', 'sitescrawler@gmx.de','qwe',1);
+INSERT INTO Nutzer (identifikation, vorname, nachname, email, passwort, empfangehtmlmails) VALUES(7, 'Marcel', 'Vollbart', 'sitescrawler1@spoofmail.de','qwe',1);
+INSERT INTO Nutzer (identifikation, vorname, nachname, email, passwort, empfangehtmlmails) VALUES(8, 'Konni', 'Müller', 'k.mueller96@gmail.com','qwe',1);
+INSERT INTO Nutzer (identifikation, vorname, nachname, email, passwort, empfangehtmlmails) VALUES(9, 'Robien', 'Schmitt', 'sitescrawler2@spoofmail.de','qwe',1);
+INSERT INTO Nutzer (identifikation, vorname, nachname, email, passwort, empfangehtmlmails) VALUES(11, 'Toni', 'van den Hof', 'sitescrawler3@spoofmail.de','qwe',1);
 SELECT * FROM Nutzer;
 COMMIT;
 
@@ -76,12 +76,12 @@ INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_Filter
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(9,9);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(10,10);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,11);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(12,12);
+INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,12);
 
 
 
 
-
+ -- AvH ist sehr neugierig
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,1);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,2);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,3);
