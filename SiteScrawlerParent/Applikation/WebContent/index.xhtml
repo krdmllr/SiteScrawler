@@ -59,7 +59,7 @@
 					<hr />
 					<div>
 						<p:dataList class="list-group archiveintraege"
-							value="#{data.filtergruppe.archiveintraege}" var="eintrag"
+							value="#{archiv.archiveintraege}" var="eintrag"
 							type="definition">
 							<h:form>
 								<p:commandLink class="list-group-item" id="ajax"
@@ -93,27 +93,16 @@
 				<h:form class="panel panel-default artikelPanel" id="artikelBereich">
 					<div class="panel-heading">
 						<h3 class="panel-title pull-left linkeUeberschrift">
-							Pressespiegel vong
+							Pressespiegel vom
 							<h:outputText
 								value="#{archiv.geweahlterArchiveintrag.erstellungsdatum}">
 								<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 							</h:outputText>
 						</h3>
 						<div class="btn-group pull-right" role="group">
-							<button type="button" class="btn btn-default">PDF
-								exportieren</button>
-							<div class="btn-group" role="group">
-								<button class="btn btn-default dropdown-toggle" type="button"
-									id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="true">
-									Archiveintrag bearbeiten <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									<li><a href="#">Löschen</a></li>
-									<li><a href="#">Filterprofil anzeigen</a></li>
-									<li><a href="#">Something else here</a></li>
-								</ul>
-							</div>
+							<p:commandButton type="button" action="#{archiv.exportierePdf()}" class="btn btn-default">PDF
+								exportieren</p:commandButton>
+							<p:commandButton type="button" action="#{archiv.loescheArchiveintrag()}" class="btn btn-default">Löschen</p:commandButton>
 						</div>
 						<div class="clearfix"></div>
 					</div>

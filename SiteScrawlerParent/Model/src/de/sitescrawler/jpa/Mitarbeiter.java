@@ -44,9 +44,9 @@ public class Mitarbeiter implements java.io.Serializable
     @EmbeddedId
 
     @AttributeOverrides({ @AttributeOverride(name = "nutzerFiltermanagerIdentifikation",
-                                             column = @Column(name = "Nutzer_Filtermanager_identifikation", nullable = false, length = 45)),
+                                             column = @Column(name = "Nutzer_Filtermanager_identifikation", nullable = false)),
                           @AttributeOverride(name = "firmaFiltermanagerIdentifikation",
-                                             column = @Column(name = "Firma_Filtermanager_identifikation", nullable = false, length = 45)) })
+                                             column = @Column(name = "Firma_Filtermanager_identifikation", nullable = false)) })
     public MitarbeiterId getId()
     {
         return this.id;

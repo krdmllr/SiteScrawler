@@ -37,6 +37,7 @@ public class Filterprofilgruppe implements java.io.Serializable
     private Intervall          intervall;
     private String             titel;
     private Date               letzteerstellung;
+    private Boolean            verschickeemail;
     private Set<Filterprofil>  filterprofile    = new HashSet<>(0);
     private Set<Nutzer>        empfaenger       = new HashSet<>(0);
     private Set<Uhrzeit>       uhrzeiten        = new HashSet<>(0);
@@ -224,5 +225,15 @@ public class Filterprofilgruppe implements java.io.Serializable
     public void setArchiveintraege(Set<Archiveintrag> archiveintraege)
     {
         this.archiveintraege = archiveintraege;
+    }
+
+    public Boolean getVerschickeemail()
+    {
+        return this.verschickeemail;
+    }
+
+    public void setVerschickeemail(Boolean verschickeemail)
+    {
+        this.verschickeemail = verschickeemail;
     }
 }

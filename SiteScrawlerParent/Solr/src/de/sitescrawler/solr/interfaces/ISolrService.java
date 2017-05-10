@@ -40,7 +40,7 @@ public interface ISolrService
      *            des Artikels
      * @return Liste der gefundenen Artikel
      */
-    Artikel sucheArtikelAusID(String id);
+    Artikel sucheArtikelMitLink(String id);
 
     /**
      * Löscht alle Artikel (Warum?).

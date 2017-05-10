@@ -39,10 +39,10 @@ public class NutzerServiceBean implements INutzerService, Serializable
     }
 
     @Override
-    public Nutzer getNutzer(String uid)
+    public Nutzer getNutzer(String email)
     {
-        TypedQuery<Nutzer> query = this.entityManager.createQuery("SELECT n FROM Nutzer n WHERE n.identifikation= :uid", Nutzer.class);
-        query.setParameter("uid", uid);
+        TypedQuery<Nutzer> query = this.entityManager.createQuery("SELECT n FROM Nutzer n WHERE n.email= :email", Nutzer.class);
+        query.setParameter("email", email);
         EntityGraph<?> entityGraph = this.entityManager.getEntityGraph("Nutzer.*");
         query.setHint("javax.persistence.loadgraph", entityGraph);
         Nutzer nutzer = query.getSingleResult();
@@ -63,9 +63,11 @@ public class NutzerServiceBean implements INutzerService, Serializable
             {
                 for (Artikel artikel : archiveintrag.getArtikel())
                 {
-                    String solrid = artikel.getSolrid();
-                    // TODO auf neues Model anpassen mit Quellen
-                    artikel = this.solrService.sucheArtikelAusID(solrid);
+                    String link = artikel.getLink();
+                    // Füge solrartikel die Quelle hinzu und überschreibe damit artikel
+                    Artikel solrartikel = this.solrService.sucheArtikelMitLink(link);
+                    solrartikel.setQuelle(artikel.getQuelle());
+                    artikel = solrartikel;
                 }
             }
         }

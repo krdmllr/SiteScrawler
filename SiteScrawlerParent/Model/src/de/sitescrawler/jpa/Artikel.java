@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import org.apache.solr.client.solrj.beans.Field;
@@ -27,8 +27,7 @@ public class Artikel implements java.io.Serializable
 {
     private static final long  serialVersionUID = 1L;
     private Set<Archiveintrag> archiveintraege  = new HashSet<>(0);
-    @Field("id")
-    private String             solrid;
+
     @Field("erstellungsdatum")
     private String             solrdatum;
     @Field
@@ -42,20 +41,14 @@ public class Artikel implements java.io.Serializable
     @Field
     private List<String>       absaetzeArtikel  = new ArrayList<>();
     private Date               erstellungsdatum;
+    private Quelle             quelle;
 
     public Artikel()
     {
     }
 
-    public Artikel(Set<Archiveintrag> archiveintraege, String solrid)
-    {
-        this.archiveintraege = archiveintraege;
-        this.solrid = solrid;
-    }
-
     public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link)
     {
-        super();
         this.erstellungsdatum = erstellungsdatum;
         this.autor = autor;
         this.titel = titel;
@@ -65,7 +58,6 @@ public class Artikel implements java.io.Serializable
 
     public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link, List<String> absaetzeArtikel)
     {
-        super();
         this.erstellungsdatum = erstellungsdatum;
         this.autor = autor;
         this.titel = titel;
@@ -74,11 +66,10 @@ public class Artikel implements java.io.Serializable
         this.absaetzeArtikel = absaetzeArtikel;
     }
 
-    public Artikel(Set<Archiveintrag> archiveintraege, String solrid, Date erstellungsdatum, String autor, String titel, String beschreibung, String link,
+    public Artikel(Set<Archiveintrag> archiveintraege, Date erstellungsdatum, String autor, String titel, String beschreibung, String link,
                    List<String> absaetzeArtikel)
     {
         this.archiveintraege = archiveintraege;
-        this.solrid = solrid;
         this.erstellungsdatum = erstellungsdatum;
         this.autor = autor;
         this.titel = titel;
@@ -100,17 +91,16 @@ public class Artikel implements java.io.Serializable
         this.archiveintraege = archiveintraege;
     }
 
-    @Id
-
-    @Column(name = "solrid", unique = true, nullable = false)
-    public String getSolrid()
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @JoinColumn(name = "Quelle_qid", nullable = false, insertable = false, updatable = false)
+    public Quelle getQuelle()
     {
-        return this.solrid;
+        return this.quelle;
     }
 
-    public void setSolrid(String solrid)
+    public void setQuelle(Quelle quelle)
     {
-        this.solrid = solrid;
+        this.quelle = quelle;
     }
 
     // Unmanaged
@@ -159,7 +149,7 @@ public class Artikel implements java.io.Serializable
         this.beschreibung = beschreibung;
     }
 
-    @Transient
+    @Id
     public String getLink()
     {
         return this.link;

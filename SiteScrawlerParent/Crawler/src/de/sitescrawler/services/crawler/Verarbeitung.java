@@ -178,5 +178,4 @@ public class Verarbeitung {
 				"Crawl von Twitter abgeschlossen. Tweets gefunden: " + gefundeneArtikel.size());
 		return gefundeneArtikel;
 	}
-
 }
