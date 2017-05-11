@@ -99,6 +99,12 @@ public class Artikel implements java.io.Serializable
     }
     
     @Transient
+    public boolean isTwitterQuelle(){
+    	if(qid == null) return false;
+    	return qid == 2;
+    }
+    
+    @Transient
     public Integer getQid() {
 		return qid;
 	}

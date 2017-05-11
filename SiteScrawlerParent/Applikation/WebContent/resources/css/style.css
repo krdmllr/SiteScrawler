@@ -91,6 +91,7 @@ body .list-group{
     left: 0px;
     top: 0px;
     width: 100%;
+    height: 100%;
 }
 
 div span input{
@@ -175,7 +176,11 @@ body .ui-widget-content{
 }
 
 .archiveintraege{
-	height: Calc(100% - 200px - 80px);
+	height: calc(100% - 60px - 180px - 86px);
+}
+
+.artikel-ansicht{
+	height: 200px;
 }
 
 <!-- Quellen Auswahl -->
@@ -243,3 +248,26 @@ body .ui-widget-content{
 	line-height: 60px;
 } 
 
+
+.container-parent{
+	
+}
+
+.container-row{
+	height: 40px;
+}
+
+.container-auto-row{
+	height: 120px;
+}
+
+.twitter-info{
+	color: #616161; 
+    font-size: 18px;
+    margin-top: 8px;
+
+}
+
+.twitter-info-icon{
+	margin: 4px !important;
+}

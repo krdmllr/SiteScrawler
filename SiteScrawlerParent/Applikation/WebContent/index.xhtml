@@ -38,10 +38,20 @@
 						<div class="clearfix"></div>
 
 					</div>
+					
+					<!-- manuellen Crawlvorgang starten -->
+					<h:form id="manueller-crawl-form">
+						<p:commandLink 
+						class="panel-button-div"
+						style="display:block;"  
+							action="#{archiv.manuellCrawlen()}">
+							Jetzt report anlegen
+							</p:commandLink>
+					</h:form>
+					<hr class="no-padding-margin"/>
 
 					<div class="panel-body filter">
 						<h:form>
-							<h4>Filter</h4>
 							<div class="form-group">
 								<b:dateTimePicker value="#{archiv.abZeitpunkt}" label="Frühste"
 									mode="popup" show-time="false" render-label="true" />
@@ -54,19 +64,9 @@
 						</h:form>
 					</div>
 					<hr class="no-padding-margin"/>
-					
-					<!-- manuellen Crawlvorgang starten -->
-					<h:form id="manueller-crawl-form">
-						<p:commandLink 
-						class="panel-button-div"
-						style="display:block;"  
-							action="#{archiv.manuellCrawlen()}">
-							Jetzt report anlegen
-							</p:commandLink>
-					</h:form>
-					<hr class="no-padding-margin"/>
-					<div>
-						<p:dataList class="list-group archiveintraege"
+					 
+					<div class="archiveintraege">
+						<p:dataList class="list-group"
 							value="#{archiv.archiveintraege}" var="eintrag" type="definition">
 							<h:form>
 								<p:commandLink class="list-group-item" id="ajax"
@@ -121,32 +121,55 @@
 					<p:dataList class="list-group artikel"
 						value="#{archiv.geweahlterArchiveintrag.artikel}" var="artikel"
 						type="definition">
-						<div class="list-group-item">
+						<div class="list-group-item artikel-ansicht container-parent" >
 
-							<div class="artikel-titel-container">
-								<h4 class="pull-left">#{artikel.titel}</h4>
+							<div class="container-panel artikel-titel-container container-row">
+								<h4 class="pull-left">
+									<p:outputLabel rendered="#{artikel.twitterQuelle}" value="@#{artikel.autor}" /> 
+									<p:outputLabel rendered="#{!artikel.twitterQuelle}" value="#{artikel.titel}" /> 
+								</h4>
 								<p class="pull-right">
-									Erschienen am
+									<p:outputLabel value="#{artikel.twitterQuelle ? 'Getwittert am ' : 'Erschienen am '}" /> 
 									<h:outputText value="#{artikel.erstellungsdatum}">
 										<f:convertDateTime type="date" pattern="dd.MM.yyyy hh:mm" />
 									</h:outputText>
 								</p>
-							</div>
+							</div> 
 
-							<p id="artikel-zusammenfassung">#{artikel.beschreibung}</p>
+							<p id="artikel-zusammenfassung" class="container-auto-row">#{artikel.beschreibung}</p>
 
-							<div class="artikel-titel-container">
-								<h5 class="pull-left">#{artikel.autor}</h5>
+							<div class="artikel-titel-container container-row">
+								<p:outputPanel class="no-padding-margin" rendered="#{!artikel.twitterQuelle}">
+									<h5 class="pull-left">#{artikel.autor}</h5>
+								</p:outputPanel>
+								<p:outputPanel class="no-padding-margin" rendered="#{artikel.twitterQuelle}">
+									<div class="pull-left twitter-info">
+										<span class="twitter-info-icon pull-left">#{artikel.retweetzahl}</span>
+										<span class="glyphicon glyphicon-retweet twitter-info-icon" style="color: #e7b100;"></span>
+									</div>
+									<div class="pull-left twitter-info" style="padding-left: 15px;">
+										<span class="pull-left twitter-info-icon" style="margin-top: 2px !important;">#{artikel.favoritenzahl}</span>
+										<span class="glyphicon glyphicon-heart twitter-info-icon" style="color: red;"></span> 
+									</div> 
+								</p:outputPanel>
+								
+								
+								
+								
+								
 								<div class="btn-group pull-right" role="group">
-									<p:commandLink type="button" id="artikel-oeffnen-button"
-										class="btn btn-default" update="artikel-modal"
+									<p:commandLink type="button" 
+										rendered="#{!artikel.twitterQuelle}"
+										id="artikel-oeffnen-button"
+										class="btn btn-default" 
+										update="artikel-modal"
 										oncomplete="$('.modalPseudoClass').modal();return false;"
 										value="Artikel ansehen">
 										<f:actionListener for="artikel-oeffnen-button"
 											binding="#{archiv.setGeweahlterArtikel(artikel)}"></f:actionListener>
 									</p:commandLink>
 									<p:link href="#{artikel.link}" type="button"
-										class="btn btn-default" value="Website öffnen" />
+										class="btn btn-default" value="#{artikel.twitterQuelle ? 'Auf Twitter anzeigen' : 'Website öffnen'}" />
 								</div>
 							</div>
 						</div>
