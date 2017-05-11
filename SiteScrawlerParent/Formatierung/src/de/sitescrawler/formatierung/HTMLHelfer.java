@@ -78,6 +78,7 @@ public class HTMLHelfer
                 contentBuilder.append(str);
             }
             in.close();
+            HTMLHelfer.LOGGER.log(Level.INFO, "Konvertieren in HTML erfolgreich.");
         }
         catch (IOException e)
         {
@@ -117,14 +118,16 @@ public class HTMLHelfer
     {
         String artikelAlsHTMLString = "";
         Set<Artikel> artikelAusArchiveintrag = archiveintrag.getArtikel();
+        FormatiererService fs = new FormatiererService();
 
         for (Artikel artikel : artikelAusArchiveintrag)
         {
+            String aktuellesDatum = fs.wandleDatumUm(artikel.getErstellungsdatum());
             artikelAlsHTMLString += "<div id=\"artikel\">" + "\n"
                             + "<h3><b>" + artikel.getTitel() + "</b></h3>" + "\n"
-                            + "<p id=\"datumUndAutor\">" + "Von " + artikel.getAutor() + " am " + artikel.getErstellungsdatum() + "</p>" + "\n"
+                            + "<p id=\"datumUndAutor\">" + "Von " + artikel.getAutor() + " am " + aktuellesDatum + "</p>" + "\n"
                             + "<p id=\"beschreibung\">" + artikel.getBeschreibung() + "</p>" + "\n"
-                            + "<id=\"link\" target=\"_blank\" href=\" + artikel.getLink()\">" + "Klicken Sie hier" + "</a>" + "um den vollen Artikel ansehen zu können." + "\n"
+                            + "<a target=\"_blank\" href=\"" + artikel.getLink() + "\" class=\"button\">" + "Zum vollen Artikel" + "</a>" + "\n"
                             + "</div>";
         }
 
