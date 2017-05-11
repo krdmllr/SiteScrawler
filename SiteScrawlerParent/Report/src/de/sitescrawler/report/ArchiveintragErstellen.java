@@ -18,6 +18,7 @@ import de.sitescrawler.jpa.Filterprofil;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager;
+import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 import de.sitescrawler.solr.interfaces.ISolrService;
 import de.sitescrawler.utility.DateUtils;
 
@@ -35,7 +36,10 @@ public class ArchiveintragErstellen
     IFiltergruppenZugriffsManager filtergruppenZugriff;
 
     @Inject
-    IFormatiererService           formatiererService;
+    IFormatiererService           formatiererService; 
+    
+    @Inject
+    IQuellenManager quellenManager;
 
     public void erstelleReport(Filterprofilgruppe filtergruppe, LocalDateTime aktuelleZeit)
     {
@@ -44,6 +48,10 @@ public class ArchiveintragErstellen
         List<Filterprofil> filterprofile = new ArrayList<>(filtergruppe.getFilterprofile());
 
         List<Artikel> artikel = this.solr.sucheArtikel(filterprofile);
+        
+        //Ordnet den Artikeln ihre Quellen zu.
+        artikel.forEach(a -> a.setQuelle(quellenManager.getQuelle(a.getQid())));
+        
         Set<Artikel> artikelAlsSet = new HashSet<>(artikel);
 
         Archiveintrag archiveintrag = new Archiveintrag(filtergruppe, DateUtils.asDate(aktuelleZeit), artikelAlsSet);

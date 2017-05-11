@@ -1,7 +1,9 @@
 package de.sitescrawler.jpa.management;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
@@ -24,6 +26,9 @@ public class QuellenManager implements IQuellenManager
 {
 
     private List<Quelle>  quellen = new ArrayList<>();
+    
+    private Map<Integer, Quelle> bekannteQuellen = new HashMap<>();
+    
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -75,16 +80,24 @@ public class QuellenManager implements IQuellenManager
     public void loescheQuelle(Quelle quelle)
     {
         this.entityManager.remove(quelle);
-        this.quellen.remove(quelle);
-
+        //TODO Lösche Artikel von Quelle aus SOLR
+        this.quellen.remove(quelle);  
+        bekannteQuellen.remove(quelle.getQid()); 
     }
-
+        
 	@Override
-	@Transactional(value = TxType.REQUIRED)
 	public Quelle getQuelle(Integer id) {
-		TypedQuery<Quelle> query = this.entityManager.createQuery("SELECT * FROM QUELLE WHERE QID = :id", Quelle.class);
+		
+		//Versuche die Quelle aus den bekannten Quellen zu finden.
+		if(bekannteQuellen.containsKey(id)) 
+			return bekannteQuellen.get(id);
+		
+		//Quelle war nicht bekannt, suche Quelle in Datenbank.
+		TypedQuery<Quelle> query = this.entityManager.createQuery("SELECT q FROM Quelle q WHERE q.qid = :id", Quelle.class);
 		query.setParameter("id", id);
 		Quelle quelle = query.getSingleResult();
+		bekannteQuellen.put(id, quelle);
+		
 		return quelle;
 		
 	}

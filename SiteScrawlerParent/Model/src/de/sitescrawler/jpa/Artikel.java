@@ -52,8 +52,10 @@ public class Artikel implements java.io.Serializable
     @Field
     private Date               erstellungsdatum;
     private Quelle             quelle;
+    @Field
+    private Integer			   qid; 
 
-    private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+	private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
 
     public Artikel()
     {
@@ -67,6 +69,7 @@ public class Artikel implements java.io.Serializable
         this.beschreibung = beschreibung;
         this.link = link;
         this.quelle = quelle;
+        this.qid = quelle.getQid();
     }
 
     public Artikel(Date erstellungsdatum, String autor, String titel, String beschreibung, String link, List<String> absaetzeArtikel, Quelle quelle)
@@ -78,6 +81,7 @@ public class Artikel implements java.io.Serializable
         this.link = link;
         this.absaetzeArtikel = absaetzeArtikel;
         this.quelle = quelle;
+        this.qid = quelle.getQid();
     }
 
     public Artikel(Set<Archiveintrag> archiveintraege, Date erstellungsdatum, String autor, String titel, String beschreibung, String link,
@@ -91,7 +95,17 @@ public class Artikel implements java.io.Serializable
         this.link = link;
         this.absaetzeArtikel = absaetzeArtikel;
         this.quelle = quelle;
+        this.qid = quelle.getQid();
     }
+    
+    @Transient
+    public Integer getQid() {
+		return qid;
+	}
+
+	public void setQid(Integer qid) {
+		this.qid = qid;
+	}
 
     @Transient
     public int getRetweetzahl()

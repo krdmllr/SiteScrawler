@@ -201,7 +201,6 @@ public class Verarbeitung
         if (sendeAnSolr)
         {
             this.solrService.addArtikel(gefundeneArtikel);
-            gefundeneArtikel.forEach(artikel -> this.artikelManager.speichereArtikel(artikel));
         }
     }
 }
