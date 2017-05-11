@@ -6,11 +6,14 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 
@@ -75,4 +78,14 @@ public class QuellenManager implements IQuellenManager
         this.quellen.remove(quelle);
 
     }
+
+	@Override
+	@Transactional(value = TxType.REQUIRED)
+	public Quelle getQuelle(Integer id) {
+		TypedQuery<Quelle> query = this.entityManager.createQuery("SELECT * FROM QUELLE WHERE QID = :id", Quelle.class);
+		query.setParameter("id", id);
+		Quelle quelle = query.getSingleResult();
+		return quelle;
+		
+	}
 }

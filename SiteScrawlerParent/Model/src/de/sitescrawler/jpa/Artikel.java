@@ -153,6 +153,7 @@ public class Artikel implements java.io.Serializable
         this.erstellungsdatum = erstellungsdatum;
     }
 
+    @Transient
     @XmlElement(name="autor")
     public String getAutor()
     {
@@ -165,6 +166,7 @@ public class Artikel implements java.io.Serializable
     }
 
     @XmlElement(name="titel")
+    @Transient
     public String getTitel()
     {
         return this.titel;
@@ -176,6 +178,7 @@ public class Artikel implements java.io.Serializable
     }
 
     @XmlElement(name="beschreibung")
+    @Transient
     public String getBeschreibung()
     {
         return this.beschreibung;

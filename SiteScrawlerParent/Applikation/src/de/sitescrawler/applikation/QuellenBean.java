@@ -8,6 +8,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.sitescrawler.crawler.interfaces.ICrawlerLaufService;
 import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 
@@ -23,6 +24,9 @@ public class QuellenBean implements Serializable {
     @Inject
     private IQuellenManager quellenManager;
     
+    @Inject
+    private ICrawlerLaufService crawlerService;
+    
     private Quelle gewaehlteQuelle; 
      
     private Quelle neueQuelle; 
@@ -37,6 +41,10 @@ public class QuellenBean implements Serializable {
     private void setzeDefaultQuelle(){
     	if(getQuellen() != null && !getQuellen().isEmpty())
     		setGewaehlteQuelle(getQuellen().get(0));
+    }
+    
+    public void crawleManuell(){
+    	crawlerService.crawl();
     }
     
     public List<Quelle> getQuellen(){

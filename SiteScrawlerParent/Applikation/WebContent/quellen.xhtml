@@ -32,7 +32,11 @@
 					<div class="panel-body quellen-filter">
 						<b:form>
 							<h4>Suche</h4>
-							<p:inputText placeholder="Name"></p:inputText>
+							<p:inputText placeholder="Name"></p:inputText> 
+							<p:commandLink  
+								 value="Alle Quellen Crawlen"
+								action="#{quellen.crawleManuell()}">
+							</p:commandLink>
 						</b:form>
 					</div>
 					<p:dataList class="list-group quellen" id="alle-quellen"

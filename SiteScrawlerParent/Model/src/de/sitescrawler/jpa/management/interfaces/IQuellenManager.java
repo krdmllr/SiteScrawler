@@ -13,4 +13,6 @@ public interface IQuellenManager {
 	public void modifiziereQuelle(Quelle quelle);
 	
 	public void loescheQuelle(Quelle quelle);
+	
+	public Quelle getQuelle(Integer id);
 }
