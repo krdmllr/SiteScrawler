@@ -41,7 +41,7 @@ public class Archiveintrag implements java.io.Serializable
 
     public Archiveintrag(Filterprofilgruppe filterprofilgruppe)
     {
-        this.filterprofilgruppe = filterprofilgruppe;
+        this(filterprofilgruppe, new Date(), new HashSet<>());
     }
 
     public Archiveintrag(Filterprofilgruppe filterprofilgruppe, Date erstellungsdatum, Set<Artikel> artikel)
@@ -92,7 +92,7 @@ public class Archiveintrag implements java.io.Serializable
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(name = "Archiveintrag_beinhaltet_Artikel",
     joinColumns = { @JoinColumn(name = "Archiveintrag_archiveintragid", nullable = false, updatable = false) },
-    inverseJoinColumns = { @JoinColumn(name = "Artikel_solrid", nullable = false, updatable = false) })
+    inverseJoinColumns = { @JoinColumn(name = "Artikel_link", nullable = false, updatable = false) })
     public Set<Artikel> getArtikel()
     {
         return this.artikel;

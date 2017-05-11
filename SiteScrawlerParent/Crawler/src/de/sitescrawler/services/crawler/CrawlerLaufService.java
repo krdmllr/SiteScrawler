@@ -1,10 +1,8 @@
 package de.sitescrawler.services.crawler;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import de.sitescrawler.crawler.interfaces.ICrawlerLaufService;
@@ -12,31 +10,22 @@ import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.jpa.management.QuellenManager;
 import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
-import de.sitescrawler.solr.SolrService;
-import de.sitescrawler.solr.interfaces.ISolrService;
 
 /**
- * @author tobias, Yvette
- * Logik zum Starten des Crawl-Vorgangs.
+ * @author tobias, Yvette Logik zum Starten des Crawl-Vorgangs.
  */
+@ApplicationScoped
 public class CrawlerLaufService implements ICrawlerLaufService
 {
-    @Inject
-    private ISolrService solrService;
-    
+
     @Inject
     private IQuellenManager quellenManager;
 
-    ExecutorService      threadPool = Executors.newFixedThreadPool(5);
+    @Inject
+    private Verarbeitung    verarbeitung;
 
     public CrawlerLaufService()
     {
-        // Falls inject nicht funktioniert (Ausführung ohne Serverumgebung),
-        // wird der SolrService manuell initialisiert.
-        if (this.solrService == null)
-        {
-            this.solrService = new SolrService();
-        }
     }
 
     /**
@@ -47,16 +36,16 @@ public class CrawlerLaufService implements ICrawlerLaufService
     {
         for (Quelle q : this.getQuellenAusDatenbank())
         {
-            Runnable run = new Verarbeitung(q);
-            this.threadPool.submit(run);
+            this.verarbeitung.durchsucheQuelle(true, q);
         }
+        this.verarbeitung.durchsucheTwitter(true);
     }
-    
-	@Override
-	public List<Artikel> testeQuelle(Quelle quelle) { 
-		Verarbeitung verarbeitung = new Verarbeitung(quelle); 
-		return verarbeitung.durchsucheQuelle(false);
-	}
+
+    @Override
+    public List<Artikel> testeQuelle(Quelle quelle)
+    {
+        return this.verarbeitung.durchsucheQuelle(false, quelle);
+    }
 
     /**
      * Liest die Quellen aus der Datenbank aus und gibt sie zurück.
@@ -64,12 +53,14 @@ public class CrawlerLaufService implements ICrawlerLaufService
      * @return Quellen aus der Datenbank
      */
     private List<Quelle> getQuellenAusDatenbank()
-    { 
-    	if(quellenManager == null)
-    		quellenManager = new QuellenManager();
-    	
-        List<Quelle> quellen = quellenManager.getQuellen();
+    {
+        if (this.quellenManager == null)
+        {
+            this.quellenManager = new QuellenManager();
+        }
+
+        List<Quelle> quellen = this.quellenManager.getQuellen();
 
         return quellen;
-    }  
+    }
 }

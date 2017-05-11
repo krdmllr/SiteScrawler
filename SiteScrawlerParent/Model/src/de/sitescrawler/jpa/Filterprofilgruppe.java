@@ -3,6 +3,7 @@ package de.sitescrawler.jpa;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.time.DayOfWeek;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +11,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -37,6 +40,10 @@ public class Filterprofilgruppe implements java.io.Serializable
     private Intervall          intervall;
     private String             titel;
     private Date               letzteerstellung;
+    private Boolean            verschickeemail;
+    // 1 - 31
+    private Integer            monatlicherTermin;
+    private DayOfWeek          wochentag;
     private Set<Filterprofil>  filterprofile    = new HashSet<>(0);
     private Set<Nutzer>        empfaenger       = new HashSet<>(0);
     private Set<Uhrzeit>       uhrzeiten        = new HashSet<>(0);
@@ -50,6 +57,29 @@ public class Filterprofilgruppe implements java.io.Serializable
     {
     }
 
+    public Filterprofilgruppe(Filtermanager filtermanager, Intervall intervall, String titel)
+    {
+        this(filtermanager, intervall, titel, null, false, 1, DayOfWeek.SUNDAY, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), null, null);
+    }
+
+    public Filterprofilgruppe(Filtermanager filtermanager, Intervall intervall, String titel, Date letzteerstellung, Boolean verschickeemail,
+                              Integer monatlicherTermin, DayOfWeek wochentag, Set<Filterprofil> filterprofile, Set<Nutzer> empfaenger, Set<Uhrzeit> uhrzeiten,
+                              Set<Archiveintrag> archiveintraege, Firma firma, Nutzer nutzer)
+    {
+        this.filtermanager = filtermanager;
+        this.intervall = intervall;
+        this.titel = titel;
+        this.letzteerstellung = letzteerstellung;
+        this.verschickeemail = verschickeemail;
+        this.monatlicherTermin = monatlicherTermin;
+        this.wochentag = wochentag;
+        this.filterprofile = filterprofile;
+        this.empfaenger = empfaenger;
+        this.uhrzeiten = uhrzeiten;
+        this.archiveintraege = archiveintraege;
+        this.firma = firma;
+        this.nutzer = nutzer;
+    }
     // Unmapped
 
     @Transient
@@ -87,27 +117,6 @@ public class Filterprofilgruppe implements java.io.Serializable
     }
 
     // Mapped
-    public Filterprofilgruppe(int filterprofilgruppeId, Filtermanager filtermanager, Intervall intervall, String titel)
-    {
-        this.filterprofilgruppeId = filterprofilgruppeId;
-        this.filtermanager = filtermanager;
-        this.intervall = intervall;
-        this.titel = titel;
-    }
-
-    public Filterprofilgruppe(int filterprofilgruppeId, Filtermanager filtermanager, Intervall intervall, String titel, Date letzteerstellung,
-                              Set<Filterprofil> filterprofile, Set<Nutzer> empfaenger, Set<Uhrzeit> uhrzeiten, Set<Archiveintrag> archiveintraege)
-    {
-        this.filterprofilgruppeId = filterprofilgruppeId;
-        this.filtermanager = filtermanager;
-        this.intervall = intervall;
-        this.titel = titel;
-        this.letzteerstellung = letzteerstellung;
-        this.filterprofile = filterprofile;
-        this.empfaenger = empfaenger;
-        this.uhrzeiten = uhrzeiten;
-        this.archiveintraege = archiveintraege;
-    }
 
     // NOT MAPPED
 
@@ -225,4 +234,36 @@ public class Filterprofilgruppe implements java.io.Serializable
     {
         this.archiveintraege = archiveintraege;
     }
+
+    public Boolean getVerschickeemail()
+    {
+        return this.verschickeemail;
+    }
+
+    public void setVerschickeemail(Boolean verschickeemail)
+    {
+        this.verschickeemail = verschickeemail;
+    }
+
+    public Integer getMonatlicherTermin()
+    {
+        return this.monatlicherTermin;
+    }
+
+    public void setMonatlicherTermin(Integer monatlicherTermin)
+    {
+        this.monatlicherTermin = monatlicherTermin;
+    }
+
+    @Enumerated(EnumType.STRING)
+    public DayOfWeek getWochentag()
+    {
+        return this.wochentag;
+    }
+
+    public void setWochentag(DayOfWeek wochentag)
+    {
+        this.wochentag = wochentag;
+    }
+
 }

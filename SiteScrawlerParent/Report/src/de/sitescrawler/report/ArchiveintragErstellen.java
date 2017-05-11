@@ -94,7 +94,7 @@ public class ArchiveintragErstellen
 
         try
         {
-            this.mailSenderService.sendeMassenMail(empfaenger, betreff, body, html, pdf);
+            this.mailSenderService.sendeMail(empfaenger, betreff, body, html, pdf);
         }
         catch (ServiceUnavailableException e)
         {

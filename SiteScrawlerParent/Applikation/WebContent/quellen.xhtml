@@ -18,8 +18,8 @@
 						</div>
 
 						<b:form>
-							<p:commandLink id="quelle-erstellen" >  
-								<p:graphicImage value="/resources/image/edit-square.svg"
+							<p:commandLink id="quelle-erstellen" action="#{quellen.starteQuellenErstellen()}" update="gewaehlte-quelle-form gewaehlte-quelle">  
+								<p:graphicImage value="/resources/image/add.svg"
 									class="pull-right bild" />
 							</p:commandLink>
 						</b:form>
@@ -33,14 +33,14 @@
 						</h:form>
 					</div> 
 					<p:dataList class="list-group quellen"
-					
+						id="alle-quellen"
 						value="#{quellen.quellen}" var="quelle"
 						type="definition">
 						<h:form>
 							<p:commandLink class="list-group-item" id="ajax"
-								update="geweahlte-quelle" 
+								update="gewaehlte-quelle-form" 
 								value="#{quelle.name}" 
-								action="#{quellen.setGeweahlteQuelle(quelle)}"> 
+								action="#{quellen.gewaehlteQuelle(quelle)}"> 
 							</p:commandLink>
 						</h:form>
 					</p:dataList>
@@ -60,37 +60,60 @@
 			</b:modal>
 
 			<div class="col-md-9 column">
-				<!-- Archiv --> 
-				<h:form class="panel panel-default artikelPanel" id="geweahlte-quelle">
-					<div class="panel-heading">
-						<h3 class="panel-title pull-left linkeUeberschrift">
-							Quelle: 
-							<p:inputText value="#{quellen.geweahlteQuelle.name}"/>
-						</h3>
-						<div class="btn-group pull-right" role="group">
-						
-							<!-- Lösch button -->
-							<p:commandButton value="Löschen" type="button" class="btn btn-default"/>
+				<!-- Archiv -->
+				<p:panel id="gewaehlte-quelle">
+					<h:form class="panel panel-default artikelPanel" id="gewaehlte-quelle-form"  rendered="#{quellen.zeigeQuelleAn()}">
+						<div class="panel-heading">
+							<h3 class="panel-title pull-left linkeUeberschrift">
+								Quelle: 
+								<p:inputText value="#{quellen.gewaehlteQuelle.name}">
+									<p:ajax event="keyup" update="gewaehlte-quelle-form:bearbeiten-buttons"/>
+								</p:inputText>
+							</h3>
+							<p:panel class="btn-group pull-right" role="group" id="bearbeiten-buttons">
+								 
+									<!-- Löschen button -->
+									<b:commandButton rendered="#{quellen.zeigeLoeschButton()}" 
+									action="#{quellen.loescheQuelle()}" 
+									update="@form gewaehlte-quelle alle-quellen"
+									value="Löschen" type="button" class="btn btn-default"/>
+								 
+									<!-- Erstellen button -->
+									<b:commandButton rendered="#{quellen.zeigeErstellenButton()}" 
+									action="#{quellen.uebernehmeNeueQuelle()}" 
+									update="@form alle-quellen"
+									value="Erstellen" type="button" class="btn btn-default"/>
+								 
+									<!-- Speichern button -->
+									<b:commandButton rendered="#{quellen.zeigeSpeichernButton()}" 
+									action="#{quellen.uebernehmeNeueQuelle()}" 
+									update="@form gewaehlte-quelle"
+									value="Speichern" type="button" class="btn btn-default"/>
+								 
+									<!-- Verwerfen button -->
+									<b:commandButton rendered="#{quellen.zeigeVerwerfenButton()}" 
+									action="#{quellen.verwerfeErstellteQuelle()}" 
+									update="@form gewaehlte-quelle"
+									value="Verwerfen" type="button" class="btn btn-default"/>
 								
-							<!-- Erstellen button -->
-							<p:commandButton value="Erstellen" type="button" class="btn btn-default"/>
-							
-							<!-- Speichern button -->
-							<p:commandButton value="Speichern" type="button" class="btn btn-default"/>
+							</p:panel>
+							<div class="clearfix"></div>
+						</div> 
+						<div class="panel-body">
+							<!-- Quelle präsentation -->
+							<h4>RSS Url</h4>
+							<p:inputText  id="name-feld" class="fill-width" label="RSS URL" value="#{quellen.gewaehlteQuelle.rsslink}">
+								<p:ajax event="keyup" update="gewaehlte-quelle-form:bearbeiten-buttons"/>
+							</p:inputText>
 							 
+							<h4>Inhalt Id oder Klasse</h4>
+							<p>Hier kann die Id oder Klasse des Elementes angegeben werden, welches den Inhalt umschließt.</p>
+							<p:inputText id="klasse-id-feld" class="fill-width" label="RSS URL" value="#{quellen.gewaehlteQuelle.tagOderId}">
+								
+							</p:inputText>
 						</div>
-						<div class="clearfix"></div>
-					</div> 
-					<div class="panel-body">
-						<!-- Quelle präsentation -->
-						<h4>RSS Url</h4>
-						<p:inputText class="fill-width" label="RSS URL" value="#{quellen.geweahlteQuelle.rsslink}"></p:inputText>
-						 
-						<h4>Inhalt Id oder Klasse</h4>
-						<p>Hier kann die Id oder Klasse des Elementes angegeben werden, welches den Inhalt umschließt.</p>
-						<p:inputText class="fill-width" label="RSS URL" value="#{quellen.geweahlteQuelle.tagOderId}"></p:inputText>
-					</div>
-				</h:form>
+					</h:form>
+				</p:panel>
 			</div> 
 		</ui:define> 
 	</ui:composition>

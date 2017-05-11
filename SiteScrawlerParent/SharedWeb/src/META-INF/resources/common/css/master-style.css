@@ -65,8 +65,40 @@ ul.dropdown-menu{
 /* Button */
 
 body .btn-default {
-    color: #fff;
+    color: black;
     background-color: #8c98bd;
+    border-color: #6f8888;
 }
+
+body .btn-default:hover {
+     color: black;
+   background-color: #5a6faf;
+    border-color: #565656;
+}
+
+body .btn-default:active {
+    color: black;
+    background-color: #466de2;
+    border-color: #565656
+}
+
+body .btn-default:focus {
+    color: black;
+    background-color: #466de2;
+    border-color: #565656
+}
+
+body .btn-default:hover:active {
+    color: black;
+    background-color: #466de2;
+    border-color: #565656
+}
+
+body .btn-default:focus:active {
+    color: black;
+    background-color: #466de2;
+    border-color: #565656
+}
+  
 
 /* !Button */

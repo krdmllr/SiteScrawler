@@ -10,6 +10,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -25,7 +27,7 @@ public class Filtermanager implements java.io.Serializable
 {
 
     private static final long       serialVersionUID    = 1L;
-    private String                  identifikation;
+    private Integer                 identifikation;
     private int                     maxfiltergruppe;
     private Set<Filterprofil>       filterprofile       = new HashSet<>(0);
     private Set<Filterprofilgruppe> filterprofilgruppen = new HashSet<>(0);
@@ -34,29 +36,27 @@ public class Filtermanager implements java.io.Serializable
     {
     }
 
-    public Filtermanager(String identifikation, int maxfiltergruppe)
+    public Filtermanager(int maxfiltergruppe)
     {
-        this.identifikation = identifikation;
         this.maxfiltergruppe = maxfiltergruppe;
     }
 
-    public Filtermanager(String identifikation, int maxfiltergruppe, Set<Filterprofil> filterprofile, Set<Filterprofilgruppe> filterprofilgruppen)
+    public Filtermanager(int maxfiltergruppe, Set<Filterprofil> filterprofile, Set<Filterprofilgruppe> filterprofilgruppen)
     {
-        this.identifikation = identifikation;
         this.maxfiltergruppe = maxfiltergruppe;
         this.filterprofile = filterprofile;
         this.filterprofilgruppen = filterprofilgruppen;
     }
 
     @Id
-
-    @Column(name = "identifikation", unique = true, nullable = false, length = 45)
-    public String getIdentifikation()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "identifikation", unique = true, nullable = false)
+    public Integer getIdentifikation()
     {
         return this.identifikation;
     }
 
-    public void setIdentifikation(String identifikation)
+    public void setIdentifikation(Integer identifikation)
     {
         this.identifikation = identifikation;
     }

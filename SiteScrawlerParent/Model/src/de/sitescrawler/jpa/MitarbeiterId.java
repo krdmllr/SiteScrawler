@@ -12,37 +12,37 @@ public class MitarbeiterId implements java.io.Serializable
 {
 
     private static final long serialVersionUID = 1L;
-    private String            nutzerFiltermanagerIdentifikation;
-    private String            firmaFiltermanagerIdentifikation;
+    private Integer           nutzerFiltermanagerIdentifikation;
+    private Integer           firmaFiltermanagerIdentifikation;
 
     public MitarbeiterId()
     {
     }
 
-    public MitarbeiterId(String nutzerFiltermanagerIdentifikation, String firmaFiltermanagerIdentifikation)
+    public MitarbeiterId(Integer nutzerFiltermanagerIdentifikation, Integer firmaFiltermanagerIdentifikation)
     {
         this.nutzerFiltermanagerIdentifikation = nutzerFiltermanagerIdentifikation;
         this.firmaFiltermanagerIdentifikation = firmaFiltermanagerIdentifikation;
     }
 
-    @Column(name = "Nutzer_Filtermanager_identifikation", nullable = false, length = 45)
-    public String getNutzerFiltermanagerIdentifikation()
+    @Column(name = "Nutzer_Filtermanager_identifikation", nullable = false)
+    public Integer getNutzerFiltermanagerIdentifikation()
     {
         return this.nutzerFiltermanagerIdentifikation;
     }
 
-    public void setNutzerFiltermanagerIdentifikation(String nutzerFiltermanagerIdentifikation)
+    public void setNutzerFiltermanagerIdentifikation(Integer nutzerFiltermanagerIdentifikation)
     {
         this.nutzerFiltermanagerIdentifikation = nutzerFiltermanagerIdentifikation;
     }
 
-    @Column(name = "Firma_Filtermanager_identifikation", nullable = false, length = 45)
-    public String getFirmaFiltermanagerIdentifikation()
+    @Column(name = "Firma_Filtermanager_identifikation", nullable = false)
+    public Integer getFirmaFiltermanagerIdentifikation()
     {
         return this.firmaFiltermanagerIdentifikation;
     }
 
-    public void setFirmaFiltermanagerIdentifikation(String firmaFiltermanagerIdentifikation)
+    public void setFirmaFiltermanagerIdentifikation(Integer firmaFiltermanagerIdentifikation)
     {
         this.firmaFiltermanagerIdentifikation = firmaFiltermanagerIdentifikation;
     }

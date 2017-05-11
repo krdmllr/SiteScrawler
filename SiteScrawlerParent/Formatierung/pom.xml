@@ -13,6 +13,7 @@
   		<groupId>de.sitescrawler.model</groupId>
   		<artifactId>Model</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
+  		<scope>provided</scope>
   	</dependency>
 	<dependency>
   		<groupId>org.apache.commons</groupId>

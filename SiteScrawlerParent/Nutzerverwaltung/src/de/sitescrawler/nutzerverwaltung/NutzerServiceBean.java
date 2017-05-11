@@ -1,8 +1,10 @@
 package de.sitescrawler.nutzerverwaltung;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
@@ -11,42 +13,75 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import de.sitescrawler.jpa.Archiveintrag;
+import de.sitescrawler.jpa.Artikel;
+import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
+import de.sitescrawler.solr.interfaces.ISolrService;
 
 @ApplicationScoped
 @Named
+@Transactional
 public class NutzerServiceBean implements INutzerService, Serializable
 {
-
-    private static final long serialVersionUID = 1L;
-
+    private static final Logger LOGGER           = Logger.getLogger("de.sitescrawler.logger");
+    private static final long   serialVersionUID = 1L;
     @PersistenceContext
-    private EntityManager     entityManager;
+    private EntityManager       entityManager;
+    @Inject
+    ISolrService                solrService;
 
     @Override
     @Transactional(value = TxType.REQUIRED)
     public void rolleAnlegen(Rolle rolle)
     {
         this.entityManager.merge(rolle);
+        NutzerServiceBean.LOGGER.info(rolle + " als Rolle angelegt.");
     }
 
     @Override
-    public Nutzer getNutzer(String uid)
+    public Nutzer getNutzer(String email)
     {
-        TypedQuery<Nutzer> query = this.entityManager.createQuery("SELECT n FROM Nutzer n WHERE n.identifikation= :uid", Nutzer.class);
-        query.setParameter("uid", uid);
+        NutzerServiceBean.LOGGER.info("Suche Nutzer in der DB mit Email " + email);
+        TypedQuery<Nutzer> query = this.entityManager.createQuery("SELECT n FROM Nutzer n WHERE n.email= :email", Nutzer.class);
+        query.setParameter("email", email);
         EntityGraph<?> entityGraph = this.entityManager.getEntityGraph("Nutzer.*");
         query.setHint("javax.persistence.loadgraph", entityGraph);
         Nutzer nutzer = query.getSingleResult();
+        this.completeNutzer(nutzer);
         return nutzer;
+    }
+
+    /**
+     * L�dt alle Daten aus der DB um den nutzer zu vervollst�ndigen
+     *
+     * @param nutzer
+     */
+    private void completeNutzer(Nutzer nutzer)
+    {
+        for (Filterprofilgruppe filterprofilgruppe : nutzer.getFilterprofilgruppen())
+        {
+            for (Archiveintrag archiveintrag : filterprofilgruppe.getArchiveintraege())
+            {
+                for (Artikel artikel : archiveintrag.getArtikel())
+                {
+                    String link = artikel.getLink();
+                    // Füge solrartikel die Quelle hinzu und �berschreibe damit artikel
+                    Artikel solrartikel = this.solrService.sucheArtikelMitLink(link);
+                    solrartikel.setQuelle(artikel.getQuelle());
+                    artikel = solrartikel;
+                }
+            }
+        }
     }
 
     @Override
     @Transactional(value = TxType.REQUIRED)
     public void nutzerSpeichern(Nutzer nutzer)
     {
+        NutzerServiceBean.LOGGER.info("Nutzer " + nutzer + " wird persistiert.");
         this.entityManager.merge(nutzer);
     }
 
@@ -79,6 +114,13 @@ public class NutzerServiceBean implements INutzerService, Serializable
     {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void nutzerLoeschen(Nutzer nutzer)
+    {
+        this.entityManager.remove(nutzer);
+        NutzerServiceBean.LOGGER.info(nutzer + " wurde gel�scht.");
     }
 
 }

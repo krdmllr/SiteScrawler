@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date; 
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
  
 import javax.enterprise.context.SessionScoped; 
@@ -15,6 +17,7 @@ import javax.inject.Named;
 import de.sitescrawler.jpa.Filterprofil;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Uhrzeit;
+import de.sitescrawler.jpa.management.interfaces.IFilterManagerManager;
 import de.sitescrawler.utility.DateUtils;
 
 @SessionScoped
@@ -22,6 +25,12 @@ import de.sitescrawler.utility.DateUtils;
 public class FilterBearbeitenBean implements Serializable
 {
 	private static final long serialVersionUID = 1L;
+	
+	// Globalen Logger holen
+    private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+	
+	@Inject
+	private IFilterManagerManager filterManager;
 	
 	private final String TAEGLICH = "Täglich";
 	private final String WOECHENTLICH = "Wöchentlich";
@@ -50,8 +59,9 @@ public class FilterBearbeitenBean implements Serializable
 
 	public void setAusgewaehlteTagesoption(String ausgewaehlteTagesoption) {
 		this.ausgewaehlteTagesoption = ausgewaehlteTagesoption;
+		filterManager.speichereAenderung(getFiltergruppe().getFiltermanager());
 		
-		//TODO:DB Ändere neue Option in Datenbank
+		speichereAenderungAnFiltergruppe(" gewähltes Intervall: " +  ausgewaehlteTagesoption);
 	}
 	
 	public Set<Filterprofil> getFilterprofile() {
@@ -125,6 +135,8 @@ public class FilterBearbeitenBean implements Serializable
 	 */
 	public void setVerschickeEmail(boolean verschicke){
 		//TODO:DB Änderung in Datenbank abspeichern	
+		
+		speichereAenderungAnFiltergruppe("versende Email and Empfänger: " + (verschicke ? "Ja" : "Nein"));
 	}
 	
 	/*
@@ -132,7 +144,8 @@ public class FilterBearbeitenBean implements Serializable
 	 */
 	public void addProfil(Filterprofil profil){
 		getFiltergruppe().getFilterprofile().add(profil);
-		//TODO:DB Änderung in Datenbank abspeichern		
+
+		speichereAenderungAnFiltergruppe("Filterprofil " + profil.getFilterprofilname() + " zu Gruppe hinzugefuegt.");		
 	}
 	
 	/**
@@ -142,6 +155,7 @@ public class FilterBearbeitenBean implements Serializable
 	public void profilVonGruppeEntfernen(Filterprofil profil){
 		getFiltergruppe().getFilterprofile().remove(profil);
 		//TODO:DB Änderung in Datenbank abspeichern		
+		speichereAenderungAnFiltergruppe("Filterprofil " + profil.getFilterprofilname() + " von Gruppe entfernt.");	
 	}
 	
 	/**
@@ -150,13 +164,16 @@ public class FilterBearbeitenBean implements Serializable
 	 */
 	public void deleteProfil(Filterprofil profil){
 		
-		if(filtergruppe.getFilterprofile().contains(profil)){
-			profilVonGruppeEntfernen(profil);
-		}
+		for(Filterprofilgruppe gruppe: filtergruppe.getFiltermanager().getFilterprofilgruppen())
+		{
+			if(gruppe.getFilterprofile().contains(profil)){
+				gruppe.getFilterprofile().remove(profil);
+			}
+		} 
 		
 		getFilterprofile().remove(profil);
 				
-		//TODO:DB Änderung in Datenbank abspeichern		
+		speichereAenderungAnFiltermanager("Filterprofil " + profil.getFilterprofilname() + " gelöscht und aus allen Filtergruppen entfernt.");		
 	}  
 	
 	/**
@@ -169,7 +186,7 @@ public class FilterBearbeitenBean implements Serializable
 		zuAenderndesKopie.setFilterprofilname(zuAenderndesProfilOriginal.getFilterprofilname());
 		zuAenderndesKopie.setTagstring(zuAenderndesProfilOriginal.getTagstring());
 		
-		setZuAenderndesProfil(zuAenderndesKopie);
+		setZuAenderndesProfil(zuAenderndesKopie); 
 	}
 	
 	/**
@@ -178,7 +195,8 @@ public class FilterBearbeitenBean implements Serializable
 	public void modalAenderungSpeichern(){ 
 		zuAenderndesProfilOriginal.setFilterprofilname(zuAenderndesProfil.getFilterprofilname());
 		zuAenderndesProfilOriginal.setTagstring(zuAenderndesProfil.getTagstring());
-		//TODO:DB Speicher Profiländerung in DB
+		
+		speichereAenderungAnFiltermanager("Filterprofil " + zuAenderndesProfilOriginal.getFilterprofilname() + " verändert.");
 	}
 
 	/**
@@ -190,7 +208,9 @@ public class FilterBearbeitenBean implements Serializable
 		
 		zeit.setUhrzeit(DateUtils.asDate(dateTime));
 		getFiltergruppe().getUhrzeiten().add(zeit);
-		//TODO:DB Speicher neue Zeit in DB
+
+
+		speichereAenderungAnFiltergruppe("Uhrzeit " + dateTime + " hinzugefügt.");
 	}
 	
 	/**
@@ -199,7 +219,8 @@ public class FilterBearbeitenBean implements Serializable
 	 */
 	public void removeTageszeiten(Uhrzeit date){
 		getFiltergruppe().getUhrzeiten().remove(date);
-		//TODO:DB Speicher Zeit in DB
+
+		speichereAenderungAnFiltergruppe("Uhrzeit " + date.getUhrzeit() + " entfernt.");
 	}
 	
 	/**
@@ -214,7 +235,22 @@ public class FilterBearbeitenBean implements Serializable
 		}
 		
 		getFilterprofile().add( neuesFilterprofil);
+		
+		speichereAenderungAnFiltermanager("Neue Filterprofil " + neuesFilterprofil.getFilterprofilname() + " erstellt.");
+		
 		neuesFilterprofil = new Filterprofil();
+	}
+	
+	private void speichereAenderungAnFiltergruppe(String beschreibung)
+	{
+		filterManager.speichereAenderung(getFiltergruppe().getFiltermanager());
+		LOGGER.log(Level.INFO, "Änderung in " + getFiltergruppe().getTitel() + ": " + beschreibung);
+	}
+	
+	private void speichereAenderungAnFiltermanager(String beschreibung)
+	{
+		filterManager.speichereAenderung(getFiltergruppe().getFiltermanager());
+		LOGGER.log(Level.INFO, "Änderung an " + getFiltergruppe().getFiltermanager() + ": " + beschreibung);
 	}
 
 }
