@@ -211,6 +211,7 @@ public class Artikel implements java.io.Serializable
 
     // Wird für die XML bzw. PDF-Generierung benötigt
     @XmlElement(name="datum")
+    @Transient
     public String getDatumFormatiert()
     {
         SimpleDateFormat formatter = new SimpleDateFormat("dd. MMMM yyyy", Locale.GERMAN);
