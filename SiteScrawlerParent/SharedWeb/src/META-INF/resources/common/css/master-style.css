@@ -107,3 +107,9 @@ body .btn-default:focus:active {
 	padding: 0px !important;
 	margin: 0px !important;
 }
+
+.no-padding-margin{
+	margin: 0px !important;
+	padding:0px !important;
+} 
+

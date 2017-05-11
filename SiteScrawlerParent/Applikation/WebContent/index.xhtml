@@ -53,14 +53,18 @@
 							</div>
 						</h:form>
 					</div>
-					<hr />
+					<hr class="no-padding-margin"/>
 					
 					<!-- manuellen Crawlvorgang starten -->
 					<h:form id="manueller-crawl-form">
-						<b:commandButton value="Jetzt Crawlen"
-							action="#{archiv.manuellCrawlen()}" />
+						<p:commandLink 
+						class="panel-button-div"
+						style="display:block;"  
+							action="#{archiv.manuellCrawlen()}">
+							Jetzt report anlegen
+							</p:commandLink>
 					</h:form>
-					<hr />
+					<hr class="no-padding-margin"/>
 					<div>
 						<p:dataList class="list-group archiveintraege"
 							value="#{archiv.archiveintraege}" var="eintrag" type="definition">

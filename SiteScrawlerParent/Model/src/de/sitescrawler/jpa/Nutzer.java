@@ -95,9 +95,7 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
     // Unmapped
     @Transient
     public boolean isAdministrator(){
-    	for(Rolle r: getRollen()){
-    		System.out.println(r.getRolle());
-    		
+    	for(Rolle r: getRollen()){ 
     		if(r.getRolle().equals("Admin"))
     			return true;
     	}
