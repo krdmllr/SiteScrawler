@@ -18,135 +18,126 @@ import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.management.interfaces.IFiltergruppenManager;
-import de.sitescrawler.report.IReportService; 
+import de.sitescrawler.report.IReportService;
 
+/**
+ * 
+ * @author robin Archiv Bean
+ */
 @SessionScoped
 @Named("archiv")
-public class ArchivBean implements Serializable
-{
+public class ArchivBean implements Serializable {
 	// Globalen Logger holen
-    private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+	private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Inject
-    private DataBean          dataBean;
+	@Inject
+	private DataBean dataBean;
 
-    @Inject
-    private IReportService  reporterService;
-    
-    @Inject
-    private IFiltergruppenManager filtergruppenManager;
+	@Inject
+	private IReportService reporterService;
 
-    private Archiveintrag     geweahlterArchiveintrag;
-    private Artikel           geweahlterArtikel;
+	@Inject
+	private IFiltergruppenManager filtergruppenManager;
 
-    private Date              abZeitpunkt      = new Date();
-    private Date              bisZeitpunkt     = new Date();
+	private Archiveintrag geweahlterArchiveintrag;
+	private Artikel geweahlterArtikel;
 
-    public ArchivBean()
-    {
+	private Date abZeitpunkt = new Date();
+	private Date bisZeitpunkt = new Date();
 
-    }
-    
-    public Date getAbZeitpunkt()
-    {
-        return this.abZeitpunkt;
-    }
+	public ArchivBean() {
 
-    public void setAbZeitpunkt(Date abZeitpunkt)
-    {
-        this.abZeitpunkt = abZeitpunkt;
-    }
+	}
 
-    public Date getBisZeitpunkt()
-    {
-        return this.bisZeitpunkt;
-    }
+	public Date getAbZeitpunkt() {
+		return this.abZeitpunkt;
+	}
 
-    public void setBisZeitpunkt(Date bisZeitpunkt)
-    {
-        this.bisZeitpunkt = bisZeitpunkt;
-    }
+	public void setAbZeitpunkt(Date abZeitpunkt) {
+		this.abZeitpunkt = abZeitpunkt;
+	}
 
-    public Artikel getGeweahlterArtikel()
-    {
-        return this.geweahlterArtikel;
-    }
+	public Date getBisZeitpunkt() {
+		return this.bisZeitpunkt;
+	}
 
-    public void setGeweahlterArtikel(Artikel geweahlterArtikel)
-    {
-        this.geweahlterArtikel = geweahlterArtikel;
-    }
+	public void setBisZeitpunkt(Date bisZeitpunkt) {
+		this.bisZeitpunkt = bisZeitpunkt;
+	}
 
-    @PostConstruct
-    void init()
-    {
-    	setzeErstenArchiveintrag();
-    }
-    
-    /**
-     * Setzt den ersten Archiveintrag der aktuellen Filtergruppe als gewählten Archiveintrag.
-     */
-    private void setzeErstenArchiveintrag(){ 
-        List<Archiveintrag> archiveintraege = getArchiveintraege();
-        if (!archiveintraege.isEmpty())
-        {
-            this.setGeweahlterArchiveintrag(archiveintraege.get(0));
-        }
-    }
-    
-    /**
-     * Löscht den gewählten Archiveintrag.
-     */
-    public void loescheArchiveintrag(){ 
-    	
-    	dataBean.getFiltergruppe().getArchiveintraege().remove(geweahlterArchiveintrag);
-    	filtergruppenManager.speichereAenderung(dataBean.getFiltergruppe());
-    	LOGGER.log(Level.INFO, "Archiveintrag vom " + geweahlterArchiveintrag.getErstellungsdatum() + " wurde gelöscht.");
-    	 
-    	setzeErstenArchiveintrag();
-    }
-    
-    /**
-     * Exportiert das PDF des gewählten Archiveintrages und bietet es dem Nutzer als Download an.
-     */
-    public void exportierePdf(){
-    	//TODO PDF exportierung und Download implementieren.
-    }
+	public Artikel getGeweahlterArtikel() {
+		return this.geweahlterArtikel;
+	}
 
-    public void manuellCrawlen()
-    {
-        System.out.println("CRAWLE");
-        this.reporterService.generiereManuellenReport(this.dataBean.getFiltergruppe());
-    }
+	public void setGeweahlterArtikel(Artikel geweahlterArtikel) {
+		this.geweahlterArtikel = geweahlterArtikel;
+	}
 
-    public Archiveintrag getGeweahlterArchiveintrag()
-    {
-        return this.geweahlterArchiveintrag;
-    }
+	@PostConstruct
+	void init() {
+		setzeErstenArchiveintrag();
+	}
 
-    public void setGeweahlterArchiveintrag(Archiveintrag geweahlterArchiveintrag)
-    {
-        this.geweahlterArchiveintrag = geweahlterArchiveintrag;
-    }
+	/**
+	 * Setzt den ersten Archiveintrag der aktuellen Filtergruppe als gewählten
+	 * Archiveintrag.
+	 */
+	private void setzeErstenArchiveintrag() {
+		List<Archiveintrag> archiveintraege = getArchiveintraege();
+		if (!archiveintraege.isEmpty()) {
+			this.setGeweahlterArchiveintrag(archiveintraege.get(0));
+		}
+	}
 
-    public void buttonAction(Archiveintrag eintrag)
-    {
-        this.setGeweahlterArchiveintrag(eintrag);
-        this.addMessage("Archiveintrag vom " + eintrag.getErstellungsdatum() + " ausgewählt!");
-    }
-    
-    public List<Archiveintrag> getArchiveintraege(){
-    	List<Archiveintrag> alleEintraege = new ArrayList<>(dataBean.getFiltergruppe().getArchiveintraege());
-    	
-    	
-    	return alleEintraege; //TODO Filtere Einträge
-    }
+	/**
+	 * Löscht den gewählten Archiveintrag.
+	 */
+	public void loescheArchiveintrag() {
 
-    private void addMessage(String summary)
-    {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    } 
+		dataBean.getFiltergruppe().getArchiveintraege().remove(geweahlterArchiveintrag);
+		filtergruppenManager.speichereAenderung(dataBean.getFiltergruppe());
+		LOGGER.log(Level.INFO,
+				"Archiveintrag vom " + geweahlterArchiveintrag.getErstellungsdatum() + " wurde gelöscht.");
+
+		setzeErstenArchiveintrag();
+	}
+
+	/**
+	 * Exportiert das PDF des gewählten Archiveintrages und bietet es dem
+	 * Nutzer als Download an.
+	 */
+	public void exportierePdf() {
+		// TODO PDF exportierung und Download implementieren.
+	}
+
+	public void manuellCrawlen() {
+		System.out.println("CRAWLE");
+		this.reporterService.generiereManuellenReport(this.dataBean.getFiltergruppe());
+	}
+
+	public Archiveintrag getGeweahlterArchiveintrag() {
+		return this.geweahlterArchiveintrag;
+	}
+
+	public void setGeweahlterArchiveintrag(Archiveintrag geweahlterArchiveintrag) {
+		this.geweahlterArchiveintrag = geweahlterArchiveintrag;
+	}
+
+	public void buttonAction(Archiveintrag eintrag) {
+		this.setGeweahlterArchiveintrag(eintrag);
+		this.addMessage("Archiveintrag vom " + eintrag.getErstellungsdatum() + " ausgewählt!");
+	}
+
+	public List<Archiveintrag> getArchiveintraege() {
+		List<Archiveintrag> alleEintraege = new ArrayList<>(dataBean.getFiltergruppe().getArchiveintraege());
+
+		return alleEintraege; // TODO Filtere Einträge
+	}
+
+	private void addMessage(String summary) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
 }

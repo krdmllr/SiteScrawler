@@ -7,6 +7,11 @@ import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/**
+ * 
+ * @author robin
+ * Producer
+ */
 @ApplicationScoped
 public class Producer implements Serializable
 {
