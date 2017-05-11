@@ -49,19 +49,22 @@
 							<h1>Jetzt starten</h1>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.vorname}"
-									placeholder="Vorname" class="form-control" required="true" />
+									placeholder="Vorname" class="form-control" required="true"  requiredMessage="Bitte Vorname eingeben" validatorMessage="Nicht valider Vorname (Nur Groß- bzw. Kleinbuchstaben)"/>
+									 <f:validateRegex pattern="[a-zA-Z]+"/>
 							</div>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.nachname}"
-									placeholder="Nachname" class="form-control" required="true" />
+									placeholder="Nachname" class="form-control" required="true" requiredMessage="Bitte Nachname eingeben" validatorMessage="Nicht valider Nachname (Nur Groß- bzw. Kleinbuchstaben)"/>
+									<f:validateRegex pattern="[a-zA-Z]+"/>
 							</div>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.email}"
-									placeholder="E-Mail" class="form-control" required="true" />
+									placeholder="E-Mail" class="form-control" required="true" requiredMessage="Bitte Email eingeben" validatorMessage="Nicht valide Mail"/>
+									<f:validateRegex pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
 							</div>
 							<div class="form-group">
 								<p:inputText type="password" value="#{portal.nutzer.passwort}"
-									placeholder="Passwort" class="form-control" required="true">
+									placeholder="Passwort" class="form-control" required="true" requiredMessage="Bitte Passwort eingeben">
 									<p:ajax event="keyup" update="progress-bar" />
 								</p:inputText>
 							</div>
@@ -73,6 +76,7 @@
 							<div class="form-group">
 								<b:commandButton type="submit" class="btn btn-success"
 									action="#{portal.sendeRegistrierungAb()}" value="Registrieren" />
+								<h:messages globalOnly="true"/>
 							</div>
 						</h:form>
 					</div>
