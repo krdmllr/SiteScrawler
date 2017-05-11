@@ -46,3 +46,6 @@ vertical-align: middle;
 	margin-bottom: 30px;
 }
 
+.container-panel{
+	padding: 0px !important;
+}

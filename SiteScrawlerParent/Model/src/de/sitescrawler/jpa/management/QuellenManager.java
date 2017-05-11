@@ -32,6 +32,7 @@ public class QuellenManager implements IQuellenManager
     }
 
     @Override
+    @Transactional(value = TxType.REQUIRED)
     public List<Quelle> getQuellen()
     {
         if (this.quellen.isEmpty())
@@ -55,6 +56,7 @@ public class QuellenManager implements IQuellenManager
     }
 
     @Override
+    @Transactional(value = TxType.REQUIRED)
     public void erstelleQuelle(Quelle quelle)
     {
         this.speichereQuelle(quelle);
@@ -62,12 +64,14 @@ public class QuellenManager implements IQuellenManager
     }
 
     @Override
+    @Transactional(value = TxType.REQUIRED)
     public void modifiziereQuelle(Quelle quelle)
     {
         this.speichereQuelle(quelle);
     }
 
     @Override
+    @Transactional(value = TxType.REQUIRED)
     public void loescheQuelle(Quelle quelle)
     {
         this.entityManager.remove(quelle);

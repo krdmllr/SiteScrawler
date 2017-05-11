@@ -15,9 +15,7 @@ import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 @Named("quellen")
 public class QuellenBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
-	private int uiStatus; //0 = Normal; 1 = Bearbeiten; 2 = Erstellen; 
+	private static final long serialVersionUID = 1L; 
 	
     @Inject
     private DataBean          dataBean;
@@ -27,9 +25,11 @@ public class QuellenBean implements Serializable {
     
     private Quelle gewaehlteQuelle; 
      
-    private Quelle neueQuelle;
+    private Quelle neueQuelle; 
     
-    @PostConstruct
+    private Quelle gewaehlteQuelleKopie;
+
+	@PostConstruct
     public void init(){
     	setzeDefaultQuelle();
     }
@@ -49,38 +49,29 @@ public class QuellenBean implements Serializable {
 	}
 
 	public void setGewaehlteQuelle(Quelle geweahlteQuelle) {
-		 
+		gewaehlteQuelleKopie = new Quelle(geweahlteQuelle.getName(), geweahlteQuelle.getBild(), geweahlteQuelle.getRsslink(), geweahlteQuelle.getTagOderId(), geweahlteQuelle.getFilterprofile()); 
 		this.gewaehlteQuelle = geweahlteQuelle;
 	}
 	
 	public void starteQuellenErstellen(){
 		neueQuelle = new Quelle();
-		gewaehlteQuelle = neueQuelle;
-		setUiStatus(2);
 	}
 	
-	public void verwerfeErstellteQuelle(){
-		if(uiStatus == 1)
-		{
-			//Verwerfe Änderungen
-		}
-		else{
-			//Verwerfe neue Quelle
-			setGewaehlteQuelle(null);
-			setzeDefaultQuelle();
-			setUiStatus(1);
-			neueQuelle = null;
-		} 
-	}
+	public void verwerfeAenderungen(){
+		gewaehlteQuelle.setName(gewaehlteQuelleKopie.getName());
+		gewaehlteQuelle.setRsslink(gewaehlteQuelleKopie.getRsslink());
+		gewaehlteQuelle.setTagOderId(gewaehlteQuelleKopie.getTagOderId());
+	} 
 	
 	public void speichereAenderung(){
 		quellenManager.modifiziereQuelle(gewaehlteQuelle);
+		setGewaehlteQuelle(getGewaehlteQuelle());
 	}
 	
 	public void uebernehmeNeueQuelle(){
 		quellenManager.erstelleQuelle(neueQuelle);
-		setGewaehlteQuelle(neueQuelle);
-		setUiStatus(0);
+		neueQuelle = new Quelle();
+	    setzeDefaultQuelle();
 	}
 	
 	public void loescheQuelle(){
@@ -88,21 +79,28 @@ public class QuellenBean implements Serializable {
 		setGewaehlteQuelle(null);
 		
 		setzeDefaultQuelle();
-		setUiStatus(1);
 	}
 	
 	public boolean zeigeLoeschButton(){
-		if(uiStatus <= 1) return true;
-		return false;
+		return true;
 	}
 	
 	public boolean zeigeVerwerfenButton(){
-		if(uiStatus >= 1) return true;
+		return wurdeQuelleVeraendert();
+	}
+	
+	public boolean zeigeNeueQuelleVerwerfenButton(){
+		if(neueQuelle == null) return false;
+		
+		if(neueQuelle.getName() != null && !neueQuelle.getName().isEmpty()) return true;
+		
+		if(neueQuelle.getRsslink() != null && !neueQuelle.getRsslink().isEmpty()) return true;
+		
 		return false;
 	}
 	
-	public boolean zeigeErstellenButton(){
-		if(uiStatus != 2) return false;
+	public boolean zeigeErstellenButton(){ 
+		if(neueQuelle == null) return false;
 		
 		if(neueQuelle.getName() == null || neueQuelle.getName().isEmpty()) return false;
 		
@@ -116,17 +114,39 @@ public class QuellenBean implements Serializable {
 	}
 	
 	public boolean zeigeSpeichernButton(){
-		if(uiStatus == 1) return true;
+		return wurdeQuelleVeraendert();
+	} 
+	
+	private boolean wurdeQuelleVeraendert(){
+		
+		if(gewaehlteQuelleKopie == null || gewaehlteQuelle == null) return false;
+		
+		if(!istStringGleich(gewaehlteQuelle.getName(),gewaehlteQuelleKopie.getName())) return true;
+		if(!istStringGleich(gewaehlteQuelle.getRsslink(),gewaehlteQuelleKopie.getRsslink())) return true;
+		if(!istStringGleich(gewaehlteQuelle.getTagOderId(),gewaehlteQuelleKopie.getTagOderId())) return true;
 		
 		return false;
 	}
-
-	public int getUiStatus() {
-		return uiStatus;
+	
+	private boolean istStringGleich(String string1, String string2){
+		if(string1 == null && string2 == null) return true;
+		
+		if(string1 == null && string2.isEmpty()) return true;
+		
+		if(string1.isEmpty() && string2 == null) return true;
+		
+		if(string1 == null || string2 == null) return false;
+		
+		if(string1.equals(string2)) return true;
+		
+		return false; 
+	}
+	
+    public Quelle getNeueQuelle() {
+		return neueQuelle;
 	}
 
-	public void setUiStatus(int uiStatus) {
-		System.out.println("Status: " + uiStatus);
-		this.uiStatus = uiStatus;
-	} 
+	public void setNeueQuelle(Quelle neueQuelle) {
+		this.neueQuelle = neueQuelle;
+	}
 }

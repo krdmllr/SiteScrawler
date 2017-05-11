@@ -47,16 +47,16 @@
 						 <h:form>
 							<h1>Jetzt starten</h1>
 							<div class="form-group">
-								<p:inputText type="text"  value="#{portal.nutzer.vorname}" placeholder="Vorname" class="form-control"/>
+								<p:inputText type="text"  value="#{portal.nutzer.vorname}" placeholder="Vorname" class="form-control" required="true"/>
 							</div>
 							<div class="form-group">
-								<p:inputText type="text" value="#{portal.nutzer.nachname}" placeholder="Nachname" class="form-control"/>
+								<p:inputText type="text" value="#{portal.nutzer.nachname}" placeholder="Nachname" class="form-control" required="true"/>
 							</div>
 							<div class="form-group">
-								<p:inputText type="text" value="#{portal.nutzer.email}" placeholder="E-Mail" class="form-control"/>
+								<p:inputText type="text" value="#{portal.nutzer.email}" placeholder="E-Mail" class="form-control" required="true"/>
 							</div> 
 							<div class="form-group">
-								<p:inputText type="password" value="#{portal.nutzer.passwort}" placeholder="Passwort" class="form-control">
+								<p:inputText type="password" value="#{portal.nutzer.passwort}" placeholder="Passwort" class="form-control" required="true">
 									<p:ajax event="keyup" update="progress-bar"/>
 								</p:inputText> 
 							</div> 
