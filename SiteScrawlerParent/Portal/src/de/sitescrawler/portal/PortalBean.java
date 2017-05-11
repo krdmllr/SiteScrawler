@@ -14,6 +14,11 @@ import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.model.ZeitIntervall;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 
+/**
+ * Alle Methoden, die im Portal benötigt werden.
+ * @author robin
+ *
+ */
 @SessionScoped
 @Named("portal")
 public class PortalBean implements Serializable
@@ -88,6 +93,10 @@ public class PortalBean implements Serializable
         return (int) ((totaleStaerke / 6) * 100);
     }
 
+    /**
+     * Passwort Stärke als Text darstellen
+     * @return
+     */
     public String getPasswortStaerkeAlsText()
     {
         int staerke = this.getPasswortStaerke();
@@ -119,7 +128,10 @@ public class PortalBean implements Serializable
     {
         return this.getNutzer().getPasswort() != null && !this.getNutzer().getPasswort().isEmpty();
     }
-
+    
+    /**
+     * Initialisiert den Nutzer und sendet die Registrierung ab
+     */
     public void sendeRegistrierungAb()
     {
         this.initNewNutzer();
@@ -127,6 +139,9 @@ public class PortalBean implements Serializable
         // TODO Leite Nutzer weiter
     }
 
+    /**
+     * Gibt dem Nutzer eine default Rolle und Filterprofilgruppe
+     */
     private void initNewNutzer()
     {
         this.nutzer.getRollen().add(new Rolle("Registered"));

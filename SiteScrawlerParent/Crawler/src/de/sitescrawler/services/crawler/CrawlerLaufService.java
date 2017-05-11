@@ -12,7 +12,8 @@ import de.sitescrawler.jpa.management.QuellenManager;
 import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 
 /**
- * @author tobias, Yvette Logik zum Starten des Crawl-Vorgangs.
+ * @author tobias, Yvette 
+ * Logik zum Starten des Crawl-Vorgangs.Implementierung des Crawler Interfaces
  */
 @ApplicationScoped
 public class CrawlerLaufService implements ICrawlerLaufService
@@ -39,7 +40,10 @@ public class CrawlerLaufService implements ICrawlerLaufService
             this.verarbeitung.durchsucheQuelle(true, q);
         }
     }
-
+    
+    /**
+     * Testet eine bestimmte Quelle und durchsucht diese
+     */
     @Override
     public List<Artikel> testeQuelle(Quelle quelle)
     {

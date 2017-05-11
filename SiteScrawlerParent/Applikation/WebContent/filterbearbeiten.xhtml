@@ -9,7 +9,7 @@
 </h:head>
 <h:body>
 	<ui:composition template="/template.xhtml">
-		<ui:define name="content"> 
+		<ui:define name="content">
 			<!-- Email Informationen -->
 			<div class="col-md-2 hidden-xs column">
 
@@ -38,10 +38,9 @@
 									<ul class="dropdown-menu">
 										<p:repeat var="option"
 											value="#{filterbearbeiten.tagesOptionen}">
-											<li><p:commandLink 
+											<li><p:commandLink
 													action="#{filterbearbeiten.setAusgewaehlteTagesoption(option)}"
-													value="#{option}"
-													update="tages-option tageszeiten">
+													value="#{option}" update="tages-option tageszeiten">
 												</p:commandLink></li>
 										</p:repeat>
 									</ul>
@@ -270,6 +269,7 @@
 				</div>
 			</div>
 
+			<!-- Footer -->
 		</ui:define>
 		<ui:define name="footer">
 

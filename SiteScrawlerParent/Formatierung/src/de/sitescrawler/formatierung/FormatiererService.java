@@ -147,6 +147,15 @@ public class FormatiererService implements IFormatiererService
         return daten;
     }
 
+    /**
+     * Wandelt eine XML-Datei in eine PDF-Datei um.
+     * @param pdfHelfer
+     * @param xmlDatei
+     * @param pdf
+     * @param parameterFuerPDF
+     * @return
+     * @throws IOException
+     */
     private ByteArrayOutputStream wandleXMLinPDF(PDFHelfer pdfHelfer, File xmlDatei, ByteArrayOutputStream pdf, Map<String, String> parameterFuerPDF) throws IOException
     {
         try
@@ -164,6 +173,13 @@ public class FormatiererService implements IFormatiererService
         return pdf;
     }
 
+    /**
+     * Archiveintrag in XML-Datei umwandeln.
+     * @param archiveintrag
+     * @param pdfHelfer
+     * @param xmlDatei
+     * @throws JAXBException
+     */
     private void wandelArchiveintragInXML(Archiveintrag archiveintrag, PDFHelfer pdfHelfer, File xmlDatei) throws JAXBException
     {
         pdfHelfer.schreibeArtikelAlsXML(archiveintrag, xmlDatei);

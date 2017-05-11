@@ -10,20 +10,23 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.sitescrawler.jpa.Filterprofilgruppe;
- 
 
+/**
+ * 
+ * @author robin NavigationBean
+ */
 @SessionScoped
 @Named("navigation")
 public class NavigationBean implements Serializable {
- 
-	private static final long serialVersionUID = 1L; 
-	
+
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	private DataBean dataBean;
-		
-	public List<Filterprofilgruppe> getSelectableFiltergruppen(){
- 
-		return dataBean.getFiltergruppen().stream()
-			    .filter(p -> p != dataBean.getFiltergruppe()).collect(Collectors.toList());
+
+	public List<Filterprofilgruppe> getSelectableFiltergruppen() {
+
+		return dataBean.getFiltergruppen().stream().filter(p -> p != dataBean.getFiltergruppe())
+				.collect(Collectors.toList());
 	}
 }

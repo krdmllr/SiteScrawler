@@ -17,113 +17,96 @@ import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
 import de.sitescrawler.qualifier.Produktiv;
 
+/**
+ * 
+ * @author robin loginBean, alle Methoden zum Login/Logout
+ */
 @SessionScoped
 @Named("login")
-public class loginBean implements Serializable
-{
+public class loginBean implements Serializable {
 
-    private static final long   serialVersionUID = 1L;
-    private String              uid;
-    private String              password;
-    private String              originalURL;
-    private FacesContext        context          = FacesContext.getCurrentInstance();
-    private boolean             registriert      = true;
+	private static final long serialVersionUID = 1L;
+	private String uid;
+	private String password;
+	private String originalURL;
+	private FacesContext context = FacesContext.getCurrentInstance();
+	private boolean registriert = true;
 
-    @Inject
-    private ProjectConfig       config;
+	@Inject
+	private ProjectConfig config;
 
-    @Inject
-    @Produktiv
-    private INutzerDatenService nutzerDatenService;
+	@Inject
+	@Produktiv
+	private INutzerDatenService nutzerDatenService;
 
-    @PostConstruct
-    public void init()
-    {
-        ExternalContext externalContext = this.context.getExternalContext();
-        this.originalURL = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
-        if (this.originalURL == null)
-        {
-            this.originalURL = externalContext.getRequestContextPath() + "/index.xhtml";
-        }
-        else
-        {
-            String originalQuery = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_QUERY_STRING);
+	@PostConstruct
+	public void init() {
+		ExternalContext externalContext = this.context.getExternalContext();
+		this.originalURL = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
+		if (this.originalURL == null) {
+			this.originalURL = externalContext.getRequestContextPath() + "/index.xhtml";
+		} else {
+			String originalQuery = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_QUERY_STRING);
 
-            if (originalQuery != null)
-            {
-                this.originalURL += "?" + originalQuery;
-            }
-        }
+			if (originalQuery != null) {
+				this.originalURL += "?" + originalQuery;
+			}
+		}
 
-    }
+	}
 
-    public void login()
-    {
-        System.out.println("Login: " + this.uid + " | " + this.password);
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-        try
-        {
-            request.login(this.uid, this.password);
-            externalContext.redirect(this.originalURL);
-            this.nutzerDatenService.setNutzer(this.uid);
-        }
-        catch (ServletException | IOException e)
-        {
-            e.printStackTrace();
-        }
+	public void login() {
+		System.out.println("Login: " + this.uid + " | " + this.password);
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+		try {
+			request.login(this.uid, this.password);
+			externalContext.redirect(this.originalURL);
+			this.nutzerDatenService.setNutzer(this.uid);
+		} catch (ServletException | IOException e) {
+			e.printStackTrace();
+		}
 
-    }
+	}
 
-    public void logout()
-    {
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        externalContext.invalidateSession();
-        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-        try
-        {
-            request.logout();
-            externalContext.redirect(externalContext.getRequestContextPath() + "/index.xhtml");
-        }
-        catch (ServletException | IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
+	public void logout() {
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		externalContext.invalidateSession();
+		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+		try {
+			request.logout();
+			externalContext.redirect(externalContext.getRequestContextPath() + "/index.xhtml");
+		} catch (ServletException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public String getUid()
-    {
-        return this.uid;
-    }
+	public String getUid() {
+		return this.uid;
+	}
 
-    public void setUid(String uid)
-    {
-        this.uid = uid;
-    }
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
-    public String getPassword()
-    {
-        return this.password;
-    }
+	public String getPassword() {
+		return this.password;
+	}
 
-    public void setPassword(String password)
-    {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public ProjectConfig getConfig()
-    {
-        return this.config;
-    }
+	public ProjectConfig getConfig() {
+		return this.config;
+	}
 
-    public boolean isRegistriert()
-    {
-        return this.registriert;
-    }
+	public boolean isRegistriert() {
+		return this.registriert;
+	}
 
-    public void setRegistriert(boolean registriert)
-    {
-        this.registriert = registriert;
-    }
+	public void setRegistriert(boolean registriert) {
+		this.registriert = registriert;
+	}
 
 }

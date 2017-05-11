@@ -1,10 +1,13 @@
 package de.sitescrawler.crawler.interfaces;
 
 import java.util.List;
-
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Quelle;
 
+/**
+ * 	@author robin
+ *	Interface des Crawlers
+ */
 public interface ICrawlerLaufService
 {
 

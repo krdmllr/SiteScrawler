@@ -23,6 +23,7 @@
 							<h4>#{data.filtergruppe.titel}</h4>
 						</div>
 
+						<!-- Filter bearbeiten -->
 						<b:form>
 							<p:commandLink id="filter-bearbeiten"
 								action="/filterbearbeiten.xhtml?faces-redirect=true">
@@ -37,7 +38,7 @@
 						<div class="clearfix"></div>
 
 					</div>
-				
+
 					<div class="panel-body filter">
 						<h:form>
 							<h4>Filter</h4>
@@ -52,18 +53,21 @@
 							</div>
 						</h:form>
 					</div>
-					<hr /> 
+					<hr />
+					
+					<!-- manuellen Crawlvorgang starten -->
 					<h:form id="manueller-crawl-form">
-						<b:commandButton value="Jetzt Crawlen" action="#{archiv.manuellCrawlen()}"/> 
+						<b:commandButton value="Jetzt Crawlen"
+							action="#{archiv.manuellCrawlen()}" />
 					</h:form>
 					<hr />
 					<div>
 						<p:dataList class="list-group archiveintraege"
-							value="#{archiv.archiveintraege}" var="eintrag"
-							type="definition">
+							value="#{archiv.archiveintraege}" var="eintrag" type="definition">
 							<h:form>
 								<p:commandLink class="list-group-item" id="ajax"
-									update="artikelBereich" action="#{archiv.buttonAction(eintrag)}">
+									update="artikelBereich"
+									action="#{archiv.buttonAction(eintrag)}">
 									<h:outputText value="#{eintrag.erstellungsdatum}">
 										<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 									</h:outputText>
@@ -84,7 +88,7 @@
 						<p>#{absatz}"</p>
 					</p:repeat>
 				</div>
-				
+
 			</b:modal>
 
 			<div class="col-md-9 column">
@@ -100,8 +104,11 @@
 							</h:outputText>
 						</h3>
 						<div class="btn-group pull-right" role="group">
-							<b:commandButton type="button" value="PDF exportieren" action="#{archiv.exportierePdf()}" class="btn btn-default" />
-							<b:commandButton type="button" value="Eintrag löschen" action="#{archiv.loescheArchiveintrag()}" class="btn btn-default" />
+							<b:commandButton type="button" value="PDF exportieren"
+								action="#{archiv.exportierePdf()}" class="btn btn-default" />
+							<b:commandButton type="button" value="Eintrag löschen"
+								action="#{archiv.loescheArchiveintrag()}"
+								class="btn btn-default" />
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -127,16 +134,15 @@
 							<div class="artikel-titel-container">
 								<h5 class="pull-left">#{artikel.autor}</h5>
 								<div class="btn-group pull-right" role="group">
-									<p:commandLink type="button" 
-										id="artikel-oeffnen-button"
-										class="btn btn-default"
-										update="artikel-modal" 
+									<p:commandLink type="button" id="artikel-oeffnen-button"
+										class="btn btn-default" update="artikel-modal"
 										oncomplete="$('.modalPseudoClass').modal();return false;"
-										value="Artikel ansehen"> 
-										<f:actionListener for="artikel-oeffnen-button" binding="#{archiv.setGeweahlterArtikel(artikel)}"></f:actionListener>
+										value="Artikel ansehen">
+										<f:actionListener for="artikel-oeffnen-button"
+											binding="#{archiv.setGeweahlterArtikel(artikel)}"></f:actionListener>
 									</p:commandLink>
-									<p:link href="#{artikel.link}" type="button" class="btn btn-default"
-										value="Website öffnen" />
+									<p:link href="#{artikel.link}" type="button"
+										class="btn btn-default" value="Website öffnen" />
 								</div>
 							</div>
 						</div>
@@ -146,7 +152,7 @@
 				</h:form>
 			</div>
 
-
+		<!-- Footer -->
 		</ui:define>
 		<ui:define name="footer">
 

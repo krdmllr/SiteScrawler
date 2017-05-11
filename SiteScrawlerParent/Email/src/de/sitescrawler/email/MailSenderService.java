@@ -21,7 +21,8 @@ import de.sitescrawler.model.ProjectConfig;
 
 /**
  * 
- * @author robin Versendet Mails an Empf�nger als HTML/Plain Text mit Anh�ngen
+ * @author robin Versendet Mails an Empf�nger als HTML/Plain Text mit
+ *         Anh�ngen
  *
  */
 
@@ -56,33 +57,31 @@ public class MailSenderService implements IMailSenderService {
 	 * Versendet Mail an einen Empf�nger
 	 */
 	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, byte[] anhaenge)
-			throws ServiceUnavailableException { 
+			throws ServiceUnavailableException {
 		manuellerInject();
 		List<String> empfaenger = new ArrayList<>();
 		empfaenger.add(emailAdresse);
-		
+
 		erstelleUndVerschickeNachricht(empfaenger, subjekt, body, htmlBody, anhaenge);
-	} 
+	}
+
 	/**
 	 * Sendet Mail an eine Liste von Empf�ngern
 	 */
-	public void sendeMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] anhaenge) 
+	public void sendeMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] anhaenge)
 			throws ServiceUnavailableException {
 		manuellerInject();
-		
-		List<String> empfaengerAdressen = empfaenger.stream()
-                .map(Nutzer::getEmail)
-                .collect(Collectors.toList());
-		
+
+		List<String> empfaengerAdressen = empfaenger.stream().map(Nutzer::getEmail).collect(Collectors.toList());
+
 		erstelleUndVerschickeNachricht(empfaengerAdressen, subjekt, body, htmlBody, anhaenge);
-	} 
-	
+	}
+
 	/**
 	 * Au�erhalb der Server Umgebung, falls Inject nicht funktioniert
 	 */
-	private void manuellerInject(){
-		if(projectConfig == null)
-		{
+	private void manuellerInject() {
+		if (projectConfig == null) {
 			projectConfig = new ProjectConfig();
 			username = projectConfig.getUsername();
 			password = projectConfig.getPassword();
@@ -94,22 +93,28 @@ public class MailSenderService implements IMailSenderService {
 			props.put("mail.smtp.password", password);
 			props.put("mail.smtp.port", "587");
 			props.put("mail.smtp.auth", "true");
-		} 
+		}
 	}
-	
+
 	/**
 	 * Erstellt und Verschickt die Nachricht an die Empf�nger
-	 * @param emailAdresse email der empf�nger
-	 * @param subjekt Betreff der Mail
-	 * @param body Body der Mail (Text oder HTML)
-	 * @param htmlBody gibt an ob Body Text oder HTML ist
-	 * @param anhaenge Anh�nge die hinzugef�gt werden m�ssen
+	 * 
+	 * @param emailAdresse
+	 *            email der empf�nger
+	 * @param subjekt
+	 *            Betreff der Mail
+	 * @param body
+	 *            Body der Mail (Text oder HTML)
+	 * @param htmlBody
+	 *            gibt an ob Body Text oder HTML ist
+	 * @param anhaenge
+	 *            Anh�nge die hinzugef�gt werden m�ssen
 	 */
-	private void erstelleUndVerschickeNachricht(List<String> emailAdresse, String subjekt, String body, boolean htmlBody, byte[] anhaenge){
+	private void erstelleUndVerschickeNachricht(List<String> emailAdresse, String subjekt, String body,
+			boolean htmlBody, byte[] anhaenge) {
 		Session session = Session.getInstance(props);
 		List<MimeMessage> nachrichten = new ArrayList<>();
-		for(String empfaenger: emailAdresse)
-		{
+		for (String empfaenger : emailAdresse) {
 			try {
 				nachrichten.add(erstelleNachricht(session, empfaenger, subjekt, body, htmlBody, anhaenge));
 			} catch (MessagingException e) {
@@ -119,22 +124,30 @@ public class MailSenderService implements IMailSenderService {
 		}
 		sendeNachricht(nachrichten, session);
 	}
-	
+
 	/**
-	 * Erstellt die einzelnen Teile der Nachricht und f�gt diese in einer Nachricht zusammen.
-	 * @param session 
-	 * @param emailAdresse Email des Empf�ngers
-	 * @param subjekt Betreff der Mail
-	 * @param body Body der Mail (Text oder HTML)
-	 * @param htmlBody gibt an ob Body Text oder HTML ist
-	 * @param anhaenge Anh�nge die hinzugef�gt werden m�ssen
+	 * Erstellt die einzelnen Teile der Nachricht und f�gt diese in einer
+	 * Nachricht zusammen.
+	 * 
+	 * @param session
+	 * @param emailAdresse
+	 *            Email des Empf�ngers
+	 * @param subjekt
+	 *            Betreff der Mail
+	 * @param body
+	 *            Body der Mail (Text oder HTML)
+	 * @param htmlBody
+	 *            gibt an ob Body Text oder HTML ist
+	 * @param anhaenge
+	 *            Anh�nge die hinzugef�gt werden m�ssen
 	 * @return
 	 * @throws AddressException
 	 * @throws MessagingException
 	 */
-	private MimeMessage erstelleNachricht(Session session, String emailAdresse, String subjekt, String body, boolean htmlBody, byte[] anhaenge) throws AddressException, MessagingException{
-	
-		MimeMessage nachricht = new MimeMessage(session); 
+	private MimeMessage erstelleNachricht(Session session, String emailAdresse, String subjekt, String body,
+			boolean htmlBody, byte[] anhaenge) throws AddressException, MessagingException {
+
+		MimeMessage nachricht = new MimeMessage(session);
 		nachricht.setFrom(new InternetAddress(username));
 		nachricht.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAdresse));
 		nachricht.setSubject(subjekt);
@@ -151,29 +164,31 @@ public class MailSenderService implements IMailSenderService {
 		// Setze text Nachricht Teil
 		multipart.addBodyPart(nachrichtTeil);
 
-		// Teil zwei ist Anhang 
+		// Teil zwei ist Anhang
 		MimeBodyPart anhang = new MimeBodyPart();
 		DataSource bds = new ByteArrayDataSource(anhaenge, "application/pdf");
 		anhang.setDataHandler(new DataHandler(bds));
-		anhang.setFileName("Pressespiegel Nr."); 
+		anhang.setFileName("Pressespiegel Nr.");
 		multipart.addBodyPart(anhang);
-		 
 
 		// Zusammenführen der Teile
-		nachricht.setContent(multipart);  
-		
+		nachricht.setContent(multipart);
+
 		return nachricht;
 	}
 
 	/**
 	 * Baut den Transport auf und sendet die Nachricht
-	 * @param nachrichten Zu sendenden Nachrichten
-	 * @param session derzeitige Session
+	 * 
+	 * @param nachrichten
+	 *            Zu sendenden Nachrichten
+	 * @param session
+	 *            derzeitige Session
 	 */
 	private void sendeNachricht(List<MimeMessage> nachrichten, Session session) {
-		
+
 		try {
-			
+
 			Transport transport = session.getTransport("smtp");
 
 			transport.connect(host, username, password);

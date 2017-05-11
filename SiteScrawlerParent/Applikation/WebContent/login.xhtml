@@ -1,63 +1,73 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
-<title>Login</title>
-		<h:outputStylesheet library="common" name="/css/bootstrap.min.css" />
-		<h:outputStylesheet library="common" name="/css/master-style.css" />
-<h:outputStylesheet name="css/style.css"/>
-<h:outputStylesheet name="css/login.css"/>
+	<title>Login</title>
+	<h:outputStylesheet library="common" name="/css/bootstrap.min.css" />
+	<h:outputStylesheet library="common" name="/css/master-style.css" />
+	<h:outputStylesheet name="css/style.css" />
+	<h:outputStylesheet name="css/login.css" />
 
 </h:head>
+
+<!-- Login -->
 <h:body>
- 	<div class="col-lg col-md-4 col-sm-3 col-xs-0"> 
-	</div>
+	<div class="col-lg col-md-4 col-sm-3 col-xs-0"></div>
 	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 		<div class="outer-container well">
-		<b:container class="inner-container"> 
-		 
-			<h:graphicImage name="image/logo.svg" library="common" class="logo"/>
-			<h4>Bei SiteScrawler anmelden</h4>
-		 
+			<b:container class="inner-container">
+
+				<!-- Logo -->
+				<h:graphicImage name="image/logo.svg" library="common" class="logo" />
+				<h4>Bei SiteScrawler anmelden</h4>
+
 			</b:container>
-			<b:container class="inner-container login-container"> 
-					<h:form> 
-						
-						<b:growl id="growl" timer="5000" allow-dismiss="true" showDetail="true" placement-from="bottom" global-only="false"/>
-						<b:row>
-							<b:focus target="@next"/>
-							<b:inputText id="username" value="#{login.uid}" required="true" placeholder="Benutzername" label="Benutzer"
+			<b:container class="inner-container login-container">
+				<h:form>
+
+					<b:growl id="growl" timer="5000" allow-dismiss="true"
+						showDetail="true" placement-from="bottom" global-only="false" />
+					<!-- Username Input Feld -->
+					<b:row>
+						<b:focus target="@next" />
+						<b:inputText id="username" value="#{login.uid}" required="true"
+							placeholder="Benutzername" label="Benutzer"
 							required-message="Benutzername ist Pflichtfeld.">
-								 
-							</b:inputText>
-						</b:row>
-						<b:row>
-							<b:focus target="submit-button"/>
-							<b:inputSecret id="passsword" value="#{login.password}" required="true" placeholder="Passwort" label="Passwort" 
+
+						</b:inputText>
+					</b:row>
+					<!-- Passwort Input Feld -->
+					<b:row>
+						<b:focus target="submit-button" />
+						<b:inputSecret id="passsword" value="#{login.password}"
+							required="true" placeholder="Passwort" label="Passwort"
 							required-message="Passwort ist Pflichtfeld.">
-								 
-							</b:inputSecret>
-							
-						</b:row>
-						
-						<b:row>
-							<b:commandButton id="submit-button" value="Anmelden" action="#{login.login()}" update="@form" size="md" class="btn btn-success"/>
-							<b:selectBooleanCheckbox value="#{login.registriert}" caption="Ich bin bereits registriert."/>
-							</b:row> 
-						<b:row>
-							<p:commandLink value="Passwort vergessen?"></p:commandLink>  
-						</b:row>					
-					</h:form>
+
+						</b:inputSecret>
+
+					</b:row>
+
+					<!-- Login Button -->
+					<b:row>
+						<b:commandButton id="submit-button" value="Anmelden"
+							action="#{login.login()}" update="@form" size="md"
+							class="btn btn-success" />
+						<b:selectBooleanCheckbox value="#{login.registriert}"
+							caption="Ich bin bereits registriert." />
+					</b:row>
+					<b:row>
+						<p:commandLink value="Passwort vergessen?"></p:commandLink>
+					</b:row>
+				</h:form>
 			</b:container>
 		</div>
 	</div>
-	<div class="col-lg col-md-4 col-sm-3 col-xs-0">
-	</div>
-	 
+	<div class="col-lg col-md-4 col-sm-3 col-xs-0"></div>
+
 </h:body>
-		
+
 </html>

@@ -19,46 +19,46 @@ import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
 import de.sitescrawler.qualifier.Produktiv;
 
+/**
+ * 
+ * @author robin Data Bean
+ */
 @SessionScoped
 @Named("data")
-public class DataBean implements Serializable
-{
+public class DataBean implements Serializable {
 
-    private static final long   serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private Nutzer              nutzer;
+	private Nutzer nutzer;
 
-    @Inject
-    private ProjectConfig       config;
+	@Inject
+	private ProjectConfig config;
 
-    @Inject
-    private ArchivBean          archiv;
+	@Inject
+	private ArchivBean archiv;
 
-    @Inject
-    @Produktiv
-    private INutzerDatenService nutzerDatenService;
+	@Inject
+	@Produktiv
+	private INutzerDatenService nutzerDatenService;
 
-    @Inject
-    private IQuellenManager     quellenManager;
+	@Inject
+	private IQuellenManager quellenManager;
 
-    private Filterprofilgruppe  filtergruppe;
+	private Filterprofilgruppe filtergruppe;
 
-    public DataBean()
-    {
+	public DataBean() {
 
-    }
+	}
 
-    @PostConstruct
-    void init()
-    {
-        // TODO Konni WARUM?
-        this.nutzer = this.nutzerDatenService.getNutzer();
-        if (!this.nutzer.getFilterprofilgruppen().isEmpty())
-        {
-            this.filtergruppe = new ArrayList<>(this.nutzer.getFilterprofilgruppen()).get(0);
-        }
-    }
-
+	@PostConstruct
+	void init() {
+		// TODO Konni WARUM?
+		this.nutzer = this.nutzerDatenService.getNutzer();
+		if (!this.nutzer.getFilterprofilgruppen().isEmpty()) {
+			this.filtergruppe = new ArrayList<>(this.nutzer.getFilterprofilgruppen()).get(0);
+		}
+	}
+ 
     public Nutzer getNutzer()
     {
         return this.nutzer;
@@ -67,52 +67,42 @@ public class DataBean implements Serializable
     public void setNutzer(Nutzer nutzer)
     {
         this.nutzer = nutzer;
-    }
+    } 
 
-    public Filterprofilgruppe getFiltergruppe()
-    {
-        return this.filtergruppe;
-    }
+	public Filterprofilgruppe getFiltergruppe() {
+		return this.filtergruppe;
+	}
 
-    public void setFiltergruppe(Filterprofilgruppe filtergruppe)
-    {
+	public void setFiltergruppe(Filterprofilgruppe filtergruppe) {
 
-        this.filtergruppe = filtergruppe;
-        if (filtergruppe.getArchiveintraege().size() > 0)
-        {
-            this.archiv.setGeweahlterArchiveintrag((Archiveintrag) filtergruppe.getArchiveintraege().toArray()[0]);
-        }
-    }
+		this.filtergruppe = filtergruppe;
+		if (filtergruppe.getArchiveintraege().size() > 0) {
+			this.archiv.setGeweahlterArchiveintrag((Archiveintrag) filtergruppe.getArchiveintraege().toArray()[0]);
+		}
+	}
 
-    public List<Filterprofilgruppe> getFiltergruppen()
-    {
-        if (this.nutzer == null)
-        {
-            return null;
-        }
+	public List<Filterprofilgruppe> getFiltergruppen() {
+		if (this.nutzer == null) {
+			return null;
+		}
 
-        List<Filterprofilgruppe> alleFiltergruppen = new ArrayList<>();
-        alleFiltergruppen.addAll(this.nutzer.getFilterprofilgruppen());
+		List<Filterprofilgruppe> alleFiltergruppen = new ArrayList<>();
+		alleFiltergruppen.addAll(this.nutzer.getFilterprofilgruppen());
 
-        for (Firma f : this.nutzer.getFirmen())
-        {
-            for (Filterprofilgruppe ffg : f.getFilterprofilgruppen())
-            {
-                for (Nutzer ma : ffg.getEmpfaenger())
-                {
-                    if (ma.equals(this.nutzer))
-                    {
-                        alleFiltergruppen.add(ffg);
-                    }
-                }
-            }
-        }
+		for (Firma f : this.nutzer.getFirmen()) {
+			for (Filterprofilgruppe ffg : f.getFilterprofilgruppen()) {
+				for (Nutzer ma : ffg.getEmpfaenger()) {
+					if (ma.equals(this.nutzer)) {
+						alleFiltergruppen.add(ffg);
+					}
+				}
+			}
+		}
 
-        return alleFiltergruppen;
-    }
+		return alleFiltergruppen;
+	}
 
-    public ProjectConfig getConfig()
-    {
-        return this.config;
-    }
+	public ProjectConfig getConfig() {
+		return this.config;
+	}
 }

@@ -8,17 +8,20 @@ import de.sitescrawler.model.ProjectConfig;
 
 import java.io.Serializable;
 
+/**
+ * @author robin Index Bean
+ */
 @SessionScoped
 @Named("index")
 public class IndexBean implements Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Inject
-	private ProjectConfig config; 
+	private ProjectConfig config;
 
 	public ProjectConfig getConfig() {
 		return config;
