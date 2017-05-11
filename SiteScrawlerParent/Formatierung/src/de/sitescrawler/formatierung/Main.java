@@ -27,6 +27,8 @@ public class Main
 
         Artikel artikelEins = new Artikel();
         Artikel artikelZwei = new Artikel();
+        Artikel artikelDrei = new Artikel();
+        Artikel artikelVier = new Artikel();
 
         artikelEins.setAutor("Autor Eins");
         artikelEins.setBeschreibung("Artikel Eins. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
@@ -42,9 +44,25 @@ public class Main
         Date datumArtikelZwei = new Date();
         artikelZwei.setErstellungsdatum(datumArtikelZwei);
 
+        artikelDrei.setAutor("Autor Drei");
+        artikelDrei.setBeschreibung("Artikel Drei. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+        artikelDrei.setTitel("Der dritte Artikel");
+        artikelDrei.setLink("https://de.wikipedia.org/wiki/Katzen");
+        Date datumArtikelDrei = new Date();
+        artikelDrei.setErstellungsdatum(datumArtikelDrei);
+
+        artikelVier.setAutor("Autor Vier");
+        artikelVier.setBeschreibung("Artikel Autor Vier. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+        artikelVier.setTitel("Der vierte Artikel");
+        artikelVier.setLink("https://de.wikipedia.org/wiki/Katzen");
+        Date datumArtikelVier = new Date();
+        artikelVier.setErstellungsdatum(datumArtikelVier);
+
         Set<Artikel> setArtikel = new HashSet<>(0);
         setArtikel.add(artikelEins);
         setArtikel.add(artikelZwei);
+        setArtikel.add(artikelDrei);
+        setArtikel.add(artikelVier);
 
         eintrag.setArtikel(setArtikel);
 

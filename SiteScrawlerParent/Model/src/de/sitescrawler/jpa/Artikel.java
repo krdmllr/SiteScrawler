@@ -1,11 +1,14 @@
 package de.sitescrawler.jpa;
 // Generated 02.05.2017 16:40:27 by Hibernate Tools 5.2.0.CR1
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,6 +40,8 @@ public class Artikel implements java.io.Serializable
     private String             beschreibung;
     private String             link;
     private List<String>       absaetzeArtikel  = new ArrayList();
+
+    private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
 
     public Artikel()
     {
@@ -109,7 +114,7 @@ public class Artikel implements java.io.Serializable
         this.solrid = solrid;
     }
 
-    @XmlElement(name="datum")
+    @XmlTransient
     public Date getErstellungsdatum()
     {
         return this.erstellungsdatum;
@@ -174,5 +179,17 @@ public class Artikel implements java.io.Serializable
     {
         this.absaetzeArtikel = absaetzeArtikel;
     }
+
+    // Wird für die XML bzw. PDF-Generierung benötigt
+    @XmlElement(name="datum")
+    public String getDatumFormatiert()
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd. MMMM yyyy", Locale.GERMAN);
+        Date datumAlt = this.getErstellungsdatum();
+        String datum = formatter.format(datumAlt);
+
+        return datum;
+    }
+
 
 }

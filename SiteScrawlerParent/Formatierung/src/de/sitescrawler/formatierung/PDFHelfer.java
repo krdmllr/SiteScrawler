@@ -4,12 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +27,6 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 
 import de.sitescrawler.jpa.Archiveintrag;
-import de.sitescrawler.jpa.Artikel;
 
 /**
  * @author Yvette
@@ -42,7 +36,6 @@ public class PDFHelfer
 {
     // Globalen Logger holen
     private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
-    File pdffile = new File("Result.pdf");
     File xsltDatei = new File("src/de/sitescrawler/hilfsdateien/xmlZuPdf.xsl");
 
 
@@ -58,35 +51,7 @@ public class PDFHelfer
         JAXBContext jc = JAXBContext.newInstance(Archiveintrag.class);
         Marshaller m = jc.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-        archiveintrag = this.datumFormatieren(archiveintrag);
-
         m.marshal(archiveintrag, xmlDatei);
-    }
-
-    private Archiveintrag datumFormatieren(Archiveintrag archiveintrag)
-    {
-        // TODO Datum umformatieren in XML
-        SimpleDateFormat formatter = new SimpleDateFormat("dd. MMMM yyyy", Locale.GERMAN);
-        Set<Artikel> artikelListe = archiveintrag.getArtikel();
-
-        for (Artikel art : artikelListe)
-        {
-            Date datumAlt = art.getErstellungsdatum();
-            String datumNeu = formatter.format(datumAlt);
-
-            try
-            {
-                Date datum = formatter.parse(datumNeu);
-                art.setErstellungsdatum(datum);
-            }
-            catch (ParseException e)
-            {
-                PDFHelfer.LOGGER.log(Level.SEVERE, "Umwandlung des Datums für XML fehlgeschlagen!", e);
-            }
-        }
-
-        return archiveintrag;
     }
 
     private static Transformer erstelleTransformer(File xlst, Map<String, String> parameter) throws TransformerConfigurationException

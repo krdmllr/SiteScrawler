@@ -127,7 +127,7 @@ public class HTMLHelfer
                             + "<h3><b>" + artikel.getTitel() + "</b></h3>" + "\n"
                             + "<p id=\"datumUndAutor\">" + "Von " + artikel.getAutor() + " am " + aktuellesDatum + "</p>" + "\n"
                             + "<p id=\"beschreibung\">" + artikel.getBeschreibung() + "</p>" + "\n"
-                            + "<id=\"link\" target=\"_blank\" href=\"" + artikel.getLink() + ">" + "Klicken Sie hier" + "</a>" + "um den vollen Artikel ansehen zu können." + "\n"
+                            + "<a target=\"_blank\" href=\"" + artikel.getLink() + "\" class=\"button\">" + "Zum vollen Artikel" + "</a>" + "\n"
                             + "</div>";
         }
 

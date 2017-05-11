@@ -43,8 +43,8 @@
 				<fo:flow flow-name="xsl-region-body">
 
 					<!-- Block für Header -->
-					<fo:block padding="15px" background-color="#384f94" color="#ddd" padding-bottom="10px"
-						margin-bottom="2px">
+					<fo:block padding="15px" background-color="#384f94" color="#ddd"
+						padding-bottom="10px" margin-bottom="2px">
 						<fo:table table-layout="fixed" width="100%" text-align="center">
 							<fo:table-column column-width="30%" border-style="none" />
 							<fo:table-column column-width="70%" border-style="none" />
@@ -111,7 +111,8 @@
 	<xsl:template match="artikel">
 		<fo:block border="2px solid #449d44" padding="13px"
 			text-align="left" margin-top="2px" margin-bottom="2px">
-			<fo:block font-size="16pt" font-weight="bold" padding-bottom="3px">
+			<fo:block font-size="16pt" font-weight="bold"
+				padding-bottom="3px">
 				<xsl:value-of select="titel" />
 			</fo:block>
 			<fo:block font-size="8pt" padding-bottom="3px">
@@ -124,12 +125,11 @@
 			<fo:block font-size="12pt" padding-bottom="3px">
 				<xsl:value-of select="beschreibung" />
 			</fo:block>
-			<fo:block font-size="8pt">
+			<fo:block font-size="8pt" background-color="#449d44"
+				border="1px solid #449d44" color="#ddd" padding="3px">
 				<fo:inline>
 					<xsl:text>Zum ganzen Artikel: </xsl:text>
-					<fo:block color="#384f94">
-						<xsl:value-of select="link"></xsl:value-of>
-					</fo:block>
+					<xsl:value-of select="link"></xsl:value-of>
 				</fo:inline>
 			</fo:block>
 		</fo:block>
