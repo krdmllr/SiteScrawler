@@ -16,6 +16,7 @@ import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 
 @ApplicationScoped
 @Named
+@Transactional
 public class QuellenManager implements IQuellenManager
 {
 
@@ -25,10 +26,6 @@ public class QuellenManager implements IQuellenManager
 
     public QuellenManager()
     {
-        // TODOD Remove falls db zugriff gew�nscht.
-        // this.quellen = new ArrayList<>();
-        // Quelle spiegelQuelle = new Quelle("Spiegel", "http://www.spiegel.de/schlagzeilen/tops/index.rss");
-        // this.quellen.add(spiegelQuelle);
     }
 
     @Override
@@ -52,7 +49,7 @@ public class QuellenManager implements IQuellenManager
     @Transactional(value = TxType.REQUIRED)
     private void speichereQuelle(Quelle quelle)
     {
-        this.entityManager.merge(quelle); 
+        this.entityManager.merge(quelle);
     }
 
     @Override
