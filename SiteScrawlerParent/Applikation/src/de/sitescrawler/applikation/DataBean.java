@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Transient;
 
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Filterprofilgruppe;
@@ -61,8 +62,8 @@ public class DataBean implements Serializable
     public Nutzer getNutzer()
     {
         return this.nutzer;
-    }
-
+    } 
+    
     public void setNutzer(Nutzer nutzer)
     {
         this.nutzer = nutzer;

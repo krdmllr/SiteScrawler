@@ -41,6 +41,12 @@ public interface ISolrService
      * @return Liste der gefundenen Artikel
      */
     Artikel sucheArtikelMitLink(String id);
+    
+    /**
+     * Komplettieret den Artikel mit Daten aus Solr basierend auf dem bereits im Artikel hinterlegten Link.
+     * @param artikel
+     */
+    void komplettiereArtikel(Artikel artikel);
 
     /**
      * Löscht alle Artikel (Warum?).

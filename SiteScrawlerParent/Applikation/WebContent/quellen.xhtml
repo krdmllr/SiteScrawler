@@ -98,7 +98,7 @@
 
 			<div class="col-md-9 column">
 				<!-- Archiv -->
-				<p:panel id="gewaehlte-quelle" class="container-panel">
+				<p:outputPanel id="gewaehlte-quelle" class="container-panel">
 					<b:form class="panel panel-default artikelPanel"
 						id="gewaehlte-quelle-form" rendered="#{quellen.zeigeQuelleAn()}">
 						<div class="panel-heading">
@@ -109,7 +109,7 @@
 										update="gewaehlte-quelle-form:bearbeiten-buttons" />
 								</p:inputText>
 							</h3>
-							<p:panel class="btn-group pull-right container-panel"
+							<p:outputPanel class="btn-group pull-right container-panel"
 								role="group" id="bearbeiten-buttons">
 
 								<!-- Löschen button -->
@@ -130,7 +130,7 @@
 									update="@form gewaehlte-quelle" value="Verwerfen" type="button"
 									class="btn btn-default" />
 
-							</p:panel>
+							</p:outputPanel>
 							<div class="clearfix"></div>
 						</div>
 						<div class="panel-body">
@@ -152,7 +152,7 @@
 							</p:inputText>
 						</div>
 					</b:form>
-				</p:panel>
+				</p:outputPanel>
 			</div>
 		</ui:define>
 	</ui:composition>

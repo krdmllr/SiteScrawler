@@ -150,9 +150,34 @@ public class SolrService implements ISolrService, Serializable
 
     @Override
     public Artikel sucheArtikelMitLink(String link)
-    {
-        SolrQuery solrQuery = new SolrQuery("link:" + link);
+    { 
+    	String linkMitEscaping = ""; 
+    	
+    	for(char ch : link.toCharArray()){
+    		 if((ch + "").matches("[:/\\?]"))
+    		 {
+    			 linkMitEscaping += "\\" + ch;
+    		 }
+    		 else
+			 	linkMitEscaping += ch;
+    	} 
+        SolrQuery solrQuery = new SolrQuery("link:" + linkMitEscaping);
         List<Artikel> artikel = this.getArtikel(solrQuery);
         return artikel.isEmpty() ? null : artikel.get(0);
     }
+
+    @Override
+	public void komplettiereArtikel(Artikel artikel) {
+		 Artikel solrArtikel = sucheArtikelMitLink(artikel.getLink());
+		 if(solrArtikel == null) return;
+		 
+		 //Fülle bestehenden Artikel mit Solr Informationen auf.
+		 artikel.setAbsaetzeArtikel(solrArtikel.getAbsaetzeArtikel());
+		 artikel.setAutor(solrArtikel.getAutor());
+		 artikel.setBeschreibung(solrArtikel.getBeschreibung());
+		 artikel.setErstellungsdatum(solrArtikel.getErstellungsdatum());
+		 artikel.setFavoritenzahl(solrArtikel.getFavoritenzahl());
+		 artikel.setRetweetzahl(solrArtikel.getRetweetzahl());
+		 artikel.setTitel(solrArtikel.getTitel());
+	}
 }

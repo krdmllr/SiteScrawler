@@ -52,8 +52,10 @@
 							</a></li>
 						</ul></li>
 						
-						<!-- Quellen verwalten -->
-						<li><a href="/quellen.xhtml">Quellen verwalten</a></li>
+						<!-- Quellen verwalten --> 
+						<p:outputPanel rendered="#{data.nutzer.administrator}">
+							<li><a href="/quellen.xhtml">Administration</a></li>
+						</p:outputPanel>
 						<!-- !Quellen verwalten -->
 				</ul>
 			</h:form>

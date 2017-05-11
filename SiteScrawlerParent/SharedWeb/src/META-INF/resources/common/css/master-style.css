@@ -102,3 +102,8 @@ body .btn-default:focus:active {
   
 
 /* !Button */
+
+.container-panel{
+	padding: 0px !important;
+	margin: 0px !important;
+}
