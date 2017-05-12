@@ -13,255 +13,309 @@ import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 
 /**
- * 
+ *
  * @author robin QuellenBean, alle Methoden zur Quellenverwaltung.
  */
 @SessionScoped
 @Named("quellen")
-public class QuellenBean implements Serializable {
+public class QuellenBean implements Serializable
+{
 
-	private static final long serialVersionUID = 1L;
+    private static final long   serialVersionUID = 1L;
 
-	@Inject
-	private DataBean dataBean;
+    @Inject
+    private DataBean            dataBean;
 
-	@Inject
-	private IQuellenManager quellenManager;
+    @Inject
+    private IQuellenManager     quellenManager;
 
-	@Inject
-	private ICrawlerLaufService crawlerService;
+    @Inject
+    private ICrawlerLaufService crawlerService;
 
-	private Quelle gewaehlteQuelle;
+    private Quelle              gewaehlteQuelle;
 
-	private Quelle neueQuelle;
+    private Quelle              neueQuelle;
 
-	private Quelle gewaehlteQuelleKopie;
+    private Quelle              gewaehlteQuelleKopie;
 
-	@PostConstruct
-	public void init() {
-		setzeDefaultQuelle();
-	}
+    @PostConstruct
+    public void init()
+    {
+        this.setzeDefaultQuelle();
+    }
 
-	/**
-	 * Setze die Default Quelle auf das erste Element
-	 */
-	private void setzeDefaultQuelle() {
-		if (getQuellen() != null && !getQuellen().isEmpty())
-			setGewaehlteQuelle(getQuellen().get(0));
-	}
+    /**
+     * Setze die Default Quelle auf das erste Element
+     */
+    private void setzeDefaultQuelle()
+    {
+        if (this.getQuellen() != null && !this.getQuellen().isEmpty())
+        {
+            this.setGewaehlteQuelle(this.getQuellen().get(0));
+        }
+    }
 
-	/**
-	 * Manuellen Crawlvorgang starten
-	 */
-	public void crawleManuell() {
-		crawlerService.crawl();
-	}
+    /**
+     * Manuellen Crawlvorgang starten
+     */
+    public void crawleManuell()
+    {
+        this.crawlerService.crawl();
+    }
 
-	/**
-	 * Get von allen Quellen
-	 * 
-	 * @return Liste von Quellen
-	 */
-	public List<Quelle> getQuellen() {
-		List<Quelle> quellen = quellenManager.getQuellen();
-		return quellen;
-	}
+    /**
+     * Get von allen Quellen
+     *
+     * @return Liste von Quellen
+     */
+    public List<Quelle> getQuellen()
+    {
+        List<Quelle> quellen = this.quellenManager.getQuellen();
+        return quellen;
+    }
 
-	/**
-	 * Get auf die aktuell gewählte Quelle
-	 * 
-	 * @return
-	 */
-	public Quelle getGewaehlteQuelle() {
-		return gewaehlteQuelle;
-	}
+    /**
+     * Get auf die aktuell gewï¿½hlte Quelle
+     *
+     * @return
+     */
+    public Quelle getGewaehlteQuelle()
+    {
+        return this.gewaehlteQuelle;
+    }
 
-	/**
-	 * Setze die neue gewählte Quelle, erzeugt dabei eine Kopie
-	 * 
-	 * @param geweahlteQuelle
-	 */
-	public void setGewaehlteQuelle(Quelle geweahlteQuelle) {
-		gewaehlteQuelleKopie = new Quelle(geweahlteQuelle.getName(), geweahlteQuelle.getBild(),
-				geweahlteQuelle.getRsslink(), geweahlteQuelle.getTagOderId(), geweahlteQuelle.getFilterprofile());
-		this.gewaehlteQuelle = geweahlteQuelle;
-	}
+    /**
+     * Setze die neue gewï¿½hlte Quelle, erzeugt dabei eine Kopie
+     *
+     * @param geweahlteQuelle
+     */
+    public void setGewaehlteQuelle(Quelle geweahlteQuelle)
+    {
+        if (geweahlteQuelle != null)
+        {
+            this.gewaehlteQuelleKopie = new Quelle(geweahlteQuelle.getName(), geweahlteQuelle.getBild(), geweahlteQuelle.getRsslink(),
+                                                   geweahlteQuelle.getTagOderId(), geweahlteQuelle.getFilterprofile());
+        }
+        this.gewaehlteQuelle = geweahlteQuelle;
+    }
 
-	/**
-	 * Erstelle neue Quelle
-	 */
-	public void starteQuellenErstellen() {
-		neueQuelle = new Quelle();
-	}
+    /**
+     * Erstelle neue Quelle
+     */
+    public void starteQuellenErstellen()
+    {
+        this.neueQuelle = new Quelle();
+    }
 
-	/**
-	 * Verwirft die Änderungen und setzt die Felder wieder auf die
-	 * ursprünglichen Werte.
-	 */
-	public void verwerfeAenderungen() {
-		gewaehlteQuelle.setName(gewaehlteQuelleKopie.getName());
-		gewaehlteQuelle.setRsslink(gewaehlteQuelleKopie.getRsslink());
-		gewaehlteQuelle.setTagOderId(gewaehlteQuelleKopie.getTagOderId());
-	}
+    /**
+     * Verwirft die ï¿½nderungen und setzt die Felder wieder auf die ursprï¿½nglichen Werte.
+     */
+    public void verwerfeAenderungen()
+    {
+        this.gewaehlteQuelle.setName(this.gewaehlteQuelleKopie.getName());
+        this.gewaehlteQuelle.setRsslink(this.gewaehlteQuelleKopie.getRsslink());
+        this.gewaehlteQuelle.setTagOderId(this.gewaehlteQuelleKopie.getTagOderId());
+    }
 
-	/**
-	 * Speichert die Änderungen
-	 */
-	public void speichereAenderung() {
-		quellenManager.modifiziereQuelle(gewaehlteQuelle);
-		setGewaehlteQuelle(getGewaehlteQuelle());
-	}
+    /**
+     * Speichert die ï¿½nderungen
+     */
+    public void speichereAenderung()
+    {
+        this.quellenManager.modifiziereQuelle(this.gewaehlteQuelle);
+        this.setGewaehlteQuelle(this.getGewaehlteQuelle());
+    }
 
-	/**
-	 * Übernimmt die neue Quelle
-	 */
-	public void uebernehmeNeueQuelle() {
-		quellenManager.erstelleQuelle(neueQuelle);
-		neueQuelle = new Quelle();
-		setzeDefaultQuelle();
-	}
+    /**
+     * ï¿½bernimmt die neue Quelle
+     */
+    public void uebernehmeNeueQuelle()
+    {
+        this.quellenManager.erstelleQuelle(this.neueQuelle);
+        this.neueQuelle = new Quelle();
+        this.setzeDefaultQuelle();
+    }
 
-	/**
-	 * Löscht die gewählte Quelle und setzt eine neue Default Quelle
-	 */
-	public void loescheQuelle() {
-		quellenManager.loescheQuelle(gewaehlteQuelle);
-		setGewaehlteQuelle(null);
+    /**
+     * Lï¿½scht die gewï¿½hlte Quelle und setzt eine neue Default Quelle
+     */
+    public void loescheQuelle()
+    {
+        this.quellenManager.loescheQuelle(this.gewaehlteQuelle);
+        // TODO null geht nicht!!!
+        this.setGewaehlteQuelle(null);
 
-		setzeDefaultQuelle();
-	}
+        this.setzeDefaultQuelle();
+    }
 
-	/**
-	 * Boolean, ob der Löschen Button angezeigt werden muss
-	 * 
-	 * @return
-	 */
-	public boolean zeigeLoeschButton() {
-		return true;
-	}
+    /**
+     * Boolean, ob der Lï¿½schen Button angezeigt werden muss
+     *
+     * @return
+     */
+    public boolean zeigeLoeschButton()
+    {
+        return true;
+    }
 
-	/**
-	 * Boolean, ob der Verwerfen Button angezeigt werden muss
-	 * 
-	 * @return
-	 */
-	public boolean zeigeVerwerfenButton() {
-		return wurdeQuelleVeraendert();
-	}
+    /**
+     * Boolean, ob der Verwerfen Button angezeigt werden muss
+     *
+     * @return
+     */
+    public boolean zeigeVerwerfenButton()
+    {
+        return this.wurdeQuelleVeraendert();
+    }
 
-	/**
-	 * Boolean, ob der neue Quelle verwerfen Button angezeigt werden muss.
-	 * Liefert true wenn ein Feld befüllt ist.
-	 * 
-	 * @return
-	 */
-	public boolean zeigeNeueQuelleVerwerfenButton() {
-		if (neueQuelle == null)
-			return false;
+    /**
+     * Boolean, ob der neue Quelle verwerfen Button angezeigt werden muss. Liefert true wenn ein Feld befï¿½llt ist.
+     *
+     * @return
+     */
+    public boolean zeigeNeueQuelleVerwerfenButton()
+    {
+        if (this.neueQuelle == null)
+        {
+            return false;
+        }
 
-		if (neueQuelle.getName() != null && !neueQuelle.getName().isEmpty())
-			return true;
+        if (this.neueQuelle.getName() != null && !this.neueQuelle.getName().isEmpty())
+        {
+            return true;
+        }
 
-		if (neueQuelle.getRsslink() != null && !neueQuelle.getRsslink().isEmpty())
-			return true;
+        if (this.neueQuelle.getRsslink() != null && !this.neueQuelle.getRsslink().isEmpty())
+        {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Boolean, ob der Quelle erstellen Button angezeigt werden muss, liefert
-	 * true wenn alle Felder befüllt sind.
-	 * 
-	 * @return
-	 */
-	public boolean zeigeErstellenButton() {
-		if (neueQuelle == null)
-			return false;
+    /**
+     * Boolean, ob der Quelle erstellen Button angezeigt werden muss, liefert true wenn alle Felder befï¿½llt sind.
+     *
+     * @return
+     */
+    public boolean zeigeErstellenButton()
+    {
+        if (this.neueQuelle == null)
+        {
+            return false;
+        }
 
-		if (neueQuelle.getName() == null || neueQuelle.getName().isEmpty())
-			return false;
+        if (this.neueQuelle.getName() == null || this.neueQuelle.getName().isEmpty())
+        {
+            return false;
+        }
 
-		if (neueQuelle.getRsslink() == null || neueQuelle.getRsslink().isEmpty())
-			return false;
+        if (this.neueQuelle.getRsslink() == null || this.neueQuelle.getRsslink().isEmpty())
+        {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	public boolean zeigeQuelleAn() {
-		return getGewaehlteQuelle() != null;
-	}
+    public boolean zeigeQuelleAn()
+    {
+        return this.getGewaehlteQuelle() != null;
+    }
 
-	/**
-	 * Boolean, ob der Speichern button angezeit werden muss.
-	 * 
-	 * @return
-	 */
-	public boolean zeigeSpeichernButton() {
-		return wurdeQuelleVeraendert();
-	}
+    /**
+     * Boolean, ob der Speichern button angezeit werden muss.
+     *
+     * @return
+     */
+    public boolean zeigeSpeichernButton()
+    {
+        return this.wurdeQuelleVeraendert();
+    }
 
-	/**
-	 * Boolean, ob die Quelle verändert wurde. Überprüft, ob Inhalte der
-	 * gewählten Quelle und der Kopie gleich sind.
-	 * 
-	 * @return
-	 */
-	private boolean wurdeQuelleVeraendert() {
+    /**
+     * Boolean, ob die Quelle verï¿½ndert wurde. ï¿½berprï¿½ft, ob Inhalte der gewï¿½hlten Quelle und der Kopie gleich sind.
+     *
+     * @return
+     */
+    private boolean wurdeQuelleVeraendert()
+    {
 
-		if (gewaehlteQuelleKopie == null || gewaehlteQuelle == null)
-			return false;
+        if (this.gewaehlteQuelleKopie == null || this.gewaehlteQuelle == null)
+        {
+            return false;
+        }
 
-		if (!istStringGleich(gewaehlteQuelle.getName(), gewaehlteQuelleKopie.getName()))
-			return true;
-		if (!istStringGleich(gewaehlteQuelle.getRsslink(), gewaehlteQuelleKopie.getRsslink()))
-			return true;
-		if (!istStringGleich(gewaehlteQuelle.getTagOderId(), gewaehlteQuelleKopie.getTagOderId()))
-			return true;
+        if (!this.istStringGleich(this.gewaehlteQuelle.getName(), this.gewaehlteQuelleKopie.getName()))
+        {
+            return true;
+        }
+        if (!this.istStringGleich(this.gewaehlteQuelle.getRsslink(), this.gewaehlteQuelleKopie.getRsslink()))
+        {
+            return true;
+        }
+        if (!this.istStringGleich(this.gewaehlteQuelle.getTagOderId(), this.gewaehlteQuelleKopie.getTagOderId()))
+        {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Überprüft ob zwei Strings gleich sind.
-	 * 
-	 * @param string1
-	 * @param string2
-	 * @return
-	 */
-	private boolean istStringGleich(String string1, String string2) {
-		if (string1 == null && string2 == null)
-			return true;
+    /**
+     * ï¿½berprï¿½ft ob zwei Strings gleich sind.
+     *
+     * @param string1
+     * @param string2
+     * @return
+     */
+    private boolean istStringGleich(String string1, String string2)
+    {
+        if (string1 == null && string2 == null)
+        {
+            return true;
+        }
 
-		if (string1 == null && string2.isEmpty())
-			return true;
+        if (string1 == null && string2.isEmpty())
+        {
+            return true;
+        }
 
-		if (string1.isEmpty() && string2 == null)
-			return true;
+        if (string1.isEmpty() && string2 == null)
+        {
+            return true;
+        }
 
-		if (string1 == null || string2 == null)
-			return false;
+        if (string1 == null || string2 == null)
+        {
+            return false;
+        }
 
-		if (string1.equals(string2))
-			return true;
+        if (string1.equals(string2))
+        {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Get für die neue Quelle
-	 * 
-	 * @return
-	 */
-	public Quelle getNeueQuelle() {
-		return neueQuelle;
-	}
+    /**
+     * Get fï¿½r die neue Quelle
+     *
+     * @return
+     */
+    public Quelle getNeueQuelle()
+    {
+        return this.neueQuelle;
+    }
 
-	/**
-	 * Set für die neue Quelle
-	 * 
-	 * @param neueQuelle
-	 */
-	public void setNeueQuelle(Quelle neueQuelle) {
-		this.neueQuelle = neueQuelle;
-	}
+    /**
+     * Set fï¿½r die neue Quelle
+     *
+     * @param neueQuelle
+     */
+    public void setNeueQuelle(Quelle neueQuelle)
+    {
+        this.neueQuelle = neueQuelle;
+    }
 }

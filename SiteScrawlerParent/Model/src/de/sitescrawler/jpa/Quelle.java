@@ -142,4 +142,47 @@ public class Quelle implements java.io.Serializable
         return this.name + " " + this.rsslink;
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (this.getClass() != obj.getClass())
+        {
+            return false;
+        }
+        Quelle other = (Quelle) obj;
+        if (this.name == null)
+        {
+            if (other.name != null)
+            {
+                return false;
+            }
+        }
+        else
+            if (!this.name.equals(other.name))
+            {
+                return false;
+            }
+        if (this.rsslink == null)
+        {
+            if (other.rsslink != null)
+            {
+                return false;
+            }
+        }
+        else
+            if (!this.rsslink.equals(other.rsslink))
+            {
+                return false;
+            }
+        return true;
+    }
+
 }
