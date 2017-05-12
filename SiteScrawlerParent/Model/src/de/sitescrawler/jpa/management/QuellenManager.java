@@ -8,14 +8,11 @@ import java.util.Map;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
-import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 
@@ -25,12 +22,12 @@ import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 public class QuellenManager implements IQuellenManager
 {
 
-    private List<Quelle>  quellen = new ArrayList<>();
-    
+    private List<Quelle>         quellen         = new ArrayList<>();
+
     private Map<Integer, Quelle> bekannteQuellen = new HashMap<>();
-    
+
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager        entityManager;
 
     public QuellenManager()
     {
@@ -54,17 +51,11 @@ public class QuellenManager implements IQuellenManager
         return quellen;
     }
 
-    @Transactional(value = TxType.REQUIRED)
-    private void speichereQuelle(Quelle quelle)
-    {
-        this.entityManager.merge(quelle);
-    }
-
     @Override
     @Transactional(value = TxType.REQUIRED)
     public void erstelleQuelle(Quelle quelle)
     {
-        this.speichereQuelle(quelle);
+        this.entityManager.persist(quelle);
         this.quellen.add(quelle);
     }
 
@@ -72,33 +63,37 @@ public class QuellenManager implements IQuellenManager
     @Transactional(value = TxType.REQUIRED)
     public void modifiziereQuelle(Quelle quelle)
     {
-        this.speichereQuelle(quelle);
+        this.entityManager.merge(quelle);
     }
 
     @Override
     @Transactional(value = TxType.REQUIRED)
     public void loescheQuelle(Quelle quelle)
     {
+        quelle = this.entityManager.find(Quelle.class, quelle.getQid());
         this.entityManager.remove(quelle);
-        //TODO Lösche Artikel von Quelle aus SOLR
-        this.quellen.remove(quelle);  
-        bekannteQuellen.remove(quelle.getQid()); 
+        // TODO Lösche Artikel von Quelle aus SOLR
+        this.quellen.remove(quelle);
+        this.bekannteQuellen.remove(quelle.getQid());
     }
-        
-	@Override
-	public Quelle getQuelle(Integer id) {
-		
-		//Versuche die Quelle aus den bekannten Quellen zu finden.
-		if(bekannteQuellen.containsKey(id)) 
-			return bekannteQuellen.get(id);
-		
-		//Quelle war nicht bekannt, suche Quelle in Datenbank.
-		TypedQuery<Quelle> query = this.entityManager.createQuery("SELECT q FROM Quelle q WHERE q.qid = :id", Quelle.class);
-		query.setParameter("id", id);
-		Quelle quelle = query.getSingleResult();
-		bekannteQuellen.put(id, quelle);
-		
-		return quelle;
-		
-	}
+
+    @Override
+    public Quelle getQuelle(Integer id)
+    {
+
+        // Versuche die Quelle aus den bekannten Quellen zu finden.
+        if (this.bekannteQuellen.containsKey(id))
+        {
+            return this.bekannteQuellen.get(id);
+        }
+
+        // Quelle war nicht bekannt, suche Quelle in Datenbank.
+        TypedQuery<Quelle> query = this.entityManager.createQuery("SELECT q FROM Quelle q WHERE q.qid = :id", Quelle.class);
+        query.setParameter("id", id);
+        Quelle quelle = query.getSingleResult();
+        this.bekannteQuellen.put(id, quelle);
+
+        return quelle;
+
+    }
 }

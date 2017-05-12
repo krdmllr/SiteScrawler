@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofil;
-import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
 @ApplicationScoped
@@ -33,14 +33,14 @@ public class SolrService implements ISolrService, Serializable
     private SolrClient                    solrClient;
 
     // TODO: in config-Datei auslagern
-    //private static final String SolrUrl = "http://sitescrawler.de:8983/solr/testdaten";
-    //private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/spielwiesewilliam";
-    private static final String SolrUrl = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";
+    // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/testdaten";
+    // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/spielwiesewilliam";
+    private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";
     private static final SimpleDateFormat formatter        = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'");
 
     public SolrService()
     {
-    	LOGGER.log(Level.INFO, "Nutze Solr Instanz: " + SolrUrl);
+        SolrService.LOGGER.log(Level.INFO, "Nutze Solr Instanz: " + SolrService.SolrUrl);
         this.solrClient = new HttpSolrClient.Builder(SolrService.SolrUrl).build();
     }
 
@@ -112,13 +112,13 @@ public class SolrService implements ISolrService, Serializable
         try
         {
             QueryResponse response = this.solrClient.query(solrQuery);
-            artikel = response.getBeans(Artikel.class);
+            artikel = new ArrayList<>(new HashSet<>(response.getBeans(Artikel.class)));
         }
         catch (SolrServerException | IOException e)
         {
             SolrService.LOGGER.log(Level.SEVERE, "Fehler beim suchen von Artikeln.", e);
-        }  
-        
+        }
+
         SolrService.LOGGER.info("Es wurden " + artikel.size() + " Artikel zur Query " + solrQuery.getQuery() + " gefunden.");
         return artikel;
     }
@@ -150,35 +150,42 @@ public class SolrService implements ISolrService, Serializable
 
     @Override
     public Artikel sucheArtikelMitLink(String link)
-    { 
-    	String linkMitEscaping = ""; 
-    	
-    	for(char ch : link.toCharArray()){
-    		 if((ch + "").matches("[:/\\?]"))
-    		 {
-    			 linkMitEscaping += "\\" + ch;
-    		 }
-    		 else
-			 	linkMitEscaping += ch;
-    	} 
+    {
+        String linkMitEscaping = "";
+
+        for (char ch : link.toCharArray())
+        {
+            if ((ch + "").matches("[:/\\?]"))
+            {
+                linkMitEscaping += "\\" + ch;
+            }
+            else
+            {
+                linkMitEscaping += ch;
+            }
+        }
         SolrQuery solrQuery = new SolrQuery("link:" + linkMitEscaping);
         List<Artikel> artikel = this.getArtikel(solrQuery);
         return artikel.isEmpty() ? null : artikel.get(0);
     }
 
     @Override
-	public void komplettiereArtikel(Artikel artikel) {
-		 Artikel solrArtikel = sucheArtikelMitLink(artikel.getLink());
-		 if(solrArtikel == null) return;
-		 
-		 //Fülle bestehenden Artikel mit Solr Informationen auf.
-		 artikel.setAbsaetzeArtikel(solrArtikel.getAbsaetzeArtikel());
-		 artikel.setAutor(solrArtikel.getAutor());
-		 artikel.setBeschreibung(solrArtikel.getBeschreibung());
-		 artikel.setErstellungsdatum(solrArtikel.getErstellungsdatum());
-		 artikel.setFavoritenzahl(solrArtikel.getFavoritenzahl());
-		 artikel.setRetweetzahl(solrArtikel.getRetweetzahl());
-		 artikel.setTitel(solrArtikel.getTitel());
-		 artikel.setQid(solrArtikel.getQid());
-	}
+    public void komplettiereArtikel(Artikel artikel)
+    {
+        Artikel solrArtikel = this.sucheArtikelMitLink(artikel.getLink());
+        if (solrArtikel == null)
+        {
+            return;
+        }
+
+        // Fülle bestehenden Artikel mit Solr Informationen auf.
+        artikel.setAbsaetzeArtikel(solrArtikel.getAbsaetzeArtikel());
+        artikel.setAutor(solrArtikel.getAutor());
+        artikel.setBeschreibung(solrArtikel.getBeschreibung());
+        artikel.setErstellungsdatum(solrArtikel.getErstellungsdatum());
+        artikel.setFavoritenzahl(solrArtikel.getFavoritenzahl());
+        artikel.setRetweetzahl(solrArtikel.getRetweetzahl());
+        artikel.setTitel(solrArtikel.getTitel());
+        artikel.setQid(solrArtikel.getQid());
+    }
 }
