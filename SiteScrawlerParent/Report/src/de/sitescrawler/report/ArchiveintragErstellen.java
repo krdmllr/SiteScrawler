@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -25,6 +27,7 @@ import de.sitescrawler.utility.DateUtils;
 @ApplicationScoped
 public class ArchiveintragErstellen
 {
+	 private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
 
     @Inject
     ISolrService                  solr;
@@ -50,7 +53,15 @@ public class ArchiveintragErstellen
         List<Artikel> artikel = this.solr.sucheArtikel(filterprofile);
         
         //Ordnet den Artikeln ihre Quellen zu.
-        artikel.forEach(a -> a.setQuelle(quellenManager.getQuelle(a.getQid())));
+        artikel.forEach(a ->{
+        	try{
+        		a.setQuelle(quellenManager.getQuelle(a.getQid()));
+        	}
+        	catch(Exception ex)
+        	{
+        		LOGGER.log(Level.WARNING, "Für Artikel " + a.getTitel() + " aus Quelle mit ID: " + a.getQid() + " wurde keine Quelle in der Datenbank gefunden gefunden.");
+        	}
+        });
         
         Set<Artikel> artikelAlsSet = new HashSet<>(artikel);
 

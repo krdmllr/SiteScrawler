@@ -27,8 +27,6 @@
 						<b:form>
 							<p:commandLink id="filter-bearbeiten"
 								action="/filterbearbeiten.xhtml?faces-redirect=true">
-								<!-- <f:param name="filterprofile" value="#{firmen.ausgewaehlteFirma.filterprofile}" />	
-								<f:param name="filtergruppe" value="#{gruppe}" /> -->
 								<f:actionListener for="filter-bearbeiten"
 									binding="#{filterbearbeiten.setParameter(data.filtergruppe, data.filtergruppe.firmenGruppe ? data.filtergruppe.firma.filterprofile : data.nutzer.filterprofile)}" />
 								<p:graphicImage value="/resources/image/edit-square.svg"
@@ -107,13 +105,19 @@
 								<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 							</h:outputText>
 						</h3>
-						<div class="btn-group pull-right" role="group"> 
-							<b:commandButton type="button" value="PDF exportieren"
-								action="#{archiv.exportierePdf()}" class="btn btn-default" />
-							<b:commandButton type="button" value="Eintrag löschen"
-								action="#{archiv.loescheArchiveintrag()}"
-								class="btn btn-default" /> 
-						</div>
+						<b:form>
+							<div class="btn-group pull-right" role="group"> 
+							
+								<p:commandLink type="button" 
+								    value="PDF exportieren"
+									action="#{archiv.exportierePdf()}" 
+									class="btn btn-default" />
+								<p:commandLink type="button" 
+									value="Eintrag löschen"
+									action="#{archiv.loescheArchiveintrag()}"
+									class="btn btn-default" /> 
+							</div>
+						</b:form>
 						<div class="clearfix"></div>
 					</div>
 

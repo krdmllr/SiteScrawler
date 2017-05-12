@@ -129,8 +129,8 @@ public class FormatiererService implements IFormatiererService
         catch (IOException e1)
         {
             FormatiererService.LOGGER.log(Level.SEVERE, "Fehler bei des Archiveintrags Umwandlung von XML in PDF.", e1);
-        }
-
+        } 
+        
         ByteArrayInputStream pdfIn = new ByteArrayInputStream(pdfOut.toByteArray());
         ByteArrayDataSource daten = null;
 
@@ -200,4 +200,42 @@ public class FormatiererService implements IFormatiererService
 
         return aktuellesDatum;
     }
+
+	@Override
+	public ByteArrayOutputStream generierePdfZusammenfassungStream(Archiveintrag archiveintrag) {
+		PDFHelfer pdfHelfer = new PDFHelfer();
+        File xmlDatei = new File("artikelXML.xml");
+        String aktuellesDatum = this.wandleDatumUm(new Date());
+        ByteArrayOutputStream pdfOut = new ByteArrayOutputStream();
+
+        Map<String, String> parameterFuerPDF = new HashMap<String, String>() {{
+            this.put( "titelPDF", "Ihr persönlicher Pressespiegel von SiteScrawler!" );
+            this.put( "logoSiteScrawler", "src/de/sitescrawler/hilfsdateien/logo.svg" );
+            this.put( "aktuellesDatum",  aktuellesDatum);
+            this.put( "footerText",  "Dieser Pressespiegel wurde von SiteScrawler erstellt und versandt.");
+            this.put( "linkZuSiteScrawler",  "https://sitescrawler.de");
+        }};
+
+        try
+        {
+            this.wandelArchiveintragInXML(archiveintrag, pdfHelfer, xmlDatei);
+            FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des Archiveintrags in XML erfolgreich.");
+        }
+        catch (JAXBException e2)
+        {
+            FormatiererService.LOGGER.log(Level.SEVERE, "Fehler bei Umwandlung des Archiveintrags in XML.", e2);
+        }
+
+        try
+        {
+            pdfOut = this.wandleXMLinPDF(pdfHelfer, xmlDatei, pdfOut, parameterFuerPDF);
+            FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des Archiveintrags von XML in PDF erfolgreich.");
+            return pdfOut;
+        }
+        catch (IOException e1)
+        {
+            FormatiererService.LOGGER.log(Level.SEVERE, "Fehler bei des Archiveintrags");
+        }
+        return null;
+	}
 }

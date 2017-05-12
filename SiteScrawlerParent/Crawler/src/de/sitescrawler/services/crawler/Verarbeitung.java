@@ -167,14 +167,13 @@ public class Verarbeitung {
 				for (Status tweet : tweets) {
 
 					String url = "https://twitter.com/" + tweet.getUser().getScreenName() + "/status/" + tweet.getId();
-
 					Artikel artikel = new Artikel(tweet.getCreatedAt(), tweet.getUser().getScreenName(),
 							"Tweet" + tweet.getId(), tweet.getText(), url, twitterQuelle);
 					artikel.setFavoritenzahl(tweet.getFavoriteCount());
 					artikel.setRetweetzahl(tweet.getRetweetCount());
 					gefundeneArtikel.add(artikel);
 					Verarbeitung.LOGGER.log(Level.INFO,
-							"Tweet gefunden: @" + tweet.getUser().getScreenName() + " - " + tweet.getText());
+							"Tweet gefunden: @" + tweet.getUser().getScreenName() + " - " + tweet.getText() + " erstellt am: " + tweet.getCreatedAt());
 				}
 			}
 			persistiereArtikel(sendeAnSolr, gefundeneArtikel);

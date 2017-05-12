@@ -103,10 +103,19 @@ div.panel-heading .schrift{
 	overflow: hidden;
 }
 
-div.panel-heading .bild{
-	width: 50px; 
-	margin-top: 15px;
-	fill: white;
+body .bild{
+	width: 50px;
+    margin-top: 5px;
+    background-color: blue;
+    padding: 4px;
+    border-radius: 5px;
+    background-color: #8c98bd;
+    border-color: #6f8888;
+} 
+
+div.panel-heading .bild:hover{ 
+    background-color: #5a6faf;
+    border-color: #565656;
 } 
 
 div.panel-heading .bild path{

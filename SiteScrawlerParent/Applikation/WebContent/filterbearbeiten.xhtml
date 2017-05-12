@@ -109,12 +109,11 @@
 
 						<div class="list-group-item artikel-titel-container"
 							style="overflow: hidden; border-bottom: 1px solid #ddd;">
-							<h:form>
+							<b:form>
 								<div class="pull-left linkeUeberschrift"
 									style="width: Calc(100% - 80px);">
 									<h4>#{profil.filterprofilname}</h4>
-									<div>
-
+									<div> 
 										<p class="pull-left tag">#{profil.tagstring}</p>
 									</div>
 								</div>
@@ -128,7 +127,7 @@
 											class="filter-gruppe-profil-entfernen" />
 									</p:commandLink>
 								</div>
-							</h:form>
+							</b:form>
 						</div>
 					</p:dataList>
 				</div>
@@ -141,8 +140,8 @@
 						<div>
 							<h3 class=" pull-left">Filterprofile</h3>
 							<b:form>
-								<a onclick="$('.modalPseudoClass').modal();return false;"> <p:graphicImage
-										class="pull-right" style="width: 50px;"
+								<a href="" onclick="$('.modalPseudoClass').modal();return false;"> <p:graphicImage
+										class="pull-right bild" style="width: 50px;"
 										value="/resources/image/file.svg" />
 								</a>
 							</b:form>
@@ -222,29 +221,35 @@
 					<p:dataList class="list-group filterprofile"
 						value="#{filterbearbeiten.filterprofile}" var="profil"
 						type="definition" id="profil-liste">
-						<h:form id="profil-item">
+						
 							<li class="list-group-item">
-								<div class="artikel-titel-container">
+								<b:form id="profil-item" class="artikel-titel-container">
+								<div> 
+									<!-- Filterprofil zu Gruppe hinzufügen-->
 									<p:commandLink
+										id="filterprofil-hinzufuegen"
 										rendered="#{!filterbearbeiten.isInFiltergruppe(profil)}"
 										action="#{filterbearbeiten.addProfil(profil)}"
-										update="filter-gruppen-profile profil-item" ajax="true">
+										update="filter-gruppen-profile @form">
 
 										<p:graphicImage value="/resources/image/add.svg"
 											class="filter-profil-icon pull-left" />
 									</p:commandLink>
 
-
+									<!-- Filterprofil von Gruppe entfernen -->
 									<p:commandLink
 										rendered="#{filterbearbeiten.isInFiltergruppe(profil)}"
 										action="#{filterbearbeiten.profilVonGruppeEntfernen(profil)}"
-										update="filter-gruppen-profile profil-item">
+										update="filter-gruppen-profile @form">
 
 										<p:graphicImage value="/resources/image/remove-minus.svg"
 											class="filter-profil-icon pull-left" />
 									</p:commandLink>
+									 
 									<p:outputLabel id="filter-profil-text"
 										value="#{profil.filterprofilname}" />
+										
+									<!-- Profil ändern -->
 									<p:commandLink id="profil-aendern-button"
 										oncomplete="$('.profilAendernClass').modal();return false;"
 										update="profil-aendern-modal-content">
@@ -253,17 +258,19 @@
 										<f:actionListener for="profil-aendern-button"
 											binding="#{filterbearbeiten.aendereProfil(profil)}" />
 									</p:commandLink>
+									
+									<!-- Profil löschen -->
 									<p:commandLink
 										action="#{filterbearbeiten.deleteProfil(profil)}"
 										update="profil-liste">
 										<p:graphicImage value="/resources/image/remove-x.svg"
 											class="filter-profil-icon pull-right" />
-									</p:commandLink>
-
-
+									</p:commandLink> 
+								
 								</div>
+								</b:form>
 							</li>
-						</h:form>
+						
 					</p:dataList>
 
 				</div>
