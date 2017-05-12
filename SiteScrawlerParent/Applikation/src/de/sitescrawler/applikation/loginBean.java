@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -77,6 +79,12 @@ public class loginBean implements Serializable {
 			request.logout();
 			externalContext.redirect(externalContext.getRequestContextPath() + "/index.xhtml");
 		} catch (ServletException | IOException e) {
+			if(e.getMessage().toLowerCase().contains("login failed")){
+				//Login fehlgeschlagen, unterrichte Nutzer.
+				
+		        FacesContext context = FacesContext.getCurrentInstance(); 
+		        context.addMessage(null, new FacesMessage("Anmeldung fehlgeschlagen", "Passwort oder E-Mail Adresse falsch."));
+			}
 			e.printStackTrace();
 		}
 	}

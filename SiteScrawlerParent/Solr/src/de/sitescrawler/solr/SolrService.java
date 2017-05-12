@@ -179,5 +179,6 @@ public class SolrService implements ISolrService, Serializable
 		 artikel.setFavoritenzahl(solrArtikel.getFavoritenzahl());
 		 artikel.setRetweetzahl(solrArtikel.getRetweetzahl());
 		 artikel.setTitel(solrArtikel.getTitel());
+		 artikel.setQid(solrArtikel.getQid());
 	}
 }

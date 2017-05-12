@@ -62,10 +62,10 @@ public class ArchiveintragErstellen
         // TODO generiere PDF hier
         byte[] pdf = new byte[0];
 
-        // this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerHtmlEmpfang(filtergruppe), true,
-        // archiveintrag, pdf);
-        // this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerPlaintextEmpfang(filtergruppe), false,
-        // archiveintrag, pdf);
+         this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerHtmlEmpfang(filtergruppe), true,
+         archiveintrag, pdf);
+         this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerPlaintextEmpfang(filtergruppe), false,
+         archiveintrag, pdf);
     }
 
     /**

@@ -41,7 +41,7 @@ public class MailSenderService implements IMailSenderService {
 	void init() {
 		username = projectConfig.getUsername();
 		password = projectConfig.getPassword();
-		host = "smtp.outlook.com";
+		host = "smtp.gmail.com";
 
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", host);
@@ -85,7 +85,7 @@ public class MailSenderService implements IMailSenderService {
 			projectConfig = new ProjectConfig();
 			username = projectConfig.getUsername();
 			password = projectConfig.getPassword();
-			host = "smtp.outlook.com";
+			host = "smtp.gmail.com";
 
 			props.put("mail.smtp.starttls.enable", "true");
 			props.put("mail.smtp.host", host);
