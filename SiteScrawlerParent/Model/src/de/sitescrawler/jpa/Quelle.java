@@ -30,6 +30,7 @@ public class Quelle implements java.io.Serializable
     private Integer           qid;
     private String            name;
     private byte[]            bild;
+    private String            bildlink;
     private String            rsslink;
     private String            tagOderId;
     private Set<Filterprofil> filterprofile    = new HashSet<>(0);
@@ -134,6 +135,16 @@ public class Quelle implements java.io.Serializable
     public void setArtikel(Set<Artikel> artikel)
     {
         this.artikel = artikel;
+    }
+
+    public String getBildlink()
+    {
+        return this.bildlink;
+    }
+
+    public void setBildlink(String bildlink)
+    {
+        this.bildlink = bildlink;
     }
 
     @Override
