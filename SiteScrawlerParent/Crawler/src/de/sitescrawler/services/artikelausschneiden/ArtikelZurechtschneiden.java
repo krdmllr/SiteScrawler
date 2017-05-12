@@ -60,7 +60,7 @@ public class ArtikelZurechtschneiden
                 Element fallsIdAngegeben = doc.getElementById(klasseOderId);
                 if (fallsIdAngegeben != null)
                 {
-                    Elements elementsAbhaengigVonID = fallsIdAngegeben.getElementsByTag("p");
+                    Elements elementsAbhaengigVonID = fallsIdAngegeben.select("p,h1, h2, h3, h4, h5, h6");
                     allePTags.addAll(elementsAbhaengigVonID);
                 }
 
@@ -68,7 +68,7 @@ public class ArtikelZurechtschneiden
                 Elements elementsAbhaengigVonKlasse = doc.getElementsByClass(klasseOderId);
                 for (Element element : elementsAbhaengigVonKlasse)
                 {
-                    allePTags.addAll(element.getElementsByTag("p"));
+                    allePTags.addAll(element.select("p,h1, h2, h3, h4, h5, h6"));
                 }
             }
 
@@ -110,9 +110,9 @@ public class ArtikelZurechtschneiden
                 }
             }
 
-            // Alle p-Tags des gefundenen Eltern-Knotens nehmen und dessen Inhalt als Liste zurückgeben
-            Elements pTagsAusArtikel = maxEntry.getKey().getElementsByTag("p");
-
+            // Alle p-Tags und h-Tags des gefundenen Eltern-Knotens nehmen und dessen Inhalt als Liste zurückgeben
+            Elements pTagsAusArtikel = maxEntry.getKey().select("p,h1, h2, h3, h4, h5, h6");
+            
             for (Element absatzPTag : pTagsAusArtikel)
             {
                 absaetze.add(absatzPTag.text());
