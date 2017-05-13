@@ -12,8 +12,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.mail.util.ByteArrayDataSource;
 
-import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.email.interfaces.IMailSenderService;
+import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.formatierung.IFormatiererService;
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;

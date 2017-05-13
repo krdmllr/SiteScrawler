@@ -1,7 +1,13 @@
 package de.sitescrawler.firmenverwaltung.interfaces;
 
+import javax.ws.rs.NotFoundException;
+
+import de.sitescrawler.exceptions.FirmenSecurityException;
+import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Firma;
-import de.sitescrawler.jpa.Nutzer;
+import de.sitescrawler.jpa.Mitarbeiter;
+import de.sitescrawler.jpa.Nutzer; 
+import de.sitescrawler.model.Firmenrolle;
 
 /**
  * Service zum Verwalten von bestehenden Firmen.
@@ -12,16 +18,16 @@ public interface IFirmenService
 {
 
     /**
-     * Ermittelt ob ein Firmenname noch verfügbar ist.
+     * Ermittelt ob ein Firmenname noch verfï¿½gbar ist.
      * 
      * @param name
-     *            Der zu prüfende Firmenname.
-     * @return Ob der name noch verfügbar ist.
+     *            Der zu prÃ¼fende Firmenname.
+     * @return Ob der name noch verfÃ¼gbar ist.
      */
-    boolean IsFirmennameVerfuegbar(String name);
+    boolean istFirmenMailVerfuegbar(String name);
 
     /**
-     * Beantragt eine neue Firmen Entität. Der Antrag wird anschließend geprüft und manuell freigeschaltet.
+     * Beantragt eine neue Firmen Entitï¿½t. Der Antrag wird anschlieï¿½end geprï¿½ft und manuell freigeschaltet.
      * 
      * @param nutzer
      *            Der Nutzer, welcher die Firma beantragt.
@@ -31,10 +37,10 @@ public interface IFirmenService
      *            Kommentar zu Firmenbeantragung.
      * @return Ob der Antrag erfolgreich erstellt wurde.
      */
-    boolean FirmaBeantragen(Nutzer nutzer, String firmenName, String comment);
+    boolean FirmaBeantragen(String firmenName, String firmenMail, String kommentar);
 
     /**
-     * Lädt einen Nutzer zur Firma ein.
+     * Lï¿½dt einen Nutzer zur Firma ein.
      * 
      * @param firma
      *            Einladende Firma.
@@ -42,9 +48,15 @@ public interface IFirmenService
      *            Email des neuen Mitarbeiters.
      * @param angemeldeterNutzer
      *            Angemeldeter Nutzer von dem die Action ausgeht, muss Firmenadministrator sein.
+     * @throws ServiceUnavailableException 
+     * @throws Exception 
      */
-    void NutzerEinladen(Firma firma, String email, Nutzer angemeldeterNutzer);
+    void nutzerEinladen(Firma firma, String email, String vorname, String nachname) throws ServiceUnavailableException, Exception;
 
+    //TODO KOMMENTARE
+    void bestehendenNutzerEinladen(Nutzer bestehenderNutzer, Firma firma)
+			throws Exception;
+    
     /**
      * Entfernt einen Nutzer aus der Mitarbeitergruppe einer Firma.
      * 
@@ -54,28 +66,32 @@ public interface IFirmenService
      *            Nutzer der von den Mitarbeitern entfernt wird.
      * @param angemeldeterNutzer
      *            Angemeldeter Nutzer von dem die Action ausgeht, muss Firmenadministrator sein.
+     * @throws NotFoundException 
+     * @throws Exception 
      */
-    void NutzerEntfernen(Firma firma, Nutzer zuEntfernenderNutzer, Nutzer angemeldeterNutzer);
+    void NutzerEntfernen(Firma firma, Mitarbeiter zuEntfernenderNutzer) throws Exception;
 
     /**
-     * Setzt, ob ein Nutzer Adminstatus für eine Firma erhalten soll.
+     * Setzt, ob ein Nutzer Adminstatus fï¿½r eine Firma erhalten soll.
      * 
      * @param firma
      *            Einladende Firma.
      * @param nutzer
-     *            Nutzer dessen Status verändert werden soll.
-     * @param sollAdminSein
-     *            Ob der Nutzer Admin status erhalten soll oder normaler Nutzer sein soll.
+     *            Nutzer dessen Status verhindert werden soll.
+     * @param rolle
+     *            Neue Rolle des Nutzers.
      * @param angemeldeterNutzer
      *            Angemeldeter Nutzer von dem die Action ausgeht, muss Firmenadministrator sein.
+     * @throws NotFoundException 
+     * @throws Exception 
      */
-    void SetzeNutzerAdminStatus(Firma firma, Nutzer nutzer, boolean sollAdminSein, Nutzer angemeldeterNutzer);
+    void SetzeNutzerRolle(Firma firma, Mitarbeiter nutzer, Firmenrolle rolle) throws Exception;
 
     /**
-     * Beantragt die Löschung einer Firma, die Löschung muss über einen Bestätigungslink bestätigt werden.
+     * Beantragt die LÃ¶schung einer Firma, die Lï¿½schung muss Ã¼ber einen BestÃ¤tigungslink bestï¿½tigt werden.
      * 
      * @param firma
-     *            Zu löschende Firma.
+     *            Zu lÃ¶schende Firma.
      * @param angemeldeterNutzer
      *            Angemeldeter Nutzer von dem die Action ausgeht, muss Firmenadministrator sein.
      */
