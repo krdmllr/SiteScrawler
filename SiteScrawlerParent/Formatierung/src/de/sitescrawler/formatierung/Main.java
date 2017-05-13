@@ -24,9 +24,9 @@ public class Main
 
         // Für Testzwecke (Archiveintrag mit zwei Artikeln)
         Archiveintrag eintrag = new Archiveintrag();
-        Archiveintrag eintragLeer = new Archiveintrag();
 
         Artikel artikelEins = new Artikel();
+        Artikel twitterArtikel = new Artikel();
 
         artikelEins.setAutor("Autor Eins");
         artikelEins.setBeschreibung("Artikel Eins. Bla bla bla");
@@ -35,8 +35,17 @@ public class Main
         Date datumArtikelEins = new Date();
         artikelEins.setErstellungsdatum(datumArtikelEins);
 
+        twitterArtikel.setAutor("dvnntsywb");
+        twitterArtikel.setBeschreibung(
+                        "RT @TheRegister: - #WannaCry ransomware attacks networks in 74 nations\n- MS emits emergency patches for WinXP+\n- Hero halts epidemic\nhttps:…");
+        twitterArtikel.setTitel("Tweet863324831449661442");
+        twitterArtikel.setLink("https://twitter.com/dvnntsywb/status/863324831449661442");
+        Date datumArtikelTwitter = new Date();
+        twitterArtikel.setErstellungsdatum(datumArtikelTwitter);
+
         Set<Artikel> setArtikel = new HashSet<>(0);
         setArtikel.add(artikelEins);
+        setArtikel.add(twitterArtikel);
 
         eintrag.setArtikel(setArtikel);
 
@@ -55,7 +64,7 @@ public class Main
 
         System.out.println("---------------------------------");
 
-        ByteArrayDataSource pdfAusgabe = fs.generierePdfZusammenfassung(eintragLeer);
+        ByteArrayDataSource pdfAusgabe = fs.generierePdfZusammenfassung(eintrag);
 
         // PDF anzeigen können
         InputStream in = null;
