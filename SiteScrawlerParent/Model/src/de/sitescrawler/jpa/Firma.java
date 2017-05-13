@@ -19,6 +19,7 @@ public class Firma extends Filtermanager implements java.io.Serializable
 
     private static final long serialVersionUID = 1L;
     private String            name;
+    private String            firmenmail;
     private Set<Mitarbeiter>  mitarbeiter      = new HashSet<>(0);
 
     public Firma()
@@ -56,6 +57,16 @@ public class Firma extends Filtermanager implements java.io.Serializable
     public void setMitarbeiter(Set<Mitarbeiter> mitarbeiter)
     {
         this.mitarbeiter = mitarbeiter;
+    }
+
+    public String getFirmenmail()
+    {
+        return this.firmenmail;
+    }
+
+    public void setFirmenmail(String firmenmail)
+    {
+        this.firmenmail = firmenmail;
     }
 
 }
