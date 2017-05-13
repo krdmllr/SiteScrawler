@@ -30,6 +30,7 @@ public class Quelle implements java.io.Serializable
     private Integer           qid;
     private String            name;
     private byte[]            bild;
+    private String            bildlink;
     private String            rsslink;
     private String            tagOderId;
     private Set<Filterprofil> filterprofile    = new HashSet<>(0);
@@ -136,10 +137,63 @@ public class Quelle implements java.io.Serializable
         this.artikel = artikel;
     }
 
+    public String getBildlink()
+    {
+        return this.bildlink;
+    }
+
+    public void setBildlink(String bildlink)
+    {
+        this.bildlink = bildlink;
+    }
+
     @Override
     public String toString()
     {
         return this.name + " " + this.rsslink;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (this.getClass() != obj.getClass())
+        {
+            return false;
+        }
+        Quelle other = (Quelle) obj;
+        if (this.name == null)
+        {
+            if (other.name != null)
+            {
+                return false;
+            }
+        }
+        else
+            if (!this.name.equals(other.name))
+            {
+                return false;
+            }
+        if (this.rsslink == null)
+        {
+            if (other.rsslink != null)
+            {
+                return false;
+            }
+        }
+        else
+            if (!this.rsslink.equals(other.rsslink))
+            {
+                return false;
+            }
+        return true;
     }
 
 }

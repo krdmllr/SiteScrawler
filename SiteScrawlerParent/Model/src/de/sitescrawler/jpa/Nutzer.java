@@ -94,6 +94,15 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
 
     // Unmapped
     @Transient
+    public boolean isAdministrator(){
+    	for(Rolle r: getRollen()){ 
+    		if(r.getRolle().equals("Admin"))
+    			return true;
+    	}
+    	return false;
+    }
+    
+    @Transient
     public String getGanzenNamen()
     {
         return this.vorname + " " + this.nachname;

@@ -11,6 +11,10 @@ import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 import de.sitescrawler.qualifier.Produktiv;
 
+/**
+ *
+ * @author robin Methoden zur Verwaltung der Nutzer Daten.
+ */
 @Produktiv
 @SessionScoped
 @Named

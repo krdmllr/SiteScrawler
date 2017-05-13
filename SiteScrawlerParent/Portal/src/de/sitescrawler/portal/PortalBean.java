@@ -6,6 +6,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Intervall;
 import de.sitescrawler.jpa.Nutzer;
@@ -14,6 +15,12 @@ import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.model.ZeitIntervall;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 
+/**
+ * Alle Methoden, die im Portal ben�tigt werden.
+ *
+ * @author robin
+ *
+ */
 @SessionScoped
 @Named("portal")
 public class PortalBean implements Serializable
@@ -88,6 +95,11 @@ public class PortalBean implements Serializable
         return (int) ((totaleStaerke / 6) * 100);
     }
 
+    /**
+     * Passwort St�rke als Text darstellen
+     *
+     * @return
+     */
     public String getPasswortStaerkeAlsText()
     {
         int staerke = this.getPasswortStaerke();
@@ -120,13 +132,28 @@ public class PortalBean implements Serializable
         return this.getNutzer().getPasswort() != null && !this.getNutzer().getPasswort().isEmpty();
     }
 
+    /**
+     * Initialisiert den Nutzer und sendet die Registrierung ab
+     */
     public void sendeRegistrierungAb()
     {
+        // TODO sollte das nicht lieber der nutzerservice machen?
         this.initNewNutzer();
-        this.nutzerService.registrieren(this.nutzer);
+        try
+        {
+            this.nutzerService.registrieren(this.nutzer);
+        }
+        catch (ServiceUnavailableException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         // TODO Leite Nutzer weiter
     }
 
+    /**
+     * Gibt dem Nutzer eine default Rolle und Filterprofilgruppe
+     */
     private void initNewNutzer()
     {
         this.nutzer.getRollen().add(new Rolle("Registered"));

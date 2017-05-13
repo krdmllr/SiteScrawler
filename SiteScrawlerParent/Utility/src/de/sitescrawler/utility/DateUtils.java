@@ -15,6 +15,11 @@ import java.util.List;
 
 import javax.swing.text.DateFormatter;
 
+/**
+ * 
+ * @author robin
+ * Util Methoden
+ */
 public class DateUtils
 {
     public static final String DATE_PATTERN = "EE dd.MM.yyyy";

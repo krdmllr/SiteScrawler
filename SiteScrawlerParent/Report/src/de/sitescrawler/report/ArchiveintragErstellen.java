@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.mail.util.ByteArrayDataSource;
 
 import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.email.interfaces.IMailSenderService;
@@ -18,12 +21,14 @@ import de.sitescrawler.jpa.Filterprofil;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager;
+import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 import de.sitescrawler.solr.interfaces.ISolrService;
 import de.sitescrawler.utility.DateUtils;
 
 @ApplicationScoped
 public class ArchiveintragErstellen
 {
+	 private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
 
     @Inject
     ISolrService                  solr;
@@ -35,7 +40,10 @@ public class ArchiveintragErstellen
     IFiltergruppenZugriffsManager filtergruppenZugriff;
 
     @Inject
-    IFormatiererService           formatiererService;
+    IFormatiererService           formatiererService; 
+    
+    @Inject
+    IQuellenManager quellenManager;
 
     public void erstelleReport(Filterprofilgruppe filtergruppe, LocalDateTime aktuelleZeit)
     {
@@ -44,18 +52,33 @@ public class ArchiveintragErstellen
         List<Filterprofil> filterprofile = new ArrayList<>(filtergruppe.getFilterprofile());
 
         List<Artikel> artikel = this.solr.sucheArtikel(filterprofile);
-        Set<Artikel> artikelAlsSet = new HashSet<>(artikel);
+        
+        //Ordnet den Artikeln ihre Quellen zu.
+        Set<Artikel> artikelAlsSet = new HashSet<>();
+        artikel.forEach(a ->{
+        	try{
+        		a.setQuelle(quellenManager.getQuelle(a.getQid()));
+        		artikelAlsSet.add(a);
+        	}
+        	catch(Exception ex)
+        	{
+        		LOGGER.log(Level.WARNING, "Für Artikel " + a.getTitel() + " aus Quelle mit ID: " + a.getQid() + " wurde keine Quelle in der Datenbank gefunden gefunden.");
+        	}
+        });
+        
+        
 
         Archiveintrag archiveintrag = new Archiveintrag(filtergruppe, DateUtils.asDate(aktuelleZeit), artikelAlsSet);
         filtergruppe.getArchiveintraege().add(archiveintrag);
 
-        this.filtergruppenZugriff.speicherArchiveintrag(archiveintrag, filtergruppe);
+        this.filtergruppenZugriff.speicherArchiveintrag(archiveintrag);
 
-        // TODO generiere PDF hier
-        byte[] pdf = new byte[0];
+        ByteArrayDataSource pdf = formatiererService.generierePdfZusammenfassung(archiveintrag);
 
-        this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerHtmlEmpfang(filtergruppe), true, archiveintrag, pdf);
-        this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerPlaintextEmpfang(filtergruppe), false, archiveintrag, pdf);
+         this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerHtmlEmpfang(filtergruppe), true,
+         archiveintrag, pdf);
+         this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerPlaintextEmpfang(filtergruppe), false,
+         archiveintrag, pdf);
     }
 
     /**
@@ -71,7 +94,7 @@ public class ArchiveintragErstellen
      *            Das PDF mit dem Inhalt des Archiveintrags.
      */
     private void sendeMailAnEmfaenger(Filterprofilgruppe filtergruppe, LocalDateTime aktuelleZeit, List<Nutzer> empfaenger, boolean html,
-                                      Archiveintrag archiveintrag, byte[] pdf)
+                                      Archiveintrag archiveintrag, ByteArrayDataSource pdf)
     {
 
         if (empfaenger.isEmpty())

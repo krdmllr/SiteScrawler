@@ -19,9 +19,9 @@
 							<h3 class="pull-left schrift">'#{firmen.ausgewaehlteFirma.name}'
 								Firmen Filtergruppen</h3>
 							<b:form>
-								<a
+								<a href=""
 									onclick="$('.filtergruppeModalPseudoClass').modal();return false;">
-									<p:graphicImage class="pull-right bild"  
+									<p:graphicImage class="pull-right bild"
 										value="/resources/image/add.svg" />
 								</a>
 							</b:form>
@@ -54,8 +54,8 @@
 
 					<!-- Filtergruppen -->
 					<p:dataList class="list-group mitarbeiter-liste filterprofile"
-						value="#{firmen.ausgewaehlteFirma.filterprofilgruppen}" var="gruppe"
-						type="definition" id="filtergruppen-liste">
+						value="#{firmen.ausgewaehlteFirma.filterprofilgruppen}"
+						var="gruppe" type="definition" id="filtergruppen-liste">
 						<h:form id="firma-filtergruppe">
 							<li class="list-group-item">
 
@@ -63,10 +63,12 @@
 
 									<p:outputLabel id="filter-profil-text" value="#{gruppe.titel}" />
 
-									<p:commandLink id="filter-bearbeiten" action="/filterbearbeiten.xhtml?faces-redirect=true"> 
+									<p:commandLink id="filter-bearbeiten"
+										action="/filterbearbeiten.xhtml?faces-redirect=true">
 										<!-- <f:param name="filterprofile" value="#{firmen.ausgewaehlteFirma.filterprofile}" />	
 										<f:param name="filtergruppe" value="#{gruppe}" /> -->
-										<f:actionListener for="filter-bearbeiten" binding="#{filterbearbeiten.setParameter(gruppe, firmen.ausgewaehlteFirma.filterprofile)}" />
+										<f:actionListener for="filter-bearbeiten"
+											binding="#{filterbearbeiten.setParameter(gruppe, firmen.ausgewaehlteFirma.filterprofile)}" />
 										<p:graphicImage value="/resources/image/edit-square.svg"
 											class="filter-profil-icon pull-right" />
 									</p:commandLink>
@@ -74,7 +76,7 @@
 									<p:commandLink
 										action="#{firmen.setAktuelleFiltergruppe(gruppe)}"
 										oncomplete="$('.filtergruppeNutzerModalPseudoClass').modal();return false;"
-										update="filtergruppe-nutzer-modal"> 
+										update="filtergruppe-nutzer-modal">
 										<p:graphicImage value="/resources/image/reciever.svg"
 											class="filter-profil-icon pull-right" />
 									</p:commandLink>
@@ -87,7 +89,7 @@
 
 				</div>
 			</div>
-			
+
 			<!-- Nutzer zu filtergruppe hinzufügen Modal -->
 			<b:modal id="filtergruppe-nutzer-modal"
 				title="Nutzer zu #{firmen.aktuelleFiltergruppe.titel} hinzufügen"
@@ -106,8 +108,7 @@
 								<p:commandLink
 									rendered="#{firmen.isEmpfaengerAktuellerFilterGruppe(mitarbeiter)}"
 									action="#{firmen.remove(mitarbeiter)}"
-									update="filtergruppe-mitarbeiter"
-									 >
+									update="filtergruppe-mitarbeiter">
 
 									<p:graphicImage value="/resources/image/email.svg"
 										class="filter-profil-icon pull-right" />
@@ -121,12 +122,12 @@
 										class="filter-profil-icon pull-right" />
 								</p:commandLink>
 							</div>
-							<div class="clearfix"></div> 
+							<div class="clearfix"></div>
 						</li>
 					</h:form>
 				</p:dataList>
 			</b:modal>
-			
+
 			<!-- Mitarbeiter -->
 			<div class="col-md-4 col-sm-6 column">
 				<div class="panel panel-default artikelPanel">
@@ -135,9 +136,9 @@
 							<h3 class="pull-left schrift">#{firmen.ausgewaehlteFirma.mitarbeiter.size()}
 								Mitarbeiter</h3>
 							<b:form>
-								<a
+								<a href=""
 									onclick="$('.mitarbeiterModalPseudoClass').modal();return false;">
-									<p:graphicImage class="pull-right bild" 
+									<p:graphicImage class="pull-right bild"
 										value="/resources/image/add-user.svg" />
 								</a>
 							</b:form>
@@ -170,6 +171,7 @@
 						</div>
 					</div>
 
+					<!-- Liste der Mitarbeiter -->
 					<p:dataList class="list-group mitarbeiter-liste filterprofile"
 						value="#{firmen.ausgewaehlteFirma.mitarbeiter}" var="mitarbeiter"
 						type="definition" id="profil-liste">
@@ -181,8 +183,8 @@
 										value="#{mitarbeiter.nutzer.ganzenNamen}" />
 
 									<p:commandLink rendered="#{!mitarbeiter.admin}"
-										action="#{firmen.mitarbeiterZuAdmin(mitarbeiter)}" update="profil-item"
-										ajax="true">
+										action="#{firmen.mitarbeiterZuAdmin(mitarbeiter)}"
+										update="profil-item" ajax="true">
 
 										<p:graphicImage value="/resources/image/shield-gray.svg"
 											class="filter-profil-icon pull-right" />
@@ -210,6 +212,8 @@
 					</p:dataList>
 				</div>
 			</div>
+
+			<!-- Footer -->
 		</ui:define>
 		<ui:define name="footer">
 

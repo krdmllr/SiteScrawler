@@ -159,6 +159,7 @@ INSERT INTO Nutzer_hat_Rolle VALUES(11, 'Registrered');
 COMMIT;
 
 INSERT INTO Quelle (name,rsslink) VALUES('Spiegel', 'http://www.spiegel.de/schlagzeilen/tops/index.rss');
+INSERT INTO Quelle (qid,name,rsslink) VALUES(2,'Twitter', 'http://www.twitter.com');
 
 INSERT INTO Filterprofil_beinhaltet_Quelle VALUES(1,1);
 INSERT INTO Filterprofil_beinhaltet_Quelle VALUES(2,1);

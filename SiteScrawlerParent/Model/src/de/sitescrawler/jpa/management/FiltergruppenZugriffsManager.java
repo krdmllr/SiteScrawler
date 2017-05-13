@@ -45,9 +45,9 @@ public class FiltergruppenZugriffsManager implements IFiltergruppenZugriffsManag
 
     @Override
     @Transactional(value = TxType.REQUIRED)
-    public void speicherArchiveintrag(Archiveintrag archiveintrag, Filterprofilgruppe filtergruppe)
+    public void speicherArchiveintrag(Archiveintrag archiveintrag)
     {
-        this.entityManager.merge(archiveintrag);
+        this.entityManager.persist(archiveintrag);
     }
 
     private List<Filterprofilgruppe> getAlleFilterprofilgruppen()
@@ -55,6 +55,14 @@ public class FiltergruppenZugriffsManager implements IFiltergruppenZugriffsManag
         TypedQuery<Filterprofilgruppe> query = this.entityManager.createNamedQuery("Fitlerprofilgruppen.findAll", Filterprofilgruppe.class);
         List<Filterprofilgruppe> filtergruppen = query.getResultList();
         return filtergruppen;
-    }
+    } 
+
+	@Override
+	@Transactional(value = TxType.REQUIRED)
+	public void loescheArchiveintrag(Archiveintrag archiveintrag) {
+		
+		Archiveintrag datenbankEintrag = this.entityManager.find(Archiveintrag.class, archiveintrag.getArchiveintragid());
+		this.entityManager.remove(datenbankEintrag);
+	}
 
 }
