@@ -36,17 +36,15 @@
 						<div class="clearfix"></div>
 
 					</div>
-					
+
 					<!-- manuellen Crawlvorgang starten -->
 					<h:form id="manueller-crawl-form">
-						<p:commandLink 
-						class="panel-button-div"
-						style="display:block;"  
+						<p:commandLink class="panel-button-div" style="display:block;"
 							action="#{archiv.manuellCrawlen()}">
 							Jetzt report anlegen
 							</p:commandLink>
 					</h:form>
-					<hr class="no-padding-margin"/>
+					<hr class="no-padding-margin" />
 
 					<div class="panel-body filter">
 						<h:form>
@@ -61,14 +59,13 @@
 							</div>
 						</h:form>
 					</div>
-					<hr class="no-padding-margin"/>
-					 
+					<hr class="no-padding-margin" />
+
 					<div class="archiveintraege">
-						<p:dataList class="list-group"
-							id="archiveintrag-komplett-liste"
+						<p:dataList class="list-group" id="archiveintrag-komplett-liste"
 							value="#{archiv.archiveintraege}" var="eintrag" type="definition">
 							<h:form>
-								<p:commandLink class="list-group-item" 
+								<p:commandLink class="list-group-item"
 									update="artikelBereich @form"
 									action="#{archiv.buttonAction(eintrag)}">
 									<h:outputText value="#{eintrag.erstellungsdatum}">
@@ -86,7 +83,8 @@
 			<b:modal id="artikel-modal" title="#{archiv.geweahlterArtikel.titel}"
 				styleClass="modalPseudoClass">
 				<div id="artikel-inhalt">
-					<p:outputLabel escape="false" value="#{archiv.geweahlterArtikel.volltextMitMetaInformationenHTML}"></p:outputLabel>
+					<p:outputLabel escape="false"
+						value="#{archiv.geweahlterArtikel.volltextMitMetaInformationenHTML}"></p:outputLabel>
 				</div>
 
 			</b:modal>
@@ -102,19 +100,17 @@
 								value="#{archiv.geweahlterArchiveintrag.erstellungsdatum}">
 								<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 							</h:outputText>
-						</h3> 
-							<div class="btn-group pull-right" role="group"> 
-							
-								<p:commandLink type="button" 
-								    value="PDF exportieren"
-									action="#{archiv.exportierePdf()}" 
-									class="btn btn-default" />
-								<p:commandLink type="button" 
-									value="Eintrag löschen"
-									action="#{archiv.loescheArchiveintrag()}"
-									class="btn btn-default" 
-									update="@form archiveintrag-komplett-liste"/> 
-							</div> 
+						</h3>
+						<div class="btn-group pull-right" role="group">
+
+							<p:commandLink type="button" value="PDF exportieren" class="btn btn-default" ajax="false">
+								<p:fileDownload value="#{archiv.exportierePdf()}"></p:fileDownload>
+							</p:commandLink>
+							<p:commandLink type="button" value="Eintrag löschen"
+								action="#{archiv.loescheArchiveintrag()}"
+								class="btn btn-default"
+								update="@form archiveintrag-komplett-liste" />
+						</div>
 						<div class="clearfix"></div>
 					</div>
 
@@ -122,47 +118,55 @@
 					<p:dataList class="list-group artikel"
 						value="#{archiv.geweahlterArchiveintrag.artikel}" var="artikel"
 						type="definition">
-						<div class="list-group-item artikel-ansicht container-parent" >
+						<div class="list-group-item artikel-ansicht container-parent">
 
-							<div class="container-panel artikel-titel-container container-row">
+							<div
+								class="container-panel artikel-titel-container container-row">
 								<h4 class="pull-left">
-									<p:outputLabel rendered="#{artikel.twitterQuelle}" value="@#{artikel.autor}" /> 
-									<p:outputLabel rendered="#{!artikel.twitterQuelle}" value="#{artikel.titel}" /> 
+									<p:outputLabel rendered="#{artikel.twitterQuelle}"
+										value="@#{artikel.autor}" />
+									<p:outputLabel rendered="#{!artikel.twitterQuelle}"
+										value="#{artikel.titel}" />
 								</h4>
 								<p class="pull-right">
-									<p:outputLabel value="#{artikel.twitterQuelle ? 'Getwittert am ' : 'Erschienen am '}" /> 
+									<p:outputLabel
+										value="#{artikel.twitterQuelle ? 'Getwittert am ' : 'Erschienen am '}" />
 									<h:outputText value="#{artikel.erstellungsdatum}">
 										<f:convertDateTime type="date" pattern="dd.MM.yyyy hh:mm" />
 									</h:outputText>
 								</p>
-							</div> 
+							</div>
 
 							<p id="artikel-zusammenfassung" class="container-auto-row">#{artikel.beschreibung}</p>
 
 							<div class="artikel-titel-container container-row">
-								<p:outputPanel class="no-padding-margin" rendered="#{!artikel.twitterQuelle}">
+								<p:outputPanel class="no-padding-margin"
+									rendered="#{!artikel.twitterQuelle}">
 									<h5 class="pull-left">#{artikel.autor}</h5>
 								</p:outputPanel>
-								<p:outputPanel class="no-padding-margin" rendered="#{artikel.twitterQuelle}">
+								<p:outputPanel class="no-padding-margin"
+									rendered="#{artikel.twitterQuelle}">
 									<div class="pull-left twitter-info">
 										<span class="twitter-info-icon pull-left">#{artikel.retweetzahl}</span>
-										<span class="glyphicon glyphicon-retweet twitter-info-icon" style="color: #e7b100;"></span>
+										<span class="glyphicon glyphicon-retweet twitter-info-icon"
+											style="color: #e7b100;"></span>
 									</div>
 									<div class="pull-left twitter-info" style="padding-left: 15px;">
-										<span class="pull-left twitter-info-icon" style="margin-top: 2px !important;">#{artikel.favoritenzahl}</span>
-										<span class="glyphicon glyphicon-heart twitter-info-icon" style="color: red;"></span> 
-									</div> 
+										<span class="pull-left twitter-info-icon"
+											style="margin-top: 2px !important;">#{artikel.favoritenzahl}</span>
+										<span class="glyphicon glyphicon-heart twitter-info-icon"
+											style="color: red;"></span>
+									</div>
 								</p:outputPanel>
-								
-								
-								
-								
-								
+
+
+
+
+
 								<div class="btn-group pull-right" role="group">
-									<p:commandLink type="button" 
+									<p:commandLink type="button"
 										rendered="#{!artikel.twitterQuelle}"
-										id="artikel-oeffnen-button"
-										class="btn btn-default" 
+										id="artikel-oeffnen-button" class="btn btn-default"
 										update="artikel-modal"
 										oncomplete="$('.modalPseudoClass').modal();return false;"
 										value="Artikel ansehen">
@@ -170,7 +174,8 @@
 											binding="#{archiv.setGeweahlterArtikel(artikel)}"></f:actionListener>
 									</p:commandLink>
 									<p:link href="#{artikel.link}" type="button"
-										class="btn btn-default" value="#{artikel.twitterQuelle ? 'Auf Twitter anzeigen' : 'Website öffnen'}" />
+										class="btn btn-default"
+										value="#{artikel.twitterQuelle ? 'Auf Twitter anzeigen' : 'Website öffnen'}" />
 								</div>
 							</div>
 						</div>
@@ -180,7 +185,7 @@
 				</h:form>
 			</div>
 
-		<!-- Footer -->
+			<!-- Footer -->
 		</ui:define>
 		<ui:define name="footer">
 

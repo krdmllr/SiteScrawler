@@ -3,7 +3,7 @@ package de.sitescrawler.nutzerverwaltung.interfaces;
 import de.sitescrawler.jpa.Nutzer;
 
 /**
- * Service, der den Nutzer und seine Daten der aktuellen Session zurückgibt
+ * Service, der den Nutzer und seine Daten der aktuellen Session zurÃ¼ckgibt
  *
  * @author Tobias Berner
  *
@@ -12,7 +12,7 @@ public interface INutzerDatenService
 {
 
     /**
-     * Gibt aktuell angemeldeten Nutzer mit seinen Daten zurück.
+     * Gibt aktuell angemeldeten Nutzer mit seinen Daten zurÃ¼ck.
      *
      * @return Nutzer mit seinen Daten.
      */
@@ -27,8 +27,8 @@ public interface INutzerDatenService
     public void setNutzer(String email);
 
     /**
-     * Ändert die Email Adresse des aktuellen Nutzers auf die neue Adresse.
-     * 
+     * Ã„ndert die Email Adresse des aktuellen Nutzers auf die neue Adresse.
+     *
      * @param neueEmailAdresse
      *            Neue Email Adresse.
      * @param passwort
@@ -38,7 +38,7 @@ public interface INutzerDatenService
 
     /**
      * Aendert das Passwort auf das neue Passwort.
-     * 
+     *
      * @param neuesPasswort
      *            Das neue Passwort.
      * @param altesPasswort
@@ -47,8 +47,8 @@ public interface INutzerDatenService
     void aenderePasswort(String neuesPasswort, String altesPasswort);
 
     /**
-     * Löscht den Account des aktuellen Nutzers.
-     * 
+     * LÃ¶scht den Account des aktuellen Nutzers.
+     *
      * @param passwort
      *            Aktuelles Passwort zur validierung.
      */

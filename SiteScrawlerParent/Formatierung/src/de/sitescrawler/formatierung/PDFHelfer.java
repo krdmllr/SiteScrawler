@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -27,17 +30,30 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 
 import de.sitescrawler.jpa.Archiveintrag;
+import de.sitescrawler.model.ProjectConfig;
 
 /**
- * @author Yvette
- * Stellt die Hilfsmethoden zur Verfügung, um den Archiveintrag in eine PDF-Datei umzuwandeln.
+ * @author Yvette Stellt die Hilfsmethoden zur Verfügung, um den Archiveintrag in eine PDF-Datei umzuwandeln.
  */
+@ApplicationScoped
 public class PDFHelfer
 {
     // Globalen Logger holen
     private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
-    File xsltDatei = new File("src/de/sitescrawler/hilfsdateien/xmlZuPdf.xsl");
+    private File                xsltDatei;
+    @Inject
+    private ProjectConfig       projectConfig;
 
+    public PDFHelfer()
+    {
+    }
+
+    @PostConstruct
+    private void init()
+    {
+        String ressourcenDomain = this.projectConfig.getRessourcenDomain();
+        this.xsltDatei = new File(ressourcenDomain + "/xmlZuPdf.xsl");
+    }
 
     /**
      * Wandelt den Archiveintrag in eine XML-Datei um.
@@ -54,10 +70,11 @@ public class PDFHelfer
         m.marshal(archiveintrag, xmlDatei);
     }
 
-    private static Transformer erstelleTransformer(File xlst, Map<String, String> parameter) throws TransformerConfigurationException
+    private static Transformer erstelleTransformer(File xslt, Map<String, String> parameter) throws TransformerConfigurationException
     {
         TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = factory.newTransformer(new StreamSource(xlst));
+        StreamSource streamSource = new StreamSource(xslt);
+        Transformer transformer = factory.newTransformer(streamSource);
         parameter.forEach(transformer::setParameter);
         return transformer;
     }
@@ -72,7 +89,8 @@ public class PDFHelfer
      * @throws FOPException
      * @throws TransformerException
      */
-    public ByteArrayOutputStream XMLzuPDF(File xmlZuTransformieren, Map<String, String> parameter) throws FileNotFoundException, FOPException, TransformerException
+    public ByteArrayOutputStream XMLzuPDF(File xmlZuTransformieren, Map<String, String> parameter)
+        throws FileNotFoundException, FOPException, TransformerException
     {
 
         // FopFactory konfigurieren

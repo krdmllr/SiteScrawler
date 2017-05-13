@@ -63,33 +63,19 @@ COMMIT;
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(10,1);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(10,6);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(5,2);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(5,3);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(5,4);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(5,6);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(6,3);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(6,4);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(6,6);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(7,2);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(7,7);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(8,8);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(9,1);
+INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(7,10);
+INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(8,11);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(9,9);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(10,10);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,11);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,12);
 
-
-
-
-
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,1);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,2);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,3);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,4);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,5);
 INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,6);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,7);
-INSERT INTO empfaenger (Nutzer_Filtermanager_identifikation, Filtergruppe_FilterprofilgruppeId) VALUES(11,8);
+
 SELECT * FROM empfaenger;
 COMMIT;
 

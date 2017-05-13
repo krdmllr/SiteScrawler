@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.mail.util.ByteArrayDataSource;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,8 +22,10 @@ import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Firma;
+import de.sitescrawler.jpa.Intervall;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
+import de.sitescrawler.model.ZeitIntervall;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 import de.sitescrawler.nutzerverwaltung.interfaces.IPasswortService;
 import de.sitescrawler.solr.interfaces.ISolrService;
@@ -111,7 +114,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
     }
 
     @Override
-    public void registrieren(Nutzer nutzer) throws ServiceUnavailableException
+    public void registrieren(Nutzer nutzer) throws ServiceUnavailableException 
     { 
         this.standardNachrichtenService.registrierungsMail(nutzer);
         legeNeuenNutzerAn(nutzer);
@@ -159,10 +162,21 @@ public class NutzerServiceBean implements INutzerService, Serializable
             NutzerServiceBean.LOGGER.info(nutzer + " konnte nicht in der DB gefunden werden.");
         }
     }
-
+ 
 	@Override
 	public List<Nutzer> getAlleAdministratoren() {
 		//TODO MARCEL
 		return null;
-	} 
+	}  
+
+    /**
+     * Gibt dem Nutzer eine default Rolle und Filterprofilgruppe
+     */
+    private void initNewNutzer(Nutzer nutzer)
+    {
+        nutzer.getRollen().add(new Rolle("Registered"));
+        Filterprofilgruppe filterprofilgruppe = new Filterprofilgruppe(nutzer, new Intervall(ZeitIntervall.TAEGLICH), "Meine Gruppe");
+        filterprofilgruppe.setNutzer(nutzer);
+        nutzer.getFilterprofilgruppen().add(filterprofilgruppe);
+    } 
 }

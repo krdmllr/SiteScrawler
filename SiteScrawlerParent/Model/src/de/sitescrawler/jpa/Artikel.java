@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -32,30 +31,28 @@ import org.apache.solr.client.solrj.beans.Field;
 @XmlRootElement(name = "artikel")
 public class Artikel implements java.io.Serializable
 {
-    private static final long   serialVersionUID = 1L;
-    private Set<Archiveintrag>  archiveintraege  = new HashSet<>(0);
+    private static final long  serialVersionUID = 1L;
+    private Set<Archiveintrag> archiveintraege  = new HashSet<>(0);
 
     @Field
-    private String              link;
+    private String             link;
     @Field
-    private String              autor;
+    private String             autor;
     @Field
-    private String              titel;
+    private String             titel;
     @Field
-    private String              beschreibung;
+    private String             beschreibung;
     @Field
-    private List<String>        absaetzeArtikel  = new ArrayList<>();
+    private List<String>       absaetzeArtikel  = new ArrayList<>();
     @Field
-    private int                 retweetzahl;
+    private int                retweetzahl;
     @Field
-    private int                 favoritenzahl;
+    private int                favoritenzahl;
     @Field
-    private Date                erstellungsdatum;
-    private Quelle              quelle;
+    private Date               erstellungsdatum;
+    private Quelle             quelle;
     @Field
-    private Integer             qid;
-
-    private final static Logger LOGGER           = Logger.getLogger("de.sitescrawler.logger");
+    private Integer            qid;
 
     public Artikel()
     {

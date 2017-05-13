@@ -44,6 +44,12 @@
         <dependent-module archiveName="Email-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Email/Email">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="mail-1.5.0-b01.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/mail/mail/1.5.0-b01/mail-1.5.0-b01.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="activation-1.1.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/activation/activation/1.1.1/activation-1.1.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="Model-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Model/Model">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -183,12 +189,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="fontbox-2.0.4.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/apache/pdfbox/fontbox/2.0.4/fontbox-2.0.4.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="mail-1.4.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/mail/mail/1.4/mail-1.4.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="activation-1.1.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/activation/activation/1.1.1/activation-1.1.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="Solr-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/Solr/Solr">
