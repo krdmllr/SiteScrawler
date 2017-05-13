@@ -94,6 +94,38 @@ public class Artikel implements java.io.Serializable
         this.quelle = quelle;
         this.qid = quelle.getQid();
     }
+    
+    @Transient
+    public String getVolltextMitMetaInformationen(){
+    	String formatiert = "";
+    	formatiert += titel + "\n\n";
+    	formatiert += beschreibung + "\n\n";
+    	
+    	for(String absatz : absaetzeArtikel){
+    		formatiert += absatz;
+    		
+    		if(absaetzeArtikel.indexOf(absatz)!= absaetzeArtikel.size()-1)
+    			formatiert += "\n";
+    	}
+    	
+    	return formatiert;
+    }
+    
+    @Transient
+    public String getVolltextMitMetaInformationenHTML(){
+    	String formatiert = "";
+    	formatiert += "<h1>" + titel + "</h1></br>";
+    	formatiert += "<h3>" + beschreibung + "</h3></br>";
+    	
+    	for(String absatz : absaetzeArtikel){
+    		formatiert += "<p>"+ absatz +"</p>";
+    		
+    		if(absaetzeArtikel.indexOf(absatz)!= absaetzeArtikel.size()-1)
+    			formatiert += "</br></br>";
+    	}
+    	
+    	return formatiert;
+    }
 
     @Transient
     public boolean isTwitterQuelle()

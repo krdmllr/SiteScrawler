@@ -9,7 +9,7 @@ import de.sitescrawler.jpa.Filterprofilgruppe;
 public interface IFiltergruppenZugriffsManager {
 	
 	/**
-	 * Gibt alle Filtergruppen zurück, die die Archiveintragsgenerierung zum gegebenen Zeitpunkt angestellt haben.
+	 * Gibt alle Filtergruppen zurï¿½ck, die die Archiveintragsgenerierung zum gegebenen Zeitpunkt angestellt haben.
 	 * Zeitpunkt wird exakt verglichen (Auf Minute).
 	 * @param empfangszeitpunkt exakter Empfangszeitpunkt (auf Minute) mit dem verglichen werden soll.
 	 * @return Liste aller zutreffenden Filterprofilgruppen.
@@ -19,5 +19,11 @@ public interface IFiltergruppenZugriffsManager {
 	/**
 	 * Speichert einen neune Archiveintrag in die Filtergruppe aus dem er erstellt wurde ab.
 	 */
-	public void speicherArchiveintrag(Archiveintrag archiveintrag, Filterprofilgruppe filtergruppe);
+	public void speicherArchiveintrag(Archiveintrag archiveintrag);
+	
+	/**
+	 * LÃ¶scht den Archiveintrag.
+	 * @param archiveintrag
+	 */
+	public void loescheArchiveintrag(Archiveintrag archiveintrag);
 }

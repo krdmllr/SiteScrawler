@@ -171,9 +171,9 @@ public class Verarbeitung {
 							"Tweet" + tweet.getId(), tweet.getText(), url, twitterQuelle);
 					artikel.setFavoritenzahl(tweet.getFavoriteCount());
 					artikel.setRetweetzahl(tweet.getRetweetCount());
-					gefundeneArtikel.add(artikel);
-					Verarbeitung.LOGGER.log(Level.INFO,
-							"Tweet gefunden: @" + tweet.getUser().getScreenName() + " - " + tweet.getText() + " erstellt am: " + tweet.getCreatedAt());
+					gefundeneArtikel.add(artikel); 
+					//Verarbeitung.LOGGER.log(Level.INFO,
+					//		"Tweet gefunden: @" + tweet.getUser().getScreenName() + " - " + tweet.getText()); 
 				}
 			}
 			persistiereArtikel(sendeAnSolr, gefundeneArtikel);

@@ -34,6 +34,11 @@
   <build>
   	<finalName>Formatierung</finalName>
     <sourceDirectory>src</sourceDirectory>
+    <resources>
+    	<resource>
+    		<directory>src</directory>
+    	</resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

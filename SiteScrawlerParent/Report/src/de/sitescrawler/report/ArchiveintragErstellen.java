@@ -28,7 +28,7 @@ import de.sitescrawler.utility.DateUtils;
 @ApplicationScoped
 public class ArchiveintragErstellen
 {
-	 private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+    private final static Logger   LOGGER = Logger.getLogger("de.sitescrawler.logger");
 
     @Inject
     ISolrService                  solr;
@@ -40,10 +40,10 @@ public class ArchiveintragErstellen
     IFiltergruppenZugriffsManager filtergruppenZugriff;
 
     @Inject
-    IFormatiererService           formatiererService; 
-    
+    IFormatiererService           formatiererService;
+
     @Inject
-    IQuellenManager quellenManager;
+    IQuellenManager               quellenManager;
 
     public void erstelleReport(Filterprofilgruppe filtergruppe, LocalDateTime aktuelleZeit)
     {
@@ -52,31 +52,31 @@ public class ArchiveintragErstellen
         List<Filterprofil> filterprofile = new ArrayList<>(filtergruppe.getFilterprofile());
 
         List<Artikel> artikel = this.solr.sucheArtikel(filterprofile);
-        
-        //Ordnet den Artikeln ihre Quellen zu.
-        artikel.forEach(a ->{
-        	try{
-        		a.setQuelle(quellenManager.getQuelle(a.getQid()));
-        	}
-        	catch(Exception ex)
-        	{
-        		LOGGER.log(Level.WARNING, "Für Artikel " + a.getTitel() + " aus Quelle mit ID: " + a.getQid() + " wurde keine Quelle in der Datenbank gefunden gefunden.");
-        	}
+
+        // Ordnet den Artikeln ihre Quellen zu.
+        Set<Artikel> artikelAlsSet = new HashSet<>();
+        artikel.forEach(a -> {
+            try
+            {
+                a.setQuelle(this.quellenManager.getQuelle(a.getQid()));
+                artikelAlsSet.add(a);
+            }
+            catch (Exception ex)
+            {
+                ArchiveintragErstellen.LOGGER.log(Level.WARNING, "Für Artikel " + a.getTitel() + " aus Quelle mit ID: " + a.getQid()
+                                                                 + " wurde keine Quelle in der Datenbank gefunden gefunden.");
+            }
         });
-        
-        Set<Artikel> artikelAlsSet = new HashSet<>(artikel);
 
         Archiveintrag archiveintrag = new Archiveintrag(filtergruppe, DateUtils.asDate(aktuelleZeit), artikelAlsSet);
         filtergruppe.getArchiveintraege().add(archiveintrag);
 
-        this.filtergruppenZugriff.speicherArchiveintrag(archiveintrag, filtergruppe);
+        this.filtergruppenZugriff.speicherArchiveintrag(archiveintrag);
 
-        ByteArrayDataSource pdf = formatiererService.generierePdfZusammenfassung(archiveintrag);
+        ByteArrayDataSource pdf = this.formatiererService.generierePdfZusammenfassung(archiveintrag);
 
-         this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerHtmlEmpfang(filtergruppe), true,
-         archiveintrag, pdf);
-         this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerPlaintextEmpfang(filtergruppe), false,
-         archiveintrag, pdf);
+        this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerHtmlEmpfang(filtergruppe), true, archiveintrag, pdf);
+        this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerPlaintextEmpfang(filtergruppe), false, archiveintrag, pdf);
     }
 
     /**

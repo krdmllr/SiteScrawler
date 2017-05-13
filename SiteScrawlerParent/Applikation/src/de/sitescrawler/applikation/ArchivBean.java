@@ -22,6 +22,7 @@ import de.sitescrawler.formatierung.IFormatiererService;
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.management.interfaces.IFiltergruppenManager;
+import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager;
 import de.sitescrawler.report.IReportService;
 
 /**
@@ -33,27 +34,30 @@ import de.sitescrawler.report.IReportService;
 public class ArchivBean implements Serializable
 {
     // Globalen Logger holen
-    private final static Logger   LOGGER           = Logger.getLogger("de.sitescrawler.logger");
+    private final static Logger           LOGGER           = Logger.getLogger("de.sitescrawler.logger");
 
-    private static final long     serialVersionUID = 1L;
-
-    @Inject
-    private DataBean              dataBean;
+    private static final long             serialVersionUID = 1L;
 
     @Inject
-    private IReportService        reporterService;
+    private DataBean                      dataBean;
 
     @Inject
-    private IFiltergruppenManager filtergruppenManager;
+    private IReportService                reporterService;
 
     @Inject
-    private IFormatiererService   formatiererService;
+    private IFiltergruppenManager         filtergruppenManager;
 
-    private Archiveintrag         geweahlterArchiveintrag;
-    private Artikel               geweahlterArtikel;
+    @Inject
+    private IFiltergruppenZugriffsManager filtergruppenZugriffsManager;
 
-    private Date                  abZeitpunkt      = new Date();
-    private Date                  bisZeitpunkt     = new Date();
+    @Inject
+    private IFormatiererService           formatiererService;
+
+    private Archiveintrag                 geweahlterArchiveintrag;
+    private Artikel                       geweahlterArtikel;
+
+    private Date                          abZeitpunkt      = new Date();
+    private Date                          bisZeitpunkt     = new Date();
 
     public ArchivBean()
     {
@@ -114,10 +118,9 @@ public class ArchivBean implements Serializable
     public void loescheArchiveintrag()
     {
 
+        this.filtergruppenZugriffsManager.loescheArchiveintrag(this.geweahlterArchiveintrag);
         this.dataBean.getFiltergruppe().getArchiveintraege().remove(this.geweahlterArchiveintrag);
-        this.filtergruppenManager.speichereAenderung(this.dataBean.getFiltergruppe());
         ArchivBean.LOGGER.log(Level.INFO, "Archiveintrag vom " + this.geweahlterArchiveintrag.getErstellungsdatum() + " wurde gelöscht.");
-
         this.setzeErstenArchiveintrag();
     }
 

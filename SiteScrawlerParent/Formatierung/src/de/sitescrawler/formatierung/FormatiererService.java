@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.mail.util.ByteArrayDataSource;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
@@ -25,8 +26,7 @@ import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 
 /**
- * @author Yvette
- * FormatiererService wandelt den Archiveintrag in reinen Text, HTML-Format oder eine PDF-Datei um.
+ * @author Yvette FormatiererService wandelt den Archiveintrag in reinen Text, HTML-Format oder eine PDF-Datei um.
  */
 @ApplicationScoped
 public class FormatiererService implements IFormatiererService
@@ -34,10 +34,16 @@ public class FormatiererService implements IFormatiererService
     // Globalen Logger holen
     private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
 
+    @Inject
+    private HTMLHelfer          htmlHelfer;
+    @Inject
+    private PDFHelfer           pdfHelfer;
+
     /**
      * Wandelt den Archiveintrag in einen reinen Text-String um.
      *
-     * @param archiveintrag Der Archiveintrag, der umgewandelt werden soll.
+     * @param archiveintrag
+     *            Der Archiveintrag, der umgewandelt werden soll.
      */
     @Override
     public String generierePlaintextZusammenfassung(Archiveintrag archiveintrag)
@@ -50,11 +56,8 @@ public class FormatiererService implements IFormatiererService
         {
             for (Artikel artikel : artikelAusArchiveintrag)
             {
-                plainTextAusgabe += artikel.getTitel() + "\n"
-                                + artikel.getAutor() + "\n"
-                                + this.wandleDatumUm(artikel.getErstellungsdatum()) + "\n"
-                                + artikel.getBeschreibung() + "\n"
-                                + artikel.getLink() + "\n\n";
+                plainTextAusgabe += artikel.getTitel() + "\n" + artikel.getAutor() + "\n" + this.wandleDatumUm(artikel.getErstellungsdatum()) + "\n"
+                                    + artikel.getBeschreibung() + "\n" + artikel.getLink() + "\n\n";
             }
             FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des Archiveintrags in Plain-Text erfolgreich.");
         }
@@ -69,7 +72,8 @@ public class FormatiererService implements IFormatiererService
     /**
      * Wandelt den Archiveintrag in HTML-Format um.
      *
-     * @param archiveintrag Der Archiveintrag, der umgewandelt werden soll.
+     * @param archiveintrag
+     *            Der Archiveintrag, der umgewandelt werden soll.
      * @return Umgewandelter Archiveintrag als HTML-Format.
      */
     @Override
@@ -81,8 +85,7 @@ public class FormatiererService implements IFormatiererService
         // Wandelt alle Artikel aus dem Archiveintrag in eine HTML-Datei um
         if (!artikelAusArchiveintrag.isEmpty())
         {
-            HTMLHelfer htmlHelfer = new HTMLHelfer();
-            htmlAusgabe = htmlHelfer.archiveintragInHTML(archiveintrag);
+            htmlAusgabe = this.htmlHelfer.archiveintragInHTML(archiveintrag);
             FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des Archiveintrags in HTML erfolgreich.");
         }
 
@@ -92,28 +95,33 @@ public class FormatiererService implements IFormatiererService
     /**
      * Wandelt den Archiveintrag in eine PDF-Datei um.
      *
-     * @param archiveintrag Der Archiveintrag, der umgewandelt werden soll.
+     * @param archiveintrag
+     *            Der Archiveintrag, der umgewandelt werden soll.
      * @return Umgewandelter Archiveintrag als ByteArrayDataSource.
      */
     @Override
     public ByteArrayDataSource generierePdfZusammenfassung(Archiveintrag archiveintrag)
     {
-        PDFHelfer pdfHelfer = new PDFHelfer();
         File xmlDatei = new File("artikelXML.xml");
         String aktuellesDatum = this.wandleDatumUm(new Date());
         ByteArrayOutputStream pdfOut = new ByteArrayOutputStream();
 
-        Map<String, String> parameterFuerPDF = new HashMap<String, String>() {{
-            this.put( "titelPDF", "Ihr persönlicher Pressespiegel von SiteScrawler!" );
-            this.put( "logoSiteScrawler", "src/de/sitescrawler/hilfsdateien/logo.svg" );
-            this.put( "aktuellesDatum",  aktuellesDatum);
-            this.put( "footerText",  "Dieser Pressespiegel wurde von SiteScrawler erstellt und versandt.");
-            this.put( "linkZuSiteScrawler",  "https://sitescrawler.de");
-        }};
+        Map<String, String> parameterFuerPDF = new HashMap<String, String>()
+        {
+            private static final long serialVersionUID = 1L;
+
+            {
+                this.put("titelPDF", "Ihr persönlicher Pressespiegel von SiteScrawler!");
+                this.put("logoSiteScrawler", "src/de/sitescrawler/hilfsdateien/logo.svg");
+                this.put("aktuellesDatum", aktuellesDatum);
+                this.put("footerText", "Dieser Pressespiegel wurde von SiteScrawler erstellt und versandt.");
+                this.put("linkZuSiteScrawler", "https://sitescrawler.de");
+            }
+        };
 
         try
         {
-            this.wandelArchiveintragInXML(archiveintrag, pdfHelfer, xmlDatei);
+            this.wandelArchiveintragInXML(archiveintrag, xmlDatei);
             FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des Archiveintrags in XML erfolgreich.");
         }
         catch (JAXBException e2)
@@ -123,14 +131,14 @@ public class FormatiererService implements IFormatiererService
 
         try
         {
-            pdfOut = this.wandleXMLinPDF(pdfHelfer, xmlDatei, pdfOut, parameterFuerPDF);
+            pdfOut = this.wandleXMLinPDF(xmlDatei, pdfOut, parameterFuerPDF);
             FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des Archiveintrags von XML in PDF erfolgreich.");
         }
         catch (IOException e1)
         {
             FormatiererService.LOGGER.log(Level.SEVERE, "Fehler bei des Archiveintrags Umwandlung von XML in PDF.", e1);
-        } 
-        
+        }
+
         ByteArrayInputStream pdfIn = new ByteArrayInputStream(pdfOut.toByteArray());
         ByteArrayDataSource daten = null;
 
@@ -149,6 +157,7 @@ public class FormatiererService implements IFormatiererService
 
     /**
      * Wandelt eine XML-Datei in eine PDF-Datei um.
+     *
      * @param pdfHelfer
      * @param xmlDatei
      * @param pdf
@@ -156,18 +165,19 @@ public class FormatiererService implements IFormatiererService
      * @return
      * @throws IOException
      */
-    private ByteArrayOutputStream wandleXMLinPDF(PDFHelfer pdfHelfer, File xmlDatei, ByteArrayOutputStream pdf, Map<String, String> parameterFuerPDF) throws IOException
+    private ByteArrayOutputStream wandleXMLinPDF(File xmlDatei, ByteArrayOutputStream pdf, Map<String, String> parameterFuerPDF) throws IOException
     {
         try
         {
-            pdf = pdfHelfer.XMLzuPDF(xmlDatei, parameterFuerPDF);
+            pdf = this.pdfHelfer.XMLzuPDF(xmlDatei, parameterFuerPDF);
             FormatiererService.LOGGER.info("Erfolgreiche Umwandlung von XML in PDF!");
         }
         catch (FileNotFoundException | FOPException | TransformerException e1)
         {
             FormatiererService.LOGGER.log(Level.SEVERE, "Fehler beim Umwandeln der XML-Datei in eine PDF-Datei!", e1);
         }
-        finally {
+        finally
+        {
             pdf.close();
         }
         return pdf;
@@ -175,14 +185,15 @@ public class FormatiererService implements IFormatiererService
 
     /**
      * Archiveintrag in XML-Datei umwandeln.
+     *
      * @param archiveintrag
      * @param pdfHelfer
      * @param xmlDatei
      * @throws JAXBException
      */
-    private void wandelArchiveintragInXML(Archiveintrag archiveintrag, PDFHelfer pdfHelfer, File xmlDatei) throws JAXBException
+    private void wandelArchiveintragInXML(Archiveintrag archiveintrag, File xmlDatei) throws JAXBException
     {
-        pdfHelfer.schreibeArtikelAlsXML(archiveintrag, xmlDatei);
+        this.pdfHelfer.schreibeArtikelAlsXML(archiveintrag, xmlDatei);
     }
 
     /**
@@ -201,24 +212,29 @@ public class FormatiererService implements IFormatiererService
         return aktuellesDatum;
     }
 
-	@Override
-	public ByteArrayOutputStream generierePdfZusammenfassungStream(Archiveintrag archiveintrag) {
-		PDFHelfer pdfHelfer = new PDFHelfer();
+    @Override
+    public ByteArrayOutputStream generierePdfZusammenfassungStream(Archiveintrag archiveintrag)
+    {
+        // TODO mit streams
         File xmlDatei = new File("artikelXML.xml");
         String aktuellesDatum = this.wandleDatumUm(new Date());
         ByteArrayOutputStream pdfOut = new ByteArrayOutputStream();
 
-        Map<String, String> parameterFuerPDF = new HashMap<String, String>() {{
-            this.put( "titelPDF", "Ihr persönlicher Pressespiegel von SiteScrawler!" );
-            this.put( "logoSiteScrawler", "src/de/sitescrawler/hilfsdateien/logo.svg" );
-            this.put( "aktuellesDatum",  aktuellesDatum);
-            this.put( "footerText",  "Dieser Pressespiegel wurde von SiteScrawler erstellt und versandt.");
-            this.put( "linkZuSiteScrawler",  "https://sitescrawler.de");
-        }};
+        Map<String, String> parameterFuerPDF = new HashMap<String, String>()
+        {
+            private static final long serialVersionUID = 1L;
+            {
+                this.put("titelPDF", "Ihr persönlicher Pressespiegel von SiteScrawler!");
+                this.put("logoSiteScrawler", "src/de/sitescrawler/hilfsdateien/logo.svg");
+                this.put("aktuellesDatum", aktuellesDatum);
+                this.put("footerText", "Dieser Pressespiegel wurde von SiteScrawler erstellt und versandt.");
+                this.put("linkZuSiteScrawler", "https://sitescrawler.de");
+            }
+        };
 
         try
         {
-            this.wandelArchiveintragInXML(archiveintrag, pdfHelfer, xmlDatei);
+            this.wandelArchiveintragInXML(archiveintrag, xmlDatei);
             FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des Archiveintrags in XML erfolgreich.");
         }
         catch (JAXBException e2)
@@ -228,7 +244,7 @@ public class FormatiererService implements IFormatiererService
 
         try
         {
-            pdfOut = this.wandleXMLinPDF(pdfHelfer, xmlDatei, pdfOut, parameterFuerPDF);
+            pdfOut = this.wandleXMLinPDF(xmlDatei, pdfOut, parameterFuerPDF);
             FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des Archiveintrags von XML in PDF erfolgreich.");
             return pdfOut;
         }
@@ -237,5 +253,5 @@ public class FormatiererService implements IFormatiererService
             FormatiererService.LOGGER.log(Level.SEVERE, "Fehler bei des Archiveintrags");
         }
         return null;
-	}
+    }
 }

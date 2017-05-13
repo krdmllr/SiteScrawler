@@ -67,7 +67,7 @@ public class Archiveintrag implements java.io.Serializable
         this.archiveintragid = archiveintragid;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "Filtergruppe_FilterprofilgruppeId", nullable = false)
     @XmlTransient
     public Filterprofilgruppe getFilterprofilgruppe()

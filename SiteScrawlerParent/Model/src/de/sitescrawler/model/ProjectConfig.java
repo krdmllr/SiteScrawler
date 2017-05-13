@@ -10,91 +10,118 @@ import java.util.Properties;
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class ProjectConfig {
+public class ProjectConfig
+{
 
-	private String domain;
-	private String username;
-	private String password;
-	private String consumerKey;
-	private String consumerSecret;
-	private String accessToken;
-	private String accessTokenSecret;
+    private String domain;
+    private String username;
+    private String password;
+    private String consumerKey;
+    private String consumerSecret;
+    private String accessToken;
+    private String accessTokenSecret;
 
-	String result = "";
-	InputStream inputStream;
+    String         result = "";
+    InputStream    inputStream;
 
-	public ProjectConfig() {
+    public ProjectConfig()
+    {
 
-		try{
-			String configPath = System.getProperty("jboss.server.config.dir");
+        try
+        {
+            String configPath = System.getProperty("jboss.server.config.dir");
 
-			if (configPath == null || configPath.isEmpty()) {
-				//Perhabs server is not running
-				System.out.println("Could not resolve config path. Searching in project path for config instead.");
-				String currentDir = System.getProperty("user.dir");
-				File currentFile = new File(currentDir);
-				
-				while(!currentFile.getName().toLowerCase().equals("sitescrawler")){
-					currentFile = currentFile.getParentFile();
-				}
-				configPath =  currentFile.getAbsolutePath();
-				System.out.println("Present Project Directory : " + configPath);
-			}
+            if (configPath == null || configPath.isEmpty())
+            {
+                // Perhabs server is not running
+                System.out.println("Could not resolve config path. Searching in project path for config instead.");
+                String currentDir = System.getProperty("user.dir");
+                File currentFile = new File(currentDir);
 
-			String configName = "config.properties";
-			Path fileName = Paths.get(configPath, configName);
+                while (!currentFile.getName().toLowerCase().equals("sitescrawler"))
+                {
+                    currentFile = currentFile.getParentFile();
+                }
+                configPath = currentFile.getAbsolutePath();
+                System.out.println("Present Project Directory : " + configPath);
+            }
 
-			Properties properties = new Properties();
+            String configName = "config.properties";
+            Path fileName = Paths.get(configPath, configName);
 
-			try (FileInputStream fis = new FileInputStream(fileName.toFile())) {
-				properties.load(fis);
+            Properties properties = new Properties();
 
-				domain = properties.getProperty("domain");
-				username = properties.getProperty("username");
-				password = properties.getProperty("password");
-				consumerKey = properties.getProperty("consumerKey");
-				consumerSecret = properties.getProperty("consumerSecret");
-				accessToken = properties.getProperty("accessToken");
-				accessTokenSecret = properties.getProperty("accessTokenSecret");
+            try (FileInputStream fis = new FileInputStream(fileName.toFile()))
+            {
+                properties.load(fis);
 
-				System.out.println("Successfully loaded config.");
-			} catch (Exception e) {
-				System.out.println("Failed to load conifg");
-				e.printStackTrace();
-			}
-		} 
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
+                this.domain = properties.getProperty("domain");
+                this.username = properties.getProperty("username");
+                this.password = properties.getProperty("password");
+                this.consumerKey = properties.getProperty("consumerKey");
+                this.consumerSecret = properties.getProperty("consumerSecret");
+                this.accessToken = properties.getProperty("accessToken");
+                this.accessTokenSecret = properties.getProperty("accessTokenSecret");
 
-	public String getUsername() {
-		return username;
-	}
+                System.out.println("Successfully loaded config.");
+            }
+            catch (Exception e)
+            {
+                System.out.println("Failed to load conifg");
+                e.printStackTrace();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getUsername()
+    {
+        return this.username;
+    }
 
-	public String getDomain() {
-		return domain;
-	}
-	
-	public String getConsumerKey() {
-		return consumerKey;
-	}
+    public String getPassword()
+    {
+        return this.password;
+    }
 
-	public String getConsumerSecret() {
-		return consumerSecret;
-	}
+    public String getDomain()
+    {
+        return this.domain;
+    }
 
-	public String getAccessToken() {
-		return accessToken;
-	}
+    public String getConsumerKey()
+    {
+        return this.consumerKey;
+    }
 
-	public String getAccessTokenSecret() {
-		return accessTokenSecret;
-	}
+    public String getConsumerSecret()
+    {
+        return this.consumerSecret;
+    }
+
+    public String getAccessToken()
+    {
+        return this.accessToken;
+    }
+
+    public String getAccessTokenSecret()
+    {
+        return this.accessTokenSecret;
+    }
+
+    public String getRessourcenDomain()
+    {
+        String configPath = System.getProperty("jboss.server.config.dir");
+        if (configPath == null || configPath.isEmpty())
+        {
+            // Falls der Server nicht läuft
+            System.out.println("Could not resolve config path. Searching in project path for config instead.");
+            configPath = System.getProperty("user.dir") + "/src/de/sitescrawler/formatierung/hilfsdateien";
+        }
+        return configPath;
+    }
 
 }
