@@ -15,19 +15,18 @@ import java.util.logging.Logger;
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 
-
 /**
- * @author Yvette
- * Stellt die Hilfsmethoden zur Verfügung, um den Archiveintrag in einen String im HTML-Format umzuwandeln.
+ * @author Yvette Stellt die Hilfsmethoden zur Verfügung, um den Archiveintrag in einen String im HTML-Format
+ *         umzuwandeln.
  */
 public class HTMLHelfer
 {
     // Globalen Logger holen
-    private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+    private final static Logger LOGGER      = Logger.getLogger("de.sitescrawler.logger");
 
-    String htmlVorher = "";
-    String htmlNachher = "";
-    String htmlGanz = "";
+    String                      htmlVorher  = "";
+    String                      htmlNachher = "";
+    String                      htmlGanz    = "";
 
     public HTMLHelfer()
     {
@@ -48,7 +47,8 @@ public class HTMLHelfer
         {
             BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(htmlZumKonvertieren), "UTF-8"));
             String str;
-            while ((str = in.readLine()) != null) {
+            while ((str = in.readLine()) != null)
+            {
                 contentBuilder.append(str);
             }
             in.close();
@@ -74,7 +74,8 @@ public class HTMLHelfer
             InputStream stream = new ByteArrayInputStream(htmlZumKonvertieren.getBytes(StandardCharsets.UTF_8));
             BufferedReader in = new BufferedReader(new InputStreamReader(stream));
             String str;
-            while ((str = in.readLine()) != null) {
+            while ((str = in.readLine()) != null)
+            {
                 contentBuilder.append(str);
             }
             in.close();
@@ -108,10 +109,22 @@ public class HTMLHelfer
         return html;
     }
 
+    public String leerenArchiveintragInHtml()
+    {
+        String htmlMeldungLeererArchiveintrag = "<div id=\"artikel\">" + "\n" + "<h3><b>" + "In diesem Archiveintrag sind keine Artikel enthalten."
+                                                + "</b></h3>" + "\n" + "</div>";
+        String htmlLeererArchiveintrag = "";
+
+        htmlLeererArchiveintrag = htmlVervollstaendigen(htmlMeldungLeererArchiveintrag);
+
+        return htmlLeererArchiveintrag;
+    }
+
     /**
      * Wandelt den Archiveintrag in eine vollständige HTML-Datei um.
      *
-     * @param archiveintrag Erwartet den umzuwandelnden Archiveintrag.
+     * @param archiveintrag
+     *            Erwartet den umzuwandelnden Archiveintrag.
      * @return Gibt den Archiveintrag als vollstädnige HTML-Datei als String zurück.
      */
     public String archiveintragInHTML(Archiveintrag archiveintrag)
@@ -123,12 +136,10 @@ public class HTMLHelfer
         for (Artikel artikel : artikelAusArchiveintrag)
         {
             String aktuellesDatum = fs.wandleDatumUm(artikel.getErstellungsdatum());
-            artikelAlsHTMLString += "<div id=\"artikel\">" + "\n"
-                            + "<h3><b>" + artikel.getTitel() + "</b></h3>" + "\n"
-                            + "<p id=\"datumUndAutor\">" + "Von " + artikel.getAutor() + " am " + aktuellesDatum + "</p>" + "\n"
-                            + "<p id=\"beschreibung\">" + artikel.getBeschreibung() + "</p>" + "\n"
-                            + "<a target=\"_blank\" href=\"" + artikel.getLink() + "\" class=\"button\">" + "Zum vollen Artikel" + "</a>" + "\n"
-                            + "</div>";
+            artikelAlsHTMLString += "<div id=\"artikel\">" + "\n" + "<h3><b>" + artikel.getTitel() + "</b></h3>" + "\n" + "<p id=\"datumUndAutor\">" + "Von "
+                                    + artikel.getAutor() + " am " + aktuellesDatum + "</p>" + "\n" + "<p id=\"beschreibung\">" + artikel.getBeschreibung()
+                                    + "</p>" + "\n" + "<a target=\"_blank\" href=\"" + artikel.getLink() + "\" class=\"button\">" + "Zum vollen Artikel"
+                                    + "</a>" + "\n" + "</div>";
         }
 
         artikelAlsHTMLString = this.konvertiereHTMLInString(artikelAlsHTMLString);
