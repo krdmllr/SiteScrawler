@@ -15,4 +15,6 @@ public interface IQuellenManager {
 	public void loescheQuelle(Quelle quelle);
 	
 	public Quelle getQuelle(Integer id);
+
+	void ladeQuellenEin();
 }
