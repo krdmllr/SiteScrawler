@@ -165,6 +165,7 @@ public class MailSenderService implements IMailSenderService {
 		// Setze text Nachricht Teil
 		multipart.addBodyPart(nachrichtTeil);
 
+		
 		if (anhaenge != null)
 		{
 		// Teil zwei ist Anhang
