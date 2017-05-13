@@ -159,17 +159,22 @@ public class MailSenderService implements IMailSenderService {
 		else
 			nachrichtTeil.setText(body);
 
+			
 		// Erstelle eine multipar nachricht
 		Multipart multipart = new MimeMultipart();
 		// Setze text Nachricht Teil
 		multipart.addBodyPart(nachrichtTeil);
 
+		
+		if (anhaenge != null)
+		{
 		// Teil zwei ist Anhang
 		MimeBodyPart anhang = new MimeBodyPart(); 
 		anhang.setDataHandler(new DataHandler(anhaenge));
 		anhang.setFileName("Pressespiegel Nr.");
 		multipart.addBodyPart(anhang);
-
+		}
+		
 		// Zusammenführen der Teile
 		nachricht.setContent(multipart);
 

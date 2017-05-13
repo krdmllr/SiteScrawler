@@ -122,6 +122,17 @@ public class HTMLHelfer
         return html;
     }
 
+    public String leerenArchiveintragInHtml()
+    {
+        String htmlMeldungLeererArchiveintrag = "<div id=\"artikel\">" + "\n" + "<h3><b>" + "In diesem Archiveintrag sind keine Artikel enthalten."
+                                                + "</b></h3>" + "\n" + "</div>";
+        String htmlLeererArchiveintrag = "";
+
+        htmlLeererArchiveintrag = this.htmlVervollstaendigen(htmlMeldungLeererArchiveintrag);
+
+        return htmlLeererArchiveintrag;
+    }
+
     /**
      * Wandelt den Archiveintrag in eine vollständige HTML-Datei um.
      *

@@ -81,12 +81,20 @@ public class FormatiererService implements IFormatiererService
     {
         String htmlAusgabe = "";
         Set<Artikel> artikelAusArchiveintrag = archiveintrag.getArtikel();
+        HTMLHelfer htmlHelfer = new HTMLHelfer();
 
         // Wandelt alle Artikel aus dem Archiveintrag in eine HTML-Datei um
         if (!artikelAusArchiveintrag.isEmpty())
         {
+
             htmlAusgabe = this.htmlHelfer.archiveintragInHTML(archiveintrag);
+
             FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des Archiveintrags in HTML erfolgreich.");
+        }
+        else
+        {
+            htmlAusgabe = htmlHelfer.leerenArchiveintragInHtml();
+            FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des leeren Archiveintrags in HTML erfolgreich.");
         }
 
         return htmlAusgabe;
@@ -108,6 +116,7 @@ public class FormatiererService implements IFormatiererService
 
         Map<String, String> parameterFuerPDF = new HashMap<String, String>()
         {
+
             private static final long serialVersionUID = 1L;
 
             {
@@ -122,6 +131,7 @@ public class FormatiererService implements IFormatiererService
         try
         {
             this.wandelArchiveintragInXML(archiveintrag, xmlDatei);
+            // Falls Archiveintrag leer ist: XML nur mit <archiveintrag/> -> PDF-Generierung geht
             FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des Archiveintrags in XML erfolgreich.");
         }
         catch (JAXBException e2)
@@ -136,9 +146,8 @@ public class FormatiererService implements IFormatiererService
         }
         catch (IOException e1)
         {
-            FormatiererService.LOGGER.log(Level.SEVERE, "Fehler bei des Archiveintrags Umwandlung von XML in PDF.", e1);
+            FormatiererService.LOGGER.log(Level.SEVERE, "Fehler bei Umwandlung des Archiveintrags von XML in PDF.", e1);
         }
-
         ByteArrayInputStream pdfIn = new ByteArrayInputStream(pdfOut.toByteArray());
         ByteArrayDataSource daten = null;
 
