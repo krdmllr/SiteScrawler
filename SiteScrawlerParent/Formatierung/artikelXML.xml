@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<archiveintrag>
+    <artikel>
+        <autor>Autor Vier</autor>
+        <beschreibung>Artikel Autor Vier. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</beschreibung>
+        <datum>13. Mai 2017</datum>
+        <favoritenzahl>0</favoritenzahl>
+        <link>https://de.wikipedia.org/wiki/Katzen</link>
+        <retweetzahl>0</retweetzahl>
+        <titel>Der vierte Artikel</titel>
+    </artikel>
+    <artikel>
+        <autor>Autor Zwei</autor>
+        <beschreibung>Artikel Zwei. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</beschreibung>
+        <datum>13. Mai 2017</datum>
+        <favoritenzahl>0</favoritenzahl>
+        <link>https://de.wikipedia.org/wiki/Katzen</link>
+        <retweetzahl>0</retweetzahl>
+        <titel>Der zweite Artikel</titel>
+    </artikel>
+    <artikel>
+        <autor>Autor Drei</autor>
+        <beschreibung>Artikel Drei. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</beschreibung>
+        <datum>13. Mai 2017</datum>
+        <favoritenzahl>0</favoritenzahl>
+        <link>https://de.wikipedia.org/wiki/Katzen</link>
+        <retweetzahl>0</retweetzahl>
+        <titel>Der dritte Artikel</titel>
+    </artikel>
+    <artikel>
+        <autor>Autor Eins</autor>
+        <beschreibung>Artikel Eins. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</beschreibung>
+        <datum>13. Mai 2017</datum>
+        <favoritenzahl>0</favoritenzahl>
+        <link>https://de.wikipedia.org/wiki/Haushund</link>
+        <retweetzahl>0</retweetzahl>
+        <titel>Der erste Artikel</titel>
+    </artikel>
+</archiveintrag>

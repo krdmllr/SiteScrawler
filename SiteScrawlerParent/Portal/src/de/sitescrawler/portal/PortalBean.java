@@ -7,12 +7,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.sitescrawler.email.ServiceUnavailableException;
-import de.sitescrawler.jpa.Filterprofilgruppe;
-import de.sitescrawler.jpa.Intervall;
 import de.sitescrawler.jpa.Nutzer;
-import de.sitescrawler.jpa.Rolle;
 import de.sitescrawler.model.ProjectConfig;
-import de.sitescrawler.model.ZeitIntervall;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 
 /**
@@ -137,8 +133,6 @@ public class PortalBean implements Serializable
      */
     public void sendeRegistrierungAb()
     {
-        // TODO sollte das nicht lieber der nutzerservice machen?
-        this.initNewNutzer();
         try
         {
             this.nutzerService.registrieren(this.nutzer);
@@ -149,17 +143,6 @@ public class PortalBean implements Serializable
             e.printStackTrace();
         }
         // TODO Leite Nutzer weiter
-    }
-
-    /**
-     * Gibt dem Nutzer eine default Rolle und Filterprofilgruppe
-     */
-    private void initNewNutzer()
-    {
-        this.nutzer.getRollen().add(new Rolle("Registered"));
-        Filterprofilgruppe filterprofilgruppe = new Filterprofilgruppe(this.nutzer, new Intervall(ZeitIntervall.TAEGLICH), "Meine Gruppe");
-        filterprofilgruppe.setNutzer(this.nutzer);
-        this.nutzer.getFilterprofilgruppen().add(filterprofilgruppe);
     }
 
     public Nutzer getNutzer()

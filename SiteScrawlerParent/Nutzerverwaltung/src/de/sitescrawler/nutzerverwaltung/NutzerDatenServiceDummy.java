@@ -19,7 +19,7 @@ import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
 import de.sitescrawler.utility.DateUtils;
 
 /**
- * Dummy implementierung für den INutzerDatenService.
+ * Dummy implementierung fÃ¼r den INutzerDatenService.
  *
  * @author klmue
  *

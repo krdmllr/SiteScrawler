@@ -29,15 +29,14 @@ import org.apache.fop.apps.MimeConstants;
 import de.sitescrawler.jpa.Archiveintrag;
 
 /**
- * @author Yvette
- * Stellt die Hilfsmethoden zur Verfügung, um den Archiveintrag in eine PDF-Datei umzuwandeln.
+ * @author Yvette Stellt die Hilfsmethoden zur Verfügung, um den Archiveintrag in eine PDF-Datei umzuwandeln.
  */
 public class PDFHelfer
 {
     // Globalen Logger holen
-    private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
-    File xsltDatei = new File("src/de/sitescrawler/hilfsdateien/xmlZuPdf.xsl");
-
+    private final static Logger LOGGER    = Logger.getLogger("de.sitescrawler.logger");
+    // TODO Pfad anpassen
+    File                        xsltDatei = new File("src/de/sitescrawler/hilfsdateien/xmlZuPdf.xsl");
 
     /**
      * Wandelt den Archiveintrag in eine XML-Datei um.
@@ -72,7 +71,8 @@ public class PDFHelfer
      * @throws FOPException
      * @throws TransformerException
      */
-    public ByteArrayOutputStream XMLzuPDF(File xmlZuTransformieren, Map<String, String> parameter) throws FileNotFoundException, FOPException, TransformerException
+    public ByteArrayOutputStream XMLzuPDF(File xmlZuTransformieren, Map<String, String> parameter)
+        throws FileNotFoundException, FOPException, TransformerException
     {
 
         // FopFactory konfigurieren

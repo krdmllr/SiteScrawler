@@ -2,7 +2,6 @@ package de.sitescrawler.applikation;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,179 +17,207 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.mail.util.ByteArrayDataSource;
-
-import org.apache.zookeeper.common.IOUtils;
 
 import de.sitescrawler.formatierung.IFormatiererService;
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
-import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.management.interfaces.IFiltergruppenManager;
 import de.sitescrawler.report.IReportService;
 
 /**
- * 
+ *
  * @author robin Archiv Bean
  */
 @SessionScoped
 @Named("archiv")
-public class ArchivBean implements Serializable {
-	// Globalen Logger holen
-	private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+public class ArchivBean implements Serializable
+{
+    // Globalen Logger holen
+    private final static Logger   LOGGER           = Logger.getLogger("de.sitescrawler.logger");
 
-	private static final long serialVersionUID = 1L;
+    private static final long     serialVersionUID = 1L;
 
-	@Inject
-	private DataBean dataBean;
+    @Inject
+    private DataBean              dataBean;
 
-	@Inject
-	private IReportService reporterService;
+    @Inject
+    private IReportService        reporterService;
 
-	@Inject
-	private IFiltergruppenManager filtergruppenManager;
-	
-	@Inject
-	private IFormatiererService formatiererService;
+    @Inject
+    private IFiltergruppenManager filtergruppenManager;
 
-	private Archiveintrag geweahlterArchiveintrag;
-	private Artikel geweahlterArtikel;
+    @Inject
+    private IFormatiererService   formatiererService;
 
-	private Date abZeitpunkt = new Date();
-	private Date bisZeitpunkt = new Date();
+    private Archiveintrag         geweahlterArchiveintrag;
+    private Artikel               geweahlterArtikel;
 
-	public ArchivBean() {
+    private Date                  abZeitpunkt      = new Date();
+    private Date                  bisZeitpunkt     = new Date();
 
-	}
+    public ArchivBean()
+    {
 
-	public Date getAbZeitpunkt() {
-		return this.abZeitpunkt;
-	}
+    }
 
-	public void setAbZeitpunkt(Date abZeitpunkt) {
-		this.abZeitpunkt = abZeitpunkt;
-	}
+    public Date getAbZeitpunkt()
+    {
+        return this.abZeitpunkt;
+    }
 
-	public Date getBisZeitpunkt() {
-		return this.bisZeitpunkt;
-	}
+    public void setAbZeitpunkt(Date abZeitpunkt)
+    {
+        this.abZeitpunkt = abZeitpunkt;
+    }
 
-	public void setBisZeitpunkt(Date bisZeitpunkt) {
-		this.bisZeitpunkt = bisZeitpunkt;
-	}
+    public Date getBisZeitpunkt()
+    {
+        return this.bisZeitpunkt;
+    }
 
-	public Artikel getGeweahlterArtikel() {
-		return this.geweahlterArtikel;
-	}
+    public void setBisZeitpunkt(Date bisZeitpunkt)
+    {
+        this.bisZeitpunkt = bisZeitpunkt;
+    }
 
-	public void setGeweahlterArtikel(Artikel geweahlterArtikel) {
-		this.geweahlterArtikel = geweahlterArtikel;
-	}
+    public Artikel getGeweahlterArtikel()
+    {
+        return this.geweahlterArtikel;
+    }
 
-	@PostConstruct
-	void init() {
-		setzeErstenArchiveintrag();
-	}
+    public void setGeweahlterArtikel(Artikel geweahlterArtikel)
+    {
+        this.geweahlterArtikel = geweahlterArtikel;
+    }
 
-	/**
-	 * Setzt den ersten Archiveintrag der aktuellen Filtergruppe als gewählten
-	 * Archiveintrag.
-	 */
-	private void setzeErstenArchiveintrag() {
-		List<Archiveintrag> archiveintraege = getArchiveintraege();
-		if (!archiveintraege.isEmpty()) {
-			this.setGeweahlterArchiveintrag(archiveintraege.get(0));
-		}
-	}
+    @PostConstruct
+    void init()
+    {
+        this.setzeErstenArchiveintrag();
+    }
 
-	/**
-	 * Löscht den gewählten Archiveintrag.
-	 */
-	public void loescheArchiveintrag() {
+    /**
+     * Setzt den ersten Archiveintrag der aktuellen Filtergruppe als gewählten Archiveintrag.
+     */
+    private void setzeErstenArchiveintrag()
+    {
+        List<Archiveintrag> archiveintraege = this.getArchiveintraege();
+        if (!archiveintraege.isEmpty())
+        {
+            this.setGeweahlterArchiveintrag(archiveintraege.get(0));
+        }
+    }
 
-		dataBean.getFiltergruppe().getArchiveintraege().remove(geweahlterArchiveintrag);
-		filtergruppenManager.speichereAenderung(dataBean.getFiltergruppe());
-		LOGGER.log(Level.INFO,
-				"Archiveintrag vom " + geweahlterArchiveintrag.getErstellungsdatum() + " wurde gelöscht.");
+    /**
+     * Löscht den gewählten Archiveintrag.
+     */
+    public void loescheArchiveintrag()
+    {
 
-		setzeErstenArchiveintrag();
-	}
+        this.dataBean.getFiltergruppe().getArchiveintraege().remove(this.geweahlterArchiveintrag);
+        this.filtergruppenManager.speichereAenderung(this.dataBean.getFiltergruppe());
+        ArchivBean.LOGGER.log(Level.INFO, "Archiveintrag vom " + this.geweahlterArchiveintrag.getErstellungsdatum() + " wurde gelöscht.");
 
-	/**
-	 * Exportiert das PDF des gewählten Archiveintrages und bietet es dem
-	 * Nutzer als Download an.
-	 */
-	public void exportierePdf() { 
-		
-		ByteArrayOutputStream pdfData = null;
-		try
-		{
-			//Erstelle PDF
-			pdfData = formatiererService.generierePdfZusammenfassungStream(getGeweahlterArchiveintrag()); 
-		}
-		catch(Exception ex)
-		{
-			LOGGER.log(Level.SEVERE, "PDF Erstellung fehlgeschlagen.", ex);
-		}
-		
-		if(pdfData != null){
-			try{
-				//Lasse Nutzer PDF herunterladen
-				downloadPdf(pdfData);
-			}
-			catch (IOException ex) {
-				// TODO Auto-generated catch block 
-				LOGGER.log(Level.SEVERE, "PDF Download fehlgeschlagen.", ex);
-			}			
-		} 
-	}
-	
-	public void downloadPdf(ByteArrayOutputStream pdfData) throws IOException {
-		
-		String fileName = "Test Name Pressespiegel";
-		
-	    FacesContext fc = FacesContext.getCurrentInstance();
-	    ExternalContext ec = fc.getExternalContext(); 
-	   
-	    ec.responseReset(); // Some JSF component library or some Filter might have set some headers in the buffer beforehand. We want to get rid of them, else it may collide.
-	    ec.setResponseContentType("application/pdf"); // Check http://www.iana.org/assignments/media-types for all types. Use if necessary ExternalContext#getMimeType() for auto-detection based on filename.
-	    ec.setResponseContentLength(pdfData.size()); // Set it with the file size. This header is optional. It will work if it's omitted, but the download progress will be unknown.
-	    ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\""); // The Save As popup magic is done here. You can give it any file name you want, this only won't work in MSIE, it will use current request URL as file name instead.
+        this.setzeErstenArchiveintrag();
+    }
 
-	    OutputStream output = ec.getResponseOutputStream();
-	    pdfData.writeTo(output);
+    /**
+     * Exportiert das PDF des gewählten Archiveintrages und bietet es dem Nutzer als Download an.
+     */
+    public void exportierePdf()
+    {
 
-	    fc.responseComplete(); // Important! Otherwise JSF will attempt to render the response which obviously will fail since it's already written with a file and closed.
-	}
+        ByteArrayOutputStream pdfData = null;
+        try
+        {
+            // Erstelle PDF
+            pdfData = this.formatiererService.generierePdfZusammenfassungStream(this.getGeweahlterArchiveintrag());
+        }
+        catch (Exception ex)
+        {
+            ArchivBean.LOGGER.log(Level.SEVERE, "PDF Erstellung fehlgeschlagen.", ex);
+        }
 
+        if (pdfData != null)
+        {
+            try
+            {
+                // Lasse Nutzer PDF herunterladen
+                this.downloadPdf(pdfData);
+            }
+            catch (IOException ex)
+            {
+                // TODO Auto-generated catch block
+                ArchivBean.LOGGER.log(Level.SEVERE, "PDF Download fehlgeschlagen.", ex);
+            }
+        }
+    }
 
-	public void manuellCrawlen() {
-		System.out.println("CRAWLE");
-		this.reporterService.generiereManuellenReport(this.dataBean.getFiltergruppe());
-		setzeErstenArchiveintrag();
-	}
+    public void downloadPdf(ByteArrayOutputStream pdfData) throws IOException
+    {
 
-	public Archiveintrag getGeweahlterArchiveintrag() {
-		return this.geweahlterArchiveintrag;
-	}
+        String fileName = "Test Name Pressespiegel";
 
-	public void setGeweahlterArchiveintrag(Archiveintrag geweahlterArchiveintrag) {
-		this.geweahlterArchiveintrag = geweahlterArchiveintrag;
-	}
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
 
-	public void buttonAction(Archiveintrag eintrag) {
-		this.setGeweahlterArchiveintrag(eintrag);
-		this.addMessage("Archiveintrag vom " + eintrag.getErstellungsdatum() + " ausgewählt!");
-	}
+        ec.responseReset(); // Some JSF component library or some Filter might have set some headers in the buffer
+                            // beforehand. We want to get rid of them, else it may collide.
+        ec.setResponseContentType("application/pdf"); // Check http://www.iana.org/assignments/media-types for all
+                                                      // types. Use if necessary ExternalContext#getMimeType() for
+                                                      // auto-detection based on filename.
+        ec.setResponseContentLength(pdfData.size()); // Set it with the file size. This header is optional. It will work
+                                                     // if it's omitted, but the download progress will be unknown.
+        ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\""); // The Save As popup
+                                                                                                  // magic is done here.
+                                                                                                  // You can give it any
+                                                                                                  // file name you want,
+                                                                                                  // this only won't
+                                                                                                  // work in MSIE, it
+                                                                                                  // will use current
+                                                                                                  // request URL as file
+                                                                                                  // name instead.
 
-	public List<Archiveintrag> getArchiveintraege() {
-		List<Archiveintrag> alleEintraege = new ArrayList<>(dataBean.getFiltergruppe().getArchiveintraege());
+        OutputStream output = ec.getResponseOutputStream();
+        pdfData.writeTo(output);
 
-		return alleEintraege; // TODO Filtere Einträge
-	}
+        fc.responseComplete(); // Important! Otherwise JSF will attempt to render the response which obviously will fail
+                               // since it's already written with a file and closed.
+    }
 
-	private void addMessage(String summary) {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
+    public void manuellCrawlen()
+    {
+        System.out.println("CRAWLE");
+        this.reporterService.generiereManuellenReport(this.dataBean.getFiltergruppe());
+        this.setzeErstenArchiveintrag();
+    }
+
+    public Archiveintrag getGeweahlterArchiveintrag()
+    {
+        return this.geweahlterArchiveintrag;
+    }
+
+    public void setGeweahlterArchiveintrag(Archiveintrag geweahlterArchiveintrag)
+    {
+        this.geweahlterArchiveintrag = geweahlterArchiveintrag;
+    }
+
+    public void buttonAction(Archiveintrag eintrag)
+    {
+        this.setGeweahlterArchiveintrag(eintrag);
+        this.addMessage("Archiveintrag vom " + eintrag.getErstellungsdatum() + " ausgewählt!");
+    }
+
+    public List<Archiveintrag> getArchiveintraege()
+    {
+        List<Archiveintrag> alleEintraege = new ArrayList<>(this.dataBean.getFiltergruppe().getArchiveintraege());
+
+        return alleEintraege; // TODO Filtere Einträge
+    }
+
+    private void addMessage(String summary)
+    {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 }
