@@ -34,9 +34,8 @@ public class SolrService implements ISolrService, Serializable
 
     // TODO: in config-Datei auslagern
     // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/testdaten";
-    // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/spielwiesewilliam";
-    private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";
-    private static final SimpleDateFormat formatter        = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'");
+     private static final String SolrUrl = "http://sitescrawler.de:8983/solr/spielwiesewilliam";
+    //private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";
 
     public SolrService()
     {
@@ -53,14 +52,7 @@ public class SolrService implements ISolrService, Serializable
     public void addArtikel(List<Artikel> artikel)
     {
         artikel.forEach(a -> {
-            try
-            {
-                a.setErstellungsdatum(SolrService.formatter.parse(SolrService.formatter.format(a.getErstellungsdatum())));
-            }
-            catch (ParseException e)
-            {
-                SolrService.LOGGER.log(Level.SEVERE, "Fehler beim parsen des Erstellungsdatums", e);
-            }
+                a.setErstellungsdatum(a.getErstellungsdatum());
         });
         try
         {
