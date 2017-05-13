@@ -1,5 +1,6 @@
 package de.sitescrawler.nutzerverwaltung.interfaces;
 
+import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
 
@@ -24,15 +25,23 @@ public interface INutzerService
      *
      * @param nutzer
      *            Anzulegender Nutzer.
+     * @throws ServiceUnavailableException
      */
-    void registrieren(Nutzer nutzer);
+    void registrieren(Nutzer nutzer) throws ServiceUnavailableException;
 
     /**
-     * Brauchen wir mmn nicht
+     * Persistiert einen neuen Nutzer in der Datenbank
      *
      * @param nutzer
      */
     void nutzerSpeichern(Nutzer nutzer);
+
+    /**
+     * Updated einen Nutzer in der Datenbank
+     *
+     * @param nutzer
+     */
+    void nutzerMergen(Nutzer nutzer);
 
     /**
      * Warum sollten wir zur Laufzeit rollen anlegen?
@@ -42,8 +51,8 @@ public interface INutzerService
     void rolleAnlegen(Rolle rolle);
 
     /**
-     * Gibt einen Nutzer anhand seiner id zurï¿½ck. Der zurï¿½ckgegebene Nutzer beinhaltet alle fï¿½r ihn relevanten
-     * Daten wie seine Filtergruppen, in denen auch alle Felder gefï¿½llt sind.
+     * Gibt einen Nutzer anhand seiner id zurï¿½ck. Der zurï¿½ckgegebene Nutzer beinhaltet alle fï¿½r ihn relevanten Daten wie
+     * seine Filtergruppen, in denen auch alle Felder gefï¿½llt sind.
      *
      * @param email
      *            Id des Nutzers.
@@ -58,24 +67,27 @@ public interface INutzerService
      *            Adresse die mit dem Konto des Nutzers verknï¿½pft ist.
      * @param nutzername
      *            Nutzername des Kontos.
+     * @throws ServiceUnavailableException
      */
-    void passwortZuruecksetzen(String email, String nutzername);
+    void passwortZuruecksetzen(Nutzer nutzer) throws ServiceUnavailableException;
 
     /**
-     * Setzt ein neues Passwort fï¿½r einen Nutzer der zuvor ï¿½ber die passwortZuruecksetzen funktion einen Token
-     * generiert hat.
+     * Setzt ein neues Passwort fï¿½r einen Nutzer der zuvor ï¿½ber die passwortZuruecksetzen funktion einen Token generiert
+     * hat.
      *
      * @param token
      *            Zuvor generierter Token.
      * @param neuesPasswort
      *            Neues Passwort.
      */
+    @Deprecated
     void neuesPasswortSetzen(String token, String neuesPasswort);
 
     /**
-     * Löscht den Nutzer aus der Datenbank
-     * 
+     * Lï¿½scht den Nutzer aus der Datenbank
+     *
      * @param nutzer
      */
     void nutzerLoeschen(Nutzer nutzer);
+
 }
