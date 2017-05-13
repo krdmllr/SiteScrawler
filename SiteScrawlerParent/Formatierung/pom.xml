@@ -30,6 +30,12 @@
     	<artifactId>mail</artifactId>
     	<version>1.4</version>
 	</dependency>
+	<dependency>
+		<groupId>de.sitescrawler.utility</groupId>
+		<artifactId>Utility</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<scope>provided</scope>
+	</dependency>
   </dependencies>
   <build>
   	<finalName>Formatierung</finalName>

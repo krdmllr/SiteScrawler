@@ -13,8 +13,7 @@ public interface IFormatiererService
 
     String generiereHtmlZusammenfassung(Archiveintrag archiveintrag);
 
-    // TODO PDF-Generierung
     ByteArrayDataSource generierePdfZusammenfassung(Archiveintrag archiveintrag);
-    
+
     ByteArrayOutputStream generierePdfZusammenfassungStream(Archiveintrag archiveintrag);
 }

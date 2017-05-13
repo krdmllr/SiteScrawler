@@ -24,6 +24,7 @@ import org.apache.fop.apps.FOPException;
 
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
+import de.sitescrawler.model.ProjectConfig;
 
 /**
  * @author Yvette FormatiererService wandelt den Archiveintrag in reinen Text, HTML-Format oder eine PDF-Datei um.
@@ -38,6 +39,8 @@ public class FormatiererService implements IFormatiererService
     private HTMLHelfer          htmlHelfer;
     @Inject
     private PDFHelfer           pdfHelfer;
+    @Inject
+    private ProjectConfig       projectConfig;
 
     /**
      * Wandelt den Archiveintrag in einen reinen Text-String um.
@@ -110,23 +113,12 @@ public class FormatiererService implements IFormatiererService
     @Override
     public ByteArrayDataSource generierePdfZusammenfassung(Archiveintrag archiveintrag)
     {
+        // TODO in eine Methode
         File xmlDatei = new File("artikelXML.xml");
         String aktuellesDatum = this.wandleDatumUm(new Date());
         ByteArrayOutputStream pdfOut = new ByteArrayOutputStream();
 
-        Map<String, String> parameterFuerPDF = new HashMap<String, String>()
-        {
-
-            private static final long serialVersionUID = 1L;
-
-            {
-                this.put("titelPDF", "Ihr persönlicher Pressespiegel von SiteScrawler!");
-                this.put("logoSiteScrawler", "src/de/sitescrawler/hilfsdateien/logo.svg");
-                this.put("aktuellesDatum", aktuellesDatum);
-                this.put("footerText", "Dieser Pressespiegel wurde von SiteScrawler erstellt und versandt.");
-                this.put("linkZuSiteScrawler", "https://sitescrawler.de");
-            }
-        };
+        Map<String, String> parameterFuerPDF = this.erstelleParameter(aktuellesDatum);
 
         try
         {
@@ -154,6 +146,7 @@ public class FormatiererService implements IFormatiererService
         try
         {
             daten = new ByteArrayDataSource(pdfIn, "application/pdf");
+            daten.setName("Pressespiegel_" + archiveintrag.getErstellungsdatumFormatiert() + ".pdf");
             FormatiererService.LOGGER.log(Level.INFO, "Umwandlung des Archiveintrags von PDF in ByteArrayDataSource erfolgreich.");
         }
         catch (IOException e)
@@ -162,6 +155,25 @@ public class FormatiererService implements IFormatiererService
         }
 
         return daten;
+    }
+
+    private Map<String, String> erstelleParameter(String aktuellesDatum)
+    {
+        Map<String, String> parameterFuerPDF = new HashMap<String, String>()
+        {
+
+            private static final long serialVersionUID = 1L;
+
+            {
+                String ressourcenDomain = FormatiererService.this.projectConfig.getRessourcenDomain();
+                this.put("titelPDF", "Ihr persönlicher Pressespiegel von SiteScrawler!");
+                this.put("logoSiteScrawler", ressourcenDomain + "/logo.svg");
+                this.put("aktuellesDatum", aktuellesDatum);
+                this.put("footerText", "Dieser Pressespiegel wurde von SiteScrawler erstellt und versandt.");
+                this.put("linkZuSiteScrawler", "https://sitescrawler.de");
+            }
+        };
+        return parameterFuerPDF;
     }
 
     /**
@@ -225,21 +237,13 @@ public class FormatiererService implements IFormatiererService
     public ByteArrayOutputStream generierePdfZusammenfassungStream(Archiveintrag archiveintrag)
     {
         // TODO mit streams
+        // TODO in eine Methode
+
         File xmlDatei = new File("artikelXML.xml");
         String aktuellesDatum = this.wandleDatumUm(new Date());
         ByteArrayOutputStream pdfOut = new ByteArrayOutputStream();
 
-        Map<String, String> parameterFuerPDF = new HashMap<String, String>()
-        {
-            private static final long serialVersionUID = 1L;
-            {
-                this.put("titelPDF", "Ihr persönlicher Pressespiegel von SiteScrawler!");
-                this.put("logoSiteScrawler", "src/de/sitescrawler/hilfsdateien/logo.svg");
-                this.put("aktuellesDatum", aktuellesDatum);
-                this.put("footerText", "Dieser Pressespiegel wurde von SiteScrawler erstellt und versandt.");
-                this.put("linkZuSiteScrawler", "https://sitescrawler.de");
-            }
-        };
+        Map<String, String> parameterFuerPDF = this.erstelleParameter(aktuellesDatum);
 
         try
         {

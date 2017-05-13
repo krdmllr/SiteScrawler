@@ -1,12 +1,9 @@
 package de.sitescrawler.formatierung;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,16 +53,6 @@ public class PDFHelfer
     {
         String ressourcenDomain = this.projectConfig.getRessourcenDomain();
         this.xsltDatei = new File(ressourcenDomain + "/xmlZuPdf.xsl");
-        try (FileReader fr = new FileReader(this.xsltDatei))
-        {
-            BufferedReader bufferedReader = new BufferedReader(fr);
-            bufferedReader.lines().forEach(System.out::println);
-        }
-        catch (Exception e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -86,21 +73,7 @@ public class PDFHelfer
     private static Transformer erstelleTransformer(File xslt, Map<String, String> parameter) throws TransformerConfigurationException
     {
         TransformerFactory factory = TransformerFactory.newInstance();
-        try (FileReader fr = new FileReader(xslt))
-        {
-            BufferedReader bufferedReader = new BufferedReader(fr);
-            bufferedReader.lines().forEach(System.out::println);
-        }
-        catch (Exception e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         StreamSource streamSource = new StreamSource(xslt);
-        // TODO remove
-        Reader reader = streamSource.getReader();
-        BufferedReader bufferedReader = new BufferedReader(reader);
-        bufferedReader.lines().forEach(System.out::println);
         Transformer transformer = factory.newTransformer(streamSource);
         parameter.forEach(transformer::setParameter);
         return transformer;
