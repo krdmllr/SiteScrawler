@@ -175,7 +175,7 @@ public class Verarbeitung {
 						String embeddedURL = urle.getDisplayURL();
 						int embeddedURLStart = urle.getStart();
 						int embeddedURLEnd = urle.getEnd();
-						neuerInhalt = inhalt.substring(0,embeddedURLStart) + embeddedURL + inhalt.substring(embeddedURLEnd, inhalt.length());						
+						neuerInhalt = inhalt.substring(0,embeddedURLStart - 1) + embeddedURL + inhalt.substring(embeddedURLEnd + 1, inhalt.length());						
 					}
 					
 					//Setze Inhalt auf neuenInhalt falls es mindestens eine URLEntity gegeben hat
