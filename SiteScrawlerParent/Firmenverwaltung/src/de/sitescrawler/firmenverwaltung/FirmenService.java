@@ -1,5 +1,6 @@
 package de.sitescrawler.firmenverwaltung;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,9 @@ import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 
 @SessionScoped
-public class FirmenService implements IFirmenService {
+public class FirmenService implements IFirmenService, Serializable {
+  
+	private static final long serialVersionUID = 1L;
 
 	// Globalen Logger holen
 	private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");

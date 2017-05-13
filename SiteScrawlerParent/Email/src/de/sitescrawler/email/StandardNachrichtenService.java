@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import de.sitescrawler.email.interfaces.IMailSenderService;
@@ -14,6 +15,7 @@ import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Nutzer;
 
+@ApplicationScoped
 public class StandardNachrichtenService implements IStandardNachrichtenService{
 
 	// Globalen Logger holen
