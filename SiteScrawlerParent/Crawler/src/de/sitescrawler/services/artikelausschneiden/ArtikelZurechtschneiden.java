@@ -76,7 +76,7 @@ public class ArtikelZurechtschneiden
             // durchsuche alle p-Tags
             if (allePTags.isEmpty())
             {
-                Elements select = doc.select("p");
+                Elements select = doc.select("p,h1, h2, h3, h4, h5, h6");
                 allePTags.addAll(select);
             }
 
@@ -116,7 +116,6 @@ public class ArtikelZurechtschneiden
             for (Element absatzPTag : pTagsAusArtikel)
             {
                 absaetze.add(absatzPTag.text());
-
             }
 
             ArtikelZurechtschneiden.LOGGER.info("Absätze erfolgreich gesammelt.");

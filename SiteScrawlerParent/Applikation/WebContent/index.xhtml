@@ -87,10 +87,7 @@
 			<b:modal id="artikel-modal" title="#{archiv.geweahlterArtikel.titel}"
 				styleClass="modalPseudoClass">
 				<div id="artikel-inhalt">
-					<p:repeat value="#{archiv.geweahlterArtikel.absaetzeArtikel}"
-						var="absatz">
-						<p>#{absatz}"</p>
-					</p:repeat>
+					<p:outputLabel value="#{archiv.geweahlterArtikel.volltextMitMetaInformationenHTML}"></p:outputLabel>
 				</div>
 
 			</b:modal>
