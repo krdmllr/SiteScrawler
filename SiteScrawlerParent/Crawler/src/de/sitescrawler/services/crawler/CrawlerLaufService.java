@@ -24,6 +24,12 @@ public class CrawlerLaufService implements ICrawlerLaufService
 
     @Inject
     private Verarbeitung    verarbeitung;
+    
+    //Logger holen
+    private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+    
+    long startZeit;
+    long gesamtZeit;
 
     public CrawlerLaufService()
     {
@@ -35,10 +41,15 @@ public class CrawlerLaufService implements ICrawlerLaufService
     @Override
     public void crawl()
     {
+    	startZeit = System.nanoTime();
+    	
         for (Quelle q : this.getQuellenAusDatenbank())
         {
             this.verarbeitung.durchsucheQuelle(true, q);
         }
+        
+        gesamtZeit = (System.nanoTime() - startZeit) / 1000000000; //Umwandlung in Sekunden
+        CrawlerLaufService.LOGGER.log(Level.INFO, "Gesamtzeit des Crawlvorgangs: " + gesamtZeit);
     }
     
     /**
