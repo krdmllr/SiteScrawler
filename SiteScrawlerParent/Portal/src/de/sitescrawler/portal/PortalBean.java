@@ -6,7 +6,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import de.sitescrawler.email.ServiceUnavailableException;
+import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Intervall;
 import de.sitescrawler.jpa.Nutzer;

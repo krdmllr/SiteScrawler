@@ -16,6 +16,7 @@ import javax.mail.internet.*;
 import javax.mail.util.*;
 
 import de.sitescrawler.email.interfaces.IMailSenderService;
+import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
 

@@ -3,7 +3,7 @@ package de.sitescrawler.email.interfaces;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import de.sitescrawler.email.ServiceUnavailableException;
+import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Nutzer;
 
@@ -42,4 +42,25 @@ public interface IStandardNachrichtenService {
 	 * @throws ServiceUnavailableException 
 	 */
 	void passwortZuruecksetzen(Nutzer nutzer, String temporaeresPasswort) throws ServiceUnavailableException;
+
+	/**
+	 * Informiere den Nutzer, dass er als Mitarbeiter von einer Firma entfernt wurde.
+	 * @param nutzer
+	 * @param firma
+	 */
+	void vonFirmaEntfernt(Nutzer nutzer, Firma firma, Nutzer ausfuehrenderNutzer);
+	
+	/**
+	 * Informiert den Nutzer, dass er einer Firma als Mitarbeiter hinzugefuegt wurde.
+	 * @param nutzer
+	 * @param firma
+	 * @param ausfuehrenderNutzer
+	 */
+	void zuFirmaHinzugefuegt(Nutzer nutzer, Firma firma, Nutzer ausfuehrenderNutzer);
+	
+	/**
+	 * Informiert alle Nutzer der Firma, dass die Firma gelöscht wurde.
+	 * @param firma
+	 */
+	void firmaGeloescht(Firma firma);
 }

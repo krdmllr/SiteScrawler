@@ -2,7 +2,7 @@ package de.sitescrawler.nutzerverwaltung.interfaces;
 
 import java.util.List;
 
-import de.sitescrawler.email.ServiceUnavailableException;
+import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;

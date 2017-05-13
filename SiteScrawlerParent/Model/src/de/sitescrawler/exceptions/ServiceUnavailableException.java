@@ -1,9 +1,9 @@
-package de.sitescrawler.email;
+package de.sitescrawler.exceptions;
 
 /**
  * 
  * @author robin Exception, die geworfen wird, wenn der Mail Service nicht
- *         verfügbar ist.
+ *         verfï¿½gbar ist.
  */
 public class ServiceUnavailableException extends Exception {
 
