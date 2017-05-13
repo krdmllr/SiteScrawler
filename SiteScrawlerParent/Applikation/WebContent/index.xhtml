@@ -65,10 +65,11 @@
 					 
 					<div class="archiveintraege">
 						<p:dataList class="list-group"
+							id="archiveintrag-komplett-liste"
 							value="#{archiv.archiveintraege}" var="eintrag" type="definition">
 							<h:form>
-								<p:commandLink class="list-group-item" id="ajax"
-									update="artikelBereich"
+								<p:commandLink class="list-group-item" 
+									update="artikelBereich @form"
 									action="#{archiv.buttonAction(eintrag)}">
 									<h:outputText value="#{eintrag.erstellungsdatum}">
 										<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
@@ -104,8 +105,7 @@
 								value="#{archiv.geweahlterArchiveintrag.erstellungsdatum}">
 								<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 							</h:outputText>
-						</h3>
-						<b:form>
+						</h3> 
 							<div class="btn-group pull-right" role="group"> 
 							
 								<p:commandLink type="button" 
@@ -115,9 +115,9 @@
 								<p:commandLink type="button" 
 									value="Eintrag löschen"
 									action="#{archiv.loescheArchiveintrag()}"
-									class="btn btn-default" /> 
-							</div>
-						</b:form>
+									class="btn btn-default" 
+									update="@form archiveintrag-komplett-liste"/> 
+							</div> 
 						<div class="clearfix"></div>
 					</div>
 

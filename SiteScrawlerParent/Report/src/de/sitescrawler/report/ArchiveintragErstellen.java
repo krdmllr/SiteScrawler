@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.mail.util.ByteArrayDataSource;
 
 import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.email.interfaces.IMailSenderService;
@@ -70,8 +71,7 @@ public class ArchiveintragErstellen
 
         this.filtergruppenZugriff.speicherArchiveintrag(archiveintrag, filtergruppe);
 
-        // TODO generiere PDF hier
-        byte[] pdf = new byte[0];
+        ByteArrayDataSource pdf = formatiererService.generierePdfZusammenfassung(archiveintrag);
 
          this.sendeMailAnEmfaenger(filtergruppe, aktuelleZeit, this.getNutzerHtmlEmpfang(filtergruppe), true,
          archiveintrag, pdf);
@@ -92,7 +92,7 @@ public class ArchiveintragErstellen
      *            Das PDF mit dem Inhalt des Archiveintrags.
      */
     private void sendeMailAnEmfaenger(Filterprofilgruppe filtergruppe, LocalDateTime aktuelleZeit, List<Nutzer> empfaenger, boolean html,
-                                      Archiveintrag archiveintrag, byte[] pdf)
+                                      Archiveintrag archiveintrag, ByteArrayDataSource pdf)
     {
 
         if (empfaenger.isEmpty())
