@@ -33,8 +33,7 @@ public class QuellenManager implements IQuellenManager
     {
     }
 
-    @Override
-    @Transactional(value = TxType.REQUIRED)
+    @Override 
     public List<Quelle> getQuellen()
     {
         if (this.quellen.isEmpty())
@@ -43,7 +42,13 @@ public class QuellenManager implements IQuellenManager
         }
         return this.quellen;
     }
+    
+    @Override
+    public void ladeQuellenEin(){
+    	this.quellen = this.getAlleQuellen();
+    }
 
+    @Transactional(value = TxType.REQUIRED)
     private List<Quelle> getAlleQuellen()
     {
         TypedQuery<Quelle> query = this.entityManager.createNamedQuery("Quellen.findAll", Quelle.class);
