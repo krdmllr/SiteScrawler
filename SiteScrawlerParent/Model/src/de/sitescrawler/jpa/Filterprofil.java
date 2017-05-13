@@ -29,6 +29,7 @@ public class Filterprofil implements java.io.Serializable
     private Filtermanager           filtermanager;
     private String                  filterprofilname;
     private String                  tagstring;
+    private byte[]                  solrquerylogik;
     private Set<Kategorie>          kategorien          = new HashSet<>(0);
     private Set<Filterprofilgruppe> filterprofilgruppen = new HashSet<>(0);
     private Set<Quelle>             quellen             = new HashSet<>(0);
@@ -145,6 +146,16 @@ public class Filterprofil implements java.io.Serializable
     public void setQuellen(Set<Quelle> quellen)
     {
         this.quellen = quellen;
+    }
+
+    public byte[] getSolrquerylogik()
+    {
+        return this.solrquerylogik;
+    }
+
+    public void setSolrquerylogik(byte[] solrquerylogik)
+    {
+        this.solrquerylogik = solrquerylogik;
     }
 
 }
