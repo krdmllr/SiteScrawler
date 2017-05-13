@@ -129,6 +129,7 @@ public class FilterBearbeitenBean implements Serializable {
 	}
 
 	public Boolean isInFiltergruppe(Filterprofil profil) {
+		System.out.println(getFiltergruppe().getFilterprofile().contains(profil));
 		return getFiltergruppe().getFilterprofile().contains(profil);
 	}
 
@@ -146,8 +147,8 @@ public class FilterBearbeitenBean implements Serializable {
 	 * Fügt der aktiven Filtergruppe ein neues Filterprofil hinzu.
 	 */
 	public void addProfil(Filterprofil profil) {
+		
 		getFiltergruppe().getFilterprofile().add(profil);
-
 		speichereAenderungAnFiltergruppe("Filterprofil " + profil.getFilterprofilname() + " zu Gruppe hinzugefuegt.");
 	}
 

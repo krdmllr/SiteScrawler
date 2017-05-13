@@ -6,6 +6,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Intervall;
 import de.sitescrawler.jpa.Nutzer;
@@ -15,7 +16,8 @@ import de.sitescrawler.model.ZeitIntervall;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 
 /**
- * Alle Methoden, die im Portal benötigt werden.
+ * Alle Methoden, die im Portal benï¿½tigt werden.
+ *
  * @author robin
  *
  */
@@ -94,7 +96,8 @@ public class PortalBean implements Serializable
     }
 
     /**
-     * Passwort Stärke als Text darstellen
+     * Passwort Stï¿½rke als Text darstellen
+     *
      * @return
      */
     public String getPasswortStaerkeAlsText()
@@ -128,14 +131,23 @@ public class PortalBean implements Serializable
     {
         return this.getNutzer().getPasswort() != null && !this.getNutzer().getPasswort().isEmpty();
     }
-    
+
     /**
      * Initialisiert den Nutzer und sendet die Registrierung ab
      */
     public void sendeRegistrierungAb()
     {
+        // TODO sollte das nicht lieber der nutzerservice machen?
         this.initNewNutzer();
-        this.nutzerService.registrieren(this.nutzer);
+        try
+        {
+            this.nutzerService.registrieren(this.nutzer);
+        }
+        catch (ServiceUnavailableException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         // TODO Leite Nutzer weiter
     }
 

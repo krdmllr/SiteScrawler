@@ -13,12 +13,15 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import de.sitescrawler.email.ServiceUnavailableException;
+import de.sitescrawler.email.interfaces.IMailSenderService;
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
+import de.sitescrawler.nutzerverwaltung.interfaces.IPasswortService;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
 @ApplicationScoped
@@ -32,6 +35,10 @@ public class NutzerServiceBean implements INutzerService, Serializable
     private EntityManager       entityManager;
     @Inject
     ISolrService                solrService;
+    @Inject
+    private IMailSenderService  mailSenderService;
+    @Inject
+    private IPasswortService    passwortService;
 
     @Override
     @Transactional(value = TxType.REQUIRED)
@@ -66,8 +73,8 @@ public class NutzerServiceBean implements INutzerService, Serializable
             for (Archiveintrag archiveintrag : filterprofilgruppe.getArchiveintraege())
             {
                 for (Artikel artikel : archiveintrag.getArtikel())
-                { 
-            		this.solrService.komplettiereArtikel(artikel);
+                {
+                    this.solrService.komplettiereArtikel(artikel);
                 }
             }
         }
@@ -76,6 +83,14 @@ public class NutzerServiceBean implements INutzerService, Serializable
     @Override
     @Transactional(value = TxType.REQUIRED)
     public void nutzerSpeichern(Nutzer nutzer)
+    {
+        NutzerServiceBean.LOGGER.info("Nutzer " + nutzer + " wird persistiert.");
+        this.entityManager.persist(nutzer);
+    }
+
+    @Override
+    @Transactional(value = TxType.REQUIRED)
+    public void nutzerMergen(Nutzer nutzer)
     {
         NutzerServiceBean.LOGGER.info("Nutzer " + nutzer + " wird persistiert.");
         this.entityManager.merge(nutzer);
@@ -91,32 +106,56 @@ public class NutzerServiceBean implements INutzerService, Serializable
     }
 
     @Override
-    public void registrieren(Nutzer nutzer)
+    public void registrieren(Nutzer nutzer) throws ServiceUnavailableException
     {
-        // TODO Email Verifizierung
+        this.passwortService.setNeuesPasswort(nutzer);
+        this.sendeMail(nutzer);
         this.nutzerSpeichern(nutzer);
-
     }
 
     @Override
-    public void passwortZuruecksetzen(String email, String nutzername)
+    public void passwortZuruecksetzen(Nutzer nutzer) throws ServiceUnavailableException
     {
-        // TODO Auto-generated method stub
-
+        this.passwortService.setNeuesPasswort(nutzer);
+        this.sendeMail(nutzer);
+        this.nutzerMergen(nutzer);
     }
 
     @Override
+    @Deprecated
     public void neuesPasswortSetzen(String token, String neuesPasswort)
     {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void nutzerLoeschen(Nutzer nutzer)
     {
-        this.entityManager.remove(nutzer);
-        NutzerServiceBean.LOGGER.info(nutzer + " wurde gel�scht.");
+        Nutzer find = this.entityManager.find(Nutzer.class, nutzer.getIdentifikation());
+        if (find != null)
+        {
+            this.entityManager.remove(find);
+            NutzerServiceBean.LOGGER.info(nutzer + " wurde gelöscht.");
+        }
+        else
+        {
+            NutzerServiceBean.LOGGER.info(nutzer + " konnte nicht in der DB gefunden werden.");
+        }
+    }
+
+    /**
+     * Sendet eine Mail an den Nutzer mit dem neuen Passwort
+     *
+     * @param nutzer
+     * @throws ServiceUnavailableException
+     */
+    private void sendeMail(Nutzer nutzer) throws ServiceUnavailableException
+    {
+        String emailAdresse = nutzer.getEmail();
+        String subjekt = "";
+        String body = "";
+        boolean htmlBody = true;
+        this.mailSenderService.sendeMail(emailAdresse, subjekt, body, htmlBody, null);
     }
 
 }

@@ -27,8 +27,6 @@
 						<b:form>
 							<p:commandLink id="filter-bearbeiten"
 								action="/filterbearbeiten.xhtml?faces-redirect=true">
-								<!-- <f:param name="filterprofile" value="#{firmen.ausgewaehlteFirma.filterprofile}" />	
-								<f:param name="filtergruppe" value="#{gruppe}" /> -->
 								<f:actionListener for="filter-bearbeiten"
 									binding="#{filterbearbeiten.setParameter(data.filtergruppe, data.filtergruppe.firmenGruppe ? data.filtergruppe.firma.filterprofile : data.nutzer.filterprofile)}" />
 								<p:graphicImage value="/resources/image/edit-square.svg"
@@ -67,10 +65,11 @@
 					 
 					<div class="archiveintraege">
 						<p:dataList class="list-group"
+							id="archiveintrag-komplett-liste"
 							value="#{archiv.archiveintraege}" var="eintrag" type="definition">
 							<h:form>
-								<p:commandLink class="list-group-item" id="ajax"
-									update="artikelBereich"
+								<p:commandLink class="list-group-item" 
+									update="artikelBereich @form"
 									action="#{archiv.buttonAction(eintrag)}">
 									<h:outputText value="#{eintrag.erstellungsdatum}">
 										<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
@@ -87,7 +86,7 @@
 			<b:modal id="artikel-modal" title="#{archiv.geweahlterArtikel.titel}"
 				styleClass="modalPseudoClass">
 				<div id="artikel-inhalt">
-					<p:outputLabel value="#{archiv.geweahlterArtikel.volltextMitMetaInformationenHTML}"></p:outputLabel>
+					<p:outputLabel escape="false" value="#{archiv.geweahlterArtikel.volltextMitMetaInformationenHTML}"></p:outputLabel>
 				</div>
 
 			</b:modal>
@@ -103,14 +102,19 @@
 								value="#{archiv.geweahlterArchiveintrag.erstellungsdatum}">
 								<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 							</h:outputText>
-						</h3>
-						<div class="btn-group pull-right" role="group"> 
-							<b:commandButton type="button" value="PDF exportieren"
-								action="#{archiv.exportierePdf()}" class="btn btn-default" />
-							<b:commandButton type="button" value="Eintrag löschen"
-								action="#{archiv.loescheArchiveintrag()}"
-								class="btn btn-default" /> 
-						</div>
+						</h3> 
+							<div class="btn-group pull-right" role="group"> 
+							
+								<p:commandLink type="button" 
+								    value="PDF exportieren"
+									action="#{archiv.exportierePdf()}" 
+									class="btn btn-default" />
+								<p:commandLink type="button" 
+									value="Eintrag löschen"
+									action="#{archiv.loescheArchiveintrag()}"
+									class="btn btn-default" 
+									update="@form archiveintrag-komplett-liste"/> 
+							</div> 
 						<div class="clearfix"></div>
 					</div>
 

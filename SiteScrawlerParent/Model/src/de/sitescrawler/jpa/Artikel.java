@@ -121,10 +121,10 @@ public class Artikel implements java.io.Serializable
     	formatiert += "<h3>" + beschreibung + "</h3></br>";
     	
     	for(String absatz : absaetzeArtikel){
-    		formatiert += "<span>"+ absatz +"</span>";
+    		formatiert += "<p>"+ absatz +"</p>";
     		
     		if(absaetzeArtikel.indexOf(absatz)!= absaetzeArtikel.size()-1)
-    			formatiert += "</br>";
+    			formatiert += "</br></br>";
     	}
     	
     	return formatiert;

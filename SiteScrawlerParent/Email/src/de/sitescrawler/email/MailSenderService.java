@@ -56,7 +56,7 @@ public class MailSenderService implements IMailSenderService {
 	/**
 	 * Versendet Mail an einen Empf�nger
 	 */
-	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, byte[] anhaenge)
+	public void sendeMail(String emailAdresse, String subjekt, String body, boolean htmlBody, ByteArrayDataSource anhaenge)
 			throws ServiceUnavailableException {
 		manuellerInject();
 		List<String> empfaenger = new ArrayList<>();
@@ -68,7 +68,7 @@ public class MailSenderService implements IMailSenderService {
 	/**
 	 * Sendet Mail an eine Liste von Empf�ngern
 	 */
-	public void sendeMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, byte[] anhaenge)
+	public void sendeMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, ByteArrayDataSource anhaenge)
 			throws ServiceUnavailableException {
 		manuellerInject();
 
@@ -111,7 +111,7 @@ public class MailSenderService implements IMailSenderService {
 	 *            Anh�nge die hinzugef�gt werden m�ssen
 	 */
 	private void erstelleUndVerschickeNachricht(List<String> emailAdresse, String subjekt, String body,
-			boolean htmlBody, byte[] anhaenge) {
+			boolean htmlBody, ByteArrayDataSource anhaenge) {
 		Session session = Session.getInstance(props);
 		List<MimeMessage> nachrichten = new ArrayList<>();
 		for (String empfaenger : emailAdresse) {
@@ -145,7 +145,7 @@ public class MailSenderService implements IMailSenderService {
 	 * @throws MessagingException
 	 */
 	private MimeMessage erstelleNachricht(Session session, String emailAdresse, String subjekt, String body,
-			boolean htmlBody, byte[] anhaenge) throws AddressException, MessagingException {
+			boolean htmlBody, ByteArrayDataSource anhaenge) throws AddressException, MessagingException {
 
 		MimeMessage nachricht = new MimeMessage(session);
 		nachricht.setFrom(new InternetAddress(username));
@@ -165,9 +165,8 @@ public class MailSenderService implements IMailSenderService {
 		multipart.addBodyPart(nachrichtTeil);
 
 		// Teil zwei ist Anhang
-		MimeBodyPart anhang = new MimeBodyPart();
-		DataSource bds = new ByteArrayDataSource(anhaenge, "application/pdf");
-		anhang.setDataHandler(new DataHandler(bds));
+		MimeBodyPart anhang = new MimeBodyPart(); 
+		anhang.setDataHandler(new DataHandler(anhaenge));
 		anhang.setFileName("Pressespiegel Nr.");
 		multipart.addBodyPart(anhang);
 
