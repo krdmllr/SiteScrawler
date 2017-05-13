@@ -20,7 +20,7 @@ public class Scheduler
     @Inject
     private IQuellenManager quellenManager;
 
-    @Schedule(second = "0", minute = "*/30", hour = "*", persistent = false)
+    //@Schedule(second = "0", minute = "*/30", hour = "*", persistent = false)
     public void starteCrawl()
     {
         Scheduler.LOGGER.info("Scheduler starte Crawlvorgang...");
