@@ -166,9 +166,28 @@ public class Verarbeitung {
 				// Artikel aus den Tweets erzeugen
 				for (Status tweet : tweets) {
 
+					String inhalt = tweet.getText();
+					String neuerInhalt = "";
+					
+					//Hole URL Entities und füge die ungekürzte URL im Inhalt ein
+					for (URLEntity urle : tweet.getURLEntities())
+					{
+						String embeddedURL = urle.getDisplayURL();
+						int embeddedURLStart = urle.getStart();
+						int embeddedURLEnd = urle.getEnd();
+						neuerInhalt = inhalt.substring(0,embeddedURLStart) + embeddedURL + inhalt.substring(embeddedURLEnd, inhalt.length());						
+					}
+					
+					//Setze Inhalt auf neuenInhalt falls es mindestens eine URLEntity gegeben hat
+					if(!neuerInhalt.isEmpty())
+					{
+						inhalt = neuerInhalt;
+					}
+					
 					String url = "https://twitter.com/" + tweet.getUser().getScreenName() + "/status/" + tweet.getId();
+					
 					Artikel artikel = new Artikel(tweet.getCreatedAt(), tweet.getUser().getScreenName(),
-							"Tweet" + tweet.getId(), tweet.getText(), url, twitterQuelle);
+							"Tweet" + tweet.getId(), inhalt, url, twitterQuelle);
 					artikel.setFavoritenzahl(tweet.getFavoriteCount());
 					artikel.setRetweetzahl(tweet.getRetweetCount());
 					gefundeneArtikel.add(artikel); 
