@@ -54,9 +54,11 @@ public class ArchiveintragErstellen
         List<Artikel> artikel = this.solr.sucheArtikel(filterprofile);
         
         //Ordnet den Artikeln ihre Quellen zu.
+        Set<Artikel> artikelAlsSet = new HashSet<>();
         artikel.forEach(a ->{
         	try{
         		a.setQuelle(quellenManager.getQuelle(a.getQid()));
+        		artikelAlsSet.add(a);
         	}
         	catch(Exception ex)
         	{
@@ -64,12 +66,12 @@ public class ArchiveintragErstellen
         	}
         });
         
-        Set<Artikel> artikelAlsSet = new HashSet<>(artikel);
+        
 
         Archiveintrag archiveintrag = new Archiveintrag(filtergruppe, DateUtils.asDate(aktuelleZeit), artikelAlsSet);
         filtergruppe.getArchiveintraege().add(archiveintrag);
 
-        this.filtergruppenZugriff.speicherArchiveintrag(archiveintrag, filtergruppe);
+        this.filtergruppenZugriff.speicherArchiveintrag(archiveintrag);
 
         ByteArrayDataSource pdf = formatiererService.generierePdfZusammenfassung(archiveintrag);
 

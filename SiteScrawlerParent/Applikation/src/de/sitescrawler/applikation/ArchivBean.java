@@ -27,6 +27,7 @@ import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 import de.sitescrawler.jpa.management.interfaces.IFiltergruppenManager;
+import de.sitescrawler.jpa.management.interfaces.IFiltergruppenZugriffsManager;
 import de.sitescrawler.report.IReportService;
 
 /**
@@ -49,6 +50,9 @@ public class ArchivBean implements Serializable {
 
 	@Inject
 	private IFiltergruppenManager filtergruppenManager;
+	
+	@Inject
+	private IFiltergruppenZugriffsManager filtergruppenZugriffsManager;
 	
 	@Inject
 	private IFormatiererService formatiererService;
@@ -107,9 +111,9 @@ public class ArchivBean implements Serializable {
 	 * Löscht den gewählten Archiveintrag.
 	 */
 	public void loescheArchiveintrag() {
-
-		dataBean.getFiltergruppe().getArchiveintraege().remove(geweahlterArchiveintrag);
-		filtergruppenManager.speichereAenderung(dataBean.getFiltergruppe());
+		
+		filtergruppenZugriffsManager.loescheArchiveintrag(geweahlterArchiveintrag);
+		dataBean.getFiltergruppe().getArchiveintraege().remove(geweahlterArchiveintrag); 
 		LOGGER.log(Level.INFO,
 				"Archiveintrag vom " + geweahlterArchiveintrag.getErstellungsdatum() + " wurde gelöscht.");
 
