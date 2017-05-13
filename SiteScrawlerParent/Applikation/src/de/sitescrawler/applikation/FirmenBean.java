@@ -8,11 +8,16 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.naming.ServiceUnavailableException;
+import javax.ws.rs.NotFoundException;
 
 import org.primefaces.context.RequestContext;
 
+import de.sitescrawler.exceptions.*;
+import de.sitescrawler.firmenverwaltung.interfaces.IFirmenService;
 import de.sitescrawler.jpa.*;
 import de.sitescrawler.jpa.management.interfaces.IFirmenManager;
+import de.sitescrawler.model.Firmenrolle;
 
 /**
  * 
@@ -28,16 +33,26 @@ public class FirmenBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private DataBean dataBean;
-
+	private DataBean dataBean; 
+	
 	@Inject
 	private IFirmenManager firmenManager;
+	
+	@Inject
+	private IFirmenService firmenService;
 
 	private Firma ausgewaehlteFirma;
 
 	private String neuerMitarbeiterEmail;
 
 	private Filterprofilgruppe aktuelleFiltergruppe;
+	
+	private String neuerNutzerEmail;
+	
+	private Nutzer neuerNutzer = new Nutzer();
+	
+	private Nutzer bestehenderNutzer;
+	
 
 	@PostConstruct
 	void init() {
@@ -67,28 +82,41 @@ public class FirmenBean implements Serializable {
 
 		speichereAenderung(mitarbeiter.getNutzer().getGanzenNamen() + " entfernt.");
 	}
+	
+	public void mitarbeiterRegistrieren(){
+		//Üerprüfe ob alle Felder angegeben wurden
+		
+		
+		//Lade nutzer ein
+		try{
+			firmenService.nutzerEinladen(getAusgewaehlteFirma(), neuerNutzer.getEmail(), neuerNutzer.getVorname(), neuerNutzer.getNachname());
+		}
+		catch(FirmenSecurityException securityException)
+		{
+			
+		} 
+		catch(Exception ex)
+		{
+			
+		}
+	}
 
 	public void mitarbeiterEinladen() {
-		// TODO Dummy einladung gegen richtige Einladung tauschen
-		System.out.println("lade ein: " + neuerMitarbeiterEmail);
-		if (neuerMitarbeiterEmail == null || neuerMitarbeiterEmail.isEmpty() || !neuerMitarbeiterEmail.contains("@")) {
-			System.out.println(neuerMitarbeiterEmail + " nicht gültig.");
-			return;
+		//Üerprüfe ob alle Felder angegeben wurden
+		
+		
+		//Lade nutzer ein
+		try{
+			firmenService.bestehendenNutzerEinladen(neuerNutzer, getAusgewaehlteFirma());
 		}
-
-		Nutzer dummyNutzer = new Nutzer();
-		dummyNutzer.setVorname(neuerMitarbeiterEmail.split("@")[0]);
-		dummyNutzer.setNachname(neuerMitarbeiterEmail.split("@")[1]);
-		Mitarbeiter dummyMitarbeiter = new Mitarbeiter();
-		dummyMitarbeiter.setNutzer(dummyNutzer);
-
-		// TODO E-Mail verschicken
-
-		ausgewaehlteFirma.getMitarbeiter().add(dummyMitarbeiter);
-
-		speichereAenderung(dummyNutzer.getGanzenNamen() + " eingeladen.");
-
-		neuerMitarbeiterEmail = "";
+		catch(FirmenSecurityException securityException)
+		{
+			//TODO LOLOGGING
+		} 
+		catch(Exception ex)
+		{
+			
+		}		
 	}
 
 	public Filterprofilgruppe getAktuelleFiltergruppe() {
@@ -133,20 +161,36 @@ public class FirmenBean implements Serializable {
 
 		speichereAenderung(mitarbeiter.getNutzer().getGanzenNamen() + " als Empfänger von "
 				+ aktuelleFiltergruppe.getTitel() + " entfernt.");
-	}
+	} 
 
 	public void mitarbeiterZuAdmin(Mitarbeiter mitarbeiter) {
-		mitarbeiter.macheZuAdmin();
-
-		speichereAenderung(mitarbeiter.getNutzer().getGanzenNamen() + " ist jetzt Administrator.");
+		try {
+			firmenService.SetzeNutzerRolle(getAusgewaehlteFirma(), mitarbeiter, Firmenrolle.Administrator);
+		} 
+		catch(FirmenSecurityException securityException)
+		{
+			
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void mitarbeiterZuMitarbeiter(Mitarbeiter mitarbeiter) {
-		mitarbeiter.macheZuNutzer();
-
-		speichereAenderung(mitarbeiter.getNutzer().getGanzenNamen() + " ist jetzt Mitarbeiter.");
-	}
-
+		try {
+			firmenService.SetzeNutzerRolle(getAusgewaehlteFirma(), mitarbeiter, Firmenrolle.Mitarbeiter);
+		}
+		catch(FirmenSecurityException securityException)
+		{
+			
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
+	
 	private void speichereAenderung(String beschreibung) {
 
 		firmenManager.speichereAenderungen(getAusgewaehlteFirma());

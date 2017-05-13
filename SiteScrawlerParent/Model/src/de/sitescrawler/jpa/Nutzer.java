@@ -65,6 +65,17 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
     public Nutzer()
     {
     }
+    
+    public Nutzer(String email,  String vorname, String nachname)
+    {
+        this.email = email;
+        this.vorname = vorname;
+        this.nachname = nachname;
+        this.empfangehtmlmails = false;
+        Filterprofilgruppe filterGruppe = new Filterprofilgruppe(this, new Intervall(ZeitIntervall.TAEGLICH), "Meine Gruppe");
+        filterGruppe.setNutzer(this);
+        this.filterprofilgruppen.add(filterGruppe);
+    }
 
     public Nutzer(String email, String passwort, String vorname, String nachname)
     {

@@ -6,8 +6,8 @@ import java.util.List;
 import org.junit.Test;
 
 import de.sitescrawler.email.MailSenderService;
-import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.email.interfaces.IMailSenderService;
+import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Nutzer;
 
 public class EmailUnitTest

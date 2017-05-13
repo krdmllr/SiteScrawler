@@ -119,5 +119,12 @@ public class Mitarbeiter implements java.io.Serializable
     {
         this.firmenrolle = firmenrolle;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if(!(obj instanceof Mitarbeiter)) return false;
+    	
+    	return ((Mitarbeiter)obj).getId() == id;
+	}
 
 }

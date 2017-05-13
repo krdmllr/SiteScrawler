@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.mail.util.ByteArrayDataSource;
 
-import de.sitescrawler.email.ServiceUnavailableException; 
+import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Nutzer; 
 
 /**
@@ -31,7 +31,7 @@ public interface IMailSenderService {
 	 * @param body Email Inhalt.
 	 * @param htmlBody Soll der Email Inhalt als HTML gesendet werden.
 	 * @param pdf Anzuhängendes PDF. 
-	 * @throws ServiceUnavailableException 
+	 * @throws ServiceUnavailableException  
 	 */
 	void sendeMail(List<Nutzer> empfaenger, String subjekt, String body, boolean htmlBody, ByteArrayDataSource anhang) throws ServiceUnavailableException; 
 } 

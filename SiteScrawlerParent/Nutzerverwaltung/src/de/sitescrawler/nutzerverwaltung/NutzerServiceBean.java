@@ -1,6 +1,7 @@
 package de.sitescrawler.nutzerverwaltung;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -14,11 +15,13 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
-import de.sitescrawler.email.ServiceUnavailableException;
 import de.sitescrawler.email.interfaces.IMailSenderService;
+import de.sitescrawler.email.interfaces.IStandardNachrichtenService;
+import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Archiveintrag;
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofilgruppe;
+import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Intervall;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
@@ -41,7 +44,9 @@ public class NutzerServiceBean implements INutzerService, Serializable
     @Inject
     private IMailSenderService  mailSenderService;
     @Inject
-    private IPasswortService    passwortService;
+    private IPasswortService    passwortService; 
+    @Inject
+    private IStandardNachrichtenService standardNachrichtenService;
 
     @Override
     @Transactional(value = TxType.REQUIRED)
@@ -109,19 +114,30 @@ public class NutzerServiceBean implements INutzerService, Serializable
     }
 
     @Override
-    public void registrieren(Nutzer nutzer) throws ServiceUnavailableException
-    {
-        this.initNewNutzer(nutzer);
-        this.passwortService.setNeuesPasswort(nutzer);
-        this.sendeMail(nutzer);
-        this.nutzerSpeichern(nutzer);
+    public void registrieren(Nutzer nutzer) throws ServiceUnavailableException 
+    { 
+        this.standardNachrichtenService.registrierungsMail(nutzer);
+        legeNeuenNutzerAn(nutzer);
     }
+    
+	@Override
+	public void registrieren(Nutzer nutzer, Firma firma) throws ServiceUnavailableException {
+		 
+        this.standardNachrichtenService.registrierungUeberFirma(nutzer, firma); 
+        legeNeuenNutzerAn(nutzer);
+	}
+	
+	private void legeNeuenNutzerAn(Nutzer nutzer)
+	{
+		this.passwortService.setNeuesPasswort(nutzer);
+        this.nutzerSpeichern(nutzer);
+	}
 
     @Override
     public void passwortZuruecksetzen(Nutzer nutzer) throws ServiceUnavailableException
     {
-        this.passwortService.setNeuesPasswort(nutzer);
-        this.sendeMail(nutzer);
+        String passwort = this.passwortService.setNeuesPasswort(nutzer);
+        this.standardNachrichtenService.passwortZuruecksetzen(nutzer, passwort);
         this.nutzerMergen(nutzer);
     }
 
@@ -146,22 +162,12 @@ public class NutzerServiceBean implements INutzerService, Serializable
             NutzerServiceBean.LOGGER.info(nutzer + " konnte nicht in der DB gefunden werden.");
         }
     }
-
-    /**
-     * Sendet eine Mail an den Nutzer mit dem neuen Passwort
-     *
-     * @param nutzer
-     * @throws ServiceUnavailableException
-     */
-    private void sendeMail(Nutzer nutzer) throws ServiceUnavailableException
-    {
-        String emailAdresse = nutzer.getEmail();
-        String subjekt = "";
-        String body = "";
-        boolean htmlBody = true;
-        ByteArrayDataSource anhang = null;
-        this.mailSenderService.sendeMail(emailAdresse, subjekt, body, htmlBody, anhang);
-    }
+ 
+	@Override
+	public List<Nutzer> getAlleAdministratoren() {
+		//TODO MARCEL
+		return null;
+	}  
 
     /**
      * Gibt dem Nutzer eine default Rolle und Filterprofilgruppe
@@ -172,6 +178,5 @@ public class NutzerServiceBean implements INutzerService, Serializable
         Filterprofilgruppe filterprofilgruppe = new Filterprofilgruppe(nutzer, new Intervall(ZeitIntervall.TAEGLICH), "Meine Gruppe");
         filterprofilgruppe.setNutzer(nutzer);
         nutzer.getFilterprofilgruppen().add(filterprofilgruppe);
-    }
-
+    } 
 }

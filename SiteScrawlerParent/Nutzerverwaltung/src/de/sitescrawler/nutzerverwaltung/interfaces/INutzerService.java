@@ -1,6 +1,9 @@
 package de.sitescrawler.nutzerverwaltung.interfaces;
 
-import de.sitescrawler.email.ServiceUnavailableException;
+import java.util.List;
+
+import de.sitescrawler.exceptions.ServiceUnavailableException;
+import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.Rolle;
 
@@ -12,9 +15,14 @@ import de.sitescrawler.jpa.Rolle;
  */
 public interface INutzerService
 {
-
     /**
-     * Gibt zur�ck, ob eine Email bereits in verf�gbar ist.
+     * Gibt eine Liste aller Administratoren von SiteScrawler.de zurück.
+     * @return alle Administratoren von SiteScrawler.de
+     */
+	List<Nutzer> getAlleAdministratoren();
+	
+    /**
+     * Gibt zurück, ob eine Email bereits in verfügbar ist.
      *
      * @return ob die Email bereits in Verwendung ist.
      */
@@ -28,6 +36,15 @@ public interface INutzerService
      * @throws ServiceUnavailableException
      */
     void registrieren(Nutzer nutzer) throws ServiceUnavailableException;
+    
+    /**
+     * Registriert einen neuen Nutzer im Namen einer Firma, schickt dem Nutzer einen Bestätigungslink zu.
+     *
+     * @param nutzer
+     *            Anzulegender Nutzer.
+     * @throws ServiceUnavailableException
+     */
+    void registrieren(Nutzer nutzer, Firma firma) throws ServiceUnavailableException;
 
     /**
      * Persistiert einen neuen Nutzer in der Datenbank
