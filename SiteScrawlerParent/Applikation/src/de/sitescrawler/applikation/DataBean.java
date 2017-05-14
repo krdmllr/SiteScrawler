@@ -38,7 +38,6 @@ public class DataBean implements Serializable {
 	private ArchivBean archiv;
 
 	@Inject
-	@Produktiv
 	private INutzerDatenService nutzerDatenService;
 
 	@Inject

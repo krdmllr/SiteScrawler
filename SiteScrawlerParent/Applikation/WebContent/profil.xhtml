@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<!-- Custom styles for this template -->
+</h:head>
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="content">
+			<b:form class="panel panel-default">
+				<div class="panel-heading">E-Mail Adresse</div>
+				<div class="panel-body"> 
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon3">Aktuelle Adresse</span>
+						<span>#{profil.nutzer.email}</span>
+					</div>
+					<label for="basic-url">Your vanity URL</label>
+					<div class="input-group">
+					  <span class="input-group-addon" id="basic-addon3">Neue Adresse</span>
+					  <p:inputText type="text" class="form-control" update="@form" aria-describedby="basic-addon3">
+					</div>
+				</div>
+			</b:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>

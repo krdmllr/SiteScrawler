@@ -12,10 +12,9 @@ import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 import de.sitescrawler.qualifier.Produktiv;
 
 /**
- *
- * @author robin Methoden zur Verwaltung der Nutzer Daten.
+ * Methoden zur Verwaltung der Nutzer Daten.
+ * @author robin 
  */
-@Produktiv
 @SessionScoped
 @Named
 public class NutzerDatenService implements Serializable, INutzerDatenService
@@ -68,5 +67,18 @@ public class NutzerDatenService implements Serializable, INutzerDatenService
             this.nutzerService.nutzerLoeschen(this.nutzer);
         }
     }
+
+	@Override
+	public void aendereEmpfangeHtmlEmails(boolean empfangeHtmlEmails) {
+		// TODO MARCEL
+		
+	}
+
+	@Override
+	public boolean istPasswortValide(String passwort) {
+		return true;
+		// TODO MARCEL
+		
+	}
 
 }

@@ -38,7 +38,6 @@ public class loginBean implements Serializable {
 	private ProjectConfig config;
 
 	@Inject
-	@Produktiv
 	private INutzerDatenService nutzerDatenService;
 
 	@PostConstruct
