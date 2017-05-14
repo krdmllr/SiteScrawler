@@ -70,7 +70,7 @@ public class SolrService implements ISolrService, Serializable
         }
         catch (SolrServerException | IOException e)
         {
-            SolrService.LOGGER.log(Level.SEVERE, "Fehler beim schreiben in Solrinstanz " + SolrService.SolrUrl, e);
+            SolrService.LOGGER.log(Level.SEVERE, "Fehler beim Schreiben in Solrinstanz " + SolrService.SolrUrl, e);
         }
     }
 
@@ -116,7 +116,7 @@ public class SolrService implements ISolrService, Serializable
         }
         catch (SolrServerException | IOException e)
         {
-            SolrService.LOGGER.log(Level.SEVERE, "Fehler beim suchen von Artikeln.", e);
+            SolrService.LOGGER.log(Level.SEVERE, "Fehler beim Suchen von Artikeln.", e);
         }
 
         SolrService.LOGGER.info("Es wurden " + artikel.size() + " Artikel zur Query " + solrQuery.getQuery() + " gefunden.");
@@ -205,11 +205,14 @@ public class SolrService implements ISolrService, Serializable
             System.out.println(SolrService.formatter.format(datumVon));
             solrQuery.set("fq","erstellungsdatum: ["+
                        SolrService.formatter.format(datumVon) + " TO NOW]");
+//           SolrService.LOGGER.log(Level.INFO, "Ergebnissuche wurde auf das zeitliche Intervall [" + datumVon +  " bis " + new Date() + "] eingeschraenkt.");
         }
         else{
             solrQuery.set("fq","erstellungsdatum: ["+
                             SolrService.formatter.format(datumVon) + " TO " + SolrService.formatter.format(datumBis) + "]");
+//            SolrService.LOGGER.log(Level.INFO, "Ergebnissuche wurde auf das zeitliche Intervall [" + datumVon +  " bis " + datumBis + "] eingeschraenkt.");
         }
+
     }
     
   //TODO Modellierung
@@ -222,6 +225,7 @@ public class SolrService implements ISolrService, Serializable
      */
     private void optionSetzeMaximaleAnzahl(SolrQuery solrQuery, Integer maxArtikel){
         solrQuery.set("rows", maxArtikel);
+//        SolrService.LOGGER.log(Level.INFO, "Ergebnisanzahl wurde auf " + maxArtikel + " reduziert.");
     }
     /**
      * Fuegt einen Suchstring der SolrQuery hinzu.
@@ -237,6 +241,7 @@ public class SolrService implements ISolrService, Serializable
         else{
             solrQuery.set("q", solrQuery.get("q") + " " + suchstring);
         }
+        SolrService.LOGGER.log(Level.INFO, "Suchstring " + suchstring + " hinzugefuegt.");
     }
     
   //TODO Modellierung
@@ -250,13 +255,44 @@ public class SolrService implements ISolrService, Serializable
         if(Math.abs(prozentQuote)<=100){
             solrQuery.set("defType", "edismax");
             solrQuery.set("mm", prozentQuote.toString()+"%");
-            SolrService.LOGGER.log(Level.INFO, "Prozentanteil wurde auf " + prozentQuote + "% gesetzt.");
+//            SolrService.LOGGER.log(Level.INFO, "Prozentanteil wurde auf " + prozentQuote + "% gesetzt.");
         }
         else{
             SolrService.LOGGER.log(Level.SEVERE, "Ungueltige Prozentzahl.");
         }
     }
     
-    
+    public static void main(String[] args){
+        
+        SolrService s = new SolrService();
+
+        SolrQuery solrQuery = new SolrQuery();
+
+        Date date = new Date();
+
+        String datum="2017-05-13T23:32:23Z";
+        try
+        {    
+            date=SolrService.formatter.parse(datum);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+
+        s.optionSetzeMaximaleAnzahl(solrQuery, 20);
+        s.addSuchstring(solrQuery, "Spiegel");       
+        s.addSuchstring(solrQuery, "Deutschland");        
+        s.addSuchstring(solrQuery, "Trump");
+        s.optionSucheArtikelinZeitraum(solrQuery, date, null);
+        s.optionSetzeMinimaleTrefferquote(solrQuery, 60);
+        List<Artikel> artikel = s.getArtikel(solrQuery);
+        for (Artikel a : artikel)
+        {
+            System.out.println(a.getErstellungsdatum()+": "+a.getTitel());            
+        }
+
+    }    
 
 }
