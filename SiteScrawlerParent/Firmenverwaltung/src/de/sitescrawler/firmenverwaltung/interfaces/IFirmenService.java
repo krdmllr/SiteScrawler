@@ -1,8 +1,5 @@
 package de.sitescrawler.firmenverwaltung.interfaces;
-
-import javax.ws.rs.NotFoundException;
-
-import de.sitescrawler.exceptions.FirmenSecurityException;
+ 
 import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Mitarbeiter;
