@@ -15,7 +15,6 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
-import de.sitescrawler.email.interfaces.IMailSenderService;
 import de.sitescrawler.email.interfaces.IStandardNachrichtenService;
 import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Archiveintrag;
@@ -41,8 +40,6 @@ public class NutzerServiceBean implements INutzerService, Serializable
     private EntityManager               entityManager;
     @Inject
     ISolrService                        solrService;
-    @Inject
-    private IMailSenderService          mailSenderService;
     @Inject
     private IPasswortService            passwortService;
     @Inject
@@ -132,6 +129,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
         this.passwortService.setNeuesPasswort(nutzer);
         // nutzer initialisieren
         this.initNewNutzer(nutzer);
+
         this.nutzerSpeichern(nutzer);
     }
 
@@ -170,6 +168,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
         TypedQuery<Rolle> query = this.entityManager.createQuery("SELECT r FROM Rolle r WHERE r.rolle = Admin", Rolle.class);
         Rolle admin = query.getSingleResult();
         return new ArrayList<>(admin.getNutzer());
+
     }
 
     /**

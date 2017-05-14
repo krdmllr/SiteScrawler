@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<!-- Custom styles for this template -->
+</h:head>
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="content">
+			<b:form class="panel panel-default">
+				<p:accordionPanel>
+					<p:tab title="Profil">
+						<h:panelGrid columns="2" cellpadding="10">
+							
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Email">
+						<h:panelGrid columns="2" cellpadding="10">
+							<p:graphicImage name="demo/images/godfather/godfather2.jpg" />
+							<h:outputText value="Francis Ford Coppola's legendary..." />
+						</h:panelGrid>
+					</p:tab>
+					<p:tab title="Passswort">
+						<h:panelGrid columns="2" cellpadding="10">
+							<p:graphicImage name="demo/images/godfather/godfather3.jpg" />
+							<h:outputText value="After a break of more than 15 years..." />
+						</h:panelGrid>
+					</p:tab>
+				</p:accordionPanel>
+			</b:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
