@@ -1,13 +1,13 @@
 package de.sitescrawler.nutzerverwaltung;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.mail.util.ByteArrayDataSource;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,16 +35,16 @@ import de.sitescrawler.solr.interfaces.ISolrService;
 @Transactional
 public class NutzerServiceBean implements INutzerService, Serializable
 {
-    private static final Logger LOGGER           = Logger.getLogger("de.sitescrawler.logger");
-    private static final long   serialVersionUID = 1L;
+    private static final Logger         LOGGER           = Logger.getLogger("de.sitescrawler.logger");
+    private static final long           serialVersionUID = 1L;
     @PersistenceContext
-    private EntityManager       entityManager;
+    private EntityManager               entityManager;
     @Inject
-    ISolrService                solrService;
+    ISolrService                        solrService;
     @Inject
-    private IMailSenderService  mailSenderService;
+    private IMailSenderService          mailSenderService;
     @Inject
-    private IPasswortService    passwortService; 
+    private IPasswortService            passwortService;
     @Inject
     private IStandardNachrichtenService standardNachrichtenService;
 
@@ -114,24 +114,26 @@ public class NutzerServiceBean implements INutzerService, Serializable
     }
 
     @Override
-    public void registrieren(Nutzer nutzer) throws ServiceUnavailableException 
-    { 
+    public void registrieren(Nutzer nutzer) throws ServiceUnavailableException
+    {
+        this.legeNeuenNutzerAn(nutzer);
         this.standardNachrichtenService.registrierungsMail(nutzer);
-        legeNeuenNutzerAn(nutzer);
     }
-    
-	@Override
-	public void registrieren(Nutzer nutzer, Firma firma) throws ServiceUnavailableException {
-		 
-        this.standardNachrichtenService.registrierungUeberFirma(nutzer, firma); 
-        legeNeuenNutzerAn(nutzer);
-	}
-	
-	private void legeNeuenNutzerAn(Nutzer nutzer)
-	{
-		this.passwortService.setNeuesPasswort(nutzer);
+
+    @Override
+    public void registrieren(Nutzer nutzer, Firma firma) throws ServiceUnavailableException
+    {
+        this.legeNeuenNutzerAn(nutzer);
+        this.standardNachrichtenService.registrierungUeberFirma(nutzer, firma);
+    }
+
+    private void legeNeuenNutzerAn(Nutzer nutzer)
+    {
+        this.passwortService.setNeuesPasswort(nutzer);
+        // nutzer initialisieren
+        this.initNewNutzer(nutzer);
         this.nutzerSpeichern(nutzer);
-	}
+    }
 
     @Override
     public void passwortZuruecksetzen(Nutzer nutzer) throws ServiceUnavailableException
@@ -145,7 +147,6 @@ public class NutzerServiceBean implements INutzerService, Serializable
     @Deprecated
     public void neuesPasswortSetzen(String token, String neuesPasswort)
     {
-        // TODO Auto-generated method stub
     }
 
     @Override
@@ -162,12 +163,14 @@ public class NutzerServiceBean implements INutzerService, Serializable
             NutzerServiceBean.LOGGER.info(nutzer + " konnte nicht in der DB gefunden werden.");
         }
     }
- 
-	@Override
-	public List<Nutzer> getAlleAdministratoren() {
-		//TODO MARCEL
-		return null;
-	}  
+
+    @Override
+    public List<Nutzer> getAlleAdministratoren()
+    {
+        TypedQuery<Rolle> query = this.entityManager.createQuery("SELECT r FROM Rolle r WHERE r.rolle = Admin", Rolle.class);
+        Rolle admin = query.getSingleResult();
+        return new ArrayList<>(admin.getNutzer());
+    }
 
     /**
      * Gibt dem Nutzer eine default Rolle und Filterprofilgruppe
@@ -178,5 +181,5 @@ public class NutzerServiceBean implements INutzerService, Serializable
         Filterprofilgruppe filterprofilgruppe = new Filterprofilgruppe(nutzer, new Intervall(ZeitIntervall.TAEGLICH), "Meine Gruppe");
         filterprofilgruppe.setNutzer(nutzer);
         nutzer.getFilterprofilgruppen().add(filterprofilgruppe);
-    } 
+    }
 }
