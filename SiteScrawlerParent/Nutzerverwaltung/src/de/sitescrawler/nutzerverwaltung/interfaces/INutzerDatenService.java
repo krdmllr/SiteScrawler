@@ -53,17 +53,13 @@ public interface INutzerDatenService
      *            Aktuelles Passwort zur validierung.
      */
     void loescheNutzer(String passwort);
-    
+
     /**
-     * Setzt ob der Nutzer HTML E-Mails empfangen soll.
-     * @param empfangeHtmlEmails
-     */
-    void aendereEmpfangeHtmlEmails(boolean empfangeHtmlEmails);
-    
-    /**
-     * Überprüft, ob das angegebene Passwort ein valides Passwort darstellt.
+     * Überprüft das angegebene passwort
+     * 
      * @param passwort
-     * @return 
+     * @return
      */
-    boolean istPasswortValide(String passwort);
+    boolean verifizierePasswort(String passwort);
+
 }

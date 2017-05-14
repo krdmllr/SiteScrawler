@@ -9,11 +9,11 @@ import javax.inject.Named;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
-import de.sitescrawler.qualifier.Produktiv;
 
 /**
  * Methoden zur Verwaltung der Nutzer Daten.
- * @author robin 
+ *
+ * @author robin
  */
 @SessionScoped
 @Named
@@ -68,17 +68,10 @@ public class NutzerDatenService implements Serializable, INutzerDatenService
         }
     }
 
-	@Override
-	public void aendereEmpfangeHtmlEmails(boolean empfangeHtmlEmails) {
-		// TODO MARCEL
-		
-	}
-
-	@Override
-	public boolean istPasswortValide(String passwort) {
-		return true;
-		// TODO MARCEL
-		
-	}
+    @Override
+    public boolean verifizierePasswort(String passwort)
+    {
+        return this.nutzer.getPasswort().equals(passwort);
+    }
 
 }

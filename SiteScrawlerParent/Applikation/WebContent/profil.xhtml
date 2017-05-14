@@ -10,27 +10,77 @@
 <h:body>
 	<ui:composition template="/template.xhtml">
 		<ui:define name="content">
-			<b:form class="panel panel-default">
+			<div class="panel panel-default">
 				<p:accordionPanel>
 					<p:tab title="Profil">
-						<h:panelGrid columns="2" cellpadding="10">
-							
-						</h:panelGrid>
+						<b:form>
+							<h:panelGrid columns="2" cellpadding="10"
+								style="margin-bottom:10px">
+								<h:outputText value="Vorname" />
+								<p:inputText value="#{nutzerprofil.nutzer.vorname}" required="true" />
+								<h:outputText value="Nachname" />
+								<p:inputText value="#{nutzerprofil.nutzer.nachname}" required="true" />
+								<h:outputText value="Email" />
+								<h:outputText value="#{nutzerprofil.nutzer.email}" />
+								<h:outputText value="Ich möchte Html Emails erhalten:" />
+								<p:selectBooleanButton
+									value="#{nutzerprofil.nutzer.empfangehtmlmails}" onLabel="Ja"
+									offLabel="Nein" style="width:60px" />
+								<p:commandButton value="Speichern"
+									action="#{nutzerprofil.speichereAenerungen()}" update="@form" />
+							</h:panelGrid>
+						</b:form>
 					</p:tab>
-					<p:tab title="Email">
-						<h:panelGrid columns="2" cellpadding="10">
-							<p:graphicImage name="demo/images/godfather/godfather2.jpg" />
-							<h:outputText value="Francis Ford Coppola's legendary..." />
-						</h:panelGrid>
+					<p:tab title="Email ändern">
+						<b:form>
+							<h:panelGrid columns="2" cellpadding="10">
+								<h:outputLabel value="Passwort" for="pw" />
+								<p:password id="pw" value="#{nutzerprofil.altesPasswort}"
+									required="true" />
+								<p:separator />
+								<p:separator />
+								<h:outputLabel value="Neue Email" for="neueemail" />
+								<p:inputText id="neueemail" value="#{nutzerprofil.neueEmail}"
+									required="true" />
+								<p:commandButton value="Speichern"
+									action="#{nutzerprofil.setNeueEmail()}" update="@form" />
+
+							</h:panelGrid>
+						</b:form>
 					</p:tab>
-					<p:tab title="Passswort">
-						<h:panelGrid columns="2" cellpadding="10">
-							<p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-							<h:outputText value="After a break of more than 15 years..." />
-						</h:panelGrid>
+					<p:tab title="Passswort ändern">
+						<b:form>
+							<h:panelGrid columns="2" cellpadding="10">
+								<h:outputLabel value="Altes Passwort" for="altespw" />
+								<p:password id="altespw" value="#{nutzerprofil.altesPasswort}"
+									required="true" />
+								<p:separator />
+								<p:separator />
+								<h:outputLabel value="Neues Passwort" for="neuespw" />
+								<p:password id="neuespw" value="#{nutzerprofil.neuesPasswort}"
+									match="neuespw2" required="true" />
+								<h:outputLabel value="Passwort wiederholen" for="neuespw2" />
+								<p:password id="neuespw2" value="#{nutzerprofil.neuesPasswort}"
+									required="true" />
+								<p:commandButton value="Speichern"
+									action="#{nutzerprofil.setNeuesPasswort()}" update="@form" />
+							</h:panelGrid>
+						</b:form>
+					</p:tab>
+					<p:tab title="Account löschen">
+						<b:form>
+							<h:panelGrid columns="3" cellpadding="10">
+								<h:outputLabel value="Passwort" for="pwalt" />
+								<p:password id="pwalt" value="#{nutzerprofil.altesPasswort}"
+									required="true" />
+								<p:commandButton value="Account Löschen"
+									action="#{nutzerprofil.loescheNutzer()}" update="@form" />
+							</h:panelGrid>
+						</b:form>
 					</p:tab>
 				</p:accordionPanel>
-			</b:form>
+				<h:messages/>
+			</div>
 
 		</ui:define>
 	</ui:composition>
