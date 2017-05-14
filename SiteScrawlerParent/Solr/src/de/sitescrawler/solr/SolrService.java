@@ -258,41 +258,9 @@ public class SolrService implements ISolrService, Serializable
 //            SolrService.LOGGER.log(Level.INFO, "Prozentanteil wurde auf " + prozentQuote + "% gesetzt.");
         }
         else{
-            SolrService.LOGGER.log(Level.SEVERE, "Ungueltige Prozentzahl.");
+            SolrService.LOGGER.log(Level.SEVERE, "Ungueltige Prozentzahlangabe bei der minimalen Trefferquote.");
         }
     }
     
-    public static void main(String[] args){
-        
-        SolrService s = new SolrService();
-
-        SolrQuery solrQuery = new SolrQuery();
-
-        Date date = new Date();
-
-        String datum="2017-05-13T23:32:23Z";
-        try
-        {    
-            date=SolrService.formatter.parse(datum);
-        }
-        catch (ParseException e)
-        {
-            e.printStackTrace();
-        }
-
-
-        s.optionSetzeMaximaleAnzahl(solrQuery, 20);
-        s.addSuchstring(solrQuery, "Spiegel");       
-        s.addSuchstring(solrQuery, "Deutschland");        
-        s.addSuchstring(solrQuery, "Trump");
-        s.optionSucheArtikelinZeitraum(solrQuery, date, null);
-        s.optionSetzeMinimaleTrefferquote(solrQuery, 60);
-        List<Artikel> artikel = s.getArtikel(solrQuery);
-        for (Artikel a : artikel)
-        {
-            System.out.println(a.getErstellungsdatum()+": "+a.getTitel());            
-        }
-
-    }    
 
 }
