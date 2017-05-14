@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.mail.util.ByteArrayDataSource;
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +14,6 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
-import de.sitescrawler.email.interfaces.IMailSenderService;
 import de.sitescrawler.email.interfaces.IStandardNachrichtenService;
 import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Archiveintrag;
@@ -35,16 +33,14 @@ import de.sitescrawler.solr.interfaces.ISolrService;
 @Transactional
 public class NutzerServiceBean implements INutzerService, Serializable
 {
-    private static final Logger LOGGER           = Logger.getLogger("de.sitescrawler.logger");
-    private static final long   serialVersionUID = 1L;
+    private static final Logger         LOGGER           = Logger.getLogger("de.sitescrawler.logger");
+    private static final long           serialVersionUID = 1L;
     @PersistenceContext
-    private EntityManager       entityManager;
+    private EntityManager               entityManager;
     @Inject
-    ISolrService                solrService;
+    ISolrService                        solrService;
     @Inject
-    private IMailSenderService  mailSenderService;
-    @Inject
-    private IPasswortService    passwortService; 
+    private IPasswortService            passwortService;
     @Inject
     private IStandardNachrichtenService standardNachrichtenService;
 
@@ -114,24 +110,25 @@ public class NutzerServiceBean implements INutzerService, Serializable
     }
 
     @Override
-    public void registrieren(Nutzer nutzer) throws ServiceUnavailableException 
-    { 
+    public void registrieren(Nutzer nutzer) throws ServiceUnavailableException
+    {
         this.standardNachrichtenService.registrierungsMail(nutzer);
-        legeNeuenNutzerAn(nutzer);
+        this.legeNeuenNutzerAn(nutzer);
     }
-    
-	@Override
-	public void registrieren(Nutzer nutzer, Firma firma) throws ServiceUnavailableException {
-		 
-        this.standardNachrichtenService.registrierungUeberFirma(nutzer, firma); 
-        legeNeuenNutzerAn(nutzer);
-	}
-	
-	private void legeNeuenNutzerAn(Nutzer nutzer)
-	{
-		this.passwortService.setNeuesPasswort(nutzer);
+
+    @Override
+    public void registrieren(Nutzer nutzer, Firma firma) throws ServiceUnavailableException
+    {
+
+        this.standardNachrichtenService.registrierungUeberFirma(nutzer, firma);
+        this.legeNeuenNutzerAn(nutzer);
+    }
+
+    private void legeNeuenNutzerAn(Nutzer nutzer)
+    {
+        this.passwortService.setNeuesPasswort(nutzer);
         this.nutzerSpeichern(nutzer);
-	}
+    }
 
     @Override
     public void passwortZuruecksetzen(Nutzer nutzer) throws ServiceUnavailableException
@@ -162,12 +159,13 @@ public class NutzerServiceBean implements INutzerService, Serializable
             NutzerServiceBean.LOGGER.info(nutzer + " konnte nicht in der DB gefunden werden.");
         }
     }
- 
-	@Override
-	public List<Nutzer> getAlleAdministratoren() {
-		//TODO MARCEL
-		return null;
-	}  
+
+    @Override
+    public List<Nutzer> getAlleAdministratoren()
+    {
+        // TODO MARCEL
+        return null;
+    }
 
     /**
      * Gibt dem Nutzer eine default Rolle und Filterprofilgruppe
@@ -178,5 +176,5 @@ public class NutzerServiceBean implements INutzerService, Serializable
         Filterprofilgruppe filterprofilgruppe = new Filterprofilgruppe(nutzer, new Intervall(ZeitIntervall.TAEGLICH), "Meine Gruppe");
         filterprofilgruppe.setNutzer(nutzer);
         nutzer.getFilterprofilgruppen().add(filterprofilgruppe);
-    } 
+    }
 }

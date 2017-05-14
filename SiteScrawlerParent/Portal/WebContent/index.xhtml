@@ -65,12 +65,12 @@
 									<f:validateRegex pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
 									</p:inputText>
 							</div>
-							<div class="form-group">
-								<p:inputText type="password" value="#{portal.nutzer.passwort}"
-									placeholder="Passwort" class="form-control" required="true" requiredMessage="Bitte Passwort eingeben">
-									<p:ajax event="keyup" update="progress-bar" />
-								</p:inputText>
-							</div>
+<!-- 							<div class="form-group"> -->
+<!-- 								<p:inputText type="password" value="#{portal.nutzer.passwort}" -->
+<!-- 									placeholder="Passwort" class="form-control" required="true" requiredMessage="Bitte Passwort eingeben"> -->
+<!-- 									<p:ajax event="keyup" update="progress-bar" /> -->
+<!-- 								</p:inputText> -->
+<!-- 							</div> -->
 							<h:panelGroup id="progress-bar">
 								<b:progressBar rendered="#{portal.passwortAngegeben()}"
 									value="#{portal.passwortStaerke.toString()}"

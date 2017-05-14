@@ -8,7 +8,6 @@ import javax.inject.Named;
 
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
-import de.sitescrawler.qualifier.Produktiv;
 
 @SessionScoped
 @Named("profil")
@@ -16,43 +15,58 @@ public class ProfilBean implements Serializable
 {
 
     private static final long   serialVersionUID = 1L;
-    
+
     @Inject
-    private DataBean dataBean;
-    
+    private DataBean            dataBean;
+
     @Inject
-    private INutzerDatenService nutzerService;
-    
-    public Nutzer getNutzer(){
-    	return nutzerService.getNutzer();
-    }
-    
-    public void setNeuesPasswort(String neuesPasswort, String altesPasswort){
-    	if(!isPasswortValide(altesPasswort)) return;
-    	
-    	nutzerService.aenderePasswort(neuesPasswort, altesPasswort);
-    }
-    
-    public void setNeueEmail(String email, String aktuellesPasswort){
-    	if(!isPasswortValide(aktuellesPasswort)) return;
-    	
-    	nutzerService.aendereEmailAdresse(email, aktuellesPasswort);
+    private INutzerDatenService nutzerDatenService;
+
+    public Nutzer getNutzer()
+    {
+        return this.nutzerDatenService.getNutzer();
     }
 
-    public void setEmpfangeHtmlEmails(boolean empfangeHtmlEmail){
-    	
-    	nutzerService.aendereEmpfangeHtmlEmails(empfangeHtmlEmail);
+    public void setNeuesPasswort(String neuesPasswort, String altesPasswort)
+    {
+        if (!this.isPasswortValide(altesPasswort))
+        {
+            return;
+        }
+
+        this.nutzerDatenService.aenderePasswort(neuesPasswort, altesPasswort);
     }
-    
-    public void loescheNutzer(String aktuellesPasswort){
-    	
-    	 if(!isPasswortValide(aktuellesPasswort)) return;
-    	 
-    	 nutzerService.loescheNutzer(aktuellesPasswort);
-    	
+
+    public void setNeueEmail(String email, String aktuellesPasswort)
+    {
+        if (!this.isPasswortValide(aktuellesPasswort))
+        {
+            return;
+        }
+
+        this.nutzerDatenService.aendereEmailAdresse(email, aktuellesPasswort);
     }
-    
-    private boolean isPasswortValide(String aktuellesPasswort){
-    	return nutzerService.istPasswortValide(aktuellesPasswort);
+
+    public void setEmpfangeHtmlEmails(boolean empfangeHtmlEmail)
+    {
+
+        this.nutzerDatenService.aendereEmpfangeHtmlEmails(empfangeHtmlEmail);
+    }
+
+    public void loescheNutzer(String aktuellesPasswort)
+    {
+
+        if (!this.isPasswortValide(aktuellesPasswort))
+        {
+            return;
+        }
+
+        this.nutzerDatenService.loescheNutzer(aktuellesPasswort);
+
+    }
+
+    private boolean isPasswortValide(String aktuellesPasswort)
+    {
+        return this.nutzerDatenService.istPasswortValide(aktuellesPasswort);
     }
 }
