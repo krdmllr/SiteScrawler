@@ -7,8 +7,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.sitescrawler.exceptions.ServiceUnavailableException;
-import de.sitescrawler.jpa.Filterprofilgruppe;
-import de.sitescrawler.jpa.Intervall;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
@@ -133,8 +131,9 @@ public class PortalBean implements Serializable
     /**
      * Initialisiert den Nutzer und sendet die Registrierung ab
      */
-    public void sendeRegistrierungAb()
+    public String sendeRegistrierungAb()
     {
+        System.out.println(this.nutzer + " wird registriert...");
         try
         {
             this.nutzerService.registrieren(this.nutzer);
@@ -144,6 +143,7 @@ public class PortalBean implements Serializable
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return null;
         // TODO Leite Nutzer weiter
     }
 

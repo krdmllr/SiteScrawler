@@ -82,7 +82,7 @@ public class NutzerProfilBean implements Serializable
         }
     }
 
-    public void speichereAenerungen()
+    public void speichereAenderungen()
     {
         this.nutzerService.nutzerMergen(this.getNutzer());
     }

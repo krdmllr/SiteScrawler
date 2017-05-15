@@ -131,6 +131,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
         this.initNewNutzer(nutzer);
 
         this.nutzerSpeichern(nutzer);
+        NutzerServiceBean.LOGGER.info("Neuer Nutzer " + nutzer + " wurde registriert.");
     }
 
     @Override

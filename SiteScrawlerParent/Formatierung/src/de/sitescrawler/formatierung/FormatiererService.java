@@ -167,7 +167,6 @@ public class FormatiererService implements IFormatiererService
             {
                 String ressourcenDomain = FormatiererService.this.projectConfig.getRessourcenDomain();
                 this.put("titelPDF", "Ihr persönlicher Pressespiegel von SiteScrawler!");
-                this.put("logoSiteScrawler", ressourcenDomain + "/logo.svg");
                 this.put("aktuellesDatum", aktuellesDatum);
                 this.put("footerText", "Dieser Pressespiegel wurde von SiteScrawler erstellt und versandt.");
                 this.put("linkZuSiteScrawler", "https://sitescrawler.de");
