@@ -1,7 +1,6 @@
 package de.sitescrawler.firmenverwaltung;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,6 +77,7 @@ public class FirmenService implements Serializable, IFirmenService
     {
         if (!this.istFirmenMailVerfuegbar(firmenMail))
         {
+            FirmenService.LOGGER.info("Firmenmail " + firmenMail + " ist nicht verfügbar.");
             return false;
         }
         Firma firma = new Firma(firmenName);
@@ -85,19 +85,20 @@ public class FirmenService implements Serializable, IFirmenService
         firma.setFirmenmail(firmenMail);
         // Set Status auf Beantragt
         firma.setStatus(Firmenstatus.BEANTRAGT);
+        firma.setMaxfiltergruppe(20);
         // Speichere neue Firma in Datenbank
-        this.firmaSpeichern(firma);
+        firma = this.firmaSpeichern(firma);
 
         // Sende Information an alle Administratoren
-        this.InformiereAdministratorenUeberNeueFirma(firma, firmenMail);
+        this.InformiereAdministratorenUeberNeueFirma(firma, kommentar);
 
         return true;
     }
 
     @Transactional(value = TxType.REQUIRED)
-    private void firmaSpeichern(Firma firma)
+    private Firma firmaSpeichern(Firma firma)
     {
-        firma = this.entityManager.merge(firma);
+        return firma = this.entityManager.merge(firma);
     }
 
     private void InformiereAdministratorenUeberNeueFirma(Firma firma, String kommentar)
@@ -182,7 +183,7 @@ public class FirmenService implements Serializable, IFirmenService
         zuEntfernenderNutzer.getNutzer().getFirmen().remove(firma);
         firma.getMitarbeiter().remove(zuEntfernenderNutzer);
         // übernehme Änderung in DB
-        this.firmaSpeichern(firma);
+        firma = this.firmaSpeichern(firma);
 
         this.standardNachrichten.vonFirmaEntfernt(zuEntfernenderNutzer.getNutzer(), firma, this.getNutzer());
     }
@@ -220,18 +221,20 @@ public class FirmenService implements Serializable, IFirmenService
         FirmenService.LOGGER.info("Firma " + firma + " wurde aus der DB gelöscht");
     }
 
-	@Override
-	public List<Firma> offeneFirmenAntraege() {
-		List<Firma> offeneAtraege = new ArrayList<Firma>(); //TODO MARCEL
-		offeneAtraege.add(new Firma("Testfirma"));
-		
-		return offeneAtraege;
-	}
+    @Override
+    public List<Firma> offeneFirmenAntraege()
+    {
+        TypedQuery<Firma> query = this.entityManager.createQuery("SELECT f FROM Firma f WHERE f.status = 'BEANTRAGT'", Firma.class);
+        List<Firma> offeneAntraege = query.getResultList();
+        return offeneAntraege;
+    }
 
-	@Override
-	public void bearbeiteFirmenAntrag(boolean annehmen, Firma firma) {
-		firma.setStatus(annehmen ? Firmenstatus.VERIFIZIERT : Firmenstatus.ABGELEHNT);	
-		//TODO MARCEL SPEICHERN
-	}
+    @Override
+    public void bearbeiteFirmenAntrag(boolean annehmen, Firma firma)
+    {
+        firma.setStatus(annehmen ? Firmenstatus.VERIFIZIERT : Firmenstatus.ABGELEHNT);
+        firma = this.firmaSpeichern(firma);
+        // TODO firma dem admin nutzer zuordnen
+    }
 
 }
