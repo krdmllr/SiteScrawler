@@ -113,6 +113,19 @@ public class FirmenBean implements Serializable
 		filterManager.speichereAenderung(getAusgewaehlteFirma());
 		neueFiltergruppe = "";
 	}
+    
+    public boolean isNutzerAdmin(){
+    	Mitarbeiter mitarbeiterProfilVonNutzer = null;
+    	for(Mitarbeiter m : getAusgewaehlteFirma().getMitarbeiter())
+    	{
+    		if(m.getNutzer() == dataBean.getNutzer())
+    		{
+    			mitarbeiterProfilVonNutzer = m;
+    		}
+    	}
+    	
+    	return mitarbeiterProfilVonNutzer != null && mitarbeiterProfilVonNutzer.isAdmin();
+    }
 
     public void neueFirmaVerwerfen()
     {
@@ -268,11 +281,11 @@ public class FirmenBean implements Serializable
         }
         catch (FirmenSecurityException securityException)
         {
-            FirmenBean.LOGGER.log(Level.SEVERE, "Mitarbeiter konnte nicht eingeladen werden.", securityException);
+            FirmenBean.LOGGER.log(Level.SEVERE, "Mitarbeiter konnte nicht als Admin gesetzt werden", securityException);
         }
         catch (Exception e)
         {
-            FirmenBean.LOGGER.log(Level.SEVERE, "Mitarbeiter konnte nicht eingeladen werden.", e);
+            FirmenBean.LOGGER.log(Level.SEVERE, "Mitarbeiter konnte nicht als Admin gesetzt werden.", e);
         }
     }
 
@@ -284,17 +297,16 @@ public class FirmenBean implements Serializable
         }
         catch (FirmenSecurityException securityException)
         {
-            FirmenBean.LOGGER.log(Level.SEVERE, "Mitarbeiter konnte nicht eingeladen werden.", securityException);
+            FirmenBean.LOGGER.log(Level.SEVERE, "Mitarbeiter konnte nicht als Mitarbeiter gesetzt werden.", securityException);
         }
         catch (Exception e)
         {
-            FirmenBean.LOGGER.log(Level.SEVERE, "Mitarbeiter konnte nicht eingeladen werden.", e);
+            FirmenBean.LOGGER.log(Level.SEVERE, "Mitarbeiter konnte nicht als Mitarbeiter gesetzt werden.", e);
         }
     }
 
     private void speichereAenderung(String beschreibung)
     {
-
         this.firmenManager.speichereAenderungen(this.getAusgewaehlteFirma());
         FirmenBean.LOGGER.log(Level.INFO, "Änderung in " + this.getAusgewaehlteFirma().getName() + ": " + beschreibung);
     }

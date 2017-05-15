@@ -19,7 +19,7 @@
 							<h3 class="pull-left schrift">'#{firmen.ausgewaehlteFirma.name}'
 								Firmen Filtergruppen</h3>
 							<b:form>
-								<a href=""
+								<a href="" 
 									onclick="$('.filtergruppeModalPseudoClass').modal();return false;">
 									<p:graphicImage class="pull-right bild"
 										value="/resources/image/add.svg" />
@@ -43,7 +43,8 @@
 									<h:form>
 										<button type="button" class="btn btn-secondary"
 											data-dismiss="modal">Verwerfen</button>
-										<b:commandButton value="Anlegen" class="btn btn-primary" 
+										<b:commandButton value="Anlegen" class="btn btn-primary"
+										disabled="#{!firmen.nutzerAdmin}" 
 											ajax="true" update="filtergruppe-eingabe filtergruppen-liste" action="#{firmen.neueFiltergruppeHinzufuegen()}"/>
 									</h:form>
 								</f:facet>
@@ -64,9 +65,8 @@
 									<p:outputLabel id="filter-profil-text" value="#{gruppe.titel}" />
 
 									<p:commandLink id="filter-bearbeiten"
-										action="/filterbearbeiten.xhtml?faces-redirect=true">
-										<!-- <f:param name="filterprofile" value="#{firmen.ausgewaehlteFirma.filterprofile}" />	
-										<f:param name="filtergruppe" value="#{gruppe}" /> -->
+										disabled="#{!firmen.nutzerAdmin}"
+										action="/filterbearbeiten.xhtml?faces-redirect=true"> 
 										<f:actionListener for="filter-bearbeiten"
 											binding="#{filterbearbeiten.setParameter(gruppe, firmen.ausgewaehlteFirma.filterprofile)}" />
 										<p:graphicImage value="/resources/image/edit-square.svg"
@@ -108,6 +108,7 @@
 								<p:commandLink
 									rendered="#{firmen.isEmpfaengerAktuellerFilterGruppe(mitarbeiter)}"
 									action="#{firmen.remove(mitarbeiter)}"
+									disabled="#{!firmen.nutzerAdmin}"
 									update="filtergruppe-mitarbeiter">
 
 									<p:graphicImage value="/resources/image/email.svg"
@@ -117,6 +118,7 @@
 								<p:commandLink
 									rendered="#{!firmen.isEmpfaengerAktuellerFilterGruppe(mitarbeiter)}"
 									action="#{firmen.add(mitarbeiter)}"
+									disabled="#{!firmen.nutzerAdmin}"
 									update="filtergruppe-mitarbeiter">
 									<p:graphicImage value="/resources/image/email-gray.svg"
 										class="filter-profil-icon pull-right" />
@@ -183,6 +185,7 @@
 										value="#{mitarbeiter.nutzer.ganzenNamen}" />
 
 									<p:commandLink rendered="#{!mitarbeiter.admin}"
+										disabled="#{!firmen.nutzerAdmin}"
 										action="#{firmen.mitarbeiterZuAdmin(mitarbeiter)}"
 										update="profil-item" ajax="true">
 
@@ -190,7 +193,8 @@
 											class="filter-profil-icon pull-right" />
 									</p:commandLink>
 
-									<p:commandLink rendered="#{mitarbeiter.admin}"
+									<p:commandLink rendered="#{mitarbeiter.admin}" 
+										disabled="#{!firmen.nutzerAdmin}"
 										action="#{firmen.mitarbeiterZuMitarbeiter(mitarbeiter)}"
 										update=" profil-item">
 
@@ -199,6 +203,7 @@
 									</p:commandLink>
 
 									<p:commandLink
+										disabled="#{!firmen.nutzerAdmin}"
 										action="#{firmen.mitarbeiterEntfernen(mitarbeiter)}"
 										update="profil-liste">
 										<p:graphicImage value="/resources/image/remove-user.svg"

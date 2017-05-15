@@ -159,7 +159,7 @@ public class FirmenService implements Serializable, IFirmenService
     {
         for (Mitarbeiter mitarbeiter : firma.getMitarbeiter())
         {
-            if (mitarbeiter.equals(this.getNutzer()))
+            if (mitarbeiter.getNutzer().equals(this.getNutzer()))
             {
                 if (mitarbeiter.isAdmin())
                 {
