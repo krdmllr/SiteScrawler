@@ -1,6 +1,7 @@
 package de.sitescrawler.applikation;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -86,7 +87,7 @@ public class FirmenBean implements Serializable {
 	public void neueFirmaErstellen(){ 
 		LOGGER.info("Erstelle Firma: " + neueFirma.getName() +" | " + neueFirma.getFirmenmail()+" | " +  neueFirmaKommentar);
 		
-		firmenService.FirmaBeantragen(neueFirma.getName(), neueFirma.getFirmenmail(), neueFirmaKommentar);
+		firmenService.firmaBeantragen(neueFirma.getName(), neueFirma.getFirmenmail(), neueFirmaKommentar);
 		
 		neueFirma = new Firma();
 	}
@@ -111,6 +112,20 @@ public class FirmenBean implements Serializable {
 		ausgewaehlteFirma.getMitarbeiter().remove(mitarbeiter);
 
 		speichereAenderung(mitarbeiter.getNutzer().getGanzenNamen() + " entfernt.");
+	}
+	
+	public List<Firma> getOffeneFirmenantraege(){
+		return firmenService.offeneFirmenAntraege();
+	}
+	
+	public void antragAnnehmen(Firma firma){
+		LOGGER.info("Firma " + firma.getName() + " angenommen.");
+		firmenService.bearbeiteFirmenAntrag(true, firma);
+	}
+	
+	public void antragAblehnen(Firma firma){
+		LOGGER.info("Firma " + firma.getName() + " abgelehnt.");
+		firmenService.bearbeiteFirmenAntrag(false, firma);
 	}
 	
 	public void mitarbeiterRegistrieren(){
@@ -195,7 +210,7 @@ public class FirmenBean implements Serializable {
 
 	public void mitarbeiterZuAdmin(Mitarbeiter mitarbeiter) {
 		try {
-			firmenService.SetzeNutzerRolle(getAusgewaehlteFirma(), mitarbeiter, Firmenrolle.Administrator);
+			firmenService.setzeNutzerRolle(getAusgewaehlteFirma(), mitarbeiter, Firmenrolle.Administrator);
 		} 
 		catch(FirmenSecurityException securityException)
 		{
@@ -209,7 +224,7 @@ public class FirmenBean implements Serializable {
 
 	public void mitarbeiterZuMitarbeiter(Mitarbeiter mitarbeiter) {
 		try {
-			firmenService.SetzeNutzerRolle(getAusgewaehlteFirma(), mitarbeiter, Firmenrolle.Mitarbeiter);
+			firmenService.setzeNutzerRolle(getAusgewaehlteFirma(), mitarbeiter, Firmenrolle.Mitarbeiter);
 		}
 		catch(FirmenSecurityException securityException)
 		{

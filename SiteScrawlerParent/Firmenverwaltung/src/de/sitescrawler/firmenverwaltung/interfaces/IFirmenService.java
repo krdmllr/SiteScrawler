@@ -1,5 +1,7 @@
 package de.sitescrawler.firmenverwaltung.interfaces;
  
+import java.util.List;
+
 import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Mitarbeiter;
@@ -34,7 +36,7 @@ public interface IFirmenService
      *            Kommentar zu Firmenbeantragung.
      * @return Ob der Antrag erfolgreich erstellt wurde.
      */
-    boolean FirmaBeantragen(String firmenName, String firmenMail, String kommentar);
+    boolean firmaBeantragen(String firmenName, String firmenMail, String kommentar);
 
     /**
      * L�dt einen Nutzer zur Firma ein.
@@ -66,7 +68,7 @@ public interface IFirmenService
      * @throws NotFoundException 
      * @throws Exception 
      */
-    void NutzerEntfernen(Firma firma, Mitarbeiter zuEntfernenderNutzer) throws Exception;
+    void nutzerEntfernen(Firma firma, Mitarbeiter zuEntfernenderNutzer) throws Exception;
 
     /**
      * Setzt, ob ein Nutzer Adminstatus f�r eine Firma erhalten soll.
@@ -82,7 +84,7 @@ public interface IFirmenService
      * @throws NotFoundException 
      * @throws Exception 
      */
-    void SetzeNutzerRolle(Firma firma, Mitarbeiter nutzer, Firmenrolle rolle) throws Exception;
+    void setzeNutzerRolle(Firma firma, Mitarbeiter nutzer, Firmenrolle rolle) throws Exception;
 
     /**
      * Beantragt die Löschung einer Firma, die L�schung muss über einen Bestätigungslink best�tigt werden.
@@ -93,4 +95,16 @@ public interface IFirmenService
      *            Angemeldeter Nutzer von dem die Action ausgeht, muss Firmenadministrator sein.
      */
     void loescheFirma(Firma firma, Nutzer angemeldeterNutzer);
+    
+    /**
+     * Gibt alle offenen Firmenanträge zurück.
+     * @return
+     */
+    List<Firma> offeneFirmenAntraege();
+    
+    /**
+     * Bearbeitet den Antrag, nimmt den Antragn an oder lehnt in ab.
+     * @param annehmen Ob der Antrag angenommen werden soll.
+     */
+    void bearbeiteFirmenAntrag(boolean annehmen, Firma firma);
 }

@@ -1,6 +1,7 @@
 package de.sitescrawler.firmenverwaltung;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,7 +74,7 @@ public class FirmenService implements Serializable, IFirmenService
     }
 
     @Override
-    public boolean FirmaBeantragen(String firmenName, String firmenMail, String kommentar)
+    public boolean firmaBeantragen(String firmenName, String firmenMail, String kommentar)
     {
         if (!this.istFirmenMailVerfuegbar(firmenMail))
         {
@@ -173,7 +174,7 @@ public class FirmenService implements Serializable, IFirmenService
     }
 
     @Override
-    public void NutzerEntfernen(Firma firma, Mitarbeiter zuEntfernenderNutzer) throws Exception
+    public void nutzerEntfernen(Firma firma, Mitarbeiter zuEntfernenderNutzer) throws Exception
     {
 
         this.istNutzerBerechtigt(firma, Firmenrolle.Administrator);
@@ -187,7 +188,7 @@ public class FirmenService implements Serializable, IFirmenService
     }
 
     @Override
-    public void SetzeNutzerRolle(Firma firma, Mitarbeiter nutzer, Firmenrolle rolle) throws Exception
+    public void setzeNutzerRolle(Firma firma, Mitarbeiter nutzer, Firmenrolle rolle) throws Exception
     {
 
         this.istNutzerBerechtigt(firma, Firmenrolle.Administrator);
@@ -218,5 +219,19 @@ public class FirmenService implements Serializable, IFirmenService
         this.entityManager.remove(find);
         FirmenService.LOGGER.info("Firma " + firma + " wurde aus der DB gelöscht");
     }
+
+	@Override
+	public List<Firma> offeneFirmenAntraege() {
+		List<Firma> offeneAtraege = new ArrayList<Firma>(); //TODO MARCEL
+		offeneAtraege.add(new Firma("Testfirma"));
+		
+		return offeneAtraege;
+	}
+
+	@Override
+	public void bearbeiteFirmenAntrag(boolean annehmen, Firma firma) {
+		firma.setStatus(annehmen ? Firmenstatus.VERIFIZIERT : Firmenstatus.ABGELEHNT);	
+		//TODO MARCEL SPEICHERN
+	}
 
 }
