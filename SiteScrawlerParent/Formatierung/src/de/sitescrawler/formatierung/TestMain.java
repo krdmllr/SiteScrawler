@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 
 public class TestMain
 {
-
+    // Zum Testen, wie wir auf die Datei zugreifen können
     public static void main(String[] args) throws URISyntaxException, FileNotFoundException, IOException
     {
         String resource = FormatiererService.class.getResource("hilfsdateien/HTMLvorArtikel.html").getFile();

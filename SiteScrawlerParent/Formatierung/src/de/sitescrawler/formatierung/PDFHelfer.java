@@ -1,5 +1,6 @@
 package de.sitescrawler.formatierung;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -48,6 +49,9 @@ public class PDFHelfer
     {
     }
 
+    /**
+     * Wird direkt nach dem Contruktor aufgerufen um auf die benötigte XSLT-Datei zugreifen zu können.
+     */
     @PostConstruct
     private void init()
     {
@@ -62,14 +66,25 @@ public class PDFHelfer
      * @param xmlDatei
      * @throws JAXBException
      */
-    public void schreibeArtikelAlsXML(Archiveintrag archiveintrag, File xmlDatei) throws JAXBException
+    public ByteArrayOutputStream schreibeArtikelAlsXML(Archiveintrag archiveintrag) throws JAXBException
     {
+        ByteArrayOutputStream xmlDatei = new ByteArrayOutputStream();
         JAXBContext jc = JAXBContext.newInstance(Archiveintrag.class);
         Marshaller m = jc.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         m.marshal(archiveintrag, xmlDatei);
+        return xmlDatei;
     }
 
+    /**
+     * Erstellt den Transformator mit dem der Archiveintrag durch die XSLT-Datei zu einer PDF-Datei konvertiert werden
+     * kann.
+     * 
+     * @param xslt
+     * @param parameter
+     * @return
+     * @throws TransformerConfigurationException
+     */
     private static Transformer erstelleTransformer(File xslt, Map<String, String> parameter) throws TransformerConfigurationException
     {
         TransformerFactory factory = TransformerFactory.newInstance();
@@ -80,7 +95,7 @@ public class PDFHelfer
     }
 
     /**
-     * Wandelt die XML mit Hilfe der XSL in eine PDF-Datei.
+     * Wandelt die XML mit Hilfe der XSLT in eine PDF-Datei.
      *
      * @param xmlZuTransformieren
      * @param parameter
@@ -89,7 +104,7 @@ public class PDFHelfer
      * @throws FOPException
      * @throws TransformerException
      */
-    public ByteArrayOutputStream XMLzuPDF(File xmlZuTransformieren, Map<String, String> parameter)
+    public ByteArrayOutputStream XMLzuPDF(ByteArrayOutputStream xmlZuTransformieren, Map<String, String> parameter)
         throws FileNotFoundException, FOPException, TransformerException
     {
 
@@ -107,7 +122,8 @@ public class PDFHelfer
         Transformer transformer = PDFHelfer.erstelleTransformer(this.xsltDatei, parameter);
 
         // XML als Input für die Transformation setzen
-        Source eingabeZuKonvertieren = new StreamSource(xmlZuTransformieren);
+        ByteArrayInputStream xmlInputStream = new ByteArrayInputStream(xmlZuTransformieren.toByteArray());
+        Source eingabeZuKonvertieren = new StreamSource(xmlInputStream);
 
         // Resulting SAX events (the generated FO) must be piped through to FOP
         Result ausgabe = new SAXResult(fop.getDefaultHandler());
