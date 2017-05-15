@@ -20,14 +20,14 @@
 								<br></br>
 								<b:inputText value="#{nutzerprofil.nutzer.nachname}" label="Nachname" required="true" />
 								<br></br>
-								<b:switch value="#{nutzerprofil.nutzer.empfangehtmlmails}" label="Ich möchte Html Emails erhalten" off-text="Nein" on-text="Ja" style="width:60px" />
+								<b:switch value="#{nutzerprofil.nutzer.empfangehtmlmails}" label="Ich möchte HTML-E-Mails erhalten" off-text="Nein" on-text="Ja" style="width:60px" />
 								<br></br>
 								<b:commandButton value="Speichern" ajax="false"
 									action="#{nutzerprofil.speichereAenderungen()}"/>
 							</h:panelGrid>
 						</b:form>
 					</b:panel>
-					<b:panel title="Email ändern">
+					<b:panel title="E-Mail ändern">
 						<b:form>
 							<h:panelGrid columns="2" cellpadding="10">
 								  
@@ -43,7 +43,7 @@
 							</h:panelGrid>
 						</b:form>
 					</b:panel>
-					<b:panel title="Passswort ändern">
+					<b:panel title="Passwort ändern">
 						<b:form>
 							<h:panelGrid columns="2" cellpadding="10">
 								 
@@ -69,7 +69,7 @@
 							<h:panelGrid columns="1" cellpadding="10"> 
 								<b:inputSecret id="pwalt" label="Passwort" value="#{nutzerprofil.altesPasswort}"
 									required="true" /> 
-								<b:commandButton value="Account Löschen"
+								<b:commandButton value="Account löschen"
 									action="#{nutzerprofil.loescheNutzer()}" update="@form" />
 							</h:panelGrid>
 						</b:form>
