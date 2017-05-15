@@ -51,12 +51,44 @@ public class FirmenBean implements Serializable {
 	
 	private Nutzer bestehenderNutzer;
 	
+	private Firma neueFirma = new Firma();
+	
+	private String neueFirmaKommentar;
+	
+
+	public Firma getNeueFirma() {
+		return neueFirma;
+	}
+
+	public void setNeueFirma(Firma neueFirma) {
+		this.neueFirma = neueFirma;
+	}
+
+	public String getNeueFirmaKommentar() {
+		return neueFirmaKommentar;
+	}
+
+	public void setNeueFirmaKommentar(String neueFirmaKommentar) {
+		this.neueFirmaKommentar = neueFirmaKommentar;
+	}
 
 	@PostConstruct
 	void init() {
 		if (dataBean.getNutzer().getFirmen().size() > 0) {
 			setAusgewaehlteFirma((Firma) dataBean.getNutzer().getFirmen().toArray()[0]);
 		}
+	}
+	
+	public void neueFirmaVerwerfen(){
+		neueFirma = new Firma();
+	}
+	
+	public void neueFirmaErstellen(){ 
+		LOGGER.info("Erstelle Firma: " + neueFirma.getName() +" | " + neueFirma.getFirmenmail()+" | " +  neueFirmaKommentar);
+		
+		firmenService.FirmaBeantragen(neueFirma.getName(), neueFirma.getFirmenmail(), neueFirmaKommentar);
+		
+		neueFirma = new Firma();
 	}
 
 	public Firma getAusgewaehlteFirma() {
