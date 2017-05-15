@@ -90,7 +90,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
     public void nutzerSpeichern(Nutzer nutzer)
     {
         NutzerServiceBean.LOGGER.info("Nutzer " + nutzer + " wird persistiert.");
-        this.entityManager.persist(nutzer);
+        nutzer = this.entityManager.merge(nutzer);
     }
 
     @Override

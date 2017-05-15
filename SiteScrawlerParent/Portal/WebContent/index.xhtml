@@ -72,15 +72,9 @@
 										pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
 								</p:inputText>
 							</div>
-
-						</h:form>
-						<h:form>
-							<div class="form-group">
-							<p:inputText/>
-							</div>
 							<div class="form-group">
 								<p:commandLink type="success" class="btn btn-success" action="#{portal.sendeRegistrierungAb()}"
-									value="Registrieren" />
+									value="Registrieren" update="@form"/>
 								<h:messages globalOnly="true" />
 							</div>
 						</h:form>
