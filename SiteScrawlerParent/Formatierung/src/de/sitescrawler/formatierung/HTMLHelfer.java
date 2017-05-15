@@ -40,6 +40,9 @@ public class HTMLHelfer
     {
     }
 
+    /**
+     * Wird direkt nach dem Contruktor aufgerufen um auf die benötigte XSLT-Datei zugreifen zu können.
+     */
     @PostConstruct
     private void init()
     {
@@ -52,6 +55,12 @@ public class HTMLHelfer
         this.htmlNachher = this.konvertiereHTMLDateiInString(htmlNachherFile);
     }
 
+    /**
+     * Konvertiert eine HTML-Datei in einen String.
+     * 
+     * @param htmlZumKonvertieren
+     * @return
+     */
     private String konvertiereHTMLDateiInString(File htmlZumKonvertieren)
     {
         StringBuilder contentBuilder = new StringBuilder();
@@ -78,6 +87,12 @@ public class HTMLHelfer
         return inhalt;
     }
 
+    /**
+     * Konvertiert HTML-Code in einen String.
+     * 
+     * @param htmlZumKonvertieren
+     * @return
+     */
     private String konvertiereHTMLInString(String htmlZumKonvertieren)
     {
         StringBuilder contentBuilder = new StringBuilder();
@@ -106,6 +121,12 @@ public class HTMLHelfer
         return inhalt;
     }
 
+    /**
+     * Fügt die Artikel in der HTML-Datei ein. Die Datei ist dabei ein String.
+     * 
+     * @param artikelAlsHTMLString
+     * @return
+     */
     private String htmlVervollstaendigen(String artikelAlsHTMLString)
     {
         String html = "";
@@ -122,6 +143,11 @@ public class HTMLHelfer
         return html;
     }
 
+    /**
+     * Gibt einen Hinweis in die HTML-Datei, dass keine Artikel gefunden wurden.
+     * 
+     * @return
+     */
     public String leerenArchiveintragInHtml()
     {
         String htmlMeldungLeererArchiveintrag = "<div id=\"artikel\">" + "\n" + "<h3><b>" + "In diesem Archiveintrag sind keine Artikel enthalten."

@@ -1,6 +1,7 @@
 package de.sitescrawler.applikation;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,12 +52,44 @@ public class FirmenBean implements Serializable {
 	
 	private Nutzer bestehenderNutzer;
 	
+	private Firma neueFirma = new Firma();
+	
+	private String neueFirmaKommentar;
+	
+
+	public Firma getNeueFirma() {
+		return neueFirma;
+	}
+
+	public void setNeueFirma(Firma neueFirma) {
+		this.neueFirma = neueFirma;
+	}
+
+	public String getNeueFirmaKommentar() {
+		return neueFirmaKommentar;
+	}
+
+	public void setNeueFirmaKommentar(String neueFirmaKommentar) {
+		this.neueFirmaKommentar = neueFirmaKommentar;
+	}
 
 	@PostConstruct
 	void init() {
 		if (dataBean.getNutzer().getFirmen().size() > 0) {
 			setAusgewaehlteFirma((Firma) dataBean.getNutzer().getFirmen().toArray()[0]);
 		}
+	}
+	
+	public void neueFirmaVerwerfen(){
+		neueFirma = new Firma();
+	}
+	
+	public void neueFirmaErstellen(){ 
+		LOGGER.info("Erstelle Firma: " + neueFirma.getName() +" | " + neueFirma.getFirmenmail()+" | " +  neueFirmaKommentar);
+		
+		firmenService.firmaBeantragen(neueFirma.getName(), neueFirma.getFirmenmail(), neueFirmaKommentar);
+		
+		neueFirma = new Firma();
 	}
 
 	public Firma getAusgewaehlteFirma() {
@@ -79,6 +112,20 @@ public class FirmenBean implements Serializable {
 		ausgewaehlteFirma.getMitarbeiter().remove(mitarbeiter);
 
 		speichereAenderung(mitarbeiter.getNutzer().getGanzenNamen() + " entfernt.");
+	}
+	
+	public List<Firma> getOffeneFirmenantraege(){
+		return firmenService.offeneFirmenAntraege();
+	}
+	
+	public void antragAnnehmen(Firma firma){
+		LOGGER.info("Firma " + firma.getName() + " angenommen.");
+		firmenService.bearbeiteFirmenAntrag(true, firma);
+	}
+	
+	public void antragAblehnen(Firma firma){
+		LOGGER.info("Firma " + firma.getName() + " abgelehnt.");
+		firmenService.bearbeiteFirmenAntrag(false, firma);
 	}
 	
 	public void mitarbeiterRegistrieren(){
@@ -163,7 +210,7 @@ public class FirmenBean implements Serializable {
 
 	public void mitarbeiterZuAdmin(Mitarbeiter mitarbeiter) {
 		try {
-			firmenService.SetzeNutzerRolle(getAusgewaehlteFirma(), mitarbeiter, Firmenrolle.Administrator);
+			firmenService.setzeNutzerRolle(getAusgewaehlteFirma(), mitarbeiter, Firmenrolle.Administrator);
 		} 
 		catch(FirmenSecurityException securityException)
 		{
@@ -177,7 +224,7 @@ public class FirmenBean implements Serializable {
 
 	public void mitarbeiterZuMitarbeiter(Mitarbeiter mitarbeiter) {
 		try {
-			firmenService.SetzeNutzerRolle(getAusgewaehlteFirma(), mitarbeiter, Firmenrolle.Mitarbeiter);
+			firmenService.setzeNutzerRolle(getAusgewaehlteFirma(), mitarbeiter, Firmenrolle.Mitarbeiter);
 		}
 		catch(FirmenSecurityException securityException)
 		{

@@ -53,7 +53,7 @@
 						</ul></li> 
 						<!-- Quellen verwalten --> 
 						<b:form rendered="#{data.nutzer.administrator}">
-							<li><a href="/quellen.xhtml">Administration</a></li>
+							<li><a href="/admin.xhtml">Administration</a></li>
 						</b:form>
 						<!-- !Quellen verwalten --> 
 				</ul>
@@ -65,27 +65,31 @@
 				<h:form id="firmen-erstellung">
 					<p>Firmenname</p>
 					<div class="form-group">
-						<h:inputText placeholder="Firmenname" class="form-control" />
+						<h:inputText placeholder="Firmenname" value="#{firmen.neueFirma.name}" class="form-control" >
+							<p:ajax event="keyup"/>
+						</h:inputText>
 					</div>
 
 					<p>Kontaktemail</p>
-					<p>Unter dieser E-Mail werden wir uns bezüglich der
-						Verifizierung der Firma melden.</p>
+					<p>Mit diese E-Mail ist der Firmenaccount verknüpft.</p>
 					<div class="form-group">
-						<h:inputText placeholder="Firmenname" class="form-control" />
+						<h:inputText placeholder="E-Mail" value="#{firmen.neueFirma.firmenmail}" class="form-control" >
+							<p:ajax event="keyup"/>
+						</h:inputText>
 					</div>
 
 					<p>Kommentar</p>
 					<div class="form-group">
-						<h:inputText placeholder="E-Mail Adresse" class="form-control" />
+						<h:inputText placeholder="Kommentar" value="#{firmen.neueFirmaKommentar}" class="form-control">
+							<p:ajax event="keyup"/>
+						</h:inputText>
 					</div>
 
 				</h:form>
 				<f:facet name="footer">
 					<h:form>
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">Verwerfen</button>
-						<b:commandButton value="Anlegen" class="btn btn-primary" />
+						<button type="button" class="btn btn-secondary" update="firmen-erstellung">Verwerfen</button>
+						<b:commandButton action="#{firmen.neueFirmaErstellen()}" value="Anlegen" ajax="false" class="btn btn-primary" />
 					</h:form>
 				</f:facet>
 			</b:modal>

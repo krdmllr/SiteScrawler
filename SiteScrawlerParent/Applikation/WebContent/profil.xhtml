@@ -11,74 +11,70 @@
 	<ui:composition template="/template.xhtml">
 		<ui:define name="content">
 			<div class="panel panel-default">
-				<p:accordionPanel>
-					<p:tab title="Profil">
+				<b:accordion>
+					<b:panel title="Profil">
 						<b:form>
 							<h:panelGrid columns="2" cellpadding="10"
-								style="margin-bottom:10px">
-								<h:outputText value="Vorname" />
-								<p:inputText value="#{nutzerprofil.nutzer.vorname}" required="true" />
-								<h:outputText value="Nachname" />
-								<p:inputText value="#{nutzerprofil.nutzer.nachname}" required="true" />
-								<h:outputText value="Email" />
-								<h:outputText value="#{nutzerprofil.nutzer.email}" />
-								<h:outputText value="Ich möchte Html Emails erhalten:" />
-								<p:selectBooleanButton
-									value="#{nutzerprofil.nutzer.empfangehtmlmails}" onLabel="Ja"
-									offLabel="Nein" style="width:60px" />
-								<p:commandButton value="Speichern"
-									action="#{nutzerprofil.speichereAenderungen()}" update="@form" />
+								style="margin-bottom:10px"> 
+								<b:inputText value="#{nutzerprofil.nutzer.vorname}" label="Vorname" required="true" /> 
+								<br></br>
+								<b:inputText value="#{nutzerprofil.nutzer.nachname}" label="Nachname" required="true" />
+								<br></br>
+								<b:switch value="#{nutzerprofil.nutzer.empfangehtmlmails}" label="Ich möchte Html Emails erhalten" off-text="Nein" on-text="Ja" style="width:60px" />
+								<br></br>
+								<b:commandButton value="Speichern" ajax="false"
+									action="#{nutzerprofil.speichereAenderungen()}"/>
 							</h:panelGrid>
 						</b:form>
-					</p:tab>
-					<p:tab title="Email ändern">
+					</b:panel>
+					<b:panel title="Email ändern">
 						<b:form>
 							<h:panelGrid columns="2" cellpadding="10">
-								<h:outputLabel value="Passwort" for="pw" />
-								<p:password id="pw" value="#{nutzerprofil.altesPasswort}"
+								  
+								<b:inputText id="neueemail" label="Neue E-Mail" value="#{nutzerprofil.neueEmail}"
 									required="true" />
-								<p:separator />
-								<p:separator />
-								<h:outputLabel value="Neue Email" for="neueemail" />
-								<p:inputText id="neueemail" value="#{nutzerprofil.neueEmail}"
+								<br></br>
+								<b:inputSecret label="Passwort" id="pw" value="#{nutzerprofil.altesPasswort}"
 									required="true" />
-								<p:commandButton value="Speichern"
+								<br></br> 
+								<b:commandButton value="Speichern"  
 									action="#{nutzerprofil.setNeueEmail()}" update="@form" />
 
 							</h:panelGrid>
 						</b:form>
-					</p:tab>
-					<p:tab title="Passswort ändern">
+					</b:panel>
+					<b:panel title="Passswort ändern">
 						<b:form>
 							<h:panelGrid columns="2" cellpadding="10">
-								<h:outputLabel value="Altes Passwort" for="altespw" />
-								<p:password id="altespw" value="#{nutzerprofil.altesPasswort}"
+								 
+								<b:inputSecret id="altespw" label="Altes Passwort" value="#{nutzerprofil.altesPasswort}"
+									required="true" /> 
+								  <br></br>
+							 	<p:separator />
+							 	<br></br>
+								<b:inputSecret id="neuespw" label="Neue Passwort" value="#{nutzerprofil.neuesPasswort}"
+									match="neuespw2" required="true" /> 
+								<br></br>
+								<b:inputSecret id="neuespw2" label="Passwort wiederholen" value="#{nutzerprofil.neuesPasswort}"
 									required="true" />
-								<p:separator />
-								<p:separator />
-								<h:outputLabel value="Neues Passwort" for="neuespw" />
-								<p:password id="neuespw" value="#{nutzerprofil.neuesPasswort}"
-									match="neuespw2" required="true" />
-								<h:outputLabel value="Passwort wiederholen" for="neuespw2" />
-								<p:password id="neuespw2" value="#{nutzerprofil.neuesPasswort}"
-									required="true" />
-								<p:commandButton value="Speichern"
+								
+								<br></br>
+								<b:commandButton value="Speichern"
 									action="#{nutzerprofil.setNeuesPasswort()}" update="@form" />
 							</h:panelGrid>
 						</b:form>
-					</p:tab>
-					<p:tab title="Account löschen">
+					</b:panel>
+					<b:panel title="Account löschen">
 						<b:form>
-							<h:panelGrid columns="3" cellpadding="10">
-								<h:outputLabel value="Passwort" for="pwalt" />
-								<p:password id="pwalt" value="#{nutzerprofil.altesPasswort}"
-									required="true" />
-								<p:commandButton value="Account Löschen"
+							<h:panelGrid columns="1" cellpadding="10"> 
+								<b:inputSecret id="pwalt" label="Passwort" value="#{nutzerprofil.altesPasswort}"
+									required="true" /> 
+								<b:commandButton value="Account Löschen"
 									action="#{nutzerprofil.loescheNutzer()}" update="@form" />
 							</h:panelGrid>
 						</b:form>
-					</p:tab>
-				</p:accordionPanel>
+					</b:panel>
+				</b:accordion>
 				<h:messages/>
 			</div>
 

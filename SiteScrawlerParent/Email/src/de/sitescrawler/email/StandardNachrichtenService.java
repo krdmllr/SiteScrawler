@@ -172,4 +172,15 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
         }
     }
 
+	@Override
+	public void firmaAngenommen(Firma firma) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void firmaAbgelehnt(Firma firma) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

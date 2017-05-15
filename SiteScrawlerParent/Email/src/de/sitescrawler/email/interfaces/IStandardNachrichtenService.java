@@ -63,4 +63,10 @@ public interface IStandardNachrichtenService {
 	 * @param firma
 	 */
 	void firmaGeloescht(Firma firma);
+	
+	//TODO KOmmentar
+	void firmaAngenommen(Firma firma);
+	
+	//TODO KOmmentar
+	void firmaAbgelehnt(Firma firma);
 }

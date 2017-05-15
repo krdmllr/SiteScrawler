@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="content">
+			<b:tabView activeIndex="0">
+				<b:tab title="Quellen">
+					<div style="height: 100%;">
+						<ui:include src="/quellen.xhtml" />
+					</div>
+				</b:tab>
+				<b:tab title="Firmen Anträge">
+					<p:dataList class="list-group" id="alle-antraege" type="definition"
+						value="#{firmen.offeneFirmenantraege}" var="firmenAntrag">
+						<h:form class="list-group-item">
+							<div class="artikel-titel-container">
+
+								<p:outputLabel class="pull-left" value="#{firmenAntrag.name}" />
+
+
+
+								<b:commandButton class="pull-right" value="Ablehnen"
+									action="#{firmen.antragAblehnen(firmenAntrag)}"
+									update="alle-antraege" />
+
+								<b:commandButton class="pull-right" value="Annehmen"
+									style="margin-right:5px !important;"
+									action="#{firmen.antragAnnehmen(firmenAntrag)}"
+									update="alle-antraege" />
+							</div>
+						</h:form>
+					</p:dataList>
+				</b:tab>
+			</b:tabView>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
+

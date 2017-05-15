@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,6 +25,10 @@ import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofil;
 import de.sitescrawler.solr.interfaces.ISolrService;
 
+/**
+ * @author Marcel, William
+ *
+ */
 @ApplicationScoped
 @Named
 public class SolrService implements ISolrService, Serializable
@@ -34,8 +40,9 @@ public class SolrService implements ISolrService, Serializable
 
     // TODO: in config-Datei auslagern
     // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/testdaten";
-    // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/spielwiesewilliam";
-    private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";
+    private static final String SolrUrl = "http://sitescrawler.de:8983/solr/spielwiesewilliam";
+    //private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";
+    private static final SimpleDateFormat formatter        = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     public SolrService()
     {
@@ -63,7 +70,7 @@ public class SolrService implements ISolrService, Serializable
         }
         catch (SolrServerException | IOException e)
         {
-            SolrService.LOGGER.log(Level.SEVERE, "Fehler beim schreiben in Solrinstanz " + SolrService.SolrUrl, e);
+            SolrService.LOGGER.log(Level.SEVERE, "Fehler beim Schreiben in Solrinstanz " + SolrService.SolrUrl, e);
         }
     }
 
@@ -98,6 +105,7 @@ public class SolrService implements ISolrService, Serializable
         return this.getArtikel(solrQuery);
     }
 
+  //TODO Modellierung
     private List<Artikel> getArtikel(SolrQuery solrQuery)
     {
         List<Artikel> artikel = new ArrayList<>();
@@ -108,12 +116,13 @@ public class SolrService implements ISolrService, Serializable
         }
         catch (SolrServerException | IOException e)
         {
-            SolrService.LOGGER.log(Level.SEVERE, "Fehler beim suchen von Artikeln.", e);
+            SolrService.LOGGER.log(Level.SEVERE, "Fehler beim Suchen von Artikeln.", e);
         }
 
         SolrService.LOGGER.info("Es wurden " + artikel.size() + " Artikel zur Query " + solrQuery.getQuery() + " gefunden.");
         return artikel;
     }
+
 
     /*
      * (non-Javadoc)
@@ -180,4 +189,78 @@ public class SolrService implements ISolrService, Serializable
         artikel.setTitel(solrArtikel.getTitel());
         artikel.setQid(solrArtikel.getQid());
     }
+        
+  //TODO Modellierung
+    /**
+     * 
+     * Fuegt der SolrQuery die Bedingung hinzu, in einem definierten Zeitintervall nach Artikeln zu suchen.
+     * 
+     * @param solrQuery Die aktuelle SolrQuery.
+     * @param datumVon Datum, ab dem nach Artikeln gesucht werden soll.
+     * @param datumBis Datum, bis wann nach Artikeln gesucht werden soll.
+     */
+    private void optionSucheArtikelinZeitraum(SolrQuery solrQuery, Date datumVon, Date datumBis){
+        
+        if(datumBis==null){
+            System.out.println(SolrService.formatter.format(datumVon));
+            solrQuery.set("fq","erstellungsdatum: ["+
+                       SolrService.formatter.format(datumVon) + " TO NOW]");
+//           SolrService.LOGGER.log(Level.INFO, "Ergebnissuche wurde auf das zeitliche Intervall [" + datumVon +  " bis " + new Date() + "] eingeschraenkt.");
+        }
+        else{
+            solrQuery.set("fq","erstellungsdatum: ["+
+                            SolrService.formatter.format(datumVon) + " TO " + SolrService.formatter.format(datumBis) + "]");
+//            SolrService.LOGGER.log(Level.INFO, "Ergebnissuche wurde auf das zeitliche Intervall [" + datumVon +  " bis " + datumBis + "] eingeschraenkt.");
+        }
+
+    }
+    
+  //TODO Modellierung
+    /**
+     * 
+     * Fuegt der SolrQuery die Bedingung hinzu, nur eine bestimmte Anzahl an Ergebnissen zu erhalten.
+     * 
+     * @param solrQuery Die aktuelle SolrQuery.
+     * @param maxArtikel Die maximale Anzahl an Artikeln, die ausgegeben werden soll.
+     */
+    private void optionSetzeMaximaleAnzahl(SolrQuery solrQuery, Integer maxArtikel){
+        solrQuery.set("rows", maxArtikel);
+//        SolrService.LOGGER.log(Level.INFO, "Ergebnisanzahl wurde auf " + maxArtikel + " reduziert.");
+    }
+    /**
+     * Fuegt einen Suchstring der SolrQuery hinzu.
+     * @param solrQuery Die aktuelle SolrQuery.
+     * @param suchstring
+     */
+    
+  //TODO Modellierung
+    private void addSuchstring(SolrQuery solrQuery, String suchstring){
+        if(solrQuery.get("q")==null){
+            solrQuery.set("q", suchstring);
+        }
+        else{
+            solrQuery.set("q", solrQuery.get("q") + " " + suchstring);
+        }
+        SolrService.LOGGER.log(Level.INFO, "Suchstring " + suchstring + " hinzugefuegt.");
+    }
+    
+  //TODO Modellierung
+    /**
+     * 
+     * Fuegt der SolrQuery die Bedingung hinzu, dass ein bestimmter Prozentanteil von Suchbegriffen in den Artikeln vorliegen muss.
+     * @param solrQuery Die aktuelle SolrQuery.
+     * @param prozentQuote Anteil der gewuenschten Suchbegriffe in Prozent
+     */
+    private void optionSetzeMinimaleTrefferquote(SolrQuery solrQuery, Integer prozentQuote){
+        if(Math.abs(prozentQuote)<=100){
+            solrQuery.set("defType", "edismax");
+            solrQuery.set("mm", prozentQuote.toString()+"%");
+//            SolrService.LOGGER.log(Level.INFO, "Prozentanteil wurde auf " + prozentQuote + "% gesetzt.");
+        }
+        else{
+            SolrService.LOGGER.log(Level.SEVERE, "Ungueltige Prozentzahlangabe bei der minimalen Trefferquote.");
+        }
+    }
+    
+
 }
