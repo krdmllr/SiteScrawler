@@ -34,6 +34,7 @@ import twitter4j.Trends;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.URLEntity;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -165,15 +166,28 @@ public class Verarbeitung {
 
 				// Artikel aus den Tweets erzeugen
 				for (Status tweet : tweets) {
-
+					if(tweet.getFavoriteCount() <5)
+						continue;
+					
+					String inhalt = tweet.getText();
+					
+					//Hole URL Entities und füge die ungekürzte URL im Inhalt ein
+					for (URLEntity urle : tweet.getURLEntities())
+					{
+						 String embeddedURL = urle.getExpandedURL();
+					    inhalt = inhalt.replace(urle.getDisplayURL(), urle.getExpandedURL());
+					    inhalt = inhalt.replace(urle.getURL(), urle.getExpandedURL()); 
+					}
+					
 					String url = "https://twitter.com/" + tweet.getUser().getScreenName() + "/status/" + tweet.getId();
+					
 					Artikel artikel = new Artikel(tweet.getCreatedAt(), tweet.getUser().getScreenName(),
-							"Tweet" + tweet.getId(), tweet.getText(), url, twitterQuelle);
+							"Tweet" + tweet.getId(), inhalt, url, twitterQuelle);
 					artikel.setFavoritenzahl(tweet.getFavoriteCount());
 					artikel.setRetweetzahl(tweet.getRetweetCount());
 					gefundeneArtikel.add(artikel); 
-					//Verarbeitung.LOGGER.log(Level.INFO,
-					//		"Tweet gefunden: @" + tweet.getUser().getScreenName() + " - " + tweet.getText()); 
+					Verarbeitung.LOGGER.log(Level.INFO,
+							"Tweet gefunden: @" + tweet.getUser().getScreenName() + " - " + inhalt); 
 				}
 			}
 			persistiereArtikel(sendeAnSolr, gefundeneArtikel);
