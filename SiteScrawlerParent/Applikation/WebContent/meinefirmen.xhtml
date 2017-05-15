@@ -26,25 +26,25 @@
 								</a>
 							</b:form>
 
-							<!-- Modal: Mitarbeiter hinzufügen -->
+							<!-- Modal: Filtergruppe hinzufügen -->
 							<b:modal id="neue-filtergruppe-modal"
 								title="Firmen Filtergruppe erstellen"
 								styleClass="filtergruppeModalPseudoClass">
 								<h:form id="filtergruppe-eingabe">
 									<p>Neue Firmen Filtergruppe erstellen.</p>
 									<div class="form-group">
-										<h:inputText immediate="true" placeholder="Filtergruppen name"
-											class="form-control" />
-									</div>
-
-
+										<h:inputText immediate="true" value="#{firmen.neueFiltergruppe}" placeholder="Filtergruppen name"
+											class="form-control" >
+											<p:ajax event="keyup"/>
+											</h:inputText>
+									</div> 
 								</h:form>
 								<f:facet name="footer">
 									<h:form>
 										<button type="button" class="btn btn-secondary"
 											data-dismiss="modal">Verwerfen</button>
-										<b:commandButton value="Anlegen" class="btn btn-primary"
-											ajax="true" update="filtergruppe-eingabe" />
+										<b:commandButton value="Anlegen" class="btn btn-primary" 
+											ajax="true" update="filtergruppe-eingabe filtergruppen-liste" action="#{firmen.neueFiltergruppeHinzufuegen()}"/>
 									</h:form>
 								</f:facet>
 							</b:modal>

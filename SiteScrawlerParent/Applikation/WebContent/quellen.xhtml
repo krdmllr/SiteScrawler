@@ -148,6 +148,14 @@
 								<p:ajax event="keyup"
 									update="gewaehlte-quelle-form:bearbeiten-buttons" />
 							</p:inputText>
+							
+							<h4>Logo Link</h4>
+							<p>Bitte einen Direktlink zum Bild angeben.</p>
+							<p:inputText id="klasse-link-feld" class="fill-width"
+								label="RSS URL" value="#{quellen.gewaehlteQuelle.tagOderId}">
+								<p:ajax event="keyup"
+									update="gewaehlte-quelle-form:bearbeiten-buttons" />
+							</p:inputText>
 						</div>
 					</b:form>
 				</p:outputPanel>

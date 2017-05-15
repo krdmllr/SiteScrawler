@@ -45,19 +45,22 @@
 							</p:commandLink>
 					</h:form>
 					<hr class="no-padding-margin" />
-
+					
 					<div class="panel-body filter">
-						<h:form>
-							<div class="form-group">
-								<b:dateTimePicker value="#{archiv.abZeitpunkt}" label="Frühste"
-									mode="popup" show-time="false" render-label="true" />
-							</div>
-							<div class="form-group">
-								<b:dateTimePicker value="#{archiv.bisZeitpunkt}"
-									label="Späteste" mode="popup" show-time="false"
+						
+							<b:form >
+								<b:dateTimePicker  
+									value="#{archiv.abZeitpunkt}" 
+									label="Frühste"
+									mode="popup" show-time="false" 
 									render-label="true" />
-							</div>
-						</h:form>
+							</b:form>
+							<b:form  >
+								<b:dateTimePicker value="#{archiv.bisZeitpunkt}"
+									mode="popup" show-time="false"
+									label="Späteste"  
+									render-label="true" />
+							</b:form>
 					</div>
 					<hr class="no-padding-margin" />
 
@@ -158,11 +161,6 @@
 											style="color: red;"></span>
 									</div>
 								</p:outputPanel>
-
-
-
-
-
 								<div class="btn-group pull-right" role="group">
 									<p:commandLink type="button"
 										rendered="#{!artikel.twitterQuelle}"

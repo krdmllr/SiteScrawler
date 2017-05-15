@@ -15,6 +15,8 @@ import org.primefaces.context.RequestContext;
 import de.sitescrawler.exceptions.*;
 import de.sitescrawler.firmenverwaltung.interfaces.IFirmenService;
 import de.sitescrawler.jpa.*;
+import de.sitescrawler.jpa.management.interfaces.IFilterManagerManager;
+import de.sitescrawler.jpa.management.interfaces.IFiltergruppenManager;
 import de.sitescrawler.jpa.management.interfaces.IFirmenManager;
 import de.sitescrawler.model.Firmenrolle;
 
@@ -39,6 +41,9 @@ public class FirmenBean implements Serializable {
 	
 	@Inject
 	private IFirmenService firmenService;
+	
+	@Inject
+	private IFilterManagerManager filterManagerManager;
 
 	private Firma ausgewaehlteFirma;
 
@@ -56,6 +61,7 @@ public class FirmenBean implements Serializable {
 	
 	private String neueFirmaKommentar;
 	
+	private String neueFiltergruppe;
 
 	public Firma getNeueFirma() {
 		return neueFirma;
@@ -78,6 +84,16 @@ public class FirmenBean implements Serializable {
 		if (dataBean.getNutzer().getFirmen().size() > 0) {
 			setAusgewaehlteFirma((Firma) dataBean.getNutzer().getFirmen().toArray()[0]);
 		}
+	}
+	
+	public void neueFiltergruppeHinzufuegen(){
+		Filterprofilgruppe neueGruppe = new Filterprofilgruppe();
+		neueGruppe.setTitel(neueFiltergruppe);
+		neueGruppe.setFiltermanager(getAusgewaehlteFirma());
+		neueGruppe.setIntervall(new Intervall());
+		getAusgewaehlteFirma().getFilterprofilgruppen().add(neueGruppe);
+		filterManagerManager.speichereAenderung(getAusgewaehlteFirma());
+		neueFiltergruppe = "";
 	}
 	
 	public void neueFirmaVerwerfen(){
@@ -240,5 +256,13 @@ public class FirmenBean implements Serializable {
 
 		firmenManager.speichereAenderungen(getAusgewaehlteFirma());
 		LOGGER.log(Level.INFO, "Änderung in " + getAusgewaehlteFirma().getName() + ": " + beschreibung);
+	}
+
+	public String getNeueFiltergruppe() {
+		return neueFiltergruppe;
+	}
+
+	public void setNeueFiltergruppe(String neueFiltergruppe) {
+		this.neueFiltergruppe = neueFiltergruppe;
 	}
 }
