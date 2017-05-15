@@ -80,8 +80,9 @@ public class SolrService implements ISolrService, Serializable
      * @see de.sitescrawler.solr.ISolrService#sucheArtikel(de.sitescrawler.model. FilterProfil)
      */
     @Override
-    public List<Artikel> sucheArtikel(List<Filterprofil> filterprofile)
+    public List<Artikel> sucheArtikel(List<Filterprofil> filterprofile, Date letzteSuche)
     {
+    	//TODO WICHTIG WICHTIG WICHTIG Letzte Suche berücksichtigen
         List<Artikel> artikel = new ArrayList<>();
         for (Filterprofil filterprofil : filterprofile)
         {

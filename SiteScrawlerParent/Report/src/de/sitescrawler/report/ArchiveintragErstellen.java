@@ -51,7 +51,7 @@ public class ArchiveintragErstellen
 
         List<Filterprofil> filterprofile = new ArrayList<>(filtergruppe.getFilterprofile());
 
-        List<Artikel> artikel = this.solr.sucheArtikel(filterprofile);
+        List<Artikel> artikel = this.solr.sucheArtikel(filterprofile, filtergruppe.getLetzteerstellung());
 
         // Ordnet den Artikeln ihre Quellen zu.
         Set<Artikel> artikelAlsSet = new HashSet<>();

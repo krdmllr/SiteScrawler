@@ -1,5 +1,6 @@
 package de.sitescrawler.solr.interfaces;
 
+import java.util.Date;
 import java.util.List;
 
 import de.sitescrawler.jpa.Artikel;
@@ -22,7 +23,7 @@ public interface ISolrService
      *            Filterprofil nach dem die Suche gefiltert werden soll.
      * @return Liste der Artikel, die dem Filterprofil entsprechen.
      */
-    List<Artikel> sucheArtikel(List<Filterprofil> filterprofile);
+    List<Artikel> sucheArtikel(List<Filterprofil> filterprofile, Date letzteSuche);
 
     /**
      * Sucht passende Artikel zu einem gegebenen FilterProfil.
