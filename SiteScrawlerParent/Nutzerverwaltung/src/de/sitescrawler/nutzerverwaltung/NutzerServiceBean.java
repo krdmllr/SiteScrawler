@@ -90,7 +90,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
     public void nutzerSpeichern(Nutzer nutzer)
     {
         NutzerServiceBean.LOGGER.info("Nutzer " + nutzer + " wird persistiert.");
-        this.entityManager.persist(nutzer);
+        nutzer = this.entityManager.merge(nutzer);
     }
 
     @Override
@@ -131,6 +131,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
         this.initNewNutzer(nutzer);
 
         this.nutzerSpeichern(nutzer);
+        NutzerServiceBean.LOGGER.info("Neuer Nutzer " + nutzer + " wurde registriert.");
     }
 
     @Override
@@ -165,7 +166,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
     @Override
     public List<Nutzer> getAlleAdministratoren()
     {
-        TypedQuery<Rolle> query = this.entityManager.createQuery("SELECT r FROM Rolle r WHERE r.rolle = Admin", Rolle.class);
+        TypedQuery<Rolle> query = this.entityManager.createQuery("SELECT r FROM Rolle r WHERE r.rolle = 'Admin'", Rolle.class);
         Rolle admin = query.getSingleResult();
         return new ArrayList<>(admin.getNutzer());
 
@@ -180,5 +181,7 @@ public class NutzerServiceBean implements INutzerService, Serializable
         Filterprofilgruppe filterprofilgruppe = new Filterprofilgruppe(nutzer, new Intervall(ZeitIntervall.TAEGLICH), "Meine Gruppe");
         filterprofilgruppe.setNutzer(nutzer);
         nutzer.getFilterprofilgruppen().add(filterprofilgruppe);
+        nutzer.setEmpfangehtmlmails(false);
+        nutzer.setMaxfiltergruppe(1);
     }
 }
