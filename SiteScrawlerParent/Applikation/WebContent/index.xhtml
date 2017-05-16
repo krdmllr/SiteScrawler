@@ -72,7 +72,7 @@
 									update="artikelBereich @form"
 									action="#{archiv.buttonAction(eintrag)}">
 									<h:outputText value="#{eintrag.erstellungsdatum}">
-										<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
+										<f:convertDateTime type="date" pattern="dd.MM.yyyy HH:mm" />
 									</h:outputText>
 								</p:commandLink>
 							</h:form>
