@@ -49,27 +49,17 @@
 						<h:form>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.vorname}"
-									placeholder="Vorname" class="form-control"
-									requiredMessage="Bitte Vorname eingeben"
-									validatorMessage="Nicht valider Vorname (Nur Groß- bzw. Kleinbuchstaben)">
-									<f:validateRegex pattern="[a-zA-Z]+" />
+									placeholder="Vorname" class="form-control">
 								</p:inputText>
 							</div>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.nachname}"
-									placeholder="Nachname" class="form-control"
-									requiredMessage="Bitte Nachname eingeben"
-									validatorMessage="Nicht valider Nachname (Nur Groß- bzw. Kleinbuchstaben)">
-									<f:validateRegex pattern="[a-zA-Z]+" />
+									placeholder="Nachname" class="form-control">
 								</p:inputText>
 							</div>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.email}"
-									placeholder="E-Mail" class="form-control"
-									requiredMessage="Bitte Email eingeben"
-									validatorMessage="Nicht valide Mail">
-									<f:validateRegex
-										pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+									placeholder="E-Mail" class="form-control">
 								</p:inputText>
 							</div>
 							<div class="form-group">
