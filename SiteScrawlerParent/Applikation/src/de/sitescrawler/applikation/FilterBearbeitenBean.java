@@ -1,6 +1,7 @@
 package de.sitescrawler.applikation;
 
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,6 +62,8 @@ public class FilterBearbeitenBean implements Serializable {
 
 	private Filterprofil zuAenderndesProfil = new Filterprofil();
 	private Filterprofil zuAenderndesProfilOriginal;
+	
+	private String gewaehlteEinzelUhrzeit; 
 
 	public void setParameter(Filterprofilgruppe filtergruppe, Set<Filterprofil> filterprofile) {
 		this.filtergruppe = filtergruppe;
@@ -71,6 +74,14 @@ public class FilterBearbeitenBean implements Serializable {
 			gewaehlteZeiten.add(zeitZuString(zeit.getUhrzeit()));
 		}
 	} 
+
+	public DayOfWeek[] getMoeglicheWochentage(){
+		return new DayOfWeek[]{DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY};
+	}
+	
+	public String[] getMoeglicheUhrzeiten(){
+		return new String[]{"00:00", "00:01", "00:02", "00:03", "00:04", "00:05", "00:06", "00:07", "00:08", "00:09", "00:10", "00:11", "00:12", "00:13", "00:14", "00:15", "00:16", "00:17", "00:18", "00:19",  "00:20", "00:21", "00:22", "00:23"};
+	}
 	
 	private String zeitZuString(Date date)
 	{
@@ -117,6 +128,21 @@ public class FilterBearbeitenBean implements Serializable {
 		filterManager.speichereAenderung(getFiltergruppe().getFiltermanager());
 
 		speichereAenderungAnFiltergruppe(" gewähltes Intervall: " + ausgewaehlteTagesoption);
+	}
+	
+	public void speichereMonatlichenTermin(){ 
+		String stunde = gewaehlteEinzelUhrzeit.replaceAll("[0:]+","");
+		Date stundeAlsZeit = stringZuDate(stunde); 
+		speichereAenderungAnFiltergruppe("Monatlicher Termin: " + filtergruppe.getMonatlicherTermin());
+	}
+	
+	public void speichereWoechentlichenTermin(){ 
+		
+		speichereAenderungAnFiltergruppe("Wöchentlicher Termin: " + filtergruppe.getWochentag());
+	}
+	
+	public void speichereEmailVersenden(){
+		speichereAenderungAnFiltergruppe("Versende Email: " + filtergruppe.getVerschickeemail());
 	}
 
 	public Set<Filterprofil> getFilterprofile() {
@@ -316,4 +342,11 @@ public class FilterBearbeitenBean implements Serializable {
 		LOGGER.log(Level.INFO, "Änderung an " + getFiltergruppe().getFiltermanager() + ": " + beschreibung);
 	}
 
+	public String getGewaehlteEinzelUhrzeit() {
+		return gewaehlteEinzelUhrzeit;
+	}
+
+	public void setGewaehlteEinzelUhrzeit(String gewaehlteEinzelUhrzeit) {
+		this.gewaehlteEinzelUhrzeit = gewaehlteEinzelUhrzeit;
+	}  
 }

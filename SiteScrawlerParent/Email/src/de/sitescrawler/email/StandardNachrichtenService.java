@@ -33,12 +33,12 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "Ihr neues Konto bei sitescrawler.de";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Herzlich willkommen " + nutzer.getGanzenNamen()+ "!");
-        bodyBuilder.append("Ihr Konto wurde erfolgreich angelegt.");
-        bodyBuilder.append("");
-        bodyBuilder.append(this.BITTE_PASSWORT_SETZEN);
-        bodyBuilder.append(this.PASSWORT_TEXT + nutzer.getPasswort());
-        bodyBuilder.append("");
+        bodyBuilder.append("Herzlich willkommen " + nutzer.getGanzenNamen() + "!\n");
+        bodyBuilder.append("Ihr Konto wurde erfolgreich angelegt.\n");
+        bodyBuilder.append("\n");
+        bodyBuilder.append(this.BITTE_PASSWORT_SETZEN + "\n");
+        bodyBuilder.append(this.PASSWORT_TEXT + nutzer.getPasswort() + "\n");
+        bodyBuilder.append("\n");
         bodyBuilder.append("- SiteScrawler Team");
         String body = bodyBuilder.toString();
 
@@ -50,12 +50,12 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "Ihr neues Konto bei sitescrawler.de";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Herzlich willkommen " + nutzer.getGanzenNamen()+ "!");
-        bodyBuilder.append("Das Unternehmen " + firma.getName() + " hat für Sie einen Account angelegt.");
-        bodyBuilder.append("");
-        bodyBuilder.append(this.BITTE_PASSWORT_SETZEN);
-        bodyBuilder.append(this.PASSWORT_TEXT + nutzer.getPasswort());
-        bodyBuilder.append("");
+        bodyBuilder.append("Herzlich willkommen " + nutzer.getGanzenNamen() + "!\n");
+        bodyBuilder.append("Das Unternehmen " + firma.getName() + " hat für Sie einen Account angelegt.\n");
+        bodyBuilder.append("\n");
+        bodyBuilder.append(this.BITTE_PASSWORT_SETZEN + "\n");
+        bodyBuilder.append(this.PASSWORT_TEXT + nutzer.getPasswort() + "\n");
+        bodyBuilder.append("\n");
         bodyBuilder.append("- SiteScrawler Team");
         String body = bodyBuilder.toString();
 
@@ -68,8 +68,8 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "Passwort auf sitescrawler.de geändert";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen()+ ".");
-        bodyBuilder.append("Wir senden Ihnen diese Nachricht, um Sie darüber zu informieren, dass Ihr Passwort auf sitescrawler.de geändert wurde.");
+        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen() + ".\n");
+        bodyBuilder.append("Wir senden Ihnen diese Nachricht, um Sie darüber zu informieren, dass Ihr Passwort auf sitescrawler.de geändert wurde.\n");
         // TODO Schreibe was man machen soll, wenn man das net selbst war.
         bodyBuilder.append("- SiteScrawler Team");
         String body = bodyBuilder.toString();
@@ -90,11 +90,11 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "Ihr Passwort auf sitescrawler.de wurde zurückgesetzt.";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen()+ ".");
-        bodyBuilder.append("");
-        bodyBuilder.append(this.BITTE_PASSWORT_SETZEN);
-        bodyBuilder.append(this.PASSWORT_TEXT + nutzer.getPasswort());
-        bodyBuilder.append("");
+        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen() + ".\n");
+        bodyBuilder.append("\n");
+        bodyBuilder.append(this.BITTE_PASSWORT_SETZEN + "\n");
+        bodyBuilder.append(this.PASSWORT_TEXT + nutzer.getPasswort() + "\n");
+        bodyBuilder.append("\n");
         bodyBuilder.append("- SiteScrawler Team");
         String body = bodyBuilder.toString();
 
@@ -107,10 +107,10 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "SiteScrawler: Sie wurden aus " + firma.getName() + " entfernt.";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen()+ ".");
-        bodyBuilder.append("");
-        bodyBuilder.append("Sie wurden als Mitglied der Firma " + firma.getName() + " von " + ausfuehrenderNutzer.getGanzenNamen() + " entfernt.");
-        bodyBuilder.append("");
+        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen() + ".\n");
+        bodyBuilder.append("\n");
+        bodyBuilder.append("Sie wurden als Mitglied der Firma " + firma.getName() + " von " + ausfuehrenderNutzer.getGanzenNamen() + " entfernt.\n");
+        bodyBuilder.append("\n");
         bodyBuilder.append("- SiteScrawler Team");
         String body = bodyBuilder.toString();
 
@@ -130,10 +130,10 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "SiteScrawler: Sie wurden zu Firma " + firma.getName() + " hinzugefügt.";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen()+ ".");
-        bodyBuilder.append("");
-        bodyBuilder.append("Sie wurden als Mitglied zur Firma " + firma.getName() + " hinzugefügt.");
-        bodyBuilder.append("");
+        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen() + ".\n");
+        bodyBuilder.append("\n");
+        bodyBuilder.append("Sie wurden als Mitglied zur Firma " + firma.getName() + " hinzugefügt.\n");
+        bodyBuilder.append("\n");
         bodyBuilder.append("- SiteScrawler Team");
         String body = bodyBuilder.toString();
 
@@ -155,10 +155,10 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
 
         String betreff = "SiteScrawler: Firma " + firma.getName() + " wurde entfernt.";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Sehr geehrter Nutzer,");
-        bodyBuilder.append("");
-        bodyBuilder.append("Die Firma " + firma.getName() + " wurde von SiteScrawler.de entfernt.");
-        bodyBuilder.append("");
+        bodyBuilder.append("Sehr geehrter Nutzer,\n");
+        bodyBuilder.append("\n");
+        bodyBuilder.append("Die Firma " + firma.getName() + " wurde von SiteScrawler.de entfernt.\n");
+        bodyBuilder.append("\n");
         bodyBuilder.append("- SiteScrawler Team");
         String body = bodyBuilder.toString();
 
@@ -168,19 +168,56 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
         }
         catch (ServiceUnavailableException e)
         {
-            StandardNachrichtenService.LOGGER.log(Level.SEVERE, "Sende von Information, dass Nutzer firma zugeteilt wurde fehlgeschlagen", e);
+            StandardNachrichtenService.LOGGER.log(Level.SEVERE, "Senden von Information, dass Nutzer firma zugeteilt wurde fehlgeschlagen", e);
         }
     }
 
-	@Override
-	public void firmaAngenommen(Firma firma) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void firmaAngenommen(Firma firma)
+    {
+        List<Nutzer> nutzer = firma.getMitarbeiter().stream().map((mitarbeiter) -> mitarbeiter.getNutzer()).collect(Collectors.toList());
 
-	@Override
-	public void firmaAbgelehnt(Firma firma) {
-		// TODO Auto-generated method stub
-		
-	}
+        String betreff = "SiteScrawler: Firma " + firma.getName() + " wurde angenommen.";
+        StringBuilder bodyBuilder = new StringBuilder();
+        bodyBuilder.append("Sehr geehrter Nutzer,\n");
+        bodyBuilder.append("\n");
+        bodyBuilder.append("Die Firma " + firma.getName() + " wurde von SiteScrawler.de angenommen.\n");
+        bodyBuilder.append("\n");
+        bodyBuilder.append("- SiteScrawler Team");
+        String body = bodyBuilder.toString();
+
+        try
+        {
+            this.mailSenderService.sendeMail(nutzer, betreff, body, false, null);
+        }
+        catch (ServiceUnavailableException e)
+        {
+            StandardNachrichtenService.LOGGER.log(Level.SEVERE, "Senden von Information, dass Firma angenommen wurde fehlgeschlagen", e);
+        }
+    }
+
+    @Override
+    public void firmaAbgelehnt(Firma firma)
+    {
+        List<Nutzer> nutzer = firma.getMitarbeiter().stream().map((mitarbeiter) -> mitarbeiter.getNutzer()).collect(Collectors.toList());
+
+        String betreff = "SiteScrawler: Firma " + firma.getName() + " wurde abgelehnt.";
+        StringBuilder bodyBuilder = new StringBuilder();
+        bodyBuilder.append("Sehr geehrter Nutzer,\n");
+        bodyBuilder.append("\n");
+        bodyBuilder.append("Die Firma " + firma.getName() + " wurde von SiteScrawler.de abgelehnt.\n");
+        bodyBuilder.append("\n");
+        bodyBuilder.append("- SiteScrawler Team");
+        String body = bodyBuilder.toString();
+
+        try
+        {
+            this.mailSenderService.sendeMail(nutzer, betreff, body, false, null);
+        }
+        catch (ServiceUnavailableException e)
+        {
+            StandardNachrichtenService.LOGGER.log(Level.SEVERE, "Senden von Information, dass Firma abgelehnt wurde fehlgeschlagen", e);
+        }
+    }
 
 }

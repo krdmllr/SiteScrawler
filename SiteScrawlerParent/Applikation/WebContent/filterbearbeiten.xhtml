@@ -24,7 +24,12 @@
 						<p>Erstellungsrhythmus</p>
 
 						<div>
-							<input type="checkbox" /> E-Mail Benachrichtung
+						<b:form>
+							<b:switch label-text="E-Mail an Mitarbeiter" on-text="Ja" off-text="Nein" value="#{filterbearbeiten.filtergruppe.verschickeemail}">
+								
+							</b:switch>
+								<b:commandButton value="Speichern" action="#{filterbearbeiten.speichereEmailVersenden()}"></b:commandButton>
+							</b:form>
 						</div>
 						<div>
 							<h:form id="tages-option">
@@ -47,6 +52,30 @@
 								</div>
 							</h:form>
 						</div>
+						
+						<!-- Monatlich: Tag -->
+						<h:form id="monatlich-tag" rendered="#{filterbearbeiten.monatlich}">
+							<b:inputText type="number" value="#{filterbearbeiten.filtergruppe.monatlicherTermin}"></b:inputText>
+							<b:selectOneMenu value="#{filterbearbeiten.gewaehlteEinzelUhrzeit}">
+							<f:selectItems value="#{filterbearbeiten.moeglicheUhrzeiten}"></f:selectItems>
+							</b:selectOneMenu>
+							
+							<b:commandButton value="Zeit Speichern" action="#{filterbearbeiten.speichereMonatlichenTermin()}" ajax="false"></b:commandButton>
+						</h:form>
+						
+						<!-- Wöchentlicher/Zweiwöchentlicher Termin: Tag/Zeit -->
+						<h:form id="wochen-tag" rendered="#{filterbearbeiten.woechentlich||filterbearbeiten.zweiWoechentlich}"> 	
+							<b:selectOneMenu value="#{filterbearbeiten.filtergruppe.wochentag}">
+								<f:selectItems value="#{filterbearbeiten.moeglicheWochentage}"></f:selectItems>
+							</b:selectOneMenu>
+						
+							<b:selectOneMenu value="#{filterbearbeiten.gewaehlteEinzelUhrzeit}">
+								<f:selectItems value="#{filterbearbeiten.moeglicheUhrzeiten}"></f:selectItems>
+							</b:selectOneMenu>
+							
+							<b:commandButton value="Zeit Speichern" action="#{filterbearbeiten.speichereWoechentlichenTermin()}" ajax="false"></b:commandButton>
+						</h:form>
+						
 
 						<!-- Uhrzeiten -->
 						<h:form id="tageszeiten" rendered="#{filterbearbeiten.taeglich}">

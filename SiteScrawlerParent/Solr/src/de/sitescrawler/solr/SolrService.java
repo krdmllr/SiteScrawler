@@ -2,10 +2,8 @@ package de.sitescrawler.solr;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -21,11 +19,16 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 
+import com.mysql.jdbc.Util;
+
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofil;
 import de.sitescrawler.solr.interfaces.ISolrService;
+import de.sitescrawler.utility.DateUtils;
 
 /**
+ * Diese Klasse stellt Methoden zum Indizieren aller gefundenen Artikel und Bereitstellen von gesuchten Artikeln. 
+ * Dies ermöglicht es, die gespeicherten Artikel schnell zu durchsuchen.
  * @author Marcel, William
  *
  */
@@ -40,8 +43,8 @@ public class SolrService implements ISolrService, Serializable
 
     // TODO: in config-Datei auslagern
     // private static final String SolrUrl = "http://sitescrawler.de:8983/solr/testdaten";
-    private static final String SolrUrl = "http://sitescrawler.de:8983/solr/spielwiesewilliam";
-    //private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";
+    //private static final String SolrUrl = "http://sitescrawler.de:8983/solr/spielwiesewilliam";
+    private static final String           SolrUrl          = "http://sitescrawler.de:8983/solr/sitescrawler_dev_solr";
     private static final SimpleDateFormat formatter        = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     public SolrService()
@@ -88,9 +91,9 @@ public class SolrService implements ISolrService, Serializable
     	{
     		addSuchstring(solrQuery, fp.getTagstring());
     	}
-    	
-    	optionSucheArtikelinZeitraum(solrQuery, letzteSuche, null);
-    	 
+    	if(letzteSuche!=null){
+    	    optionSucheArtikelinZeitraum(solrQuery, letzteSuche, null);    	    
+    	}
     	LOGGER.info("Durchsuche Solr nach. " + solrQuery);
     	
     	List<Artikel> solrErgebnis = getArtikel(solrQuery);
@@ -115,7 +118,6 @@ public class SolrService implements ISolrService, Serializable
         return this.getArtikel(solrQuery);
     }
 
-  //TODO Modellierung
     private List<Artikel> getArtikel(SolrQuery solrQuery)
     {
         List<Artikel> artikel = new ArrayList<>();
@@ -130,7 +132,6 @@ public class SolrService implements ISolrService, Serializable
         } 
         return artikel;
     }
-
 
     /*
      * (non-Javadoc)
@@ -191,16 +192,16 @@ public class SolrService implements ISolrService, Serializable
         artikel.setAbsaetzeArtikel(solrArtikel.getAbsaetzeArtikel());
         artikel.setAutor(solrArtikel.getAutor());
         artikel.setBeschreibung(solrArtikel.getBeschreibung());
-        artikel.setErstellungsdatum(solrArtikel.getErstellungsdatum());
+        Date korrigiertesDate = de.sitescrawler.utility.DateUtils.asDate(DateUtils.asLocalDateTime(solrArtikel.getErstellungsdatum()).plusHours(2));
+        
+        artikel.setErstellungsdatum(korrigiertesDate);
         artikel.setFavoritenzahl(solrArtikel.getFavoritenzahl());
         artikel.setRetweetzahl(solrArtikel.getRetweetzahl());
         artikel.setTitel(solrArtikel.getTitel());
         artikel.setQid(solrArtikel.getQid());
     }
         
-  //TODO Modellierung
     /**
-     * 
      * Fuegt der SolrQuery die Bedingung hinzu, in einem definierten Zeitintervall nach Artikeln zu suchen.
      * 
      * @param solrQuery Die aktuelle SolrQuery.
@@ -223,9 +224,7 @@ public class SolrService implements ISolrService, Serializable
 
     }
     
-  //TODO Modellierung
     /**
-     * 
      * Fuegt der SolrQuery die Bedingung hinzu, nur eine bestimmte Anzahl an Ergebnissen zu erhalten.
      * 
      * @param solrQuery Die aktuelle SolrQuery.
@@ -235,13 +234,12 @@ public class SolrService implements ISolrService, Serializable
         solrQuery.set("rows", maxArtikel);
 //        SolrService.LOGGER.log(Level.INFO, "Ergebnisanzahl wurde auf " + maxArtikel + " reduziert.");
     }
+    
     /**
      * Fuegt einen Suchstring der SolrQuery hinzu.
      * @param solrQuery Die aktuelle SolrQuery.
-     * @param suchstring
+     * @param suchstring Der Suchstring, der der Suche hinzugefügt werden soll.
      */
-    
-  //TODO Modellierung
     private void addSuchstring(SolrQuery solrQuery, String suchstring){
         if(solrQuery.get("q")==null){
             solrQuery.set("q", suchstring);
@@ -252,10 +250,9 @@ public class SolrService implements ISolrService, Serializable
         SolrService.LOGGER.log(Level.INFO, "Suchstring " + suchstring + " hinzugefuegt.");
     }
     
-  //TODO Modellierung
     /**
-     * 
      * Fuegt der SolrQuery die Bedingung hinzu, dass ein bestimmter Prozentanteil von Suchbegriffen in den Artikeln vorliegen muss.
+     * 
      * @param solrQuery Die aktuelle SolrQuery.
      * @param prozentQuote Anteil der gewuenschten Suchbegriffe in Prozent
      */
