@@ -65,8 +65,8 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
     public Nutzer()
     {
     }
-    
-    public Nutzer(String email,  String vorname, String nachname)
+
+    public Nutzer(String email, String vorname, String nachname)
     {
         this.email = email;
         this.vorname = vorname;
@@ -105,14 +105,18 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
 
     // Unmapped
     @Transient
-    public boolean isAdministrator(){
-    	for(Rolle r: getRollen()){ 
-    		if(r.getRolle().equals("Admin"))
-    			return true;
-    	}
-    	return false;
+    public boolean isAdministrator()
+    {
+        for (Rolle r : this.getRollen())
+        {
+            if (r.getRolle().equals("Admin"))
+            {
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     @Transient
     public String getGanzenNamen()
     {
@@ -204,7 +208,7 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
     }
 
     @Override
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinTable(name = "empfaenger", joinColumns = { @JoinColumn(name = "Nutzer_Filtermanager_identifikation", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Filtergruppe_FilterprofilgruppeId", nullable = false, updatable = false) })
     public Set<Filterprofilgruppe> getFilterprofilgruppen()
@@ -243,6 +247,37 @@ public class Nutzer extends Filtermanager implements java.io.Serializable
     public String toString()
     {
         return this.vorname + " " + this.nachname + " " + this.email;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (this.getClass() != obj.getClass())
+        {
+            return false;
+        }
+        Nutzer other = (Nutzer) obj;
+        if (this.email == null)
+        {
+            if (other.email != null)
+            {
+                return false;
+            }
+        }
+        else
+            if (!this.email.equals(other.email))
+            {
+                return false;
+            }
+        return true;
     }
 
 }

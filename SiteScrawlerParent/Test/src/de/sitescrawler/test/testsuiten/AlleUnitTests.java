@@ -1,5 +1,6 @@
 package de.sitescrawler.test.testsuiten;
 
+import org.jglue.cdiunit.CdiRunner;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -13,7 +14,7 @@ import de.sitescrawler.test.unittests.PDFUnitTest;
 import de.sitescrawler.test.unittests.ReporterUnitTest;
 import de.sitescrawler.test.unittests.SolrUnitTest;
 
-@RunWith(Suite.class)
+@RunWith(CdiRunner.class)
 @Suite.SuiteClasses({ BeispielUnitTest.class, CrawlerUnitTest.class, EmailUnitTest.class, FirmenverwaltungUnitTest.class, FormatierungUnitTest.class,
                       NutzerverwaltungUnitTest.class, PDFUnitTest.class, ReporterUnitTest.class, SolrUnitTest.class })
 

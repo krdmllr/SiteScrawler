@@ -73,20 +73,26 @@ public class FirmenService implements Serializable, IFirmenService
     }
 
     @Override
-    public boolean firmaBeantragen(String firmenName, String firmenMail, String kommentar)
+    public boolean firmaBeantragen(Firma firma, String kommentar)
     {
+        String firmenMail = firma.getFirmenmail();
         if (!this.istFirmenMailVerfuegbar(firmenMail))
         {
             FirmenService.LOGGER.info("Firmenmail " + firmenMail + " ist nicht verfügbar.");
             return false;
         }
-        Firma firma = new Firma(firmenName);
-        // Set firmen Email
-        firma.setFirmenmail(firmenMail);
         // Set Status auf Beantragt
         firma.setStatus(Firmenstatus.BEANTRAGT);
         firma.setMaxfiltergruppe(20);
         // Speichere neue Firma in Datenbank
+        firma = this.firmaSpeichern(firma);
+        // ergänze Firma um admin
+        Nutzer nutzer = this.nutzerDatenService.getNutzer();
+        Mitarbeiter mitarbeiter = new Mitarbeiter(firma, nutzer);
+        mitarbeiter.setFirmenrolle(Firmenrolle.Administrator);
+        firma.getMitarbeiter().add(mitarbeiter);
+        nutzer.getMitarbeiter().add(mitarbeiter);
+        nutzer.getFirmen().add(firma);
         firma = this.firmaSpeichern(firma);
 
         // Sende Information an alle Administratoren
@@ -144,15 +150,20 @@ public class FirmenService implements Serializable, IFirmenService
     }
 
     @Override
-    public void bestehendenNutzerEinladen(Nutzer bestehenderNutzer, Firma firma) throws Exception
+    public void bestehendenNutzerEinladen(String nutzerEmail, Firma firma) throws Exception
     {
         this.istNutzerBerechtigt(firma, Firmenrolle.Administrator);
+        // lade nutzer mit der nutzerEmail aus DB
+        Nutzer nutzer = this.nutzerService.getNutzer(nutzerEmail);
 
-        Mitarbeiter mitarbeiter = new Mitarbeiter(firma, bestehenderNutzer);
-        bestehenderNutzer.getMitarbeiter().add(mitarbeiter);
-        bestehenderNutzer.getFirmen().add(firma);
+        Mitarbeiter mitarbeiter = new Mitarbeiter(firma, nutzer);
+        mitarbeiter.setFirmenrolle(Firmenrolle.Mitarbeiter);
+        nutzer.getMitarbeiter().add(mitarbeiter);
+        nutzer.getFirmen().add(firma);
+        firma.getMitarbeiter().add(mitarbeiter);
+        this.nutzerService.nutzerSpeichern(nutzer);
 
-        this.standardNachrichten.zuFirmaHinzugefuegt(bestehenderNutzer, firma, this.ausfuehrenderNutzer);
+        this.standardNachrichten.zuFirmaHinzugefuegt(nutzer, firma, this.ausfuehrenderNutzer);
     }
 
     private void istNutzerBerechtigt(Firma firma, Firmenrolle benoetigteRolle) throws Exception

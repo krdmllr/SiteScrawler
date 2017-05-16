@@ -1,16 +1,16 @@
 package de.sitescrawler.firmenverwaltung.interfaces;
- 
+
 import java.util.List;
 
 import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Mitarbeiter;
-import de.sitescrawler.jpa.Nutzer; 
+import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.Firmenrolle;
 
 /**
  * Service zum Verwalten von bestehenden Firmen.
- * 
+ *
  * @author konrad mueller
  */
 public interface IFirmenService
@@ -18,7 +18,7 @@ public interface IFirmenService
 
     /**
      * Ermittelt ob ein Firmenname noch verf�gbar ist.
-     * 
+     *
      * @param name
      *            Der zu prüfende Firmenname.
      * @return Ob der name noch verfügbar ist.
@@ -27,7 +27,7 @@ public interface IFirmenService
 
     /**
      * Beantragt eine neue Firmen Entit�t. Der Antrag wird anschlie�end gepr�ft und manuell freigeschaltet.
-     * 
+     *
      * @param nutzer
      *            Der Nutzer, welcher die Firma beantragt.
      * @param firmenName
@@ -36,43 +36,42 @@ public interface IFirmenService
      *            Kommentar zu Firmenbeantragung.
      * @return Ob der Antrag erfolgreich erstellt wurde.
      */
-    boolean firmaBeantragen(String firmenName, String firmenMail, String kommentar);
+    boolean firmaBeantragen(Firma firma, String kommentar);
 
     /**
      * L�dt einen Nutzer zur Firma ein.
-     * 
+     *
      * @param firma
      *            Einladende Firma.
      * @param email
      *            Email des neuen Mitarbeiters.
      * @param angemeldeterNutzer
      *            Angemeldeter Nutzer von dem die Action ausgeht, muss Firmenadministrator sein.
-     * @throws ServiceUnavailableException 
-     * @throws Exception 
+     * @throws ServiceUnavailableException
+     * @throws Exception
      */
     void nutzerEinladen(Firma firma, String email, String vorname, String nachname) throws ServiceUnavailableException, Exception;
 
-    //TODO KOMMENTARE
-    void bestehendenNutzerEinladen(Nutzer bestehenderNutzer, Firma firma)
-			throws Exception;
-    
+    // TODO KOMMENTARE
+    void bestehendenNutzerEinladen(String nutzerEmail, Firma firma) throws Exception;
+
     /**
      * Entfernt einen Nutzer aus der Mitarbeitergruppe einer Firma.
-     * 
+     *
      * @param firma
      *            Firma von dessen Mitarbeitern der Nutzer entfernt wird.
      * @param zuEntfernenderNutzer
      *            Nutzer der von den Mitarbeitern entfernt wird.
      * @param angemeldeterNutzer
      *            Angemeldeter Nutzer von dem die Action ausgeht, muss Firmenadministrator sein.
-     * @throws NotFoundException 
-     * @throws Exception 
+     * @throws NotFoundException
+     * @throws Exception
      */
     void nutzerEntfernen(Firma firma, Mitarbeiter zuEntfernenderNutzer) throws Exception;
 
     /**
      * Setzt, ob ein Nutzer Adminstatus f�r eine Firma erhalten soll.
-     * 
+     *
      * @param firma
      *            Einladende Firma.
      * @param nutzer
@@ -81,30 +80,33 @@ public interface IFirmenService
      *            Neue Rolle des Nutzers.
      * @param angemeldeterNutzer
      *            Angemeldeter Nutzer von dem die Action ausgeht, muss Firmenadministrator sein.
-     * @throws NotFoundException 
-     * @throws Exception 
+     * @throws NotFoundException
+     * @throws Exception
      */
     void setzeNutzerRolle(Firma firma, Mitarbeiter nutzer, Firmenrolle rolle) throws Exception;
 
     /**
      * Beantragt die Löschung einer Firma, die L�schung muss über einen Bestätigungslink best�tigt werden.
-     * 
+     *
      * @param firma
      *            Zu löschende Firma.
      * @param angemeldeterNutzer
      *            Angemeldeter Nutzer von dem die Action ausgeht, muss Firmenadministrator sein.
      */
     void loescheFirma(Firma firma, Nutzer angemeldeterNutzer);
-    
+
     /**
      * Gibt alle offenen Firmenanträge zurück.
+     *
      * @return
      */
     List<Firma> offeneFirmenAntraege();
-    
+
     /**
      * Bearbeitet den Antrag, nimmt den Antragn an oder lehnt in ab.
-     * @param annehmen Ob der Antrag angenommen werden soll.
+     *
+     * @param annehmen
+     *            Ob der Antrag angenommen werden soll.
      */
     void bearbeiteFirmenAntrag(boolean annehmen, Firma firma);
 }

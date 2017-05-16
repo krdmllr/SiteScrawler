@@ -18,9 +18,9 @@ public class FirmenManager implements IFirmenManager
 
     @Override
     @Transactional(value = TxType.REQUIRED)
-    public void speichereAenderungen(Firma firma)
+    public Firma speichereAenderungen(Firma firma)
     {
-        this.entityManager.merge(firma);
+        return this.entityManager.merge(firma);
     }
 
 }

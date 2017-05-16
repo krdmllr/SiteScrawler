@@ -55,5 +55,10 @@
 			<artifactId>Formatierung</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jglue.cdi-unit</groupId>
+			<artifactId>cdi-unit</artifactId>
+			<version>3.1.4</version>
+		</dependency>
 	</dependencies>
 </project>

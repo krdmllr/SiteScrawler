@@ -148,7 +148,7 @@ public class Filterprofilgruppe implements java.io.Serializable
         this.filtermanager = filtermanager;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "Intervall_intervall", nullable = false)
     public Intervall getIntervall()
     {
@@ -197,7 +197,7 @@ public class Filterprofilgruppe implements java.io.Serializable
         this.filterprofile = filterprofile;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinTable(name = "empfaenger", joinColumns = { @JoinColumn(name = "Filtergruppe_FilterprofilgruppeId", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Nutzer_Filtermanager_identifikation", nullable = false, updatable = false) })
     public Set<Nutzer> getEmpfaenger()
