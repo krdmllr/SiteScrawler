@@ -33,6 +33,7 @@ import twitter4j.Trends;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.URLEntity;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -73,7 +74,7 @@ public class Verarbeitung
 
         List<Artikel> gefundeneArtikel = new ArrayList<>();
 
-        Verarbeitung.LOGGER.log(Level.INFO, quelle.toString() + "...");
+        LOGGER.log(Level.INFO, quelle.toString() + "...");
 
         ArtikelZurechtschneiden artikelZurechtschneiden = new ArtikelZurechtschneiden();
 
@@ -87,7 +88,7 @@ public class Verarbeitung
             List<SyndEntry> entries = feed.getEntries();
             for (SyndEntry entry : entries)
             {
-                Verarbeitung.LOGGER.log(Level.INFO, "Parse: " + entry.getUri());
+                LOGGER.log(Level.INFO, "Parse: " + entry.getUri());
 
                 // Speichere wichtige Eigenschaften zwischen
                 String autor = entry.getAuthor();
@@ -111,12 +112,12 @@ public class Verarbeitung
                 }
                 catch (UnparsbarException e1)
                 {
-                    Verarbeitung.LOGGER.log(Level.SEVERE, "Fehler beim Parsen der Absätze: " + entry.getUri());
+                    LOGGER.log(Level.SEVERE, "Fehler beim Parsen der Absätze: " + entry.getUri());
                     // TODO Exceptions besser aufschlüsseln
                     e1.printStackTrace();
                 }
 
-                Verarbeitung.LOGGER.log(Level.INFO, String.format("Added Titel: %s%n Autor: %s%n Link: %s%n Datum: %s%n Beschreibung:%s%n Absätze:%s%n", titel,
+                LOGGER.log(Level.INFO, String.format("Added Titel: %s%n Autor: %s%n Link: %s%n Datum: %s%n Beschreibung:%s%n Absätze:%s%n", titel,
                                 autor, link, veroeffentlichungsDatum, beschreibung, absaetze.toString()));
 
                 // Erstelle einen neuen Artikel aus den gefundenen Daten und
@@ -130,11 +131,11 @@ public class Verarbeitung
         }
         catch (IllegalArgumentException | FeedException | IOException e)
         {
-            Verarbeitung.LOGGER.log(Level.SEVERE, "Fehler beim Parsen der Seite!");
+            LOGGER.log(Level.SEVERE, "Fehler beim Parsen der Seite!");
             e.printStackTrace();
         }
 
-        Verarbeitung.LOGGER.log(Level.INFO, "Crawl von " + quelle.getName() + " fertig. " + gefundeneArtikel.size() + " Artikel gefunden.");
+        LOGGER.log(Level.INFO, "Crawl von " + quelle.getName() + " fertig. " + gefundeneArtikel.size() + " Artikel gefunden.");
         return gefundeneArtikel;
     }
 
@@ -147,6 +148,8 @@ public class Verarbeitung
      */
     private List<Artikel> durchsucheTwitter(boolean sendeAnSolr, Quelle twitterQuelle)
     {
+    	LOGGER.info("Starte Twitter crawling.");
+    	
         List<Artikel> gefundeneArtikel = new ArrayList<>();
 
         String consumerKey = this.projectConfig.getConsumerKey();
@@ -176,29 +179,38 @@ public class Verarbeitung
                 result = twitter.search(query);
                 List<Status> tweets = result.getTweets();
 
-                // Artikel aus den Tweets erzeugen
-                for (Status tweet : tweets)
-                {
-
-                    String url = "https://twitter.com/" + tweet.getUser().getScreenName() + "/status/" + tweet.getId();
-                    Artikel artikel = new Artikel(tweet.getCreatedAt(), tweet.getUser().getScreenName(), "Tweet" + tweet.getId(), tweet.getText(), url,
-                                                  twitterQuelle);
-                    artikel.setFavoritenzahl(tweet.getFavoriteCount());
-                    artikel.setRetweetzahl(tweet.getRetweetCount());
-                    gefundeneArtikel.add(artikel);
-                    // Verarbeitung.LOGGER.log(Level.INFO,
-                    // "Tweet gefunden: @" + tweet.getUser().getScreenName() + " - " + tweet.getText());
-                }
-            }
-            this.persistiereArtikel(sendeAnSolr, gefundeneArtikel);
-        }
-        catch (TwitterException e)
-        {
-            Verarbeitung.LOGGER.log(Level.SEVERE, "Fehler beim holen der Trends!");
-            e.printStackTrace();
-        }
-
-        Verarbeitung.LOGGER.log(Level.INFO, "Crawl von Twitter abgeschlossen. Tweets gefunden: " + gefundeneArtikel.size());
+				// Artikel aus den Tweets erzeugen
+				for (Status tweet : tweets) {
+					if(tweet.getFavoriteCount() <5)
+						continue;
+					
+					String inhalt = tweet.getText();
+					
+					//Hole URL Entities und füge die ungekürzte URL im Inhalt ein
+					for (URLEntity urle : tweet.getURLEntities())
+					{
+						 String embeddedURL = urle.getExpandedURL();
+					    inhalt = inhalt.replace(urle.getDisplayURL(), urle.getExpandedURL());
+					    inhalt = inhalt.replace(urle.getURL(), urle.getExpandedURL()); 
+					}
+					
+					String url = "https://twitter.com/" + tweet.getUser().getScreenName() + "/status/" + tweet.getId();
+					
+					Artikel artikel = new Artikel(tweet.getCreatedAt(), tweet.getUser().getScreenName(),
+							"Tweet" + tweet.getId(), inhalt, url, twitterQuelle);
+					artikel.setFavoritenzahl(tweet.getFavoriteCount());
+					artikel.setRetweetzahl(tweet.getRetweetCount());
+					gefundeneArtikel.add(artikel); 
+					LOGGER.log(Level.INFO,
+							"Tweet gefunden: @" + tweet.getUser().getScreenName() + " - " + inhalt); 
+				}
+			}
+			persistiereArtikel(sendeAnSolr, gefundeneArtikel);
+		} catch (TwitterException e) {
+			LOGGER.log(Level.SEVERE, "Fehler beim holen der Trends!");
+			e.printStackTrace();
+		}  
+        LOGGER.log(Level.INFO, "Crawl von Twitter abgeschlossen. Tweets gefunden: " + gefundeneArtikel.size());
         return gefundeneArtikel;
     }
 
