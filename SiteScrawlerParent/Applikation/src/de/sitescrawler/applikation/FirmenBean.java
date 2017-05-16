@@ -34,41 +34,41 @@ public class FirmenBean implements Serializable
 {
 
     // Globalen Logger holen
-    private final static Logger LOGGER           = Logger.getLogger("de.sitescrawler.logger");
+    private final static Logger   LOGGER           = Logger.getLogger("de.sitescrawler.logger");
 
-    private static final long   serialVersionUID = 1L;
-
-    @Inject
-    private DataBean            dataBean;
+    private static final long     serialVersionUID = 1L;
 
     @Inject
-    private IFirmenManager      firmenManager;
+    private DataBean              dataBean;
 
     @Inject
-    private IFirmenService      firmenService;
+    private IFirmenManager        firmenManager;
+
+    @Inject
+    private IFirmenService        firmenService;
 
     @Inject
     private IFilterManagerManager filterManager;
 
-    //Die aktuell ausgewählte Firma die bearbeitet wird.
-    private Firma               ausgewaehlteFirma;
+    // Die aktuell ausgewählte Firma die bearbeitet wird.
+    private Firma                 ausgewaehlteFirma;
 
-    //Hält die neue Email eines Mitarbeiters wenn dieser zur Firma hinzugefügt wird.
-    private String              neuerMitarbeiterEmail;
+    // Hält die neue Email eines Mitarbeiters wenn dieser zur Firma hinzugefügt wird.
+    private String                neuerMitarbeiterEmail;
 
-    private Filterprofilgruppe  aktuelleFiltergruppe;
+    private Filterprofilgruppe    aktuelleFiltergruppe;
 
-    private String              neuerNutzerEmail;
+    private String                neuerNutzerEmail;
 
-    private Nutzer              neuerNutzer      = new Nutzer();
+    private Nutzer                neuerNutzer      = new Nutzer();
 
-    private Nutzer              bestehenderNutzer;
+    private Nutzer                bestehenderNutzer;
 
-    private Firma               neueFirma        = new Firma();
+    private Firma                 neueFirma        = new Firma();
 
-    private String              neueFirmaKommentar;
+    private String                neueFirmaKommentar;
 
-    private String              neueFiltergruppe;
+    private String                neueFiltergruppe;
 
     @PostConstruct
     void init()
@@ -95,7 +95,7 @@ public class FirmenBean implements Serializable
         Mitarbeiter mitarbeiterProfilVonNutzer = null;
         for (Mitarbeiter m : this.getAusgewaehlteFirma().getMitarbeiter())
         {
-            if (m.getNutzer() == this.dataBean.getNutzer())
+            if (m.getNutzer().equals(this.dataBean.getNutzer()))
             {
                 mitarbeiterProfilVonNutzer = m;
             }
@@ -103,7 +103,7 @@ public class FirmenBean implements Serializable
         System.out.println("Ist Nutzer Admin: " + mitarbeiterProfilVonNutzer != null && mitarbeiterProfilVonNutzer.isAdmin());
         return mitarbeiterProfilVonNutzer != null && mitarbeiterProfilVonNutzer.isAdmin();
     }
- 
+
     public void neueFirmaErstellen()
     {
         FirmenBean.LOGGER.info("Erstelle Firma: " + this.neueFirma.getName() + " | " + this.neueFirma.getFirmenmail() + " | " + this.neueFirmaKommentar);
@@ -111,7 +111,7 @@ public class FirmenBean implements Serializable
         this.firmenService.firmaBeantragen(this.neueFirma, this.neueFirmaKommentar);
 
         this.neueFirma = new Firma();
-    } 
+    }
 
     public void mitarbeiterEntfernen(Mitarbeiter mitarbeiter)
     {
@@ -169,7 +169,7 @@ public class FirmenBean implements Serializable
         {
             FirmenBean.LOGGER.log(Level.SEVERE, "Mitarbeiter konnte nicht eingeladen werden.", ex);
         }
-    } 
+    }
 
     public Boolean isEmpfaengerAktuellerFilterGruppe(Mitarbeiter mitarbeiter)
     {
@@ -246,7 +246,7 @@ public class FirmenBean implements Serializable
     {
         this.setAusgewaehlteFirma(this.firmenManager.speichereAenderungen(this.getAusgewaehlteFirma()));
         FirmenBean.LOGGER.log(Level.INFO, "Änderung in " + this.getAusgewaehlteFirma().getName() + ": " + beschreibung);
-    } 
+    }
 
     public Filterprofilgruppe getAktuelleFiltergruppe()
     {
@@ -257,7 +257,7 @@ public class FirmenBean implements Serializable
     {
         this.aktuelleFiltergruppe = aktuelleFiltergruppe;
     }
-    
+
     public String getNeueFiltergruppe()
     {
         return this.neueFiltergruppe;
@@ -287,6 +287,7 @@ public class FirmenBean implements Serializable
     {
         this.neueFirmaKommentar = neueFirmaKommentar;
     }
+
     public void neueFirmaVerwerfen()
     {
         this.neueFirma = new Firma();
