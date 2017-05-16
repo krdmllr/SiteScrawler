@@ -88,9 +88,9 @@ public class SolrService implements ISolrService, Serializable
     	{
     		addSuchstring(solrQuery, fp.getTagstring());
     	}
-    	
-    	optionSucheArtikelinZeitraum(solrQuery, letzteSuche, null);
-    	 
+    	if(letzteSuche!=null){
+    	    optionSucheArtikelinZeitraum(solrQuery, letzteSuche, null);    	    
+    	}
     	LOGGER.info("Durchsuche Solr nach. " + solrQuery);
     	
     	List<Artikel> solrErgebnis = getArtikel(solrQuery);
