@@ -258,6 +258,10 @@ public class QuellenBean implements Serializable
         {
             return true;
         }
+        if (!this.istStringGleich(this.gewaehlteQuelle.getBildlink(), this.gewaehlteQuelleKopie.getBildlink()))
+        {
+            return true;
+        }
 
         return false;
     }
