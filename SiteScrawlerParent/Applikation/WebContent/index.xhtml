@@ -135,8 +135,8 @@
 										value="#{artikel.titel}" />
 								</h4>
 								<p class="pull-right">
-									<p:outputLabel
-										value="#{artikel.twitterQuelle ? 'Getwittert am ' : 'Erschienen am '}" />
+									<p:outputLabel rendered="#{artikel.twitterQuelle}"
+										value="Getwittert am" />
 									<h:outputText value="#{artikel.erstellungsdatum}">
 										<f:convertDateTime type="date" pattern="dd.MM.yyyy hh:mm" />
 									</h:outputText>
@@ -148,7 +148,9 @@
 							<div class="artikel-titel-container container-row" >
 								<p:outputPanel class="no-padding-margin auto-twitter-info" 
 									rendered="#{!artikel.twitterQuelle}">
-									<p class="pull-left">#{artikel.quelle.name} | #{artikel.autor}</p>
+									<p class="pull-left">#{artikel.quelle.name} | #{artikel.autor} | <h:outputText value="#{artikel.erstellungsdatum}">
+										<f:convertDateTime type="date" pattern="dd.MM.yyyy hh:mm" />
+									</h:outputText></p>
 								</p:outputPanel>
 								<p:outputPanel class="no-padding-margin auto-twitter-info" 
 									rendered="#{artikel.twitterQuelle}">
