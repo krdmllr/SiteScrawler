@@ -39,9 +39,9 @@
 
 					<!-- manuellen Crawlvorgang starten -->
 					<h:form id="manueller-crawl-form">
-						<p:commandLink class="panel-button-div" style="display:block;"
-							action="#{archiv.manuellCrawlen()}" ajax="false">
-							Jetzt report anlegen
+						<p:commandLink class="panel-button-div" style="display:block;" 
+							action="#{archiv.manuellCrawlen()}" ajax="false"> 
+							Jetzt Report anlegen 
 							</p:commandLink>
 					</h:form>
 					<hr class="no-padding-margin" />
@@ -51,14 +51,14 @@
 							<b:form >
 								<b:dateTimePicker  
 									value="#{archiv.abZeitpunkt}" 
-									label="Frühste"
+									label="Frühester Zeitpunkt"
 									mode="popup" show-time="false" 
 									render-label="true" />
 							</b:form>
 							<b:form  >
 								<b:dateTimePicker value="#{archiv.bisZeitpunkt}"
 									mode="popup" show-time="false"
-									label="Späteste"  
+									label="Spätester Zeitpunkt"  
 									render-label="true" />
 							</b:form>
 					</div>

@@ -23,7 +23,7 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     private final static Logger LOGGER                = Logger.getLogger("de.sitescrawler.logger");
 
     private final String        BITTE_PASSWORT_SETZEN = "Ihnen wurde ein temporäres Passwort zugeteilt. Bitte ändern Sie dieses nach Ihrer ersten Anmeldung.";
-    private final String        PASSWORT_TEXT         = "Das Temporäre Passwort lautet:  ";
+    private final String        PASSWORT_TEXT         = "Das temporäre Passwort lautet:  ";
 
     @Inject
     private IMailSenderService  mailSenderService;
@@ -33,7 +33,7 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "Ihr neues Konto bei sitescrawler.de";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Herzlich willkommen " + nutzer.getGanzenNamen());
+        bodyBuilder.append("Herzlich willkommen " + nutzer.getGanzenNamen()+ "!");
         bodyBuilder.append("Ihr Konto wurde erfolgreich angelegt.");
         bodyBuilder.append("");
         bodyBuilder.append(this.BITTE_PASSWORT_SETZEN);
@@ -50,8 +50,8 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "Ihr neues Konto bei sitescrawler.de";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Herzlich willkommen " + nutzer.getGanzenNamen());
-        bodyBuilder.append("Das Unternhemen " + firma.getName() + " hat für Sie einen Accoutn angelegt.");
+        bodyBuilder.append("Herzlich willkommen " + nutzer.getGanzenNamen()+ "!");
+        bodyBuilder.append("Das Unternehmen " + firma.getName() + " hat für Sie einen Account angelegt.");
         bodyBuilder.append("");
         bodyBuilder.append(this.BITTE_PASSWORT_SETZEN);
         bodyBuilder.append(this.PASSWORT_TEXT + nutzer.getPasswort());
@@ -68,8 +68,8 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "Passwort auf sitescrawler.de geändert";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen());
-        bodyBuilder.append("Wir senden Ihnen diese Nachricht um Sie darüber zu informieren, dass Ihr Passwort auf sitescrawler.de geändert wurde.");
+        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen()+ ".");
+        bodyBuilder.append("Wir senden Ihnen diese Nachricht, um Sie darüber zu informieren, dass Ihr Passwort auf sitescrawler.de geändert wurde.");
         // TODO Schreibe was man machen soll, wenn man das net selbst war.
         bodyBuilder.append("- SiteScrawler Team");
         String body = bodyBuilder.toString();
@@ -90,7 +90,7 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "Ihr Passwort auf sitescrawler.de wurde zurückgesetzt.";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen());
+        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen()+ ".");
         bodyBuilder.append("");
         bodyBuilder.append(this.BITTE_PASSWORT_SETZEN);
         bodyBuilder.append(this.PASSWORT_TEXT + nutzer.getPasswort());
@@ -107,7 +107,7 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "SiteScrawler: Sie wurden aus " + firma.getName() + " entfernt.";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen());
+        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen()+ ".");
         bodyBuilder.append("");
         bodyBuilder.append("Sie wurden als Mitglied der Firma " + firma.getName() + " von " + ausfuehrenderNutzer.getGanzenNamen() + " entfernt.");
         bodyBuilder.append("");
@@ -130,7 +130,7 @@ public class StandardNachrichtenService implements IStandardNachrichtenService
     {
         String betreff = "SiteScrawler: Sie wurden zu Firma " + firma.getName() + " hinzugefügt.";
         StringBuilder bodyBuilder = new StringBuilder();
-        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen());
+        bodyBuilder.append("Hallo " + nutzer.getGanzenNamen()+ ".");
         bodyBuilder.append("");
         bodyBuilder.append("Sie wurden als Mitglied zur Firma " + firma.getName() + " hinzugefügt.");
         bodyBuilder.append("");

@@ -17,7 +17,7 @@
 					<div class="panel-heading">
 						<div>
 							<h3 class="pull-left schrift">'#{firmen.ausgewaehlteFirma.name}'
-								Firmen Filtergruppen</h3>
+								Firmenfiltergruppen</h3>
 							<b:form>
 								<a href="" 
 									onclick="$('.filtergruppeModalPseudoClass').modal();return false;">
@@ -28,10 +28,10 @@
 
 							<!-- Modal: Filtergruppe hinzufügen -->
 							<b:modal id="neue-filtergruppe-modal"
-								title="Firmen Filtergruppe erstellen"
+								title="Firmenfiltergruppe erstellen"
 								styleClass="filtergruppeModalPseudoClass">
 								<h:form id="filtergruppe-eingabe">
-									<p>Neue Firmen Filtergruppe erstellen.</p>
+									<p>Neue Firmenfiltergruppe erstellen.</p>
 									<div class="form-group">
 										<h:inputText immediate="true" value="#{firmen.neueFiltergruppe}" placeholder="Filtergruppen name"
 											class="form-control" >
@@ -150,7 +150,7 @@
 								title="Mitarbeiter einladen"
 								styleClass="mitarbeiterModalPseudoClass">
 								<h:form id="email-eingabe">
-									<p>Bitte geben Sie die E-Mail Adresse des Mitarbeiters an.</p>
+									<p>Bitte geben Sie die E-Mail-Adresse des Mitarbeiters an.</p>
 									<div class="form-group">
 										<h:inputText immediate="true"
 											value="#{firmen.neuerMitarbeiterEmail}"
