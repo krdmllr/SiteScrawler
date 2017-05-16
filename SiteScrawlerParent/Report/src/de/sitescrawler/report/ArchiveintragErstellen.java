@@ -48,6 +48,10 @@ public class ArchiveintragErstellen
 
     public void erstelleReport(Filterprofilgruppe filtergruppe, LocalDateTime aktuelleZeit)
     {
+    	//Fange leeres letztes Erstelldatum ab, falls noch nie gesucht wurde.
+    	if(filtergruppe.getLetzteerstellung() == null)
+    		filtergruppe.setLetzteerstellung(DateUtils.asDate(LocalDateTime.now().minusDays(30)));
+    	
         List<Filterprofil> filterprofile = new ArrayList<>(filtergruppe.getFilterprofile());
 
         List<Artikel> artikel = this.solr.sucheArtikel(filterprofile, filtergruppe.getLetzteerstellung());
