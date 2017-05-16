@@ -82,13 +82,22 @@ public class SolrService implements ISolrService, Serializable
     @Override
     public List<Artikel> sucheArtikel(List<Filterprofil> filterprofile, Date letzteSuche)
     {
-    	//TODO WICHTIG WICHTIG WICHTIG Letzte Suche berücksichtigen
-        List<Artikel> artikel = new ArrayList<>();
-        for (Filterprofil filterprofil : filterprofile)
-        {
-            artikel.addAll(this.sucheArtikel(filterprofil));
-        }
-        return artikel;
+    	SolrQuery solrQuery = new SolrQuery();
+    	
+    	for(Filterprofil fp : filterprofile)
+    	{
+    		addSuchstring(solrQuery, fp.getTagstring());
+    	}
+    	
+    	optionSucheArtikelinZeitraum(solrQuery, letzteSuche, null);
+    	 
+    	LOGGER.info("Durchsuche Solr nach. " + solrQuery);
+    	
+    	List<Artikel> solrErgebnis = getArtikel(solrQuery);
+    	
+    	LOGGER.info(solrErgebnis.size() + " Artikel gefunden.");
+    	
+        return solrErgebnis;
     }
 
     /*
@@ -118,9 +127,7 @@ public class SolrService implements ISolrService, Serializable
         catch (SolrServerException | IOException e)
         {
             SolrService.LOGGER.log(Level.SEVERE, "Fehler beim Suchen von Artikeln.", e);
-        }
-
-        SolrService.LOGGER.info("Es wurden " + artikel.size() + " Artikel zur Query " + solrQuery.getQuery() + " gefunden.");
+        } 
         return artikel;
     }
 

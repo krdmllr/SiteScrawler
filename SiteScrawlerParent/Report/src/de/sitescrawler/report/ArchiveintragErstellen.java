@@ -46,12 +46,12 @@ public class ArchiveintragErstellen
     IQuellenManager               quellenManager;
 
     public void erstelleReport(Filterprofilgruppe filtergruppe, LocalDateTime aktuelleZeit)
-    {
-        filtergruppe.setLetzteerstellung(DateUtils.asDate(aktuelleZeit));
-
+    { 
         List<Filterprofil> filterprofile = new ArrayList<>(filtergruppe.getFilterprofile());
 
         List<Artikel> artikel = this.solr.sucheArtikel(filterprofile, filtergruppe.getLetzteerstellung());
+        
+        filtergruppe.setLetzteerstellung(DateUtils.asDate(aktuelleZeit));
 
         // Ordnet den Artikeln ihre Quellen zu.
         Set<Artikel> artikelAlsSet = new HashSet<>();

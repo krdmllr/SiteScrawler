@@ -45,6 +45,7 @@ public class NutzerProfilBean implements Serializable
         if (this.nutzerDatenService.verifizierePasswort(this.altesPasswort))
         {
             this.nutzerDatenService.aenderePasswort(this.neuesPasswort, this.altesPasswort);
+            speichereNachricht("Neue Passwort gespeichert.", "Nutzerdaten aktualisiert.");
         }
         else
         {
@@ -58,6 +59,7 @@ public class NutzerProfilBean implements Serializable
         if (this.nutzerDatenService.verifizierePasswort(this.altesPasswort))
         {
             this.nutzerDatenService.aendereEmailAdresse(this.neueEmail, this.altesPasswort);
+            speichereNachricht("Neue E-Mail Adresse gespeichert.", "Nutzerdaten aktualisiert.");
         }
         else
         {
@@ -80,6 +82,11 @@ public class NutzerProfilBean implements Serializable
             // TODO wird nicht angezeigt
             FacesMessages.error("Falsches Passwort.", "Ihr eingegebenes Passwort ist ungültig.");
         }
+    }
+    
+    public void speichereNachricht(String nachricht, String titel) {
+        FacesContext context = FacesContext.getCurrentInstance(); 
+        context.addMessage(null, new FacesMessage(titel, nachricht) ); 
     }
 
     public void speichereAenderungen()

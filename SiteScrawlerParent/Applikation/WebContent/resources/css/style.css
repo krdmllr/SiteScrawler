@@ -303,3 +303,8 @@ body .ui-widget-content{
 .twitter-info-icon{
 	margin: 4px !important;
 }
+
+.zeit-button{
+	width: 33% !important;
+	margin: 2px !important;
+}

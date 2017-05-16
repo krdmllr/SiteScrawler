@@ -2,6 +2,8 @@ package de.sitescrawler.applikation;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -15,8 +17,11 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import de.sitescrawler.exceptions.ServiceUnavailableException;
+import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
+import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 import de.sitescrawler.qualifier.Produktiv;
 
 /**
@@ -27,18 +32,24 @@ import de.sitescrawler.qualifier.Produktiv;
 @Named("login")
 public class loginBean implements Serializable {
 
+	private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+	
 	private static final long serialVersionUID = 1L;
 	private String uid;
 	private String password;
 	private String originalURL;
 	private FacesContext context = FacesContext.getCurrentInstance();
 	private boolean registriert = true;
+	private String emailPasswortVergessen;
 
 	@Inject
 	private ProjectConfig config;
 
 	@Inject
 	private INutzerDatenService nutzerDatenService;
+	
+	@Inject
+	private INutzerService nutzerService;
 
 	@PostConstruct
 	public void init() {
@@ -54,6 +65,27 @@ public class loginBean implements Serializable {
 			}
 		}
 
+	}
+	
+	public void passwortZuruecksetzen(){
+		
+		if(nutzerService.isEmailVerfuegbar(emailPasswortVergessen))
+		{
+			//Email ist nicht vergeben!
+			LOGGER.info("Nutzer hat versucht, Konto mit nicht existenter E-Mail Adresse " + emailPasswortVergessen + " zurückzusetzen.");
+		}
+		else
+		{
+			LOGGER.info("Setze Passwort von Account mit E-Mail Adresse " + emailPasswortVergessen + " zurück.");
+			Nutzer nutzer = nutzerService.getNutzer(emailPasswortVergessen);
+			try {
+				nutzerService.passwortZuruecksetzen(nutzer);
+			} catch (ServiceUnavailableException e) {
+				LOGGER.log(Level.SEVERE,"Passwort zurücksetzen fehlgeschlagen", e);
+			}
+		}
+		
+		emailPasswortVergessen = "";
 	}
 
 	public void login() {
@@ -114,6 +146,14 @@ public class loginBean implements Serializable {
 
 	public void setRegistriert(boolean registriert) {
 		this.registriert = registriert;
+	}
+
+	public String getEmailPasswortVergessen() {
+		return emailPasswortVergessen;
+	}
+
+	public void setEmailPasswortVergessen(String emailPasswortVergessen) {
+		this.emailPasswortVergessen = emailPasswortVergessen;
 	}
 
 }
