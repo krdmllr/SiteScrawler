@@ -12,6 +12,8 @@
 	<groupId>de.sitescrawler.test</groupId>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>src/de/sitescrawler/test/unittests</testSourceDirectory>
+		
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -24,10 +26,10 @@
 		</plugins>
 	</build>
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>4.12</version>
 		</dependency>
 		<dependency>
 			<groupId>de.sitescrawler.model</groupId>
@@ -59,6 +61,70 @@
 			<groupId>org.jglue.cdi-unit</groupId>
 			<artifactId>cdi-unit</artifactId>
 			<version>3.1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.utility</groupId>
+			<artifactId>Utility</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.applikation</groupId>
+			<artifactId>Applikation</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.dokumentation</groupId>
+			<artifactId>Dokumentation</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.firmenverwaltung</groupId>
+			<artifactId>Firmenverwaltung</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.logger</groupId>
+			<artifactId>Logger</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.nutzerverwaltung</groupId>
+			<artifactId>Nutzerverwaltung</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.pdf</groupId>
+			<artifactId>PDF</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.portal</groupId>
+			<artifactId>Portal</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.producer</groupId>
+			<artifactId>Producer</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.scheduler</groupId>
+			<artifactId>Scheduler</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.sharedweb</groupId>
+			<artifactId>SharedWeb</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>de.sitescrawler.solr</groupId>
+			<artifactId>Solr</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
