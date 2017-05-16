@@ -210,7 +210,7 @@ public class Filterprofilgruppe implements java.io.Serializable
         this.empfaenger = empfaenger;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinTable(name = "Filtergruppe_erstellt_zu_Uhrzeit",
                joinColumns = { @JoinColumn(name = "Filtergruppe_FilterprofilgruppeId", nullable = false, updatable = false) },
                inverseJoinColumns = { @JoinColumn(name = "Uhrzeit_uhrzeit", nullable = false, updatable = false) })

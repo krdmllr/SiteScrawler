@@ -11,7 +11,7 @@
 	<ui:composition template="/template.xhtml">
 		<ui:define name="content">
 			<!-- Email Informationen -->
-			<div class="col-md-2 hidden-xs column">
+			<div class="col-md-3 hidden-xs column">
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -40,7 +40,7 @@
 											value="#{filterbearbeiten.tagesOptionen}">
 											<li><p:commandLink
 													action="#{filterbearbeiten.setAusgewaehlteTagesoption(option)}"
-													value="#{option}" update="tages-option tageszeiten">
+													value="#{option}" ajax="false" update="tages-option tageszeiten">
 												</p:commandLink></li>
 										</p:repeat>
 									</ul>
@@ -50,38 +50,33 @@
 
 						<!-- Uhrzeiten -->
 						<h:form id="tageszeiten" rendered="#{filterbearbeiten.taeglich}">
-							<div class="linkeUeberschrift" style="height: 50px;">
-								<h:outputText id="filter-profil-text"
-									value="Wiederholung: #{filterbearbeiten.filtergruppe.uhrzeiten.size()}" />
-								<p:commandLink action="#{filterbearbeiten.addTageszeiten()}"
-									update="tageszeiten">
-									<h:graphicImage value="/resources/image/add.svg"
-										class="filter-profil-icon pull-right" />
-								</p:commandLink>
-							</div>
-							<p:dataList class="list-group uhrzeiten"
-								value="#{filterbearbeiten.filtergruppe.uhrzeiten}" var="zeit"
-								type="definition">
-								<li class="list-group-item">
-									<div class="artikel-titel-container">
-										<h:form>
-											<div class="zeit-input pull-left">
-
-												<p:outputLabel for="time" value="" />
-												<p:calendar id="time" value="#{zeit.uhrzeit}"
-													pattern="HH:mm" timeOnly="true" />
-
-											</div>
-											<p:commandLink
-												action="#{filterbearbeiten.removeTageszeiten(zeit)}"
-												update="tageszeiten">
-												<h:graphicImage value="/resources/image/remove-minus.svg"
-													class="filter-profil-icon pull-right" />
-											</p:commandLink>
-										</h:form>
-									</div>
-								</li>
-							</p:dataList>
+							<p:selectManyButton value="#{filterbearbeiten.gewaehlteZeiten}">
+								<f:selectItem itemLabel="00:00" itemValue="0" class="zeit-button" />
+					            <f:selectItem itemLabel="01:00" itemValue="1" class="zeit-button"/>
+					            <f:selectItem itemLabel="02:00" itemValue="2" class="zeit-button"/>
+					            <f:selectItem itemLabel="03:00" itemValue="3" class="zeit-button"/>
+					            <f:selectItem itemLabel="04:00" itemValue="4" class="zeit-button"/>
+					            <f:selectItem itemLabel="05:00" itemValue="5" class="zeit-button"/>
+					            <f:selectItem itemLabel="06:00" itemValue="6" class="zeit-button"/>
+					            <f:selectItem itemLabel="07:00" itemValue="7" class="zeit-button"/>
+					            <f:selectItem itemLabel="08:00" itemValue="8" class="zeit-button"/>
+					            <f:selectItem itemLabel="09:00" itemValue="9" class="zeit-button"/>
+					            <f:selectItem itemLabel="10:00" itemValue="10" class="zeit-button"/>
+					            <f:selectItem itemLabel="11:00" itemValue="11" class="zeit-button"/>
+					            <f:selectItem itemLabel="12:00" itemValue="12" class="zeit-button"/>
+					            <f:selectItem itemLabel="13:00" itemValue="13" class="zeit-button"/>
+					            <f:selectItem itemLabel="14:00" itemValue="14" class="zeit-button"/>
+					            <f:selectItem itemLabel="15:00" itemValue="15" class="zeit-button"/>
+					            <f:selectItem itemLabel="16:00" itemValue="16" class="zeit-button"/>
+					            <f:selectItem itemLabel="17:00" itemValue="17" class="zeit-button"/>
+					            <f:selectItem itemLabel="18:00" itemValue="18" class="zeit-button"/>
+					            <f:selectItem itemLabel="19:00" itemValue="19" class="zeit-button"/>
+					            <f:selectItem itemLabel="20:00" itemValue="20" class="zeit-button"/>
+					            <f:selectItem itemLabel="21:00" itemValue="21" class="zeit-button"/>
+					            <f:selectItem itemLabel="22:00" itemValue="22" class="zeit-button"/>
+					            <f:selectItem itemLabel="23:00" itemValue="23" class="zeit-button"/> 
+					        </p:selectManyButton>
+					        <b:commandButton value="Zeit speichern" action="#{filterbearbeiten.speichereZeiten()}" ajax="false"></b:commandButton>
 						</h:form>
 						<!-- !Uhrzeiten -->
 					</div>
@@ -89,7 +84,7 @@
 			</div>
 
 			<!-- Liste der Filterprofile in meiner Filtergruppe -->
-			<div class="col-md-7 column">
+			<div class="col-md-6 column">
 
 				<div class="panel panel-default artikelPanel">
 					<div class="panel-heading">

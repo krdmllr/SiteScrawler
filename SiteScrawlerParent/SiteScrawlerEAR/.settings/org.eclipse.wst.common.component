@@ -200,7 +200,7 @@
         <dependent-module archiveName="bootsfaces-1.0.2.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/net/bootsfaces/bootsfaces/1.0.2/bootsfaces-1.0.2.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="primefaces-6.0.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/primefaces/6.0/primefaces-6.0.jar">
+        <dependent-module archiveName="primefaces-6.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/org/primefaces/primefaces/6.1/primefaces-6.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="javax.faces-api-2.2.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/javax/faces/javax.faces-api/2.2/javax.faces-api-2.2.jar">

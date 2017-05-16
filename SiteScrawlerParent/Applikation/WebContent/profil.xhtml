@@ -70,7 +70,7 @@
 								<b:inputSecret id="pwalt" label="Passwort" value="#{nutzerprofil.altesPasswort}"
 									required="true" /> 
 								<b:commandButton value="Account löschen"
-									action="#{nutzerprofil.loescheNutzer()}" update="@form" />
+									action="#{nutzerprofil.loescheNutzer()}" update="@form" ajax="false"/>
 							</h:panelGrid>
 						</b:form>
 					</b:panel>

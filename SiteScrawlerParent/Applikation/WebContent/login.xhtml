@@ -16,6 +16,28 @@
 
 <!-- Login -->
 <h:body>
+	<!-- Ausgewaehltes Archiv -->
+<b:modal id="passwort-modal" title="Passwort vergessen"
+	styleClass="passwortVergessenPseudeClass">
+	<div>
+		<b:form id="artikel-inhalt"> 
+			<b:inputText value="#{login.emailPasswortVergessen}" placeholder="E-Mail Adresse">
+				<p:ajax event="blur"/>
+			</b:inputText> 
+		</b:form>
+		<f:facet name="footer">
+			<b:form id="anfrage-absenden-form"> 
+				<!-- Absenden button -->
+				<p:commandLink 
+					action="#{login.passwortZuruecksetzen()}"
+					value="Neues Passwort zusenden" type="button" class="btn btn-default"
+					data-dismiss="modal" ajax="false" />
+			</b:form>
+		</f:facet>
+	</div>
+</b:modal>
+
+
 	<div class="col-lg col-md-4 col-sm-3 col-xs-0"></div>
 	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 		<div class="outer-container well">
@@ -56,11 +78,12 @@
 						<b:commandButton id="submit-button" value="Anmelden"
 							action="#{login.login()}" update="@form" size="md"
 							class="btn btn-success" />
-						<b:selectBooleanCheckbox value="#{login.registriert}"
-							caption="Ich bin bereits registriert." />
 					</b:row>
 					<b:row>
-						<p:commandLink value="Passwort vergessen?"></p:commandLink>
+						<a href="https://www.sitescrawler.de" >Jetzt registrieren.</a>
+					</b:row>
+					<b:row>
+						<a href="" onclick="$('.passwortVergessenPseudeClass').modal();return false;">Passwort vergessen?</a>
 					</b:row>
 				</h:form>
 			</b:container>
