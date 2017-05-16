@@ -17,6 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -68,6 +69,11 @@ public class Quelle implements java.io.Serializable
     public void setQid(Integer qid)
     {
         this.qid = qid;
+    }
+    
+    @Transient
+    public boolean isBildVerfuegbar(){
+    	return bildlink != null && !bildlink.isEmpty();
     }
 
     @Column(name = "name", nullable = false)

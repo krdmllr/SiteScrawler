@@ -262,12 +262,27 @@ body .ui-widget-content{
 	
 }
 
-.container-row{
+.container-row{ 
 	height: 40px;
 }
 
-.container-auto-row{
-	height: 120px;
+.auto-twitter-info{
+	position: absolute;
+	bottom: 5px;
+}
+
+.artikel-optionen-buttons{
+	position: absolute !important;
+	bottom: 5px; 
+	right: 5px;
+}
+
+.artikel-bild{ 
+	opacity: 0.8;
+	width: 180px;"
+}
+
+.container-auto-row{ 
 }
 
 .twitter-info{
