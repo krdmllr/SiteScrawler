@@ -1,13 +1,10 @@
 package de.sitescrawler.test.unittests;
 
-import org.jglue.cdiunit.CdiRunner;
-import org.junit.runner.RunWith;
-
-@RunWith(CdiRunner.class)
+//@RunWith(CdiRunner.class)
 public class EmailUnitTest
 {
-    private final String emailAdresse = "sitescrawler@spoofmail.de";
-
+    // private final String emailAdresse = "sitescrawler@spoofmail.de";
+    //
     // @Test
     // public void sende_einzel_mail()
     // {
