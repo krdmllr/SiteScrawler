@@ -250,12 +250,20 @@ body .ui-widget-content{
 
 .panel-button-div{
 	height: 60px;
-	background-color: #5a6faf;
-	color: white;
+	color: black;
+    background-color: #8c98bd;
 	text-align: center;
 	vertical-align: middle;
 	line-height: 60px;
 } 
+
+.panel-button-div:hover{ 
+    background-color: #5a6faf;
+}
+
+.panel-button-div:focus:active{ 
+    background-color: #466de2;
+}
 
 
 .container-parent{

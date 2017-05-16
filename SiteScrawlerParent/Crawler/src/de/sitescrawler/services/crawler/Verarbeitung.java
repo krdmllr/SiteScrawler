@@ -98,8 +98,9 @@ public class Verarbeitung
                 {
                     beschreibung = description.getValue();
                 }
-                String regex = "(<a.*/a>)|(<img.*/>)";
-                beschreibung = beschreibung.replaceAll(regex, "");
+                String regex = "(<[a-zA-Z0-9 ]+>)|(</[a-zA-Z0-9 ]+>)||(<[a-zA-Z0-9 ]+/>)";
+            	beschreibung = beschreibung.replaceAll(regex, "");
+              
                 String link = entry.getLink();
                 Date veroeffentlichungsDatum = entry.getPublishedDate();
                 String titel = entry.getTitle();
