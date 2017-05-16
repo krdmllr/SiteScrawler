@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -46,11 +47,15 @@ public class ArchiveintragErstellen
     IQuellenManager               quellenManager;
 
     public void erstelleReport(Filterprofilgruppe filtergruppe, LocalDateTime aktuelleZeit)
-    { 
+    {
+    	//Fange leeres letztes Erstelldatum ab, falls noch nie gesucht wurde.
+    	if(filtergruppe.getLetzteerstellung() == null)
+    		filtergruppe.setLetzteerstellung(DateUtils.asDate(LocalDateTime.now().minusDays(30)));
+    	
         List<Filterprofil> filterprofile = new ArrayList<>(filtergruppe.getFilterprofile());
 
         List<Artikel> artikel = this.solr.sucheArtikel(filterprofile, filtergruppe.getLetzteerstellung());
-        
+
         filtergruppe.setLetzteerstellung(DateUtils.asDate(aktuelleZeit));
 
         // Ordnet den Artikeln ihre Quellen zu.
@@ -119,8 +124,7 @@ public class ArchiveintragErstellen
         }
         catch (ServiceUnavailableException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            ArchiveintragErstellen.LOGGER.log(Level.SEVERE, "Mail konnte nicht versendet werden.", e);
         }
     }
 
@@ -131,9 +135,7 @@ public class ArchiveintragErstellen
      */
     private List<Nutzer> getNutzerHtmlEmpfang(Filterprofilgruppe filtergruppe)
     {
-        List<Nutzer> alleNutzer = new ArrayList<>(filtergruppe.getEmpfaenger());
-
-        // TODO HTML/Plain eigenschaft fehlt noch
+        List<Nutzer> alleNutzer = filtergruppe.getEmpfaenger().stream().filter(Nutzer::getEmpfangehtmlmails).collect(Collectors.toList());
 
         return alleNutzer;
     }
@@ -145,9 +147,7 @@ public class ArchiveintragErstellen
      */
     private List<Nutzer> getNutzerPlaintextEmpfang(Filterprofilgruppe filtergruppe)
     {
-        List<Nutzer> alleNutzer = new ArrayList<>(filtergruppe.getEmpfaenger());
-
-        // TODO HTML/Plain eigenschaft fehlt noch
+        List<Nutzer> alleNutzer = filtergruppe.getEmpfaenger().stream().filter(n -> !n.getEmpfangehtmlmails()).collect(Collectors.toList());
 
         return alleNutzer;
     }

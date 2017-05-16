@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -58,6 +59,13 @@ public class Verarbeitung
 
     public Verarbeitung()
     {
+
+    }
+    
+    @PostConstruct
+    public void Init(){
+    	if(projectConfig == null)
+    		projectConfig = new ProjectConfig();
     }
 
     /**

@@ -19,9 +19,12 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 
+import com.mysql.jdbc.Util;
+
 import de.sitescrawler.jpa.Artikel;
 import de.sitescrawler.jpa.Filterprofil;
 import de.sitescrawler.solr.interfaces.ISolrService;
+import de.sitescrawler.utility.DateUtils;
 
 /**
  * Diese Klasse stellt Methoden zum Indizieren aller gefundenen Artikel und Bereitstellen von gesuchten Artikeln. 
@@ -189,7 +192,9 @@ public class SolrService implements ISolrService, Serializable
         artikel.setAbsaetzeArtikel(solrArtikel.getAbsaetzeArtikel());
         artikel.setAutor(solrArtikel.getAutor());
         artikel.setBeschreibung(solrArtikel.getBeschreibung());
-        artikel.setErstellungsdatum(solrArtikel.getErstellungsdatum());
+        Date korrigiertesDate = de.sitescrawler.utility.DateUtils.asDate(DateUtils.asLocalDateTime(solrArtikel.getErstellungsdatum()).plusHours(2));
+        
+        artikel.setErstellungsdatum(korrigiertesDate);
         artikel.setFavoritenzahl(solrArtikel.getFavoritenzahl());
         artikel.setRetweetzahl(solrArtikel.getRetweetzahl());
         artikel.setTitel(solrArtikel.getTitel());
