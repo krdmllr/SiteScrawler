@@ -24,7 +24,12 @@
 						<p>Erstellungsrhythmus</p>
 
 						<div>
-							<input type="checkbox" /> E-Mail Benachrichtung
+						<b:form>
+							<b:switch label-text="E-Mail an Mitarbeiter" on-text="Ja" off-text="Nein" value="#{filterbearbeiten.filtergruppe.verschickeemail}">
+								
+							</b:switch>
+								<b:commandButton value="Speichern" action="#{filterbearbeiten.speichereEmailVersenden()}"></b:commandButton>
+							</b:form>
 						</div>
 						<div>
 							<h:form id="tages-option">

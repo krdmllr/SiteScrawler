@@ -140,6 +140,10 @@ public class FilterBearbeitenBean implements Serializable {
 		
 		speichereAenderungAnFiltergruppe("Wöchentlicher Termin: " + filtergruppe.getWochentag());
 	}
+	
+	public void speichereEmailVersenden(){
+		speichereAenderungAnFiltergruppe("Versende Email: " + filtergruppe.getVerschickeemail());
+	}
 
 	public Set<Filterprofil> getFilterprofile() {
 		return filterprofile;
