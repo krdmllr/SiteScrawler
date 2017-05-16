@@ -100,7 +100,7 @@ public class FirmenBean implements Serializable
                 mitarbeiterProfilVonNutzer = m;
             }
         }
-
+        System.out.println("Ist Nutzer Admin: " + mitarbeiterProfilVonNutzer != null && mitarbeiterProfilVonNutzer.isAdmin());
         return mitarbeiterProfilVonNutzer != null && mitarbeiterProfilVonNutzer.isAdmin();
     }
  
@@ -178,7 +178,7 @@ public class FirmenBean implements Serializable
             return false;
         }
 
-        return this.aktuelleFiltergruppe.getEmpfaenger().contains(mitarbeiter);
+        return this.aktuelleFiltergruppe.getEmpfaenger().contains(mitarbeiter.getNutzer());
     }
 
     /**
@@ -203,7 +203,7 @@ public class FirmenBean implements Serializable
      */
     public void remove(Mitarbeiter mitarbeiter)
     {
-        this.aktuelleFiltergruppe.getEmpfaenger().remove(mitarbeiter);
+        this.aktuelleFiltergruppe.getEmpfaenger().remove(mitarbeiter.getNutzer());
 
         RequestContext.getCurrentInstance().update("gruppen-auswahl");
 
