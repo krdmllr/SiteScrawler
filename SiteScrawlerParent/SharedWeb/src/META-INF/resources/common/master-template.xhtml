@@ -16,19 +16,14 @@
 	<h:outputStylesheet library="common" name="/css/bootstrap.min.css" />
 	<h:outputStylesheet library="common" name="/css/master-style.css" />
 	
-	<ui:insert name="resources" />
-
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
+	<ui:insert name="resources" /> 
 
 </h:head>
 <h:body class="divider-color">
-
+	<b:growl id="growlMsg" globalOnly="true" placementFrom="bottom"
+        show-detail="true" show-summary="false" allowDismiss="true"
+        delay="10000" escape="true" /> 
+        
 	<nav class="navbar navbar-inverse navbar-fixed-top default-primary-color">
 	<div class="container ">
 		<div class="navbar-header">
@@ -66,10 +61,9 @@
 	</div>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 ‌​ 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-      <script src="https://momentjs.com/downloads/moment.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>‌​
+    <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>‌​
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-	<h:outputScript library="common" name="/js/bootstrap.min.js"></h:outputScript>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </h:body>
 </html>

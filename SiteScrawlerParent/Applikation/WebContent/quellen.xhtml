@@ -4,159 +4,172 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-<h:body>
-	<ui:composition template="/template.xhtml">
-		<ui:define name="content">
-
-			<!-- Quellenliste -->
-			<div class="col-md-3 hidden-xs hidden-sm column">
-				<!-- Filter -->
-				<div class="panel panel-default artikelPanel">
-					<div class="panel-heading">
-						<div class="pull-left schrift">
-							<h4>Quellen</h4>
-						</div>
-
-						<!-- Queller erstellen Button -->
-						<b:form>
-							<p:commandLink id="quelle-erstellen"
-								oncomplete="$('.quelleErstellenPseudeClass').modal();return false;"
-								action="#{quellen.starteQuellenErstellen()}"
-								update="gewaehlte-quelle-form gewaehlte-quelle">
-								<p:graphicImage value="/resources/image/add.svg"
-									class="pull-right bild" />
-							</p:commandLink>
-						</b:form>
-						<div class="clearfix"></div>
-
-					</div>
-					<div class="panel-body quellen-filter">
-						<b:form>
-							<h4>Suche</h4>
-							<p:inputText placeholder="Name"></p:inputText>
-							<p:commandLink value="Alle Quellen Crawlen"
-								action="#{quellen.crawleManuell()}">
-							</p:commandLink>
-						</b:form>
-					</div>
-					<p:dataList class="list-group quellen" id="alle-quellen"
-						value="#{quellen.quellen}" var="quelle" type="definition">
-						<b:form>
-							<p:commandLink class="list-group-item" ajax="true"
-								update="gewaehlte-quelle-form" value="#{quelle.name}"
-								action="#{quellen.setGewaehlteQuelle(quelle)}">
-							</p:commandLink>
-						</b:form>
-					</p:dataList>
-				</div>
+<!-- Quellenliste -->
+<div class="col-md-3 hidden-xs hidden-sm column">
+	<!-- Filter -->
+	<div class="panel panel-default artikelPanel">
+		<div class="panel-heading">
+			<div class="pull-left schrift">
+				<h4>Quellen</h4>
 			</div>
 
-			<!-- Ausgewaehltes Archiv -->
+			<!-- Queller erstellen Button -->
+			<b:form>
+				<p:commandLink id="quelle-erstellen"
+					oncomplete="$('.quelleErstellenPseudeClass').modal();return false;"
+					action="#{quellen.starteQuellenErstellen()}"
+					update="gewaehlte-quelle-form gewaehlte-quelle">
+					<p:graphicImage value="/resources/image/add.svg"
+						class="pull-right bild" />
+				</p:commandLink>
+			</b:form>
+			<div class="clearfix"></div>
 
-			<b:modal id="artikel-modal" title="Neue quelle erstellen"
-				styleClass="quelleErstellenPseudeClass">
-				<div>
-					<b:form id="artikel-inhalt">
-						<p>Name</p>
-						<div>
-							<!-- Derzeitiger Quellen Name -->
-							<p:inputText value="#{quellen.neueQuelle.name}"
-								placeholder="Name">
-								<p:ajax event="keyup"
-									update=":quelle-anlegen-form:neue-quelle-speichern-buttons :quelle-anlegen-form:neue-quelle-verwerfen" />
-							</p:inputText>
-						</div>
-						<!-- Derzeitiger RSS Link -->
-						<div>
-							<p>RSS-Link</p>
-							<p:inputText value="#{quellen.neueQuelle.rsslink}"
-								placeholder="RSS-Link">
-								<p:ajax event="keyup"
-									update=":quelle-anlegen-form:neue-quelle-speichern-buttons :quelle-anlegen-form:neue-quelle-verwerfen" />
-							</p:inputText>
-						</div>
+		</div>
+		<h:form id="manueller-crawl-form">
+			<p:commandLink class="panel-button-div" style="display:block;"
+				value="Alle Quellen crawlen" action="#{quellen.crawleManuell()}" ajax="false"/>
+		</h:form>
+		<div class="panel-body quellen-filter">
+			<b:form>
+				<h4>Suche</h4>
+				<p:inputText placeholder="Name"></p:inputText>
+			</b:form>
+		</div>
+		<hr class="no-padding-margin" />
+		<p:dataList class="list-group quellen" id="alle-quellen"
+			value="#{quellen.quellen}" var="quelle" type="definition">
+			<b:form>
+				<p:commandLink class="list-group-item" ajax="true"
+					update="gewaehlte-quelle-form" value="#{quelle.name}"
+					action="#{quellen.setGewaehlteQuelle(quelle)}">
+				</p:commandLink>
+			</b:form>
+		</p:dataList>
+	</div>
+</div>
 
-					</b:form>
-					<f:facet name="footer">
-						<b:form id="quelle-anlegen-form">
-							<!-- Verwerfen button -->
-							<b:commandButton id="neue-quelle-verwerfen"
-								disabled="#{!quellen.zeigeNeueQuelleVerwerfenButton()}"
-								action="#{quellen.starteQuellenErstellen()}"
-								update="artikel-inhalt neue-quelle-speichern-buttons neue-quelle-verwerfen"
-								value="Verwerfen" type="button" class="btn btn-default" />
+<!-- Ausgewaehltes Archiv -->
+<b:modal id="artikel-modal" title="Neue Quelle erstellen"
+	styleClass="quelleErstellenPseudeClass">
+	<div>
+		<b:form id="artikel-inhalt">
+			<p>Name</p>
+			<div>
+				<!-- Derzeitiger Quellen Name -->
+				<p:inputText value="#{quellen.neueQuelle.name}" placeholder="Name">
+					<p:ajax event="keyup"
+						update=":quelle-anlegen-form:neue-quelle-speichern-buttons :quelle-anlegen-form:neue-quelle-verwerfen" />
+				</p:inputText>
+			</div>
+			<!-- Derzeitiger RSS Link -->
+			<div>
+				<p>RSS-Link</p>
+				<p:inputText value="#{quellen.neueQuelle.rsslink}"
+					placeholder="RSS-Link">
+					<p:ajax event="keyup"
+						update=":quelle-anlegen-form:neue-quelle-speichern-buttons :quelle-anlegen-form:neue-quelle-verwerfen" />
+				</p:inputText>
+			</div>
 
-							<!-- Speichern button -->
-							<b:commandButton id="neue-quelle-speichern-buttons"
-								disabled="#{!quellen.zeigeErstellenButton()}"
-								action="#{quellen.uebernehmeNeueQuelle()}"
-								update="artikel-inhalt alle-quellen gewaehlte-quelle-form neue-quelle-verwerfen"
-								value="Speichern" type="button" class="btn btn-default"
-								data-dismiss="modal" />
-						</b:form>
-					</f:facet>
-				</div>
-			</b:modal>
+		</b:form>
+		<f:facet name="footer">
+			<b:form id="quelle-anlegen-form">
+				<!-- Verwerfen button -->
+				<b:commandButton id="neue-quelle-verwerfen"
+					disabled="#{!quellen.zeigeNeueQuelleVerwerfenButton()}"
+					action="#{quellen.starteQuellenErstellen()}"
+					update="artikel-inhalt neue-quelle-speichern-buttons neue-quelle-verwerfen"
+					value="Verwerfen" type="button" class="btn btn-default" />
 
-			<div class="col-md-9 column">
-				<!-- Archiv -->
-				<p:outputPanel id="gewaehlte-quelle" class="container-panel">
-					<b:form class="panel panel-default artikelPanel"
-						id="gewaehlte-quelle-form" rendered="#{quellen.zeigeQuelleAn()}">
-						<div class="panel-heading">
-							<h3 class="panel-title pull-left linkeUeberschrift">
-								Quelle:
-								<p:inputText value="#{quellen.gewaehlteQuelle.name}">
-									<p:ajax event="keyup"
-										update="gewaehlte-quelle-form:bearbeiten-buttons" />
-								</p:inputText>
-							</h3>
-							<p:outputPanel class="btn-group pull-right container-panel"
-								role="group" id="bearbeiten-buttons">
+				<!-- Speichern button -->
+				<b:commandButton id="neue-quelle-speichern-buttons"
+					disabled="#{!quellen.zeigeErstellenButton()}"
+					action="#{quellen.uebernehmeNeueQuelle()}"
+					update="artikel-inhalt alle-quellen gewaehlte-quelle-form neue-quelle-verwerfen"
+					value="Speichern" type="button" class="btn btn-default"
+					data-dismiss="modal" />
+			</b:form>
+		</f:facet>
+	</div>
+</b:modal>
 
-								<!-- Löschen button -->
-								<b:commandButton rendered="#{quellen.zeigeLoeschButton()}"
-									action="#{quellen.loescheQuelle()}"
-									update="@form gewaehlte-quelle alle-quellen" value="Löschen"
-									type="button" class="btn btn-default" />
+<div class="col-md-9 column">
+	<!-- Archiv -->
+	<p:outputPanel id="gewaehlte-quelle" class="container-panel">
+		<b:form class="panel panel-default artikelPanel"
+			id="gewaehlte-quelle-form" rendered="#{quellen.zeigeQuelleAn()}">
+			<div class="panel-heading">
+				<h3 class="panel-title pull-left linkeUeberschrift">
+					Quelle:
+					<p:inputText value="#{quellen.gewaehlteQuelle.name}">
+						<p:ajax event="keyup"
+							update="gewaehlte-quelle-form:bearbeiten-buttons" />
+					</p:inputText>
+				</h3>
+				<p:outputPanel class="btn-group pull-right container-panel"
+					role="group" id="bearbeiten-buttons">
 
-								<!-- Speichern button -->
-								<b:commandButton rendered="#{quellen.zeigeSpeichernButton()}"
-									action="#{quellen.speichereAenderung()}"
-									update="@form gewaehlte-quelle alle-quellen" value="Speichern"
-									type="button" class="btn btn-default" />
+					<!-- Löschen button -->
+					<b:commandButton rendered="#{quellen.zeigeLoeschButton()}"
+						action="#{quellen.loescheQuelle()}"
+						update="@form gewaehlte-quelle alle-quellen" value="Löschen"
+						type="button" class="btn btn-default" />
 
-								<!-- Verwerfen button -->
-								<b:commandButton rendered="#{quellen.zeigeVerwerfenButton()}"
-									action="#{quellen.verwerfeAenderungen()}"
-									update="@form gewaehlte-quelle" value="Verwerfen" type="button"
-									class="btn btn-default" />
+					<!-- Speichern button -->
+					<b:commandButton rendered="#{quellen.zeigeSpeichernButton()}"
+						action="#{quellen.speichereAenderung()}"
+						update="@form gewaehlte-quelle alle-quellen" value="Speichern"
+						type="button" class="btn btn-default" />
 
-							</p:outputPanel>
-							<div class="clearfix"></div>
-						</div>
-						<div class="panel-body">
-							<!-- Quelle präsentation -->
-							<h4>RSS Url</h4>
-							<p:inputText id="name-feld" class="fill-width" label="RSS URL"
-								value="#{quellen.gewaehlteQuelle.rsslink}">
-								<p:ajax event="keyup"
-									update="gewaehlte-quelle-form:bearbeiten-buttons" />
-							</p:inputText>
+					<!-- Verwerfen button -->
+					<b:commandButton rendered="#{quellen.zeigeVerwerfenButton()}"
+						action="#{quellen.verwerfeAenderungen()}"
+						update="@form gewaehlte-quelle" value="Verwerfen" type="button"
+						class="btn btn-default" />
 
-							<h4>Inhalt Id oder Klasse</h4>
-							<p>Hier kann die Id oder Klasse des Elementes angegeben
-								werden, welches den Inhalt umschließt.</p>
-							<p:inputText id="klasse-id-feld" class="fill-width"
-								label="RSS URL" value="#{quellen.gewaehlteQuelle.tagOderId}">
-								<p:ajax event="keyup"
-									update="gewaehlte-quelle-form:bearbeiten-buttons" />
-							</p:inputText>
-						</div>
-					</b:form>
 				</p:outputPanel>
+				<div class="clearfix"></div>
 			</div>
-		</ui:define>
-	</ui:composition>
-</h:body>
+			<div class="panel-body">
+				<!-- Quelle präsentation -->
+				<h4>RSS Url</h4>
+				<p:inputText id="name-feld" class="fill-width" label="RSS URL"
+					value="#{quellen.gewaehlteQuelle.rsslink}">
+					<p:ajax event="keyup"
+						update="gewaehlte-quelle-form:bearbeiten-buttons" />
+				</p:inputText>
+
+
+				<h4>Inhalt Id oder Klasse</h4>
+				<p>Hier kann die Id oder Klasse des Elementes angegeben werden,
+					welches den Inhalt umschließt.</p>
+				<p:inputText id="klasse-id-feld" class="fill-width"
+					placeholder="RSS URL" value="#{quellen.gewaehlteQuelle.tagOderId}">
+					<p:ajax event="keyup"
+						update="gewaehlte-quelle-form:bearbeiten-buttons" />
+				</p:inputText>
+				<div>
+					<div
+						style="width: calc(100% - 90px - 40px); display: inline-block; position: relative;">
+						<h4>Logo Link</h4>
+						<p>Bitte einen Direktlink zum Bild angeben.</p>
+						<p:inputText id="klasse-link-feld" class="fill-width"
+							placeholder="Bild Link"
+							value="#{quellen.gewaehlteQuelle.bildlink}">
+							<p:ajax event="keyup"
+								update="gewaehlte-quelle-form:bearbeiten-buttons bild-anzeige" />
+						</p:inputText>
+					</div>
+					<div
+						style="position: relative; float: right; display: inline-block;">
+						<p:graphicImage style="width: 90px; margin: 20px;"
+							id="bild-anzeige" cache="false"
+							value="#{quellen.gewaehlteQuelle.bildlink}"></p:graphicImage>
+					</div>
+				</div>
+			</div>
+		</b:form>
+	</p:outputPanel>
+</div>
 </html>

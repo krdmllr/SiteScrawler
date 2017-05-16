@@ -2,6 +2,8 @@ package de.sitescrawler.applikation;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -15,34 +17,46 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import de.sitescrawler.exceptions.ServiceUnavailableException;
+import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
+import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 import de.sitescrawler.qualifier.Produktiv;
 
 /**
- * 
- * @author robin loginBean, alle Methoden zum Login/Logout
+ * LoginBean, alle Methoden zum Login/Logout und Passwort vergessen.
+ * @author robin 
  */
 @SessionScoped
 @Named("login")
 public class loginBean implements Serializable {
 
+	private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+	
 	private static final long serialVersionUID = 1L;
 	private String uid;
 	private String password;
 	private String originalURL;
 	private FacesContext context = FacesContext.getCurrentInstance();
 	private boolean registriert = true;
+	
+	//Hält die Email die im Passwort vergessen Feld angegben wird.
+	private String emailPasswortVergessen;
 
 	@Inject
 	private ProjectConfig config;
 
 	@Inject
-	@Produktiv
 	private INutzerDatenService nutzerDatenService;
+	
+	@Inject
+	private INutzerService nutzerService;
 
 	@PostConstruct
 	public void init() {
+		
+		//Überprüft ob der Nutzer registriert ist und leitet ihn entsprechend an die App weiter.
 		ExternalContext externalContext = this.context.getExternalContext();
 		this.originalURL = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
 		if (this.originalURL == null) {
@@ -56,7 +70,34 @@ public class loginBean implements Serializable {
 		}
 
 	}
+	
+	/**	
+	 * Setzt das Passwort über die angegebene Email zurück.
+	 */
+	public void passwortZuruecksetzen(){
+		
+		if(nutzerService.isEmailVerfuegbar(emailPasswortVergessen))
+		{
+			//Email ist nicht vergeben!
+			LOGGER.info("Nutzer hat versucht, Konto mit nicht existenter E-Mail Adresse " + emailPasswortVergessen + " zurückzusetzen.");
+		}
+		else
+		{
+			LOGGER.info("Setze Passwort von Account mit E-Mail Adresse " + emailPasswortVergessen + " zurück.");
+			Nutzer nutzer = nutzerService.getNutzer(emailPasswortVergessen);
+			try {
+				nutzerService.passwortZuruecksetzen(nutzer);
+			} catch (ServiceUnavailableException e) {
+				LOGGER.log(Level.SEVERE,"Passwort zurücksetzen fehlgeschlagen", e);
+			}
+		}
+		
+		emailPasswortVergessen = "";
+	}
 
+	/**
+	 * Meldet den Nutzer an.
+	 */
 	public void login() {
 		System.out.println("Login: " + this.uid + " | " + this.password);
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -71,6 +112,9 @@ public class loginBean implements Serializable {
 
 	}
 
+	/**
+	 * Meldet den Nutzer ab.
+	 */
 	public void logout() {
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		externalContext.invalidateSession();
@@ -80,8 +124,7 @@ public class loginBean implements Serializable {
 			externalContext.redirect(externalContext.getRequestContextPath() + "/index.xhtml");
 		} catch (ServletException | IOException e) {
 			if(e.getMessage().toLowerCase().contains("login failed")){
-				//Login fehlgeschlagen, unterrichte Nutzer.
-				
+				//Login fehlgeschlagen, unterrichte Nutzer. 
 		        FacesContext context = FacesContext.getCurrentInstance(); 
 		        context.addMessage(null, new FacesMessage("Anmeldung fehlgeschlagen", "Passwort oder E-Mail Adresse falsch."));
 			}
@@ -115,6 +158,14 @@ public class loginBean implements Serializable {
 
 	public void setRegistriert(boolean registriert) {
 		this.registriert = registriert;
+	}
+
+	public String getEmailPasswortVergessen() {
+		return emailPasswortVergessen;
+	}
+
+	public void setEmailPasswortVergessen(String emailPasswortVergessen) {
+		this.emailPasswortVergessen = emailPasswortVergessen;
 	}
 
 }

@@ -250,24 +250,47 @@ body .ui-widget-content{
 
 .panel-button-div{
 	height: 60px;
-	background-color: #5a6faf;
-	color: white;
+	color: black;
+    background-color: #8c98bd;
 	text-align: center;
 	vertical-align: middle;
 	line-height: 60px;
 } 
+
+.panel-button-div:hover{ 
+    background-color: #5a6faf;
+}
+
+.panel-button-div:focus:active{ 
+    background-color: #466de2;
+}
 
 
 .container-parent{
 	
 }
 
-.container-row{
+.container-row{ 
 	height: 40px;
 }
 
-.container-auto-row{
-	height: 120px;
+.auto-twitter-info{
+	position: absolute;
+	bottom: 5px;
+}
+
+.artikel-optionen-buttons{
+	position: absolute !important;
+	bottom: 5px; 
+	right: 5px;
+}
+
+.artikel-bild{ 
+	opacity: 0.8;
+	width: 180px;"
+}
+
+.container-auto-row{ 
 }
 
 .twitter-info{
@@ -279,4 +302,9 @@ body .ui-widget-content{
 
 .twitter-info-icon{
 	margin: 4px !important;
+}
+
+.zeit-button{
+	width: 33% !important;
+	margin: 2px !important;
 }

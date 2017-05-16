@@ -53,4 +53,13 @@ public interface INutzerDatenService
      *            Aktuelles Passwort zur validierung.
      */
     void loescheNutzer(String passwort);
+
+    /**
+     * Überprüft das angegebene passwort
+     * 
+     * @param passwort
+     * @return
+     */
+    boolean verifizierePasswort(String passwort);
+
 }

@@ -4,9 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
- 
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import de.sitescrawler.email.interfaces.IMailSenderService;
 import de.sitescrawler.email.interfaces.IStandardNachrichtenService;
@@ -15,150 +20,232 @@ import de.sitescrawler.exceptions.ServiceUnavailableException;
 import de.sitescrawler.firmenverwaltung.interfaces.IFirmenService;
 import de.sitescrawler.jpa.Firma;
 import de.sitescrawler.jpa.Mitarbeiter;
-import de.sitescrawler.jpa.Nutzer; 
+import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.Firmenrolle;
+import de.sitescrawler.model.Firmenstatus;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 
 @SessionScoped
-public class FirmenService implements IFirmenService, Serializable {
-  
-	private static final long serialVersionUID = 1L;
+@Transactional
+public class FirmenService implements Serializable, IFirmenService
+{
 
-	// Globalen Logger holen
-	private final static Logger LOGGER = Logger.getLogger("de.sitescrawler.logger");
+    private static final long           serialVersionUID = 1L;
 
-	@Inject
-	private INutzerService nutzerService;
+    // Globalen Logger holen
+    private final static Logger         LOGGER           = Logger.getLogger("de.sitescrawler.logger");
 
-	@Inject
-	private IMailSenderService mailService;
+    @PersistenceContext
+    private EntityManager               entityManager;
 
-	@Inject
-	private IStandardNachrichtenService standardNachrichten;
-	
-	@Inject
-	private INutzerDatenService nutzerDatenService;
-	
-	private Nutzer ausfuehrenderNutzer;
-	
-	public Nutzer getNutzer(){
-		if(ausfuehrenderNutzer == null)
-			ausfuehrenderNutzer = nutzerDatenService.getNutzer();
-	
-		return ausfuehrenderNutzer;
-	}
+    @Inject
+    private INutzerService              nutzerService;
 
-	@Override
-	public boolean istFirmenMailVerfuegbar(String name) {
-		// TODO Marcel
-		return true;
-	}
+    @Inject
+    private IMailSenderService          mailService;
 
-	@Override
-	public boolean FirmaBeantragen(String firmenName, String firmenMail, String kommentar) {
-		if (!istFirmenMailVerfuegbar(firmenMail))
-			return false;
+    @Inject
+    private IStandardNachrichtenService standardNachrichten;
 
-		Firma firma = new Firma(firmenName);
-		// TODO Set firmen Email
-		// TODO Set Status auf Beantragt
-		// TODO Speichere neue Firma in Datenbank
+    @Inject
+    private INutzerDatenService         nutzerDatenService;
 
-		// Sende Information an alle Administratoren
-		InformiereAdministratorenUeberNeueFirma(firma, firmenMail);
+    private Nutzer                      ausfuehrenderNutzer;
 
-		return true;
-	}
+    public Nutzer getNutzer()
+    {
+        if (this.ausfuehrenderNutzer == null)
+        {
+            this.ausfuehrenderNutzer = this.nutzerDatenService.getNutzer();
+        }
 
-	private void InformiereAdministratorenUeberNeueFirma(Firma firma, String kommentar) {
-		List<Nutzer> alleAdministratoren = nutzerService.getAlleAdministratoren();
-		String betreff = "Neue Firma beantragt";
-		StringBuilder bodyBuilder = new StringBuilder();
-		bodyBuilder.append("Nutzer " + getNutzer().getGanzenNamen() + " hat die Firma " + firma.getName() + " beantragt.");
-		bodyBuilder.append("");
+        return this.ausfuehrenderNutzer;
+    }
 
-		if (kommentar != null && !kommentar.isEmpty()) {
-			bodyBuilder.append("Der Nutzer hat folgenden Kommentar angegeben:");
-			bodyBuilder.append(kommentar);
-		}
+    @Override
+    public boolean istFirmenMailVerfuegbar(String name)
+    {
+        TypedQuery<Nutzer> query = this.entityManager.createQuery("SELECT n FROM Nutzer n WHERE n.email = :email", Nutzer.class);
+        query.setParameter("email", name);
+        boolean result = query.getResultList().isEmpty();
+        return result;
+    }
 
-		try {
-			mailService.sendeMail(alleAdministratoren, betreff, bodyBuilder.toString(), false, null);
-		} catch (ServiceUnavailableException e) {
-			LOGGER.log(Level.SEVERE, "Administratoren konnte nicht über neuen Firmenantrag informiert werden", e);
-		}
-	}
+    @Override
+    public boolean firmaBeantragen(Firma firma, String kommentar)
+    {
+        String firmenMail = firma.getFirmenmail();
+        if (!this.istFirmenMailVerfuegbar(firmenMail))
+        {
+            FirmenService.LOGGER.info("Firmenmail " + firmenMail + " ist nicht verfügbar.");
+            return false;
+        }
+        // Set Status auf Beantragt
+        firma.setStatus(Firmenstatus.BEANTRAGT);
+        firma.setMaxfiltergruppe(20);
+        // Speichere neue Firma in Datenbank
+        firma = this.firmaSpeichern(firma);
+        // ergänze Firma um admin
+        Nutzer nutzer = this.nutzerDatenService.getNutzer();
+        Mitarbeiter mitarbeiter = new Mitarbeiter(firma, nutzer);
+        mitarbeiter.setFirmenrolle(Firmenrolle.Administrator);
+        firma.getMitarbeiter().add(mitarbeiter);
+        nutzer.getMitarbeiter().add(mitarbeiter);
+        nutzer.getFirmen().add(firma);
+        firma = this.firmaSpeichern(firma);
 
-	@Override
-	public void nutzerEinladen(Firma firma, String email, String vorname, String nachname)
-			throws ServiceUnavailableException, Exception {
+        // Sende Information an alle Administratoren
+        this.InformiereAdministratorenUeberNeueFirma(firma, kommentar);
 
-		istNutzerBerechtigt(firma, Firmenrolle.Administrator);
+        return true;
+    }
 
-		Nutzer neuerNutzer = new Nutzer(email, vorname, nachname);
-		neuerNutzer.getFirmen().add(firma);
-		Mitarbeiter neuerMitarbeiter = new Mitarbeiter();
-		neuerMitarbeiter.setNutzer(neuerNutzer);
-		neuerMitarbeiter.setFirma(firma);
-		firma.getMitarbeiter().add(neuerMitarbeiter);
+    @Transactional(value = TxType.REQUIRED)
+    private Firma firmaSpeichern(Firma firma)
+    {
+        return firma = this.entityManager.merge(firma);
+    }
 
-		nutzerService.registrieren(neuerNutzer, firma);
-	}
+    private void InformiereAdministratorenUeberNeueFirma(Firma firma, String kommentar)
+    {
+        List<Nutzer> alleAdministratoren = this.nutzerService.getAlleAdministratoren();
+        String betreff = "Neue Firma beantragt";
+        StringBuilder bodyBuilder = new StringBuilder();
+        bodyBuilder.append("Nutzer " + this.getNutzer().getGanzenNamen() + " hat die Firma " + firma.getName() + " beantragt.");
+        bodyBuilder.append("");
 
-	public void bestehendenNutzerEinladen(Nutzer bestehenderNutzer, Firma firma)
-			throws Exception {
-		istNutzerBerechtigt(firma, Firmenrolle.Administrator);
+        if (kommentar != null && !kommentar.isEmpty())
+        {
+            bodyBuilder.append("Der Nutzer hat folgenden Kommentar angegeben:");
+            bodyBuilder.append(kommentar);
+        }
 
-		Mitarbeiter mitarbeiter = new Mitarbeiter(firma, bestehenderNutzer);
-		bestehenderNutzer.getFirmen().add(firma);
+        try
+        {
+            this.mailService.sendeMail(alleAdministratoren, betreff, bodyBuilder.toString(), false, null);
+        }
+        catch (ServiceUnavailableException e)
+        {
+            FirmenService.LOGGER.log(Level.SEVERE, "Administratoren konnte nicht über neuen Firmenantrag informiert werden", e);
+        }
+    }
 
-		standardNachrichten.zuFirmaHinzugefuegt(bestehenderNutzer, firma, ausfuehrenderNutzer);
-	}
+    @Override
+    public void nutzerEinladen(Firma firma, String email, String vorname, String nachname) throws ServiceUnavailableException, Exception
+    {
 
-	private void istNutzerBerechtigt(Firma firma, Firmenrolle benoetigteRolle)
-			throws Exception {
-		for (Mitarbeiter mitarbeiter : firma.getMitarbeiter()) {
-			if (mitarbeiter.equals(getNutzer())) {
-				if (mitarbeiter.isAdmin()) {
-					return;
-				} else
-					throw new FirmenSecurityException(getNutzer(), Firmenrolle.Administrator, "nutzer einladen");
-			}
-		}
-		throw new Exception("Nutzer ist kein Mitarbeiter der Firma.");
-	}
+        this.istNutzerBerechtigt(firma, Firmenrolle.Administrator);
 
-	@Override
-	public void NutzerEntfernen(Firma firma, Mitarbeiter zuEntfernenderNutzer)
-			throws Exception {
+        Nutzer neuerNutzer = new Nutzer(email, vorname, nachname);
+        neuerNutzer.getFirmen().add(firma);
+        Mitarbeiter neuerMitarbeiter = new Mitarbeiter();
+        neuerMitarbeiter.setFirmenrolle(Firmenrolle.Mitarbeiter);
+        neuerMitarbeiter.setNutzer(neuerNutzer);
+        neuerNutzer.getMitarbeiter().add(neuerMitarbeiter);
+        neuerMitarbeiter.setFirma(firma);
+        firma.getMitarbeiter().add(neuerMitarbeiter);
 
-		istNutzerBerechtigt(firma, Firmenrolle.Administrator);
+        this.nutzerService.registrieren(neuerNutzer, firma);
+    }
 
-		zuEntfernenderNutzer.getNutzer().getFirmen().remove(firma);
-		firma.getMitarbeiter().remove(zuEntfernenderNutzer);
-		// TODO Marcel übernehme Änderung in DB
+    @Override
+    public void bestehendenNutzerEinladen(String nutzerEmail, Firma firma) throws Exception
+    {
+        this.istNutzerBerechtigt(firma, Firmenrolle.Administrator);
+        // lade nutzer mit der nutzerEmail aus DB
+        Nutzer nutzer = this.nutzerService.getNutzer(nutzerEmail);
 
-		standardNachrichten.vonFirmaEntfernt(zuEntfernenderNutzer.getNutzer(), firma, getNutzer());
-	}
+        Mitarbeiter mitarbeiter = new Mitarbeiter(firma, nutzer);
+        mitarbeiter.setFirmenrolle(Firmenrolle.Mitarbeiter);
+        nutzer.getMitarbeiter().add(mitarbeiter);
+        nutzer.getFirmen().add(firma);
+        firma.getMitarbeiter().add(mitarbeiter);
+        this.nutzerService.nutzerSpeichern(nutzer);
 
-	@Override
-	public void SetzeNutzerRolle(Firma firma, Mitarbeiter nutzer, Firmenrolle rolle)
-			throws Exception {
+        this.standardNachrichten.zuFirmaHinzugefuegt(nutzer, firma, this.ausfuehrenderNutzer);
+    }
 
-		istNutzerBerechtigt(firma, Firmenrolle.Administrator);
- 
-		nutzer.setFirmenrolle(rolle);
-	} 
+    private void istNutzerBerechtigt(Firma firma, Firmenrolle benoetigteRolle) throws Exception
+    {
+        for (Mitarbeiter mitarbeiter : firma.getMitarbeiter())
+        {
+            if (mitarbeiter.getNutzer().equals(this.getNutzer()))
+            {
+                if (mitarbeiter.isAdmin())
+                {
+                    return;
+                }
+                else
+                {
+                    throw new FirmenSecurityException(this.getNutzer(), Firmenrolle.Administrator, "nutzer einladen");
+                }
+            }
+        }
+        throw new Exception("Nutzer ist kein Mitarbeiter der Firma.");
+    }
 
-	@Override
-	public void loescheFirma(Firma firma, Nutzer angemeldeterNutzer) {
-		standardNachrichten.firmaGeloescht(firma);
-		firma.getMitarbeiter().forEach(m -> {
-			m.getNutzer().getFirmen().remove(firma);
-		});
+    @Override
+    public void nutzerEntfernen(Firma firma, Mitarbeiter zuEntfernenderNutzer) throws Exception
+    {
 
-		// TODO Änderung der Mitarbeiter abspeichern und Firma löschen!
-	}
+        this.istNutzerBerechtigt(firma, Firmenrolle.Administrator);
+
+        zuEntfernenderNutzer.getNutzer().getFirmen().remove(firma);
+        firma.getMitarbeiter().remove(zuEntfernenderNutzer);
+        // übernehme Änderung in DB
+        firma = this.firmaSpeichern(firma);
+
+        this.standardNachrichten.vonFirmaEntfernt(zuEntfernenderNutzer.getNutzer(), firma, this.getNutzer());
+    }
+
+    @Override
+    public void setzeNutzerRolle(Firma firma, Mitarbeiter nutzer, Firmenrolle rolle) throws Exception
+    {
+
+        this.istNutzerBerechtigt(firma, Firmenrolle.Administrator);
+
+        nutzer.setFirmenrolle(rolle);
+    }
+
+    @Override
+    public void loescheFirma(Firma firma, Nutzer angemeldeterNutzer)
+    {
+        this.standardNachrichten.firmaGeloescht(firma);
+        firma.getMitarbeiter().forEach(m -> {
+            Nutzer nutzer = m.getNutzer();
+            nutzer.getFirmen().remove(firma);
+            nutzer.getMitarbeiter().remove(m);
+            // Änderung der Mitarbeiter abspeichern
+            this.nutzerService.nutzerMergen(nutzer);
+        });
+        // Firma löschen
+        this.firmaLoeschen(firma);
+
+    }
+
+    @Transactional(value = TxType.REQUIRED)
+    private void firmaLoeschen(Firma firma)
+    {
+        Firma find = this.entityManager.find(Firma.class, firma.getIdentifikation());
+        this.entityManager.remove(find);
+        FirmenService.LOGGER.info("Firma " + firma + " wurde aus der DB gelöscht");
+    }
+
+    @Override
+    public List<Firma> offeneFirmenAntraege()
+    {
+        TypedQuery<Firma> query = this.entityManager.createQuery("SELECT f FROM Firma f WHERE f.status = 'BEANTRAGT'", Firma.class);
+        List<Firma> offeneAntraege = query.getResultList();
+        return offeneAntraege;
+    }
+
+    @Override
+    public void bearbeiteFirmenAntrag(boolean annehmen, Firma firma)
+    {
+        firma.setStatus(annehmen ? Firmenstatus.VERIFIZIERT : Firmenstatus.ABGELEHNT);
+        firma = this.firmaSpeichern(firma);
+        // TODO firma dem admin nutzer zuordnen
+    }
 
 }

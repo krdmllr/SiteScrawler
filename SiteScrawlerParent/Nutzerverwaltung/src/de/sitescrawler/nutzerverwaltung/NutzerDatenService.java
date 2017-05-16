@@ -9,13 +9,12 @@ import javax.inject.Named;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerDatenService;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
-import de.sitescrawler.qualifier.Produktiv;
 
 /**
+ * Methoden zur Verwaltung der Nutzer Daten.
  *
- * @author robin Methoden zur Verwaltung der Nutzer Daten.
+ * @author robin
  */
-@Produktiv
 @SessionScoped
 @Named
 public class NutzerDatenService implements Serializable, INutzerDatenService
@@ -67,6 +66,12 @@ public class NutzerDatenService implements Serializable, INutzerDatenService
         {
             this.nutzerService.nutzerLoeschen(this.nutzer);
         }
+    }
+
+    @Override
+    public boolean verifizierePasswort(String passwort)
+    {
+        return this.nutzer.getPasswort().equals(passwort);
     }
 
 }

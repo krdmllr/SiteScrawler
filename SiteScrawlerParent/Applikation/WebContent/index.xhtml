@@ -39,25 +39,28 @@
 
 					<!-- manuellen Crawlvorgang starten -->
 					<h:form id="manueller-crawl-form">
-						<p:commandLink class="panel-button-div" style="display:block;"
-							action="#{archiv.manuellCrawlen()}">
-							Jetzt report anlegen
+						<p:commandLink class="panel-button-div" style="display:block;" 
+							action="#{archiv.manuellCrawlen()}" ajax="false"> 
+							Jetzt Report anlegen 
 							</p:commandLink>
 					</h:form>
 					<hr class="no-padding-margin" />
-
+					
 					<div class="panel-body filter">
-						<h:form>
-							<div class="form-group">
-								<b:dateTimePicker value="#{archiv.abZeitpunkt}" label="Frühste"
-									mode="popup" show-time="false" render-label="true" />
-							</div>
-							<div class="form-group">
-								<b:dateTimePicker value="#{archiv.bisZeitpunkt}"
-									label="Späteste" mode="popup" show-time="false"
+						
+							<b:form >
+								<b:dateTimePicker  
+									value="#{archiv.abZeitpunkt}" 
+									label="Frühester Zeitpunkt"
+									mode="popup" show-time="false" 
 									render-label="true" />
-							</div>
-						</h:form>
+							</b:form>
+							<b:form  >
+								<b:dateTimePicker value="#{archiv.bisZeitpunkt}"
+									mode="popup" show-time="false"
+									label="Spätester Zeitpunkt"  
+									render-label="true" />
+							</b:form>
 					</div>
 					<hr class="no-padding-margin" />
 
@@ -119,9 +122,12 @@
 						value="#{archiv.geweahlterArchiveintrag.artikel}" var="artikel"
 						type="definition">
 						<div class="list-group-item artikel-ansicht container-parent">
-
-							<div
-								class="container-panel artikel-titel-container container-row">
+							<div style="display: inline-block;">
+								<p:graphicImage class="artikel-bild" rendered="#{artikel.quelle.bildVerfuegbar}"  value="#{artikel.quelle.bildlink}" cache="false"/>
+								<p:graphicImage class="artikel-bild" rendered="#{!artikel.quelle.bildVerfuegbar}"  value="https://image.flaticon.com/icons/svg/237/237188.svg" cache="false"/>
+							</div>
+							<div style="width: calc(100% - 200px); display: inline-block;float: right;">
+							<div class="container-panel artikel-titel-container container-row">
 								<h4 class="pull-left">
 									<p:outputLabel rendered="#{artikel.twitterQuelle}"
 										value="@#{artikel.autor}" />
@@ -139,12 +145,12 @@
 
 							<p id="artikel-zusammenfassung" class="container-auto-row">#{artikel.beschreibung}</p>
 
-							<div class="artikel-titel-container container-row">
-								<p:outputPanel class="no-padding-margin"
+							<div class="artikel-titel-container container-row" >
+								<p:outputPanel class="no-padding-margin auto-twitter-info" 
 									rendered="#{!artikel.twitterQuelle}">
-									<h5 class="pull-left">#{artikel.autor}</h5>
+									<p class="pull-left">#{artikel.quelle.name} | #{artikel.autor}</p>
 								</p:outputPanel>
-								<p:outputPanel class="no-padding-margin"
+								<p:outputPanel class="no-padding-margin auto-twitter-info" 
 									rendered="#{artikel.twitterQuelle}">
 									<div class="pull-left twitter-info">
 										<span class="twitter-info-icon pull-left">#{artikel.retweetzahl}</span>
@@ -158,12 +164,7 @@
 											style="color: red;"></span>
 									</div>
 								</p:outputPanel>
-
-
-
-
-
-								<div class="btn-group pull-right" role="group">
+								<div class="btn-group pull-right artikel-optionen-buttons" role="group">
 									<p:commandLink type="button"
 										rendered="#{!artikel.twitterQuelle}"
 										id="artikel-oeffnen-button" class="btn btn-default"
@@ -177,6 +178,7 @@
 										class="btn btn-default"
 										value="#{artikel.twitterQuelle ? 'Auf Twitter anzeigen' : 'Website öffnen'}" />
 								</div>
+							</div>
 							</div>
 						</div>
 

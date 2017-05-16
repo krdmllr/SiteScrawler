@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -43,6 +44,16 @@ public class FilterBearbeitenBean implements Serializable {
 	private Set<Filterprofil> filterprofile;
 
 	private Filterprofilgruppe filtergruppe;
+	
+	private List<String> gewaehlteZeiten = new ArrayList<>();
+
+	public List<String> getGewaehlteZeiten() {
+		return gewaehlteZeiten;
+	}
+
+	public void setGewaehlteZeiten(List<String> gewaehlteZeiten) {
+		this.gewaehlteZeiten = gewaehlteZeiten;
+	}
 
 	private String ausgewaehlteTagesoption = TAEGLICH;
 
@@ -54,8 +65,49 @@ public class FilterBearbeitenBean implements Serializable {
 	public void setParameter(Filterprofilgruppe filtergruppe, Set<Filterprofil> filterprofile) {
 		this.filtergruppe = filtergruppe;
 		this.filterprofile = filterprofile;
+		
+		gewaehlteZeiten.clear();
+		for(Uhrzeit zeit: filtergruppe.getUhrzeiten()){
+			gewaehlteZeiten.add(zeitZuString(zeit.getUhrzeit()));
+		}
+	} 
+	
+	private String zeitZuString(Date date)
+	{
+		return date.getHours()+"";
 	}
-
+	
+	private Date stringZuDate(String string)
+	{
+		int stringAlsInt = Integer.parseInt(string);
+		return new Date(0,0,0,stringAlsInt,0);
+	}
+	
+	public void speichereZeiten(){ 
+		 
+		getFiltergruppe().getUhrzeiten().clear();
+		speichereAenderungAnFiltergruppe("Leere Uhrzeiten");	
+		
+		String alleZeiten = "";
+		for(String zeit: gewaehlteZeiten)
+		{
+			alleZeiten += zeit + "; "; 
+				Set<Filterprofilgruppe> dummyGruppe = new HashSet<>();
+				dummyGruppe.add(getFiltergruppe());
+				getFiltergruppe().getUhrzeiten().add(new Uhrzeit(stringZuDate(zeit), dummyGruppe));
+				
+		}
+		
+		for(Uhrzeit test : getFiltergruppe().getUhrzeiten())
+		{
+			System.out.println(test.getUhrzeit());
+		}
+		
+		System.out.println(alleZeiten);
+		
+		speichereAenderungAnFiltergruppe("Neue Zeiten gespeichert " + alleZeiten);
+	}
+	
 	public String getAusgewaehlteTagesoption() {
 		return ausgewaehlteTagesoption;
 	}

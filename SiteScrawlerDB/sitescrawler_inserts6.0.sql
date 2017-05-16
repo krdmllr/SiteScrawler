@@ -21,10 +21,10 @@ INSERT INTO Nutzer (identifikation, vorname, nachname, email, passwort, empfange
 SELECT * FROM Nutzer;
 COMMIT;
 
-INSERT INTO Firma VALUES(2, 'Bizerba','bizerba@spoofmail.de');
-INSERT INTO Firma VALUES(3, 'DATEV','datev@spoofmail.de');
-INSERT INTO Firma VALUES(1, 'aformatik','aformatik@spoofmail.de');
-INSERT INTO Firma VALUES(4, 'Spirit21','spirit21@spoofmail.de');
+INSERT INTO Firma(identifikation,name,firmenmail) VALUES(2, 'Bizerba','bizerba@spoofmail.de');
+INSERT INTO Firma(identifikation,name,firmenmail) VALUES(3, 'DATEV','datev@spoofmail.de');
+INSERT INTO Firma(identifikation,name,firmenmail) VALUES(1, 'aformatik','aformatik@spoofmail.de');
+INSERT INTO Firma(identifikation,name,firmenmail) VALUES(4, 'Spirit21','spirit21@spoofmail.de');
 COMMIT;
 
 INSERT INTO Mitarbeiter VALUES(10,3,'Administrator');

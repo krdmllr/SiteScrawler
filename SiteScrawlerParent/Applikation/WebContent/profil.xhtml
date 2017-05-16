@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<!-- Custom styles for this template -->
+</h:head>
+<h:body>
+	<ui:composition template="/template.xhtml">
+		<ui:define name="content">
+			<div class="panel panel-default">
+				<b:accordion>
+					<b:panel title="Profil">
+						<b:form>
+							<h:panelGrid columns="2" cellpadding="10"
+								style="margin-bottom:10px"> 
+								<b:inputText value="#{nutzerprofil.nutzer.vorname}" label="Vorname" required="true" /> 
+								<br></br>
+								<b:inputText value="#{nutzerprofil.nutzer.nachname}" label="Nachname" required="true" />
+								<br></br>
+								<b:switch value="#{nutzerprofil.nutzer.empfangehtmlmails}" label="Ich möchte HTML-E-Mails erhalten" off-text="Nein" on-text="Ja" style="width:60px" />
+								<br></br>
+								<b:commandButton value="Speichern" ajax="false"
+									action="#{nutzerprofil.speichereAenderungen()}"/>
+							</h:panelGrid>
+						</b:form>
+					</b:panel>
+					<b:panel title="E-Mail ändern">
+						<b:form>
+							<h:panelGrid columns="2" cellpadding="10">
+								  
+								<b:inputText id="neueemail" label="Neue E-Mail" value="#{nutzerprofil.neueEmail}"
+									required="true" />
+								<br></br>
+								<b:inputSecret label="Passwort" id="pw" value="#{nutzerprofil.altesPasswort}"
+									required="true" />
+								<br></br> 
+								<b:commandButton value="Speichern"  
+									action="#{nutzerprofil.setNeueEmail()}" update="@form" />
+
+							</h:panelGrid>
+						</b:form>
+					</b:panel>
+					<b:panel title="Passwort ändern">
+						<b:form>
+							<h:panelGrid columns="2" cellpadding="10">
+								 
+								<b:inputSecret id="altespw" label="Altes Passwort" value="#{nutzerprofil.altesPasswort}"
+									required="true" /> 
+								  <br></br>
+							 	<p:separator />
+							 	<br></br>
+								<b:inputSecret id="neuespw" label="Neue Passwort" value="#{nutzerprofil.neuesPasswort}"
+									match="neuespw2" required="true" /> 
+								<br></br>
+								<b:inputSecret id="neuespw2" label="Passwort wiederholen" value="#{nutzerprofil.neuesPasswort}"
+									required="true" />
+								
+								<br></br>
+								<b:commandButton value="Speichern"
+									action="#{nutzerprofil.setNeuesPasswort()}" update="@form" />
+							</h:panelGrid>
+						</b:form>
+					</b:panel>
+					<b:panel title="Account löschen">
+						<b:form>
+							<h:panelGrid columns="1" cellpadding="10"> 
+								<b:inputSecret id="pwalt" label="Passwort" value="#{nutzerprofil.altesPasswort}"
+									required="true" /> 
+								<b:commandButton value="Account löschen"
+									action="#{nutzerprofil.loescheNutzer()}" update="@form" ajax="false"/>
+							</h:panelGrid>
+						</b:form>
+					</b:panel>
+				</b:accordion>
+				<h:messages/>
+			</div>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

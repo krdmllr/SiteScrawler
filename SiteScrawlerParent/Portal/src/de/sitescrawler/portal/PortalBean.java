@@ -1,14 +1,14 @@
 package de.sitescrawler.portal;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.sitescrawler.exceptions.ServiceUnavailableException;
-import de.sitescrawler.jpa.Filterprofilgruppe;
-import de.sitescrawler.jpa.Intervall;
 import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.model.ProjectConfig;
 import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
@@ -24,15 +24,16 @@ import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 public class PortalBean implements Serializable
 {
 
-    private static final long serialVersionUID = 1L;
+    private static final long   serialVersionUID = 1L;
+    private static final Logger LOGGER           = Logger.getLogger("de.sitescrawler.logger");
 
-    private Nutzer            nutzer           = new Nutzer();
-
-    @Inject
-    private ProjectConfig     config;
+    private Nutzer              nutzer           = new Nutzer();
 
     @Inject
-    private INutzerService    nutzerService;
+    private ProjectConfig       config;
+
+    @Inject
+    private INutzerService      nutzerService;
 
     public ProjectConfig getConfig()
     {
@@ -133,17 +134,18 @@ public class PortalBean implements Serializable
     /**
      * Initialisiert den Nutzer und sendet die Registrierung ab
      */
-    public void sendeRegistrierungAb()
+    public String sendeRegistrierungAb()
     {
+        System.out.println(this.nutzer + " wird registriert...");
         try
         {
             this.nutzerService.registrieren(this.nutzer);
         }
         catch (ServiceUnavailableException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            PortalBean.LOGGER.log(Level.SEVERE, "Nutzer " + this.nutzer + " konnte nicht registriert werden.", e);
         }
+        return null;
         // TODO Leite Nutzer weiter
     }
 

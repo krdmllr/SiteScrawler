@@ -15,11 +15,11 @@
 					<a href="http://doc.#{portal.config.domain}">
 						<div style="margin-left: 10px; margin-right: 10px;"
 							class="alert alert-warning" role="alert">Achtung! Bei
-							dieser Website handelt es sich um die Web-Applikation, die im
-							Rahmen der Vorlesung Software-Engineering an der DHBW Horb
-							entstanden ist. Um zur Projektdokumentation mit weiteren
-							Informationen zur Gruppe und der internen Dokumenten zu gelangen,
-							klicken Sie bitte hier.</div>
+							dieser Website handelt es sich um eine Web-Applikation, die im
+							Rahmen der Vorlesung Software-Engineering an der DHBW Stuttgart
+							Campus Horb entstanden ist. Um zur Projektdokumentation mit
+							weiteren Informationen zur Gruppe und den internen Dokumenten zu
+							gelangen, klicken Sie bitte hier.</div>
 					</a>
 					<div class="col-sm-6">
 
@@ -45,41 +45,38 @@
 					</div>
 					<div class="col-sm-6">
 						<!-- Registrieren Panel -->
+						<h1>Jetzt starten</h1>
 						<h:form>
-							<h1>Jetzt starten</h1>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.vorname}"
-									placeholder="Vorname" class="form-control" required="true"  requiredMessage="Bitte Vorname eingeben" validatorMessage="Nicht valider Vorname (Nur Groß- bzw. Kleinbuchstaben)">
-									 <f:validateRegex pattern="[a-zA-Z]+"/>
-									 </p:inputText>
+									placeholder="Vorname" class="form-control"
+									requiredMessage="Bitte Vorname eingeben"
+									validatorMessage="Nicht valider Vorname (Nur Groß- bzw. Kleinbuchstaben)">
+									<f:validateRegex pattern="[a-zA-Z]+" />
+								</p:inputText>
 							</div>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.nachname}"
-									placeholder="Nachname" class="form-control" required="true" requiredMessage="Bitte Nachname eingeben" validatorMessage="Nicht valider Nachname (Nur Groß- bzw. Kleinbuchstaben)">
-									<f:validateRegex pattern="[a-zA-Z]+"/>
+									placeholder="Nachname" class="form-control"
+									requiredMessage="Bitte Nachname eingeben"
+									validatorMessage="Nicht valider Nachname (Nur Groß- bzw. Kleinbuchstaben)">
+									<f:validateRegex pattern="[a-zA-Z]+" />
 								</p:inputText>
 							</div>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.email}"
-									placeholder="E-Mail" class="form-control" required="true" requiredMessage="Bitte Email eingeben" validatorMessage="Nicht valide Mail">
-									<f:validateRegex pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
-									</p:inputText>
-							</div>
-							<div class="form-group">
-								<p:inputText type="password" value="#{portal.nutzer.passwort}"
-									placeholder="Passwort" class="form-control" required="true" requiredMessage="Bitte Passwort eingeben">
-									<p:ajax event="keyup" update="progress-bar" />
+									placeholder="E-Mail" class="form-control"
+									requiredMessage="Bitte Email eingeben"
+									validatorMessage="Nicht valide Mail">
+									<f:validateRegex
+										pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
 								</p:inputText>
 							</div>
-							<h:panelGroup id="progress-bar">
-								<b:progressBar rendered="#{portal.passwortAngegeben()}"
-									value="#{portal.passwortStaerke.toString()}"
-									caption="#{portal.passwortStaerkeAlsText}" />
-							</h:panelGroup>
 							<div class="form-group">
-								<b:commandButton type="submit" class="btn btn-success"
-									action="#{portal.sendeRegistrierungAb()}" value="Registrieren" />
-								<h:messages globalOnly="true"/>
+								<p:commandLink type="success" class="btn btn-success"
+									action="#{portal.sendeRegistrierungAb()}" value="Registrieren"
+									update="@form" />
+								<h:messages globalOnly="true" />
 							</div>
 						</h:form>
 					</div>
@@ -95,7 +92,7 @@
 						<h2 class="section-heading">Übergreifende Suche</h2>
 						<p class="lead">SiteScrawler durchsucht für Sie das gesamte
 							World Wide Web nach Ihren Schlagwörtern. Egal ob nationale oder
-							lokale Eingrenzung, Wir finden alle relevanten Artikel für Sie!</p>
+							lokale Eingrenzung, wir finden alle relevanten Artikel für Sie!</p>
 					</div>
 					<div class="col-sm-3">
 						<h:graphicImage value="/resources/image/internet.svg"
@@ -118,7 +115,7 @@
 						<h2 class="section-heading">Immer auf dem neusten Stand</h2>
 						<p class="lead">SiteScrawler sucht in regelmäßigen Abständen
 							nach neuen Artikeln, die Ihren Anforderungen entsprechen. So
-							können Wir Ihnen immer aktuelle Ergebnisse liefern.</p>
+							können wir Ihnen immer aktuelle Ergebnisse liefern.</p>
 					</div>
 				</div>
 
