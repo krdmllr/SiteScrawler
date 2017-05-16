@@ -16,10 +16,10 @@
 						<div style="margin-left: 10px; margin-right: 10px;"
 							class="alert alert-warning" role="alert">Achtung! Bei
 							dieser Website handelt es sich um eine Web-Applikation, die im
-							Rahmen der Vorlesung Software-Engineering an der DHBW Stuttgart Campus Horb
-							entstanden ist. Um zur Projektdokumentation mit weiteren
-							Informationen zur Gruppe und den internen Dokumenten zu gelangen,
-							klicken Sie bitte hier.</div>
+							Rahmen der Vorlesung Software-Engineering an der DHBW Stuttgart
+							Campus Horb entstanden ist. Um zur Projektdokumentation mit
+							weiteren Informationen zur Gruppe und den internen Dokumenten zu
+							gelangen, klicken Sie bitte hier.</div>
 					</a>
 					<div class="col-sm-6">
 
@@ -45,11 +45,11 @@
 					</div>
 					<div class="col-sm-6">
 						<!-- Registrieren Panel -->
+						<h1>Jetzt starten</h1>
 						<h:form>
-							<h1>Jetzt starten</h1>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.vorname}"
-									placeholder="Vorname" class="form-control" 
+									placeholder="Vorname" class="form-control"
 									requiredMessage="Bitte Vorname eingeben"
 									validatorMessage="Nicht valider Vorname (Nur Groß- bzw. Kleinbuchstaben)">
 									<f:validateRegex pattern="[a-zA-Z]+" />
@@ -57,7 +57,7 @@
 							</div>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.nachname}"
-									placeholder="Nachname" class="form-control" 
+									placeholder="Nachname" class="form-control"
 									requiredMessage="Bitte Nachname eingeben"
 									validatorMessage="Nicht valider Nachname (Nur Groß- bzw. Kleinbuchstaben)">
 									<f:validateRegex pattern="[a-zA-Z]+" />
@@ -65,7 +65,7 @@
 							</div>
 							<div class="form-group">
 								<p:inputText type="text" value="#{portal.nutzer.email}"
-									placeholder="E-Mail" class="form-control" 
+									placeholder="E-Mail" class="form-control"
 									requiredMessage="Bitte Email eingeben"
 									validatorMessage="Nicht valide Mail">
 									<f:validateRegex
@@ -73,8 +73,9 @@
 								</p:inputText>
 							</div>
 							<div class="form-group">
-								<p:commandLink type="success" class="btn btn-success" action="#{portal.sendeRegistrierungAb()}"
-									value="Registrieren" update="@form"/>
+								<p:commandLink type="success" class="btn btn-success"
+									action="#{portal.sendeRegistrierungAb()}" value="Registrieren"
+									update="@form" />
 								<h:messages globalOnly="true" />
 							</div>
 						</h:form>

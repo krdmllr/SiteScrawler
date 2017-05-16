@@ -84,7 +84,7 @@ public class Mitarbeiter implements java.io.Serializable
 
     // MAPPED
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "Firma_Filtermanager_identifikation", nullable = false, insertable = false, updatable = false)
     public Firma getFirma()
     {
@@ -96,7 +96,7 @@ public class Mitarbeiter implements java.io.Serializable
         this.firma = firma;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "Nutzer_Filtermanager_identifikation", nullable = false, insertable = false, updatable = false)
     public Nutzer getNutzer()
     {
@@ -119,12 +119,16 @@ public class Mitarbeiter implements java.io.Serializable
     {
         this.firmenrolle = firmenrolle;
     }
-    
+
     @Override
-    public boolean equals(Object obj) {
-    	if(!(obj instanceof Mitarbeiter)) return false;
-    	
-    	return ((Mitarbeiter)obj).getId() == id;
-	}
+    public boolean equals(Object obj)
+    {
+        if (!(obj instanceof Mitarbeiter))
+        {
+            return false;
+        }
+
+        return ((Mitarbeiter) obj).getId() == this.id;
+    }
 
 }

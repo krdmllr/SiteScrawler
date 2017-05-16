@@ -22,6 +22,7 @@ import de.sitescrawler.jpa.Nutzer;
 import de.sitescrawler.jpa.management.interfaces.IFilterManagerManager;
 import de.sitescrawler.jpa.management.interfaces.IFirmenManager;
 import de.sitescrawler.model.Firmenrolle;
+import de.sitescrawler.model.ZeitIntervall;
 
 /**
  *
@@ -61,18 +62,20 @@ public class FirmenBean implements Serializable
     private Firma               neueFirma        = new Firma();
 
     private String              neueFirmaKommentar;
-    
-    private String				neueFiltergruppe;
-    
-    public String getNeueFiltergruppe() {
-		return neueFiltergruppe;
-	}
 
-	public void setNeueFiltergruppe(String neueFiltergruppe) {
-		this.neueFiltergruppe = neueFiltergruppe;
-	}
+    private String              neueFiltergruppe;
 
-	@Inject
+    public String getNeueFiltergruppe()
+    {
+        return this.neueFiltergruppe;
+    }
+
+    public void setNeueFiltergruppe(String neueFiltergruppe)
+    {
+        this.neueFiltergruppe = neueFiltergruppe;
+    }
+
+    @Inject
     private IFilterManagerManager filterManager;
 
     public Firma getNeueFirma()
@@ -103,28 +106,30 @@ public class FirmenBean implements Serializable
             this.setAusgewaehlteFirma((Firma) this.dataBean.getNutzer().getFirmen().toArray()[0]);
         }
     }
-    
-    public void neueFiltergruppeHinzufuegen(){
-		Filterprofilgruppe neueGruppe = new Filterprofilgruppe();
-		neueGruppe.setTitel(neueFiltergruppe);
-		neueGruppe.setFiltermanager(getAusgewaehlteFirma());
-		neueGruppe.setIntervall(new Intervall());
-		getAusgewaehlteFirma().getFilterprofilgruppen().add(neueGruppe);
-		filterManager.speichereAenderung(getAusgewaehlteFirma());
-		neueFiltergruppe = "";
-	}
-    
-    public boolean isNutzerAdmin(){
-    	Mitarbeiter mitarbeiterProfilVonNutzer = null;
-    	for(Mitarbeiter m : getAusgewaehlteFirma().getMitarbeiter())
-    	{
-    		if(m.getNutzer() == dataBean.getNutzer())
-    		{
-    			mitarbeiterProfilVonNutzer = m;
-    		}
-    	}
-    	
-    	return mitarbeiterProfilVonNutzer != null && mitarbeiterProfilVonNutzer.isAdmin();
+
+    public void neueFiltergruppeHinzufuegen()
+    {
+        Filterprofilgruppe neueGruppe = new Filterprofilgruppe();
+        neueGruppe.setTitel(this.neueFiltergruppe);
+        neueGruppe.setFiltermanager(this.getAusgewaehlteFirma());
+        neueGruppe.setIntervall(new Intervall(ZeitIntervall.TAEGLICH));
+        this.getAusgewaehlteFirma().getFilterprofilgruppen().add(neueGruppe);
+        this.filterManager.speichereAenderung(this.getAusgewaehlteFirma());
+        this.neueFiltergruppe = "";
+    }
+
+    public boolean isNutzerAdmin()
+    {
+        Mitarbeiter mitarbeiterProfilVonNutzer = null;
+        for (Mitarbeiter m : this.getAusgewaehlteFirma().getMitarbeiter())
+        {
+            if (m.getNutzer() == this.dataBean.getNutzer())
+            {
+                mitarbeiterProfilVonNutzer = m;
+            }
+        }
+
+        return mitarbeiterProfilVonNutzer != null && mitarbeiterProfilVonNutzer.isAdmin();
     }
 
     public void neueFirmaVerwerfen()
@@ -136,7 +141,7 @@ public class FirmenBean implements Serializable
     {
         FirmenBean.LOGGER.info("Erstelle Firma: " + this.neueFirma.getName() + " | " + this.neueFirma.getFirmenmail() + " | " + this.neueFirmaKommentar);
 
-        this.firmenService.firmaBeantragen(this.neueFirma.getName(), this.neueFirma.getFirmenmail(), this.neueFirmaKommentar);
+        this.firmenService.firmaBeantragen(this.neueFirma, this.neueFirmaKommentar);
 
         this.neueFirma = new Firma();
     }
@@ -212,7 +217,7 @@ public class FirmenBean implements Serializable
         // Lade nutzer ein
         try
         {
-            this.firmenService.bestehendenNutzerEinladen(this.neuerNutzer, this.getAusgewaehlteFirma());
+            this.firmenService.bestehendenNutzerEinladen(this.neuerMitarbeiterEmail, this.getAusgewaehlteFirma());
         }
         catch (FirmenSecurityException securityException)
         {
@@ -307,7 +312,7 @@ public class FirmenBean implements Serializable
 
     private void speichereAenderung(String beschreibung)
     {
-        this.firmenManager.speichereAenderungen(this.getAusgewaehlteFirma());
+        this.setAusgewaehlteFirma(this.firmenManager.speichereAenderungen(this.getAusgewaehlteFirma()));
         FirmenBean.LOGGER.log(Level.INFO, "Änderung in " + this.getAusgewaehlteFirma().getName() + ": " + beschreibung);
     }
 }
