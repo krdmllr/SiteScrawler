@@ -12,8 +12,8 @@ import javax.inject.Named;
 import de.sitescrawler.jpa.Filterprofilgruppe;
 
 /**
- * 
- * @author robin NavigationBean
+ * NavigationBean, stellt Daten die in der Navigationsleiste angezeigt werden bereit.
+ * @author robin 
  */
 @SessionScoped
 @Named("navigation")
@@ -24,6 +24,10 @@ public class NavigationBean implements Serializable {
 	@Inject
 	private DataBean dataBean;
 
+	/**
+	 * Gibt alle Filtergruppen exklusive der aktuell ausgewählten zurück.
+	 * @return
+	 */
 	public List<Filterprofilgruppe> getSelectableFiltergruppen() {
 
 		return dataBean.getFiltergruppen().stream().filter(p -> p != dataBean.getFiltergruppe())

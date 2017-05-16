@@ -13,8 +13,8 @@ import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.jpa.management.interfaces.IQuellenManager;
 
 /**
- *
- * @author robin QuellenBean, alle Methoden zur Quellenverwaltung.
+ * QuellenBean, alle Methoden zur Quellenverwaltung.
+ * @author robin 
  */
 @SessionScoped
 @Named("quellen")
@@ -32,10 +32,13 @@ public class QuellenBean implements Serializable
     @Inject
     private ICrawlerLaufService crawlerService;
 
+    //Die aktuell gewählte Quelle
     private Quelle              gewaehlteQuelle;
 
+    //Zwichenspeicher für eine neue Quelle während des Erstellungsprozesses.
     private Quelle              neueQuelle;
 
+    //Kopie der gewählten Quelle zum Vergleich von Änderungen.
     private Quelle              gewaehlteQuelleKopie;
 
     @PostConstruct
@@ -45,7 +48,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Setze die Default Quelle auf das erste Element
+     * Setze die Default Quelle auf das erste Element.
      */
     private void setzeDefaultQuelle()
     {
@@ -56,7 +59,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Manuellen Crawlvorgang starten
+     * Manuellen Crawlvorgang starten.
      */
     public void crawleManuell()
     {
@@ -64,28 +67,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Get von allen Quellen
-     *
-     * @return Liste von Quellen
-     */
-    public List<Quelle> getQuellen()
-    {
-        List<Quelle> quellen = this.quellenManager.getQuellen();
-        return quellen;
-    }
-
-    /**
-     * Get auf die aktuell gew�hlte Quelle
-     *
-     * @return
-     */
-    public Quelle getGewaehlteQuelle()
-    {
-        return this.gewaehlteQuelle;
-    }
-
-    /**
-     * Setze die neue gew�hlte Quelle, erzeugt dabei eine Kopie
+     * Setze die neue gewählte Quelle, erzeugt dabei eine Kopie welche als Vergleich für Änderungen dient.
      *
      * @param geweahlteQuelle
      */
@@ -100,7 +82,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Erstelle neue Quelle
+     * Startet das Erstellen einer neuen Quelle.
      */
     public void starteQuellenErstellen()
     {
@@ -108,7 +90,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Verwirft die �nderungen und setzt die Felder wieder auf die urspr�nglichen Werte.
+     * Verwirft die Änderungen und setzt die Felder wieder auf die ursprünglichen Werte.
      */
     public void verwerfeAenderungen()
     {
@@ -118,7 +100,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Speichert die �nderungen
+     * Speichert die Änderungen.
      */
     public void speichereAenderung()
     {
@@ -127,7 +109,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * �bernimmt die neue Quelle
+     * Übernimmt die neue Quelle
      */
     public void uebernehmeNeueQuelle()
     {
@@ -137,7 +119,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * L�scht die gew�hlte Quelle und setzt eine neue Default Quelle
+     * Löscht die gewählte Quelle und setzt eine neue Default Quelle
      */
     public void loescheQuelle()
     {
@@ -149,7 +131,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Boolean, ob der L�schen Button angezeigt werden muss
+     * Ermittelt, ob der Löschen Button angezeigt werden muss
      *
      * @return
      */
@@ -159,7 +141,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Boolean, ob der Verwerfen Button angezeigt werden muss
+     * Ermittelt, ob der Verwerfen Button angezeigt werden muss
      *
      * @return
      */
@@ -169,7 +151,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Boolean, ob der neue Quelle verwerfen Button angezeigt werden muss. Liefert true wenn ein Feld bef�llt ist.
+     * Ermitelt, ob der neue Quelle verwerfen Button angezeigt werden muss. Liefert true wenn ein Feld bef�llt ist.
      *
      * @return
      */
@@ -194,7 +176,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Boolean, ob der Quelle erstellen Button angezeigt werden muss, liefert true wenn alle Felder bef�llt sind.
+     * Ermittelt, ob der Quelle erstellen Button angezeigt werden muss, liefert true wenn alle Felder bef�llt sind.
      *
      * @return
      */
@@ -218,14 +200,17 @@ public class QuellenBean implements Serializable
         return true;
     }
 
+    /**
+     * Ermittelt ob das Quellen Fenster angezeigt werden soll.
+     * @return
+     */
     public boolean zeigeQuelleAn()
     {
         return this.getGewaehlteQuelle() != null;
     }
 
     /**
-     * Boolean, ob der Speichern button angezeit werden muss.
-     *
+     * Emittelt ob der Speichern button angezeit werden muss.
      * @return
      */
     public boolean zeigeSpeichernButton()
@@ -234,7 +219,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Boolean, ob die Quelle ver�ndert wurde. �berpr�ft, ob Inhalte der gew�hlten Quelle und der Kopie gleich sind.
+     * Boolean, ob die Quelle verändert wurde. Überprüft, ob Inhalte der gewählten Quelle und der Kopie gleich sind.
      *
      * @return
      */
@@ -246,19 +231,19 @@ public class QuellenBean implements Serializable
             return false;
         }
 
-        if (!this.istStringGleich(this.gewaehlteQuelle.getName(), this.gewaehlteQuelleKopie.getName()))
+        if (!this.sindStringGleich(this.gewaehlteQuelle.getName(), this.gewaehlteQuelleKopie.getName()))
         {
             return true;
         }
-        if (!this.istStringGleich(this.gewaehlteQuelle.getRsslink(), this.gewaehlteQuelleKopie.getRsslink()))
+        if (!this.sindStringGleich(this.gewaehlteQuelle.getRsslink(), this.gewaehlteQuelleKopie.getRsslink()))
         {
             return true;
         }
-        if (!this.istStringGleich(this.gewaehlteQuelle.getTagOderId(), this.gewaehlteQuelleKopie.getTagOderId()))
+        if (!this.sindStringGleich(this.gewaehlteQuelle.getTagOderId(), this.gewaehlteQuelleKopie.getTagOderId()))
         {
             return true;
         }
-        if (!this.istStringGleich(this.gewaehlteQuelle.getBildlink(), this.gewaehlteQuelleKopie.getBildlink()))
+        if (!this.sindStringGleich(this.gewaehlteQuelle.getBildlink(), this.gewaehlteQuelleKopie.getBildlink()))
         {
             return true;
         }
@@ -267,13 +252,12 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * �berpr�ft ob zwei Strings gleich sind.
-     *
+     * Überprüft ob zwei Strings gleich sind. 
      * @param string1
      * @param string2
      * @return
      */
-    private boolean istStringGleich(String string1, String string2)
+    private boolean sindStringGleich(String string1, String string2)
     {
         if (string1 == null && string2 == null)
         {
@@ -304,7 +288,7 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Get f�r die neue Quelle
+     * Get für die neue Quelle
      *
      * @return
      */
@@ -314,12 +298,33 @@ public class QuellenBean implements Serializable
     }
 
     /**
-     * Set f�r die neue Quelle
+     * Set für die neue Quelle
      *
      * @param neueQuelle
      */
     public void setNeueQuelle(Quelle neueQuelle)
     {
         this.neueQuelle = neueQuelle;
+    }
+    
+    /**
+     * Get von allen Quellen
+     *
+     * @return Liste von Quellen
+     */
+    public List<Quelle> getQuellen()
+    {
+        List<Quelle> quellen = this.quellenManager.getQuellen();
+        return quellen;
+    }
+
+    /**
+     * Get auf die aktuell gewählte Quelle
+     *
+     * @return
+     */
+    public Quelle getGewaehlteQuelle()
+    {
+        return this.gewaehlteQuelle;
     }
 }

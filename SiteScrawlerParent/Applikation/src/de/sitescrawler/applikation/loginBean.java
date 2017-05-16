@@ -25,8 +25,8 @@ import de.sitescrawler.nutzerverwaltung.interfaces.INutzerService;
 import de.sitescrawler.qualifier.Produktiv;
 
 /**
- * 
- * @author robin loginBean, alle Methoden zum Login/Logout
+ * LoginBean, alle Methoden zum Login/Logout und Passwort vergessen.
+ * @author robin 
  */
 @SessionScoped
 @Named("login")
@@ -40,6 +40,8 @@ public class loginBean implements Serializable {
 	private String originalURL;
 	private FacesContext context = FacesContext.getCurrentInstance();
 	private boolean registriert = true;
+	
+	//Hält die Email die im Passwort vergessen Feld angegben wird.
 	private String emailPasswortVergessen;
 
 	@Inject
@@ -53,6 +55,8 @@ public class loginBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		
+		//Überprüft ob der Nutzer registriert ist und leitet ihn entsprechend an die App weiter.
 		ExternalContext externalContext = this.context.getExternalContext();
 		this.originalURL = (String) externalContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
 		if (this.originalURL == null) {
@@ -67,6 +71,9 @@ public class loginBean implements Serializable {
 
 	}
 	
+	/**	
+	 * Setzt das Passwort über die angegebene Email zurück.
+	 */
 	public void passwortZuruecksetzen(){
 		
 		if(nutzerService.isEmailVerfuegbar(emailPasswortVergessen))
@@ -88,6 +95,9 @@ public class loginBean implements Serializable {
 		emailPasswortVergessen = "";
 	}
 
+	/**
+	 * Meldet den Nutzer an.
+	 */
 	public void login() {
 		System.out.println("Login: " + this.uid + " | " + this.password);
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -102,6 +112,9 @@ public class loginBean implements Serializable {
 
 	}
 
+	/**
+	 * Meldet den Nutzer ab.
+	 */
 	public void logout() {
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		externalContext.invalidateSession();
@@ -111,8 +124,7 @@ public class loginBean implements Serializable {
 			externalContext.redirect(externalContext.getRequestContextPath() + "/index.xhtml");
 		} catch (ServletException | IOException e) {
 			if(e.getMessage().toLowerCase().contains("login failed")){
-				//Login fehlgeschlagen, unterrichte Nutzer.
-				
+				//Login fehlgeschlagen, unterrichte Nutzer. 
 		        FacesContext context = FacesContext.getCurrentInstance(); 
 		        context.addMessage(null, new FacesMessage("Anmeldung fehlgeschlagen", "Passwort oder E-Mail Adresse falsch."));
 			}

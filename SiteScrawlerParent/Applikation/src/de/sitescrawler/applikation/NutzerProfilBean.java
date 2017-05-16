@@ -35,11 +35,9 @@ public class NutzerProfilBean implements Serializable
     @Inject
     private loginBean           loginBean;
 
-    public Nutzer getNutzer()
-    {
-        return this.nutzerDatenService.getNutzer();
-    }
-
+    /**
+     * Übernimmt das neue Passwort.
+     */
     public void setNeuesPasswort()
     {
         if (this.nutzerDatenService.verifizierePasswort(this.altesPasswort))
@@ -54,6 +52,9 @@ public class NutzerProfilBean implements Serializable
         }
     }
 
+    /**
+     * Übernimmt die neue Email.
+     */
     public void setNeueEmail()
     {
         if (this.nutzerDatenService.verifizierePasswort(this.altesPasswort))
@@ -62,13 +63,15 @@ public class NutzerProfilBean implements Serializable
             speichereNachricht("Neue E-Mail Adresse gespeichert.", "Nutzerdaten aktualisiert.");
         }
         else
-        {
-            // TODO wird nicht angezeigt
+        { 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Falsches Passwort.", "Ihr eingegebenes Passwort ist ungültig."));
             FacesMessages.error("Falsches Passwort.", "Ihr eingegebenes Passwort ist ungültig.");
         }
     }
 
+    /**
+     * Löscht den Nutzer.
+     */
     public void loescheNutzer()
     {
         if (this.nutzerDatenService.verifizierePasswort(this.altesPasswort))
@@ -78,8 +81,7 @@ public class NutzerProfilBean implements Serializable
             this.loginBean.logout();
         }
         else
-        {
-            // TODO wird nicht angezeigt
+        { 
             FacesMessages.error("Falsches Passwort.", "Ihr eingegebenes Passwort ist ungültig.");
         }
     }
@@ -89,11 +91,23 @@ public class NutzerProfilBean implements Serializable
         context.addMessage(null, new FacesMessage(titel, nachricht) ); 
     }
 
+    /**
+     * Gibt den aktuellen Nutzer zurück.
+     * @return
+     */
+    public Nutzer getNutzer()
+    {
+        return this.nutzerDatenService.getNutzer();
+    }
+    
+    /**
+     * Speichert die Änderungen an dem aktuellen Nutzer.
+     */
     public void speichereAenderungen()
     {
         this.nutzerService.nutzerMergen(this.getNutzer());
-    }
-
+    } 
+    
     public String getAltesPasswort()
     {
         return this.altesPasswort;

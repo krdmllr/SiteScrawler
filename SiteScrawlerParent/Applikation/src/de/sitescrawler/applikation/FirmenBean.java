@@ -47,8 +47,13 @@ public class FirmenBean implements Serializable
     @Inject
     private IFirmenService      firmenService;
 
+    @Inject
+    private IFilterManagerManager filterManager;
+
+    //Die aktuell ausgewählte Firma die bearbeitet wird.
     private Firma               ausgewaehlteFirma;
 
+    //Hält die neue Email eines Mitarbeiters wenn dieser zur Firma hinzugefügt wird.
     private String              neuerMitarbeiterEmail;
 
     private Filterprofilgruppe  aktuelleFiltergruppe;
@@ -64,39 +69,6 @@ public class FirmenBean implements Serializable
     private String              neueFirmaKommentar;
 
     private String              neueFiltergruppe;
-
-    public String getNeueFiltergruppe()
-    {
-        return this.neueFiltergruppe;
-    }
-
-    public void setNeueFiltergruppe(String neueFiltergruppe)
-    {
-        this.neueFiltergruppe = neueFiltergruppe;
-    }
-
-    @Inject
-    private IFilterManagerManager filterManager;
-
-    public Firma getNeueFirma()
-    {
-        return this.neueFirma;
-    }
-
-    public void setNeueFirma(Firma neueFirma)
-    {
-        this.neueFirma = neueFirma;
-    }
-
-    public String getNeueFirmaKommentar()
-    {
-        return this.neueFirmaKommentar;
-    }
-
-    public void setNeueFirmaKommentar(String neueFirmaKommentar)
-    {
-        this.neueFirmaKommentar = neueFirmaKommentar;
-    }
 
     @PostConstruct
     void init()
@@ -131,12 +103,7 @@ public class FirmenBean implements Serializable
 
         return mitarbeiterProfilVonNutzer != null && mitarbeiterProfilVonNutzer.isAdmin();
     }
-
-    public void neueFirmaVerwerfen()
-    {
-        this.neueFirma = new Firma();
-    }
-
+ 
     public void neueFirmaErstellen()
     {
         FirmenBean.LOGGER.info("Erstelle Firma: " + this.neueFirma.getName() + " | " + this.neueFirma.getFirmenmail() + " | " + this.neueFirmaKommentar);
@@ -144,38 +111,13 @@ public class FirmenBean implements Serializable
         this.firmenService.firmaBeantragen(this.neueFirma, this.neueFirmaKommentar);
 
         this.neueFirma = new Firma();
-    }
-
-    public Firma getAusgewaehlteFirma()
-    {
-        return this.ausgewaehlteFirma;
-    }
-
-    public String getNeuerMitarbeiterEmail()
-    {
-        return this.neuerMitarbeiterEmail;
-    }
-
-    public void setNeuerMitarbeiterEmail(String neuerMitarbeiterEmail)
-    {
-        this.neuerMitarbeiterEmail = neuerMitarbeiterEmail;
-    }
-
-    public void setAusgewaehlteFirma(Firma ausgewaehlteFirma)
-    {
-        this.ausgewaehlteFirma = ausgewaehlteFirma;
-    }
+    } 
 
     public void mitarbeiterEntfernen(Mitarbeiter mitarbeiter)
     {
         this.ausgewaehlteFirma.getMitarbeiter().remove(mitarbeiter);
 
         this.speichereAenderung(mitarbeiter.getNutzer().getGanzenNamen() + " entfernt.");
-    }
-
-    public List<Firma> getOffeneFirmenantraege()
-    {
-        return this.firmenService.offeneFirmenAntraege();
     }
 
     public void antragAnnehmen(Firma firma)
@@ -227,17 +169,7 @@ public class FirmenBean implements Serializable
         {
             FirmenBean.LOGGER.log(Level.SEVERE, "Mitarbeiter konnte nicht eingeladen werden.", ex);
         }
-    }
-
-    public Filterprofilgruppe getAktuelleFiltergruppe()
-    {
-        return this.aktuelleFiltergruppe;
-    }
-
-    public void setAktuelleFiltergruppe(Filterprofilgruppe aktuelleFiltergruppe)
-    {
-        this.aktuelleFiltergruppe = aktuelleFiltergruppe;
-    }
+    } 
 
     public Boolean isEmpfaengerAktuellerFilterGruppe(Mitarbeiter mitarbeiter)
     {
@@ -314,5 +246,74 @@ public class FirmenBean implements Serializable
     {
         this.setAusgewaehlteFirma(this.firmenManager.speichereAenderungen(this.getAusgewaehlteFirma()));
         FirmenBean.LOGGER.log(Level.INFO, "Änderung in " + this.getAusgewaehlteFirma().getName() + ": " + beschreibung);
+    } 
+
+    public Filterprofilgruppe getAktuelleFiltergruppe()
+    {
+        return this.aktuelleFiltergruppe;
+    }
+
+    public void setAktuelleFiltergruppe(Filterprofilgruppe aktuelleFiltergruppe)
+    {
+        this.aktuelleFiltergruppe = aktuelleFiltergruppe;
+    }
+    
+    public String getNeueFiltergruppe()
+    {
+        return this.neueFiltergruppe;
+    }
+
+    public void setNeueFiltergruppe(String neueFiltergruppe)
+    {
+        this.neueFiltergruppe = neueFiltergruppe;
+    }
+
+    public Firma getNeueFirma()
+    {
+        return this.neueFirma;
+    }
+
+    public void setNeueFirma(Firma neueFirma)
+    {
+        this.neueFirma = neueFirma;
+    }
+
+    public String getNeueFirmaKommentar()
+    {
+        return this.neueFirmaKommentar;
+    }
+
+    public void setNeueFirmaKommentar(String neueFirmaKommentar)
+    {
+        this.neueFirmaKommentar = neueFirmaKommentar;
+    }
+    public void neueFirmaVerwerfen()
+    {
+        this.neueFirma = new Firma();
+    }
+
+    public Firma getAusgewaehlteFirma()
+    {
+        return this.ausgewaehlteFirma;
+    }
+
+    public String getNeuerMitarbeiterEmail()
+    {
+        return this.neuerMitarbeiterEmail;
+    }
+
+    public void setNeuerMitarbeiterEmail(String neuerMitarbeiterEmail)
+    {
+        this.neuerMitarbeiterEmail = neuerMitarbeiterEmail;
+    }
+
+    public void setAusgewaehlteFirma(Firma ausgewaehlteFirma)
+    {
+        this.ausgewaehlteFirma = ausgewaehlteFirma;
+    }
+
+    public List<Firma> getOffeneFirmenantraege()
+    {
+        return this.firmenService.offeneFirmenAntraege();
     }
 }
