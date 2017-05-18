@@ -24,11 +24,14 @@
 						<p>Erstellungsrhythmus</p>
 
 						<div>
-						<b:form>
-							<b:switch label-text="E-Mail an Mitarbeiter" on-text="Ja" off-text="Nein" value="#{filterbearbeiten.filtergruppe.verschickeemail}">
-								
-							</b:switch>
-								<b:commandButton value="Speichern" action="#{filterbearbeiten.speichereEmailVersenden()}"></b:commandButton>
+							<b:form>
+								<b:switch label-text="E-Mail an Mitarbeiter" on-text="Ja"
+									off-text="Nein"
+									value="#{filterbearbeiten.filtergruppe.verschickeemail}">
+
+								</b:switch>
+								<b:commandButton value="Speichern"
+									action="#{filterbearbeiten.speichereEmailVersenden()}"></b:commandButton>
 							</b:form>
 						</div>
 						<div>
@@ -45,67 +48,103 @@
 											value="#{filterbearbeiten.tagesOptionen}">
 											<li><p:commandLink
 													action="#{filterbearbeiten.setAusgewaehlteTagesoption(option)}"
-													value="#{option}" ajax="false" update="tages-option tageszeiten">
+													value="#{option}" ajax="false"
+													update="tages-option tageszeiten">
 												</p:commandLink></li>
 										</p:repeat>
 									</ul>
 								</div>
 							</h:form>
 						</div>
-						
+
 						<!-- Monatlich: Tag -->
-						<h:form id="monatlich-tag" rendered="#{filterbearbeiten.monatlich}">
-							<b:inputText type="number" value="#{filterbearbeiten.filtergruppe.monatlicherTermin}"></b:inputText>
-							<b:selectOneMenu value="#{filterbearbeiten.gewaehlteEinzelUhrzeit}">
-							<f:selectItems value="#{filterbearbeiten.moeglicheUhrzeiten}"></f:selectItems>
-							</b:selectOneMenu>
-							
-							<b:commandButton value="Zeit Speichern" action="#{filterbearbeiten.speichereMonatlichenTermin()}" ajax="false"></b:commandButton>
-						</h:form>
-						
-						<!-- Wöchentlicher/Zweiwöchentlicher Termin: Tag/Zeit -->
-						<h:form id="wochen-tag" rendered="#{filterbearbeiten.woechentlich||filterbearbeiten.zweiWoechentlich}"> 	
-							<b:selectOneMenu value="#{filterbearbeiten.filtergruppe.wochentag}">
-								<f:selectItems value="#{filterbearbeiten.moeglicheWochentage}"></f:selectItems>
-							</b:selectOneMenu>
-						
-							<b:selectOneMenu value="#{filterbearbeiten.gewaehlteEinzelUhrzeit}">
+						<h:form id="monatlich-tag"
+							rendered="#{filterbearbeiten.monatlich}">
+							<b:inputText type="number"
+								value="#{filterbearbeiten.filtergruppe.monatlicherTermin}"></b:inputText>
+							<b:selectOneMenu
+								value="#{filterbearbeiten.gewaehlteEinzelUhrzeit}">
 								<f:selectItems value="#{filterbearbeiten.moeglicheUhrzeiten}"></f:selectItems>
 							</b:selectOneMenu>
-							
-							<b:commandButton value="Zeit Speichern" action="#{filterbearbeiten.speichereWoechentlichenTermin()}" ajax="false"></b:commandButton>
+
+							<b:commandButton value="Zeit Speichern"
+								action="#{filterbearbeiten.speichereMonatlichenTermin()}"
+								ajax="false"></b:commandButton>
 						</h:form>
-						
+
+						<!-- Wöchentlicher/Zweiwöchentlicher Termin: Tag/Zeit -->
+						<h:form id="wochen-tag"
+							rendered="#{filterbearbeiten.woechentlich||filterbearbeiten.zweiWoechentlich}">
+							<b:selectOneMenu
+								value="#{filterbearbeiten.filtergruppe.wochentag}">
+								<f:selectItems value="#{filterbearbeiten.moeglicheWochentage}"></f:selectItems>
+							</b:selectOneMenu>
+
+							<b:selectOneMenu
+								value="#{filterbearbeiten.gewaehlteEinzelUhrzeit}">
+								<f:selectItems value="#{filterbearbeiten.moeglicheUhrzeiten}"></f:selectItems>
+							</b:selectOneMenu>
+
+							<b:commandButton value="Zeit Speichern"
+								action="#{filterbearbeiten.speichereWoechentlichenTermin()}"
+								ajax="false"></b:commandButton>
+						</h:form>
+
 
 						<!-- Uhrzeiten -->
 						<h:form id="tageszeiten" rendered="#{filterbearbeiten.taeglich}">
 							<p:selectManyButton value="#{filterbearbeiten.gewaehlteZeiten}">
-								<f:selectItem itemLabel="00:00" itemValue="0" class="zeit-button" />
-					            <f:selectItem itemLabel="01:00" itemValue="1" class="zeit-button"/>
-					            <f:selectItem itemLabel="02:00" itemValue="2" class="zeit-button"/>
-					            <f:selectItem itemLabel="03:00" itemValue="3" class="zeit-button"/>
-					            <f:selectItem itemLabel="04:00" itemValue="4" class="zeit-button"/>
-					            <f:selectItem itemLabel="05:00" itemValue="5" class="zeit-button"/>
-					            <f:selectItem itemLabel="06:00" itemValue="6" class="zeit-button"/>
-					            <f:selectItem itemLabel="07:00" itemValue="7" class="zeit-button"/>
-					            <f:selectItem itemLabel="08:00" itemValue="8" class="zeit-button"/>
-					            <f:selectItem itemLabel="09:00" itemValue="9" class="zeit-button"/>
-					            <f:selectItem itemLabel="10:00" itemValue="10" class="zeit-button"/>
-					            <f:selectItem itemLabel="11:00" itemValue="11" class="zeit-button"/>
-					            <f:selectItem itemLabel="12:00" itemValue="12" class="zeit-button"/>
-					            <f:selectItem itemLabel="13:00" itemValue="13" class="zeit-button"/>
-					            <f:selectItem itemLabel="14:00" itemValue="14" class="zeit-button"/>
-					            <f:selectItem itemLabel="15:00" itemValue="15" class="zeit-button"/>
-					            <f:selectItem itemLabel="16:00" itemValue="16" class="zeit-button"/>
-					            <f:selectItem itemLabel="17:00" itemValue="17" class="zeit-button"/>
-					            <f:selectItem itemLabel="18:00" itemValue="18" class="zeit-button"/>
-					            <f:selectItem itemLabel="19:00" itemValue="19" class="zeit-button"/>
-					            <f:selectItem itemLabel="20:00" itemValue="20" class="zeit-button"/>
-					            <f:selectItem itemLabel="21:00" itemValue="21" class="zeit-button"/>
-					            <f:selectItem itemLabel="22:00" itemValue="22" class="zeit-button"/>
-					            <f:selectItem itemLabel="23:00" itemValue="23" class="zeit-button"/> 
-					        </p:selectManyButton>
-					        <b:commandButton value="Zeit speichern" action="#{filterbearbeiten.speichereZeiten()}" ajax="false"></b:commandButton>
+								<f:selectItem itemLabel="00:00" itemValue="0"
+									class="zeit-button" />
+								<f:selectItem itemLabel="01:00" itemValue="1"
+									class="zeit-button" />
+								<f:selectItem itemLabel="02:00" itemValue="2"
+									class="zeit-button" />
+								<f:selectItem itemLabel="03:00" itemValue="3"
+									class="zeit-button" />
+								<f:selectItem itemLabel="04:00" itemValue="4"
+									class="zeit-button" />
+								<f:selectItem itemLabel="05:00" itemValue="5"
+									class="zeit-button" />
+								<f:selectItem itemLabel="06:00" itemValue="6"
+									class="zeit-button" />
+								<f:selectItem itemLabel="07:00" itemValue="7"
+									class="zeit-button" />
+								<f:selectItem itemLabel="08:00" itemValue="8"
+									class="zeit-button" />
+								<f:selectItem itemLabel="09:00" itemValue="9"
+									class="zeit-button" />
+								<f:selectItem itemLabel="10:00" itemValue="10"
+									class="zeit-button" />
+								<f:selectItem itemLabel="11:00" itemValue="11"
+									class="zeit-button" />
+								<f:selectItem itemLabel="12:00" itemValue="12"
+									class="zeit-button" />
+								<f:selectItem itemLabel="13:00" itemValue="13"
+									class="zeit-button" />
+								<f:selectItem itemLabel="14:00" itemValue="14"
+									class="zeit-button" />
+								<f:selectItem itemLabel="15:00" itemValue="15"
+									class="zeit-button" />
+								<f:selectItem itemLabel="16:00" itemValue="16"
+									class="zeit-button" />
+								<f:selectItem itemLabel="17:00" itemValue="17"
+									class="zeit-button" />
+								<f:selectItem itemLabel="18:00" itemValue="18"
+									class="zeit-button" />
+								<f:selectItem itemLabel="19:00" itemValue="19"
+									class="zeit-button" />
+								<f:selectItem itemLabel="20:00" itemValue="20"
+									class="zeit-button" />
+								<f:selectItem itemLabel="21:00" itemValue="21"
+									class="zeit-button" />
+								<f:selectItem itemLabel="22:00" itemValue="22"
+									class="zeit-button" />
+								<f:selectItem itemLabel="23:00" itemValue="23"
+									class="zeit-button" />
+							</p:selectManyButton>
+							<b:commandButton value="Zeit speichern"
+								action="#{filterbearbeiten.speichereZeiten()}" ajax="false"></b:commandButton>
 						</h:form>
 						<!-- !Uhrzeiten -->
 					</div>
@@ -137,7 +176,7 @@
 								<div class="pull-left linkeUeberschrift"
 									style="width: Calc(100% - 80px);">
 									<h4>#{profil.filterprofilname}</h4>
-									<div> 
+									<div>
 										<p class="pull-left tag">#{profil.tagstring}</p>
 									</div>
 								</div>
@@ -162,9 +201,10 @@
 				<div class="panel panel-default artikelPanel">
 					<div class="panel-heading">
 						<div>
-							<h3 class=" pull-left">Filterprofile</h3>
+							<h3 class=" pull-left">Filter</h3>
 							<b:form>
-								<a href="" onclick="$('.modalPseudoClass').modal();return false;"> <p:graphicImage
+								<a href=""
+									onclick="$('.modalPseudoClass').modal();return false;"> <p:graphicImage
 										class="pull-right bild" style="width: 50px;"
 										value="/resources/image/file.svg" />
 								</a>
@@ -223,6 +263,12 @@
 											<p:ajax event="keyup" />
 										</p:inputText>
 									</div>
+									 <p:dataTable class="style-entfernen" id="quellen-dt" var="quelle" value="#{quellen.quellenListe}" selection="#{filterbearbeiten.profilQuellen}" rowKey="#{quelle.qid}">
+								        <p:column  class="style-entfernen" selectionMode="multiple" style="width:32px;text-align:center"/>
+								        <p:column headerText="Quelle" class="style-entfernen">
+								            <h:outputText value="#{quelle.name}" />
+								        </p:column>
+							         </p:dataTable>
 								</b:form>
 								<f:facet name="footer">
 									<b:form>
@@ -242,16 +288,14 @@
 					</div>
 
 					<!-- Alle Filterprofile - Liste -->
-					<p:dataList class="list-group filterprofile"
+					<p:dataList class="list-group"
 						value="#{filterbearbeiten.filterprofile}" var="profil"
 						type="definition" id="profil-liste">
-						
-							<li class="list-group-item">
-								<b:form id="profil-item" class="artikel-titel-container">
-								<div> 
+						<li class="list-group-item"><b:form id="profil-item"
+								class="artikel-titel-container">
+								<div>
 									<!-- Filterprofil zu Gruppe hinzufügen-->
-									<p:commandLink
-										id="filterprofil-hinzufuegen"
+									<p:commandLink id="filterprofil-hinzufuegen"
 										rendered="#{!filterbearbeiten.isInFiltergruppe(profil)}"
 										action="#{filterbearbeiten.addProfil(profil)}"
 										update="filter-gruppen-profile @form">
@@ -269,10 +313,10 @@
 										<p:graphicImage value="/resources/image/remove-minus.svg"
 											class="filter-profil-icon pull-left" />
 									</p:commandLink>
-									 
+
 									<p:outputLabel id="filter-profil-text"
 										value="#{profil.filterprofilname}" />
-										
+
 									<!-- Profil ändern -->
 									<p:commandLink id="profil-aendern-button"
 										oncomplete="$('.profilAendernClass').modal();return false;"
@@ -282,21 +326,19 @@
 										<f:actionListener for="profil-aendern-button"
 											binding="#{filterbearbeiten.aendereProfil(profil)}" />
 									</p:commandLink>
-									
+
 									<!-- Profil löschen -->
 									<p:commandLink
 										action="#{filterbearbeiten.deleteProfil(profil)}"
 										update="profil-liste">
 										<p:graphicImage value="/resources/image/remove-x.svg"
 											class="filter-profil-icon pull-right" />
-									</p:commandLink> 
-								
-								</div>
-								</b:form>
-							</li>
-						
-					</p:dataList>
+									</p:commandLink>
 
+								</div>
+							</b:form></li>
+
+					</p:dataList>
 				</div>
 			</div>
 

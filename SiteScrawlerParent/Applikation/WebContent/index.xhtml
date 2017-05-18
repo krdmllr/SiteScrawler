@@ -137,7 +137,7 @@
 								<p class="pull-right">
 									<p:outputLabel rendered="#{artikel.twitterQuelle}"
 										value="Getwittert am" />
-									<h:outputText value="#{artikel.erstellungsdatum}">
+									<h:outputText  rendered="#{artikel.twitterQuelle}" value="#{artikel.erstellungsdatum}">
 										<f:convertDateTime type="date" pattern="dd.MM.yyyy hh:mm" />
 									</h:outputText>
 								</p>

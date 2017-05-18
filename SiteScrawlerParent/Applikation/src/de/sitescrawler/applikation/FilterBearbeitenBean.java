@@ -18,6 +18,7 @@ import javax.inject.Named;
 
 import de.sitescrawler.jpa.Filterprofil;
 import de.sitescrawler.jpa.Filterprofilgruppe;
+import de.sitescrawler.jpa.Quelle;
 import de.sitescrawler.jpa.Uhrzeit;
 import de.sitescrawler.jpa.management.interfaces.IFilterManagerManager;
 import de.sitescrawler.utility.DateUtils;
@@ -74,6 +75,16 @@ public class FilterBearbeitenBean implements Serializable {
 			gewaehlteZeiten.add(zeitZuString(zeit.getUhrzeit()));
 		}
 	} 
+	
+	public void setProfilQuellen(List<Quelle> quellen){ 
+		zuAenderndesProfil.setQuellen(new HashSet<>(quellen));
+	}
+	
+	public List<Quelle> getProfilQuellen()
+	{
+		return new ArrayList<Quelle>(zuAenderndesProfil.getQuellen());
+	}
+	
 
 	public DayOfWeek[] getMoeglicheWochentage(){
 		return new DayOfWeek[]{DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY};
@@ -283,6 +294,7 @@ public class FilterBearbeitenBean implements Serializable {
 	public void modalAenderungSpeichern() {
 		zuAenderndesProfilOriginal.setFilterprofilname(zuAenderndesProfil.getFilterprofilname());
 		zuAenderndesProfilOriginal.setTagstring(zuAenderndesProfil.getTagstring());
+		zuAenderndesProfilOriginal.setQuellen(zuAenderndesProfil.getQuellen());
 
 		speichereAenderungAnFiltermanager(
 				"Filterprofil " + zuAenderndesProfilOriginal.getFilterprofilname() + " verändert.");

@@ -308,3 +308,28 @@ body .ui-widget-content{
 	width: 33% !important;
 	margin: 2px !important;
 }
+
+.style-entfernen{
+	background: transparent !important;
+	border: 0px;
+}
+
+.style-entfernen :hover{
+	background: transparent;
+}
+
+.style-entfernen :active :hover{
+	background: transparent;
+}
+
+.style-entfernen :active{
+	background: transparent;
+}
+
+.style-entfernen :visited{
+	background: transparent;
+}
+
+.ui-state-highlight{
+	background: gray !important;
+}

@@ -1,6 +1,7 @@
 package de.sitescrawler.applikation;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -45,6 +46,10 @@ public class QuellenBean implements Serializable
     public void init()
     {
         this.setzeDefaultQuelle();
+    }
+    
+    public List<Quelle> getQuellenListe(){
+    	return new ArrayList<Quelle>(getQuellen());
     }
 
     /**
